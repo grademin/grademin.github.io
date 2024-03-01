@@ -13,13 +13,34 @@
         <title>ProView</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined">
-        <link rel="preload" as="style" href="/stylesheets/main.css">
-        <link rel="stylesheet" href="/stylesheets/main.css">
+        <link rel="stylesheet" href="./src/bundle.css">
     </head>
     <body>
-        <app-root>
-        </app-root>
-        <script src="/scripts/jquery-v3.7.1.min.js"></script>
-        <script src="/scripts/main.js" defer></script>
+        <div id="root" ul="login" >
+            <div class="h-screen flex justify-center items-center">
+                <div class="bg-white p-8 rounded-lg shadow-md w-96">
+                    <h2 class="text-2xl font-bold mb-8 text-gray-800 text-center">Login</h2>
+                    <form>
+                        <div class="flex mb-4 space-x-2">
+                            <div class="flex-1">
+                                <label for="userspace" class="block text-sm font-medium text-gray-700">Userspace</label>
+                                <input type="text" id="userspace" name="userspace" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-black" required>
+                            </div>
+                            <div class="flex-1">
+                                <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+                                <input type="text" id="username" name="username" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-black" required>
+                            </div>
+                        </div>
+                        <div class="mb-6">
+                            <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                            <input type="password" id="password" name="password" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm text-black" required>
+                        </div>
+                        <button type="submit" class="w-full px-4 py-2 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Log in</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script src="./src/jquery.min.js"></script>
+        <script src="./src/script.js" defer></script>
     </body>
 </html>
