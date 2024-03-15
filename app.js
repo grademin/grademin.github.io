@@ -63,7 +63,6 @@
                 event.preventDefault();
 
                 if ($("#district").val() != "" && $("#username").val() != "" && $("#password") != "") {
-                    // TODO: move this to head irl.
                     $("head").append(`
                         <style>
                             @keyframes spin {
@@ -137,9 +136,104 @@
             })
             break;
         case "courses": // If you login, this is where you end up
-            await $("#root").html(`
-                <h1>Hello</h1>
+            $("head").append(`
+                <style>
+                    @keyframes spin {
+                        0% { transform: rotate(0deg); }
+                        100% { transform: rotate(360deg); }
+                    }
+                    
+                    .loader {
+                        border: 4px solid rgba(255, 255, 255, 0.3);
+                        border-top: 4px solid #fff;
+                        border-radius: 50%;
+                        width: 24px;
+                        height: 24px;
+                        animation: spin 1s linear infinite;
+                    }
+                </style>
             `)
+
+            $("#overlays").append(`
+                <div class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+                    <div class="loader"></div>
+                </div>
+            `);
+
+            await $("#root").html(`
+                <div class="flex flex-col justify-between items-center container mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-4xl my-20">Courses</div>
+
+                    <div id="courses" class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4"></div>
+                </div>
+            `)
+
+
+            // Get courses & append
+
+
+            // Get course order
+            await $.ajax({
+                url: api(`/cmd/getresource?_token=${JSON.parse(localStorage.getItem("session")).token}&entityid=${JSON.parse(localStorage.getItem("session")).user.userid}&path=Assets%2FBuzzCourseCardSettings.json`),
+                method: "GET",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: async function (orders) {
+                    // Get courses
+                    await $.ajax({
+                        url: api(`/cmd/listuserenrollments?_token=${JSON.parse(localStorage.getItem("session")).token}&userid=${JSON.parse(localStorage.getItem("session")).user.userid}&privileges=1&select=data,course,course.data,course.teachers,metrics`),
+                        method: "GET",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        success: async function (courses) {
+                            let userlist = [];
+                            await $.each(courses.response.enrollments.enrollment, function (i, course) {
+                                userlist.push({
+                                    order: orders[course.id].order,
+                                    id: course.id,
+                                    courseid: course.courseid,
+                                    title: course.course.title.trim(),
+                                    start: (new Date(course.course.startdate).getMonth() + 1) + '/' + (new Date(course.course.startdate).getDate()) + '/' + (new Date(course.course.startdate).getFullYear() % 100),
+                                    end: (new Date(course.course.enddate).getMonth() + 1) + '/' + (new Date(course.course.enddate).getDate()) + '/' + (new Date(course.course.enddate).getFullYear() % 100),
+                                    scored: Math.round((course.enrollmentmetrics.achieved / course.enrollmentmetrics.possible) * 100)
+                                })
+                            })
+
+
+                            // Sort and append
+                            userlist = userlist.sort((first, last) => first.order - last.order);
+                            await $.each(userlist, function (i, course) {
+                                let score_color;
+                            
+                                if (isNaN(course.scored))
+                                    score_color = "";
+                                else if (course.scored >= 80)
+                                    score_color = "text-green-500";
+                                else if (course.scored < 80 && course.scored > 60) {
+                                    $("body").css("--warn-color", "#fdae61");
+                                    score_color = "text-yellow-500";
+                                }
+                                else if (course.scored < 60)
+                                    score_color = "text-red-500";
+
+                                $("#courses").append(`
+                                    <a class="bg-gray-300 p-4 rounded shadow cursor-pointer text-black flex flex-col justify-between gap-10 select-none" courseid="${course.courseid}" uid="${course.id}">
+                                        <div>
+                                            <h2 class="text-2xl">${course.title}</h2>
+                                            <span>${course.start} - ${course.end}</span>
+                                        </div>
+                                        <div class="font-black ${score_color}">${isNaN(course.scored) ? "--" : `${course.scored}%`}</div>
+                                    </a>
+                                `)
+                            })
+
+                            // Remove overlay
+                            $("#overlays").empty();
+                        }
+                    })
+                }
+            })
+
             break;
         }
     }
