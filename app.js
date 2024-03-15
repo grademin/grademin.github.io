@@ -126,6 +126,7 @@
                                 delete login3.response.code;
                                 login3.response.token = login3.response.user.token;
                                 delete login3.response.user.token;
+                                login3.response.user.fullname = `${login3.response.user.firstname.charAt(0).toUpperCase() + login3.response.user.firstname.slice(1)} ${login3.response.user.lastname.charAt(0).toUpperCase() + login3.response.user.lastname.slice(1)}`;
 
                                 localStorage.setItem("session", JSON.stringify(login3.response));
                                 runtime("courses")
@@ -161,15 +162,53 @@
             `);
 
             await $("#root").html(`
-                <div class="flex flex-col justify-between items-center container mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="text-4xl my-20">Courses</div>
-
-                    <div id="courses" class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4"></div>
+                <div class="bg-blue-700">
+                    <div class="pt-20 pb-10 flex flex-row gap-10 justify-between container mx-auto px-4 sm:px-6 lg:px-8">
+                        <div class="flex flex-col gap-1">
+                            <h1 class="text-2xl sm:text-4xl md:text-5xl font-black tracking-tight leading-normal mb-0">Welcome ${JSON.parse(localStorage.getItem("session")).user.fullname}</h1>
+                            <div class="text-1xl sm:text-2xl font-bold">${new Date().toLocaleString('default', { month: 'long' })} ${new Date().getDate()}, ${new Date().getFullYear()}</div>    
+                        </div>
+                        <div class="flex justify-between items-center select-none cursor-pointer">
+                            <div id="profile" class="rounded-full border-8 hover:border-blue-400 active:border-blue-600 border-blue-500 h-[4.5rem] w-[4.5rem] sm:h-24 sm:w-24 flex items-center justify-center text-2xl font-bold uppercase">
+                                ${JSON.parse(localStorage.getItem("session")).user.firstname.charAt(0).toUpperCase()}
+                            </div>                    
+                        </div>
+                    </div>
                 </div>
-            `)
+                <div class="flex flex-col justify-between container mx-auto px-4 sm:px-6 lg:px-8">
+                    <h1 class="mt-20 font-black text-2xl sm:text-4xl">Averages</h1>
+                    <span>These are your averages from <b>Agency, Collab, K&T, Oral, and Comms</b>.
+                    <div id="averages" class="my-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-10 select-none">
+                    </div>
+                </div>
+            `).on("click", function (event) {
+                if ($(event.target).attr("id") == "profile")
+                    runtime("settings");
+            })
 
+            // getting objective averages needs api `getobjectivelist` and `listuserenrollments`
+
+            /**
+                <div class="bg-blue-600 pop-in py-10 rounded flex flex-col justify-center items-center gap-5">
+                            <span class="font-black text-2xl">90%</span>
+                            <h2 class="font-bold text-1xl">Agency</h2>
+                        </div>
+                        <div class="bg-blue-600 pop-in py-10 rounded flex flex-col justify-center items-center gap-5">
+                            <span class="font-black text-2xl">79%</span>
+                            <h2 class="font-bold text-1xl">Collaboration</h2>
+                        </div>
+              
+             */
+
+            
+
+            $("#overlays").empty();
 
             // Get courses & append
+
+            /*
+
+            <div class="my-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4" id="courses"></div>
 
 
             // Get course order
@@ -233,7 +272,11 @@
                     })
                 }
             })
+            */
 
+            break;
+        case "settings":
+            runtime("courses"); // for now
             break;
         }
     }
