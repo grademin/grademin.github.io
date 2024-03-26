@@ -6,7 +6,7 @@
 
 
     const api = (_t) => { return `https://api.agilixbuzz.com${_t}` };
-
+    
 
     // When the user has logged in, or the user somehow removed `ul`, this will make sure they
     // end up on some sort of default page.
@@ -17,6 +17,8 @@
     if (localStorage.getItem("ul") == undefined || (localStorage.getItem("ul") != undefined && localStorage.getItem("session") == undefined))
         localStorage.setItem("ul", "login")
     
+    if (localStorage.getItem("settings") == undefined)
+        localStorage.setItem("settings", JSON.stringify([]));
 
     await runtime(localStorage.getItem("ul"));
 
@@ -31,6 +33,7 @@
 
         // bases
         $("#overlays").empty();
+        $("*").off() // reset events
 
         // Switch between each page
         switch (ul) {
@@ -56,26 +59,28 @@
             }
 
             await $("#root").html(`
-                <div class="relative min-h-screen flex justify-center">
+                <div class="relative flex justify-center">
                     <div class="p-20 rounded-lg container mx-auto px-4">
                         <div class="flex flex-col mb-10">
                             <h2 class="text-7xl tracking-tight leading-wider font-black text-blue-700">Proview</h2>
                             <span class="text-2xl tracking-wide font-bold">Log In</span>
                         </div>
-                        <form class="mt-16">
-                            ${remembered_details}
-                            <div class="flex mb-4 space-x-2 ${hide_inputs}">
-                                <div class="flex-1">
-                                    <input style="background: transparent;" placeholder="District / Website" type="text" id="district" name="userspace" class="caret-blue-700 mt-1 block w-full px-5 py-4 border border-gray-300 rounded-xl shadow-sm focus:outline-none sm:text-sm">
+                        <form class="mt-16 flex flex-col justify-between h-full">
+                            <div>
+                                ${remembered_details}
+                                <div class="flex mb-4 space-x-2 ${hide_inputs}">
+                                    <div class="flex-1">
+                                        <input style="background: transparent;" placeholder="District / Website" type="text" id="district" name="userspace" class="caret-blue-700 mt-1 block w-full px-5 py-4 border border-gray-300 rounded-xl shadow-sm focus:outline-none sm:text-sm">
+                                    </div>
+                                    <div class="flex-1">
+                                        <input style="background: transparent;" placeholder="Username" type="text" id="username" name="username" class="caret-blue-700 mt-1 block w-full px-5 py-4 border border-gray-300 rounded-xl shadow-sm focus:outline-none sm:text-sm">
+                                    </div>
                                 </div>
-                                <div class="flex-1">
-                                    <input style="background: transparent;" placeholder="Username" type="text" id="username" name="username" class="caret-blue-700 mt-1 block w-full px-5 py-4 border border-gray-300 rounded-xl shadow-sm focus:outline-none sm:text-sm">
+                                <div class="mb-6">
+                                    <input style="background: transparent;" placeholder="Password" type="password" id="password" name="password" class="caret-blue-700 mt-1 block w-full px-5 py-4 border border-gray-300 rounded-xl shadow-sm focus:outline-none sm:text-sm">
                                 </div>
                             </div>
-                            <div class="mb-6">
-                                <input style="background: transparent;" placeholder="Password" type="password" id="password" name="password" class="caret-blue-700 mt-1 block w-full px-5 py-4 border border-gray-300 rounded-xl shadow-sm focus:outline-none sm:text-sm">
-                            </div>
-                            <div class="absolute bottom-0 left-0 right-0 container mx-auto px-4 mb-10">
+                            <div class="container mx-auto">
                                 <button type="submit" class="w-full px-4 py-2 bg-blue-700 transition text-white font-semibold rounded-xl hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Log in</button>
                             </div>        
                         </form>
@@ -164,48 +169,47 @@
                     </div>
                 </div>
 
-                <div class="flex flex-col gap-5 pt-10 mb-24 container mx-auto py-10 px-4">
+                <div class="flex flex-col gap-5 pt-10 mb-10 container mx-auto py-10 px-4">
                     <div id="what_is_this" class="flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-5 px-3 border-4 border-blue-700">
                         <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
                             <div class="flex justify-center items-center bg-blue-700 px-4 py-3 rounded-2xl">
-                                <span class="text-3xl material-symbols-outlined">
+                                <span class="text-3xl material-symbols-rounded">
                                     help
                                 </span>
                             </div>
                             <div class="flex flex-col">
                                 <h1 class="text-[22px] font-bold">What is this</h1>
-                                <span class="font-bold text-[15px] text-zinc-400">Read about why this was created</span>
+                                <span class="font-bold text-[15px] text-zinc-400">Why was this was created</span>
                             </div>
                         </div>
                         <div class="flex justify-center items-center">
-                            <span class="material-symbols-outlined">
+                            <span class="material-symbols-rounded">
                                 arrow_forward_ios
                             </span>
                         </div>
                     </div>
-
-                    <div id="view_courses" class="flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
+                    <div id="courses" class="flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
                         <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
                             <div class="flex justify-center items-center bg-blue-700 px-4 py-3 rounded-2xl">
-                                <span class="text-3xl material-symbols-outlined">
+                                <span class="text-3xl material-symbols-rounded">
                                     assignment
                                 </span>
                             </div>
                             <div class="flex flex-col">
-                                <h1 class="text-[22px] font-bold">View courses</h1>
+                                <h1 class="text-[22px] font-bold">Courses</h1>
                                 <span class="font-bold text-[15px] text-zinc-400">See your current courses</span>
                             </div>
                         </div>
                         <div class="flex justify-center items-center">
-                            <span class="material-symbols-outlined">
+                            <span class="material-symbols-rounded">
                                 arrow_forward_ios
                             </span>
                         </div>
                     </div>
-                    <div id="view_courses" class="flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
+                    <div id="averages" class="flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
                         <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
                             <div class="flex justify-center items-center bg-blue-700 px-4 py-3 rounded-2xl">
-                                <span class="text-3xl material-symbols-outlined">
+                                <span class="text-3xl material-symbols-rounded">
                                     show_chart
                                 </span>
                             </div>
@@ -215,15 +219,69 @@
                             </div>
                         </div>
                         <div class="flex justify-center items-center">
-                            <span class="material-symbols-outlined">
+                            <span class="material-symbols-rounded">
                                 arrow_forward_ios
                             </span>
                         </div>
                     </div>
-                    <div id="mail_teachers" class="flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
+                    <div id="todo" class="flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
                         <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
                             <div class="flex justify-center items-center bg-blue-700 px-4 py-3 rounded-2xl">
-                                <span class="text-3xl material-symbols-outlined">
+                                <span class="text-3xl material-symbols-rounded">
+                                    task
+                                </span>
+                            </div>
+                            <div class="flex flex-col">
+                                <h1 class="text-[22px] font-bold">Todo List</h1>
+                                <span class="font-bold text-[15px] text-zinc-400">See due or past due work</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-center items-center">
+                            <span class="material-symbols-rounded">
+                                arrow_forward_ios
+                            </span>
+                        </div>
+                    </div>
+                    <div id="stream" class="flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
+                        <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
+                            <div class="flex justify-center items-center bg-blue-700 px-4 py-3 rounded-2xl">
+                                <span class="text-3xl material-symbols-rounded">
+                                    group
+                                </span>
+                            </div>
+                            <div class="flex flex-col">
+                                <h1 class="text-[22px] font-bold">Activity Stream</h1>
+                                <span class="font-bold text-[15px] text-zinc-400">See your activites</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-center items-center">
+                            <span class="material-symbols-rounded">
+                                arrow_forward_ios
+                            </span>
+                        </div>
+                    </div>
+                    <div id="announcements" class="flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
+                        <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
+                            <div class="flex justify-center items-center bg-blue-700 px-4 py-3 rounded-2xl">
+                                <span class="text-3xl material-symbols-rounded">
+                                    feedback
+                                </span>
+                            </div>
+                            <div class="flex flex-col">
+                                <h1 class="text-[22px] font-bold">Announcements</h1>
+                                <span class="font-bold text-[15px] text-zinc-400">See current announcements</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-center items-center">
+                            <span class="material-symbols-rounded">
+                                arrow_forward_ios
+                            </span>
+                        </div>
+                    </div>
+                    <div id="email" class="flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
+                        <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
+                            <div class="flex justify-center items-center bg-blue-700 px-4 py-3 rounded-2xl">
+                                <span class="text-3xl material-symbols-rounded">
                                     alternate_email
                                 </span>
                             </div>
@@ -233,34 +291,33 @@
                             </div>
                         </div>
                         <div class="flex justify-center items-center">
-                            <span class="material-symbols-outlined">
+                            <span class="material-symbols-rounded">
                                 arrow_forward_ios
                             </span>
                         </div>
                     </div>
-                    
                 </div>
 
                 <div id="bottomnav" class="fixed bottom-0 left-0 right-0">
                     <div class="bg-zinc-800">
                         <div class="flex flex-row justify-between items-center">
                             <a class="cursor-pointer flex justify-center items-center py-3 w-full">
-                                <span class="font-black active pointer-events-none material-symbols-outlined">
+                                <span class="font-black active pointer-events-none material-symbols-rounded">
                                     home
                                 </span>
                             </a>
                             <a class="cursor-pointer flex justify-center items-center py-3 w-full">
-                                <span class="material-symbols-outlined">
+                                <span class="material-symbols-rounded">
                                     calendar_month
                                 </span>
                             </a>
                             <a class="cursor-pointer flex justify-center items-center py-3 w-full">
-                                <span class="font-black pointer-events-none material-symbols-outlined">
+                                <span class="font-black pointer-events-none material-symbols-rounded">
                                     description
                                 </span>
                             </a>
                             <a id="profile" class="cursor-pointer flex justify-center items-center py-3 w-full">
-                                <span class="font-black pointer-events-none material-symbols-outlined">
+                                <span class="font-black pointer-events-none material-symbols-rounded">
                                     settings
                                 </span>
                             </a>
@@ -321,8 +378,117 @@
         case "averages":
             break;
         case "settings":
+            $("#overlays").append(`
+                <div class="absolute inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+                    <div class="loader"><div></div><div></div><div></div><div></div></div>
+                </div>
+            `);
+
             await $("#root").html(`
-                <button id="logout" class="w-full px-4 py-2 bg-blue-700 text-white font-semibold rounded-md hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Logout</button>
+                <div id="topnav">
+                    <div class="py-5 px-5 bg-blue-700">
+                        <div class="flex justify-between items-center container mx-auto px-4 sm:px-6 lg:px-8">
+                            <a class="cursor-pointer flex justify-center items-center w-0">
+                                <span id="back" class="font-black text-1xl material-symbols-rounded">
+                                    arrow_back_ios_new
+                                </span>
+                            </a>
+                            <span class="font-black text-[18px]">Settings</span>
+                            <a class="cursor-pointer flex justify-center items-center invisible"></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex flex-col gap-5 pt-10 mb-10 container mx-auto py-10 px-4">
+                    <div class="flex flex-col justify-center items-center container mx-auto bg-zinc-800 rounded-xl py-3 px-3">
+                        <div class="flex justify-between items-center">
+                            <div class="relative rounded-full border-[6px] border-blue-500 bg-blue-600 h-16 w-16 flex items-center justify-center text-2xl sm:text-2xl font-bold uppercase">
+                                <span class="z-1">${JSON.parse(localStorage.getItem("remembered")).firstname.charAt(0).toUpperCase()}</span>
+                            </div>
+                        </div>
+                        <h1 class="text-[25px] font-bold">${JSON.parse(localStorage.getItem("session")).user.fullname}</h1>
+                        <div class="flex flex-row w-full mt-5 gap-5">
+                            <div class="flex-1">
+                                <button id="change_name" class="w-full px-4 py-2 bg-blue-700 text-white transition font-semibold rounded-xl hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-opacity-50">Change Name</button>
+                            </div>
+                            <div class="flex-1">
+                                <button id="change_pfp" class="w-full px-4 py-2 bg-blue-700 text-white transition font-semibold rounded-xl hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-opacity-50">Change Picture</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col container mx-auto bg-zinc-800 rounded-xl py-3 px-3">
+                        <div id="color_coding" class="flex flex-row justify-between container mx-auto cursor-pointer border-b-[2px] border-zinc-700 pb-3">
+                            <div  class="flex flex-row justify-center items-center gap-4 pointer-events-none">
+                                <div class="flex justify-center items-center bg-blue-700 px-2 py-1 rounded-2xl">
+                                    <span class="text-3xl material-symbols-rounded">
+                                        palette
+                                    </span>
+                                </div>
+                                <div class="flex flex-col">
+                                    <h1 class="text-[20px] font-bold">Color Coding</h1>
+                                </div>
+                            </div>
+                            <div class="flex justify-center items-center">
+                                <input setting_name="colorcoding" type="checkbox" class="hidden">
+                                <label class="flex items-center cursor-pointer">
+                                    <div class="w-[3.7rem] h-[33px] bg-zinc-600 rounded-full p-1 duration-300 ease-in-out">
+                                        <div class="bg-white w-[25px] h-[25px] rounded-full shadow-md transform translate-x-0 duration-300 ease-in-out"></div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        <div id="include_self" class="flex flex-row justify-between container mx-auto cursor-pointer pt-3">
+                            <div class="flex flex-row justify-center items-center gap-4 pointer-events-none">
+                                <div class="flex justify-center items-center bg-blue-700 px-2 py-1 rounded-2xl">
+                                    <span class="text-3xl material-symbols-rounded">
+                                        palette
+                                    </span>
+                                </div>
+                                <div class="flex flex-col">
+                                    <h1 class="text-[20px] font-bold">Include Self Activities</h1>
+                                </div>
+                            </div>
+                            <div class="flex justify-center items-center">
+                                <input setting_name="includeself" type="checkbox" class="hidden">
+                                <label class="flex items-center cursor-pointer">
+                                    <div class="w-[3.7rem] h-[33px] bg-zinc-600 rounded-full p-1 duration-300 ease-in-out">
+                                        <div class="bg-white w-[25px] h-[25px] rounded-full shadow-md transform translate-x-0 duration-300 ease-in-out"></div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button id="logout" class="w-full px-4 py-2 bg-red-600 text-white transition font-semibold rounded-xl hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-700 focus:ring-opacity-50">Logout</button>
+                </div>
+
+                <div id="bottomnav" class="fixed bottom-0 left-0 right-0">
+                    <div class="bg-zinc-800">
+                        <div class="flex flex-row justify-between items-center">
+                            <a id="overview" class="cursor-pointer flex justify-center items-center py-3 w-full">
+                                <span class="font-black pointer-events-none material-symbols-rounded">
+                                    home
+                                </span>
+                            </a>
+                            <a class="cursor-pointer flex justify-center items-center py-3 w-full">
+                                <span class="material-symbols-rounded">
+                                    calendar_month
+                                </span>
+                            </a>
+                            <a class="cursor-pointer flex justify-center items-center py-3 w-full">
+                                <span class="font-black pointer-events-none material-symbols-rounded">
+                                    description
+                                </span>
+                            </a>
+                            <a id="profile" class="cursor-pointer flex justify-center items-center py-3 w-full">
+                                <span class="font-black text-blue-700 pointer-events-none material-symbols-rounded">
+                                    settings
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             `).on("click", function (event) {
                 switch ($(event.target).attr("id")) {
                     case "logout":
@@ -347,8 +513,77 @@
                             }
                         })
                         break;
+                    case "overview":
+                        runtime("overview");
+                        break;
+                    case "back":
+                        runtime("overview");
+                        break;
+                    case "change_name":
+                        $("#overlays").append(`
+                            <div id="overlay" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center animation-fadein">
+                                <div class="container mx-auto px-4 flex justify-center items-center pointer-events-none animation-popin">
+                                    <div class="bg-zinc-800 rounded-xl max-w-lg px-5 py-5 pointer-events-auto w-[25rem]">
+                                        <div class="flex justify-center items-center mb-4">
+                                            <h2 class="text-2xl font-bold text-white text-center">Change Name</h2>
+                                        </div>
+                                        <div class="text-white">
+                                            <input placeholder="New Name" value="${JSON.parse(localStorage.getItem("session")).user.fullname}" class="caret-blue-700 font-bold bg-zinc-700 mt-1 block w-full px-5 py-4 rounded-xl shadow-sm focus:outline-none sm:text-sm">
+                                            <button id="submit" class="w-full mt-2 px-4 py-2 bg-blue-600 text-white transition font-semibold rounded-xl hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-opacity-50">Logout</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `).on("mousedown", function (event) {
+                            switch ($(event.target).attr("id")) {
+                                case "overlay":
+                                    $("#overlay").fadeOut(400, function () {
+                                        $("#overlays").empty();
+                                    });
+                            }
+                        })
+                        break;
+                    case "change_pfp":
                 }
             });
+
+            let settings = JSON.parse(localStorage.getItem("settings"));
+
+            $.each(settings, (i, setting) => {
+                console.log(setting)
+                if (setting.$value) {
+                    $(`input[setting_name="${setting.setting}"]`).prop("checked", setting.$value)
+                    $(`input[setting_name="${setting.setting}"]`).parent().find("label div>div").removeClass('translate-x-0').addClass('translate-x-full').parent().removeClass("bg-zinc-600").addClass("bg-blue-700");
+                }
+            })
+
+            $('#root div[id]:has(input)').on("click", function() {
+                if ($(this).find("input").prop("checked"))
+                    $(this).find("input").prop("checked", "")
+                else
+                    $(this).find("input").prop("checked", "true")
+
+
+                if ($(this).find("input").prop("checked")) {
+                    $(this).find('label div>div').removeClass('translate-x-0').addClass('translate-x-full').parent().removeClass("bg-zinc-600").addClass("bg-blue-700");
+                } else {
+                    $(this).find('label div div').removeClass('translate-x-full').addClass('translate-x-0').parent().removeClass("bg-blue-700").addClass("bg-zinc-600");
+                }
+
+                if (!JSON.stringify(settings).includes($(this).find("input").attr("setting_name"))) {
+                    settings.push({
+                        setting: $(this).find("input").attr("setting_name"),
+                        $value:  $(this).find("input").prop("checked")
+                    })
+
+                    localStorage.setItem("settings", JSON.stringify(settings));
+                } else {
+                    settings.find(name => name.setting.includes($(this).find("input").attr("setting_name"))).$value = $(this).find("input").prop("checked")
+                    localStorage.setItem("settings", JSON.stringify(settings));
+                }
+            });
+
+            $("#overlays").empty();
             break;
         }
     }
@@ -469,13 +704,13 @@
                     <div class="py-5 px-5 bg-blue-700">
                         <div class="flex justify-between items-center container mx-auto px-4 sm:px-6 lg:px-8">
                             <a class="cursor-pointer flex justify-center items-center w-4">
-                                <span class="font-black material-symbols-outlined">
+                                <span class="font-black material-symbols-rounded">
                                     arrow_back_ios_new
                                 </span>
                             </a>
                             <span class="font-black text-2xl">Overview</span>
                             <a class="cursor-pointer flex justify-center items-center">
-                                <span class="font-black material-symbols-outlined">
+                                <span class="font-black material-symbols-rounded">
                                     refresh
                                 </span>
                             </a>
