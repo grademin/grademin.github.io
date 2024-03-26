@@ -11,7 +11,7 @@
     // When the user has logged in, or the user somehow removed `ul`, this will make sure they
     // end up on some sort of default page.
     if (localStorage.getItem("ul") == undefined && localStorage.getItem("session") != undefined)
-        localStorage.setItem("ul", "courses");
+        localStorage.setItem("ul", "overview");
 
     // If `session` or `ul` are undefined, then set page to login.
     if (localStorage.getItem("ul") == undefined || (localStorage.getItem("ul") != undefined && localStorage.getItem("session") == undefined))
@@ -19,7 +19,6 @@
     
 
     await runtime(localStorage.getItem("ul"));
-
 
     /**
      * Handles every section of Proview.
@@ -35,12 +34,12 @@
 
         // Switch between each page
         switch (ul) {
-        case "login": // First page that anyone sees
+        case "login":
             let remembered_details = "", hide_inputs = "";
             if (localStorage.getItem("remembered") != undefined) {
                 remembered_details = `
-                    <div class="mt-1 mb-5 block w-full px-5 py-4 border-4 border-blue-700 rounded-md shadow-sm focus:outline-none sm:text-sm">
-                        <div class="flex flex-row gap-5 items-center select-none">
+                    <div class="mt-1 mb-5 block w-full px-5 py-4 border-4 border-blue-700 rounded-xl shadow-sm focus:outline-none sm:text-sm">
+                        <div class="flex flex-row gap-5 items-center">
                             <div class="flex justify-between items-center">
                                 <div class="rounded-full border-[6px] border-blue-500 bg-blue-600 h-16 w-16 flex items-center justify-center text-2xl sm:text-2xl font-bold uppercase">
                                     ${JSON.parse(localStorage.getItem("remembered")).firstname.charAt(0).toUpperCase()}
@@ -48,7 +47,7 @@
                             </div>
                             <div class="flex flex-col">
                                 <h1 class="font-black leading-wider tracking-tight text-2xl">${JSON.parse(localStorage.getItem("remembered")).fullname}</h1>
-                                <span class="font-bold text-1xl text-gray-300">${JSON.parse(localStorage.getItem("remembered")).username}</span>    
+                                <span class="font-bold text-[18px] text-zinc-400">${JSON.parse(localStorage.getItem("remembered")).username}</span>    
                             </div>
                         </div>
                     </div>
@@ -57,8 +56,8 @@
             }
 
             await $("#root").html(`
-                <div class="h-screen flex justify-center ">
-                    <div class="p-8 rounded-lg container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="relative min-h-screen flex justify-center">
+                    <div class="p-20 rounded-lg container mx-auto px-4">
                         <div class="flex flex-col mb-10">
                             <h2 class="text-7xl tracking-tight leading-wider font-black text-blue-700">Proview</h2>
                             <span class="text-2xl tracking-wide font-bold">Log In</span>
@@ -67,17 +66,17 @@
                             ${remembered_details}
                             <div class="flex mb-4 space-x-2 ${hide_inputs}">
                                 <div class="flex-1">
-                                    <input style="background: transparent;" placeholder="District / Website" type="text" id="district" name="userspace" class="caret-blue-700 mt-1 block w-full px-5 py-4 border border-gray-300 rounded-md shadow-sm focus:outline-none sm:text-sm">
+                                    <input style="background: transparent;" placeholder="District / Website" type="text" id="district" name="userspace" class="caret-blue-700 mt-1 block w-full px-5 py-4 border border-gray-300 rounded-xl shadow-sm focus:outline-none sm:text-sm">
                                 </div>
                                 <div class="flex-1">
-                                    <input style="background: transparent;" placeholder="Username" type="text" id="username" name="username" class="caret-blue-700 mt-1 block w-full px-5 py-4 border border-gray-300 rounded-md shadow-sm focus:outline-none sm:text-sm">
+                                    <input style="background: transparent;" placeholder="Username" type="text" id="username" name="username" class="caret-blue-700 mt-1 block w-full px-5 py-4 border border-gray-300 rounded-xl shadow-sm focus:outline-none sm:text-sm">
                                 </div>
                             </div>
                             <div class="mb-6">
-                                <input style="background: transparent;" placeholder="Password" type="password" id="password" name="password" class="caret-blue-700 mt-1 block w-full px-5 py-4 border border-gray-300 rounded-md shadow-sm focus:outline-none sm:text-sm">
+                                <input style="background: transparent;" placeholder="Password" type="password" id="password" name="password" class="caret-blue-700 mt-1 block w-full px-5 py-4 border border-gray-300 rounded-xl shadow-sm focus:outline-none sm:text-sm">
                             </div>
-                            <div class="fixed bottom-0 left-0 right-0 container mx-auto px-4 sm:px-6 lg:px-8 mb-5">
-                                <button type="submit" class="w-full px-4 py-2 bg-blue-700 text-white font-semibold rounded-md hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Log in</button>
+                            <div class="absolute bottom-0 left-0 right-0 container mx-auto px-4 mb-10">
+                                <button type="submit" class="w-full px-4 py-2 bg-blue-700 transition text-white font-semibold rounded-xl hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Log in</button>
                             </div>        
                         </form>
                     </div>
@@ -87,7 +86,7 @@
 
                 if ((($("#district").val() != "" && $("#username").val() != "" && $("#password").val() != "") && localStorage.getItem("remembered") == undefined) || $("#password").val() != "" && localStorage.getItem("remembered") != undefined) {
                     $("#overlays").append(`
-                        <div class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+                        <div class="absolute inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
                             <div class="loader"><div></div><div></div><div></div><div></div></div>
                         </div>
                     `)
@@ -128,66 +127,140 @@
                                     "fullname": login3.response.user.fullname
                                 }))
                                 localStorage.setItem("session", JSON.stringify(login3.response));
-                                runtime("courses")
+                                runtime("overview")
                             }
                         }
                     });
                 }
             })
             break;
-        case "courses": // If you login, this is where you end up
+        case "overview":
             $("#overlays").append(`
-                <div class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+                <div class="absolute inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
                     <div class="loader"><div></div><div></div><div></div><div></div></div>
                 </div>
             `);
 
             await $("#root").html(`
                 <div id="topnav" class="fixed top-0 left-0 right-0 hidden">
-                    <div class="py-5 px-5 bg-blue-700">
-                        <div class="flex justify-center items-center container mx-auto px-4 sm:px-6 lg:px-8">
-                            <span class="font-black text-[18px] sm:text-2xl">Home</span>
+                    <div class="flex flex-row py-2 px-4 bg-blue-700">
+                        <div class="flex justify-center items-center container mx-auto px-4">
+                            <span class="font-black text-[18px]">Overview</span>
                         </div>
                     </div>
                 </div>
+
                 <div id="toptitle" class="bg-blue-700">
-                    <div class="py-10 flex flex-row gap-10 justify-between container mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex flex-row gap-10 justify-between container mx-auto py-10 px-4">
                         <div class="flex flex-col gap-1 justify-center">
-                            <h1 class="text-2xl sm:text-4xl md:text-5xl font-black tracking-tight leading-normal mb-0">Welcome, ${JSON.parse(localStorage.getItem("session")).user.fullname}</h1>
-                            <div class="text-1xl sm:text-2xl font-bold">${new Date().toLocaleString('default', { month: 'long' })} ${new Date().getDate()}, ${new Date().getFullYear()}</div>    
+                            <h1 class="text-5xl font-bold tracking-tight mb-0">Overview</h1>
+                            <div class="text-[20px] font-bold">${new Date().toLocaleString('default', { month: 'long' })} ${new Date().getDate()}, ${new Date().getFullYear()}</div>    
                         </div>
-                        <div class="flex justify-between items-center select-none cursor-pointer">
-                            <div id="profile" class="rounded-full bg-blue-600 border-8 hover:border-blue-400 active:border-blue-600 border-blue-500 h-[4.5rem] w-[4.5rem] sm:h-24 sm:w-24 flex items-center justify-center text-2xl sm:text-4xl font-bold uppercase">
+                        <div class="flex justify-between items-end cursor-pointer">
+                            <div id="profile" class="rounded-full transition bg-blue-600 border-8 hover:border-blue-400 active:border-blue-600 border-blue-500 h-[4.5rem] w-[4.5rem] flex items-center justify-center text-2xl font-bold uppercase">
                                 ${JSON.parse(localStorage.getItem("session")).user.firstname.charAt(0).toUpperCase()}
                             </div>                    
                         </div>
                     </div>
                 </div>
-                <div class="mt-14 mb-28 flex flex-col gap-5">
-                    <div class="py-10 flex flex-col justify-between container mx-auto px-4 sm:px-6 lg:px-8 bg-zinc-800 rounded-xl">
-                        <h1 class="font-black text-2xl sm:text-4xl">Averages</h1>
-                        <span>These are your averages from <b>Agency, Collab, K&T, Oral and Comms</b>.
-                        <div id="averages" class="mt-10 grid grid-cols-1sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-5 select-none">
-                            
+
+                <div class="flex flex-col gap-5 pt-10 mb-24 container mx-auto py-10 px-4">
+                    <div id="what_is_this" class="flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-5 px-3 border-4 border-blue-700">
+                        <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
+                            <div class="flex justify-center items-center bg-blue-700 px-4 py-3 rounded-2xl">
+                                <span class="text-3xl material-symbols-outlined">
+                                    help
+                                </span>
+                            </div>
+                            <div class="flex flex-col">
+                                <h1 class="text-[22px] font-bold">What is this</h1>
+                                <span class="font-bold text-[15px] text-zinc-400">Read about why this was created</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-center items-center">
+                            <span class="material-symbols-outlined">
+                                arrow_forward_ios
+                            </span>
                         </div>
                     </div>
+
+                    <div id="view_courses" class="flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
+                        <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
+                            <div class="flex justify-center items-center bg-blue-700 px-4 py-3 rounded-2xl">
+                                <span class="text-3xl material-symbols-outlined">
+                                    assignment
+                                </span>
+                            </div>
+                            <div class="flex flex-col">
+                                <h1 class="text-[22px] font-bold">View courses</h1>
+                                <span class="font-bold text-[15px] text-zinc-400">See your current courses</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-center items-center">
+                            <span class="material-symbols-outlined">
+                                arrow_forward_ios
+                            </span>
+                        </div>
+                    </div>
+                    <div id="view_courses" class="flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
+                        <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
+                            <div class="flex justify-center items-center bg-blue-700 px-4 py-3 rounded-2xl">
+                                <span class="text-3xl material-symbols-outlined">
+                                    show_chart
+                                </span>
+                            </div>
+                            <div class="flex flex-col">
+                                <h1 class="text-[22px] font-bold">Averages</h1>
+                                <span class="font-bold text-[15px] text-zinc-400">See your objective averages</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-center items-center">
+                            <span class="material-symbols-outlined">
+                                arrow_forward_ios
+                            </span>
+                        </div>
+                    </div>
+                    <div id="mail_teachers" class="flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
+                        <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
+                            <div class="flex justify-center items-center bg-blue-700 px-4 py-3 rounded-2xl">
+                                <span class="text-3xl material-symbols-outlined">
+                                    alternate_email
+                                </span>
+                            </div>
+                            <div class="flex flex-col">
+                                <h1 class="text-[22px] font-bold">Contact Teachers</h1>
+                                <span class="font-bold text-[15px] text-zinc-400">Email your teachers</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-center items-center">
+                            <span class="material-symbols-outlined">
+                                arrow_forward_ios
+                            </span>
+                        </div>
+                    </div>
+                    
                 </div>
 
                 <div id="bottomnav" class="fixed bottom-0 left-0 right-0">
                     <div class="bg-zinc-800">
                         <div class="flex flex-row justify-between items-center">
-                            <a class="cursor-pointer select-none flex justify-center items-center hover:bg-blue-700 active:bg-blue-600 px-10 py-5 w-full">
-                                <span class="font-black material-symbols-outlined">
+                            <a class="cursor-pointer flex justify-center items-center py-3 w-full">
+                                <span class="font-black active pointer-events-none material-symbols-outlined">
                                     home
                                 </span>
                             </a>
-                            <a class="cursor-pointer select-none flex justify-center items-center hover:bg-blue-700 active:bg-blue-600 px-10 py-5 w-full">
-                                <span class="font-black material-symbols-outlined">
-                                    check_circle
+                            <a class="cursor-pointer flex justify-center items-center py-3 w-full">
+                                <span class="material-symbols-outlined">
+                                    calendar_month
                                 </span>
                             </a>
-                            <a id="profile" class="cursor-pointer select-none flex justify-center items-center hover:bg-blue-700 active:bg-blue-600 px-10 py-5 w-full">
-                                <span class="font-black material-symbols-outlined">
+                            <a class="cursor-pointer flex justify-center items-center py-3 w-full">
+                                <span class="font-black pointer-events-none material-symbols-outlined">
+                                    description
+                                </span>
+                            </a>
+                            <a id="profile" class="cursor-pointer flex justify-center items-center py-3 w-full">
+                                <span class="font-black pointer-events-none material-symbols-outlined">
                                     settings
                                 </span>
                             </a>
@@ -195,20 +268,111 @@
                     </div>
                 </div>
             `).on("click", function (event) {
-                if ($(event.target).attr("id") == "profile")
-                    runtime("settings");
+                switch ($(event.target).attr("id")) {
+                    case "profile":
+                        runtime("settings");
+                        break;
+                    case "courses":
+                        runtime("courses");
+                        break;
+                    case "averages":
+                        runtime("averages");
+                        break;
+                    case "what_is_this":
+                        $("#overlays").append(`
+                            <div id="overlay" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center animation-fadein">
+                                <div class="container mx-auto px-4 flex justify-center items-center pointer-events-none animation-popin">
+                                    <div class="bg-zinc-800 rounded-xl max-w-lg px-5 py-5 pointer-events-auto">
+                                        <div class="flex justify-center items-center mb-4">
+                                            <h2 class="text-2xl font-bold text-white text-center">About Proview</h2>
+                                        </div>
+                                        <div class="text-white">
+                                            <p>This website was created to show that <b>Echo Viewer</b> by <b>Agilix, Inc</b> could have been better. This websites design is based off <b>GradeWay</b> by <b>Srujan Mupparapu</b>, this website is not meant to infringe or plagarize his work, If it does (specifically to Srujan) please send an issue <a class="text-blue-700 hover:text-blue-600 transition" href="https://github.com/wo-r-professional/proview/issues">here</a> and I will abide to whatever you ask.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `).on("mousedown", function (event) {
+                            switch ($(event.target).attr("id")) {
+                                case "overlay":
+                                    $("#overlay").fadeOut(400, function () {
+                                        $("#overlays").empty();
+                                    });
+                            }
+                        })
+                        break;
+                }
             })
             
             // Manages when we scroll
             $(window).scroll(function() {
-                if ($(this).scrollTop() > $("#toptitle").offset().top + $("#toptitle").outerHeight() - 80 || $(this).scrollTop() < $("#toptitle").offset().top - $(window).height()) {
+                if ($(this).scrollTop() > $("#toptitle").offset().top + $("#toptitle").outerHeight() - 50 || $(this).scrollTop() < $("#toptitle").offset().top - $(window).height()) {
                     $("#topnav").fadeIn(100);
                 } else {
                     $("#topnav").fadeOut(200);
                 }
             });
 
-            // getting objective averages needs api `getobjectivelist` and `listuserenrollments`
+            $("#overlays").empty();
+
+            break;
+        case "courses":
+            break;
+        case "averages":
+            break;
+        case "settings":
+            await $("#root").html(`
+                <button id="logout" class="w-full px-4 py-2 bg-blue-700 text-white font-semibold rounded-md hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Logout</button>
+            `).on("click", function (event) {
+                switch ($(event.target).attr("id")) {
+                    case "logout":
+                        $("#overlays").append(`
+                            <div class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+                                <div class="loader"><div></div><div></div><div></div><div></div></div>
+                            </div>
+                        `);
+
+                        $.ajax({
+                            url: api("/cmd"),
+                            method: "POST",
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                            data: JSON.stringify({"request": {
+                                cmd: "logout",
+                            }}),
+                            success: function () {
+                                localStorage.removeItem("session");
+                                runtime("login");
+                                $("#overlays").empty()
+                            }
+                        })
+                        break;
+                }
+            });
+            break;
+        }
+    }
+})();
+
+
+
+/** this is a whole bunch of code that i need later */
+
+
+
+
+            /*
+
+            <div class="flex flex-col pl-5 pr-5 sm:pl-0 sm:pr-0">
+                        <div class="py-10 flex flex-col justify-between container mx-auto px-4 sm:px-6 lg:px-8 bg-zinc-800 rounded-xl">
+                            <h1 class="font-black text-2xl sm:text-4xl">Averages</h1>
+                            <span>These are your averages from <b>Agency, Collab, K&T, Oral and Comms</b>.
+                            <div id="averages" class="mt-10 mb-2 grid grid-cols-1sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-5"></div>
+                            <i class="mt-10">* These scores can be skewed due to Echo not providing a check for <u>Expired</u> classes.</i>
+                        </div>
+                    </div>
+
+            // Get current averages
             await $.ajax({
                 url: api(`/dlap.ashx?cmd=getdomainsettings&domainid=//${JSON.parse(localStorage.getItem("session")).user.userspace}&path=public/shadow/app/buzz/settings.xml&includesource=true`),
                 method: "GET",
@@ -216,7 +380,7 @@
                 contentType: "application/json; charset=utf-8",
                 success: async (settings) => {
                     let guids = "", guids_with_ids = [];
-                    await $.each(settings.response.settings["scoring-objective-list"]["scoring-objective"], (i, objective) => {
+                    $.each(settings.response.settings["scoring-objective-list"]["scoring-objective"], (i, objective) => {
                         if (i < settings.response.settings["scoring-objective-list"]["scoring-objective"].length - 1)
                             guids += `${objective.guid}|`
                         else 
@@ -229,7 +393,7 @@
                         dataType: "json",
                         contentType: "application/json; charset=utf-8",
                         success: async (objectives) => {
-                            await $.each(objectives.response.objectives.objective, (i, objective) => {
+                            $.each(objectives.response.objectives.objective, (i, objective) => {
                                 guids_with_ids.push({
                                     "target": objective.id,
                                     "guid": objective.guid
@@ -243,11 +407,11 @@
                                 contentType: "application/json; charset=utf-8",
                                 success: async (courses) => {
                                     let course_metrics = []
-                                    await $.each(courses.response.enrollments.enrollment, async (i, course) => {
+                                    $.each(courses.response.enrollments.enrollment, (i, course) => {
                                         try {
-                                        await $.each(course.enrollmentmetrics.objectivescores.objectivescore, (i, score) => {
-                                            course_metrics.push(score)
-                                        })
+                                            $.each(course.enrollmentmetrics.objectivescores.objectivescore, (i, score) => {
+                                                course_metrics.push(score)
+                                            })
                                         } catch (e) {}
                                     })
 
@@ -260,48 +424,57 @@
                                                     final_objectives.push({
                                                         "guid": guid.guid,
                                                         "target": guid.target,
-                                                        "score": Math.round((g.achieved / g.possible) * 100)
+                                                        "score": Number(((g.achieved / g.possible) * 100).toFixed(2)),
                                                     })
                                             })
                                         })
                                     } catch (e) {}
 
-                                    $.each(final_objectives, (i, score) => {
-                                        // Agency
-                                        {
-                                            if (score.target == "Agency") {
-                                                //score.map()
-                                            }
+                                    const targets = {
+                                        "Agency": {sum: 0, count: 0},
+                                        "Collaboration": {sum: 0, count: 0},
+                                        "Knowledge & Thinking": {sum: 0, count: 0},
+                                        "Oral Communication": {sum: 0, count: 0},
+                                        "Written Communication": {sum: 0, count: 0}
+                                    };
 
-                                            /*if (!$("#agency").length)
-                                                $("#averages").append(`
-                                                    <div id="agency" class="bg-blue-600 pop-in py-10 rounded flex flex-col justify-center items-center gap-5">
-                                                        <span class="font-black text-2xl">${agency_average}</span>
-                                                        <h2 class="font-bold text-1xl">Agency</h2>
-                                                    </div>
-                                                `)*/
+                                    await $.each(final_objectives, (i, score) => {
+                                        if (targets.hasOwnProperty(score.target)) {
+                                            targets[score.target].sum += score.score;
+                                            targets[score.target].count++;
                                         }
-                                    })                                    
+                                    });
+
+                                    await $.each(Object.keys(targets), async (i, target) => {
+                                        const average = targets[target].count > 0 ? targets[target].sum / targets[target].count : 0;
+                                        await $("#averages").append(`
+                                            <div id="${target.toLocaleLowerCase()}" class="bg-blue-600 pop-in py-10 rounded flex flex-col justify-center items-center gap-5">
+                                                <span class="font-black text-2xl">${Math.round(average)}%</span>
+                                                <h2 class="font-bold text-1xl">${target}</h2>
+                                            </div>
+                                        `)
+                                    });
+                                           
                                 }
                             });
                         }
                     })
                 }
             })
-
+            */
 
             /**
              
                 <div id="topnav" class="fixed top-0 left-0 right-0 hidden">
                     <div class="py-5 px-5 bg-blue-700">
                         <div class="flex justify-between items-center container mx-auto px-4 sm:px-6 lg:px-8">
-                            <a class="cursor-pointer select-none flex justify-center items-center w-4">
+                            <a class="cursor-pointer flex justify-center items-center w-4">
                                 <span class="font-black material-symbols-outlined">
                                     arrow_back_ios_new
                                 </span>
                             </a>
                             <span class="font-black text-2xl">Overview</span>
-                            <a class="cursor-pointer select-none flex justify-center items-center">
+                            <a class="cursor-pointer flex justify-center items-center">
                                 <span class="font-black material-symbols-outlined">
                                     refresh
                                 </span>
@@ -312,41 +485,10 @@
 
              */
 
-            /**
-                        <div class="bg-blue-600 pop-in py-10 rounded flex flex-col justify-center items-center gap-5">
-                            <span class="font-black text-2xl">90%</span>
-                            <h2 class="font-bold text-1xl">Agency</h2>
-                        </div>
-                        <div class="bg-blue-600 pop-in py-10 rounded flex flex-col justify-center items-center gap-5">
-                            <span class="font-black text-2xl">79%</span>
-                            <h2 class="font-bold text-1xl">Collaboration</h2>
-                        </div>
-                        <div class="bg-blue-600 pop-in py-10 rounded flex flex-col justify-center items-center gap-5">
-                            <span class="font-black text-2xl">98%</span>
-                            <h2 class="font-bold text-1xl">Knowledge & Thinking</h2>
-                        </div>
-                        <div class="bg-blue-600 pop-in py-10 rounded flex flex-col justify-center items-center gap-5">
-                            <span class="font-black text-2xl">87%</span>
-                            <h2 class="font-bold text-1xl">Oral Communication</h2>
-                        </div>
-                        <div class="bg-blue-600 pop-in py-10 rounded flex flex-col justify-center items-center gap-5">
-                            <span class="font-black text-2xl">97%</span>
-                            <h2 class="font-bold text-1xl">Written Communication</h2>
-                        </div>
-             */
-
-            
-
-            $("#overlays").empty();
-
-            // Get courses & append
-
             /*
-
-            <div class="my-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4" id="courses"></div>
-
-
             // Get course order
+            <div class="flex flex-col gap-5 pl-5 pr-5 sm:pl-0 sm:pr-0" id="courses"></div>
+
             await $.ajax({
                 url: api(`/cmd/getresource?_token=${JSON.parse(localStorage.getItem("session")).token}&entityid=${JSON.parse(localStorage.getItem("session")).user.userid}&path=Assets%2FBuzzCourseCardSettings.json`),
                 method: "GET",
@@ -391,53 +533,15 @@
                                     score_color = "text-red-500";
 
                                 $("#courses").append(`
-                                    <a class="bg-gray-300 p-4 rounded shadow cursor-pointer text-black flex flex-col justify-between gap-10 select-none" courseid="${course.courseid}" uid="${course.id}">
-                                        <div>
-                                            <h2 class="text-2xl">${course.title}</h2>
-                                            <span>${course.start} - ${course.end}</span>
-                                        </div>
+                                    <div class="py-10 flex flex-col justify-between container mx-auto px-4 sm:px-6 lg:px-8 bg-zinc-800 rounded-xl cursor-pointer" id="${course.courseid}">
+                                        <h1 class="text-2xl font-bold leading-normal tracking-wider">${course.title}</h1>
+                                        <span class="font-bold text-gray-300">${course.start} - ${course.end}</span>
                                         <div class="font-black ${score_color}">${isNaN(course.scored) ? "--" : `${course.scored}%`}</div>
-                                    </a>
+                                    </div>
                                 `)
-                            })
-
-                            // Remove overlay
-                            $("#overlays").empty();
+                            })                            
                         }
                     })
                 }
             })
             */
-
-            break;
-        case "settings":
-            await $("#root").html(`
-                <button id="logout" class="w-full px-4 py-2 bg-blue-700 text-white font-semibold rounded-md hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Logout</button>
-            `).on("click", function (event) {
-                if ($(event.target).attr("id") == "logout") {
-                    $("#overlays").append(`
-                        <div class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
-                            <div class="loader"><div></div><div></div><div></div><div></div></div>
-                        </div>
-                    `);
-
-                    $.ajax({
-                        url: api("/cmd"),
-                        method: "POST",
-                        dataType: "json",
-                        contentType: "application/json; charset=utf-8",
-                        data: JSON.stringify({"request": {
-                            cmd: "logout",
-                        }}),
-                        success: function () {
-                            localStorage.removeItem("session");
-                            runtime("login");
-                            $("#overlays").empty()
-                        }
-                    })
-                }
-            });
-            break;
-        }
-    }
-})();
