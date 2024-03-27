@@ -41,29 +41,6 @@
     if (localStorage.getItem("settings") == undefined)
         localStorage.setItem("settings", JSON.stringify([]));
 
-    // Get users profile picture (if none is found then we set this as "")
-    let check_for_image = setInterval(function () {
-        if (localStorage.getItem("session") != undefined) {
-            imageValid(api(`/cmd/getprofilepicture?_token=${JSON.parse(localStorage.getItem("session")).token}&entityid=${JSON.parse(localStorage.getItem("session")).user.userid}`), function (avatar_exists, url) {
-                if (avatar_exists) {
-                    urlRedirects(url, function (newUrl, valid) {
-                        if (valid) {
-                            localStorage.setItem("profile_picture", newUrl)
-                        } else {
-                            // It is a CORS blocked url, fallback to echo url
-                            localStorage.setItem("profile_picture", newUrl);
-                        }
-
-                        runtime(localStorage.getItem("ul"))
-                        clearInterval(check_for_image);
-                    })
-                }
-            });
-        }
-        else
-            localStorage.setItem("profile_picture", "")
-    }, 200)
-
     await runtime(localStorage.getItem("ul"));
 
     /**
@@ -71,6 +48,8 @@
      */
     async function runtime(ul) {
         document.title = `${ul.charAt(0).toUpperCase() + ul.slice(1)}`;
+
+        console.log("called")
 
         localStorage.setItem("ul", ul);
         $("#root").attr("ul", ul);
@@ -135,7 +114,7 @@
 
                     if ((($("#district").val() != "" && $("#username").val() != "" && $("#password").val() != "") && localStorage.getItem("remembered") == undefined) || $("#password").val() != "" && localStorage.getItem("remembered") != undefined) {
                         $("#overlays").append(`
-                            <div class="absolute inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+                            <div class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
                                 <div class="loader"><div></div><div></div><div></div><div></div></div>
                             </div>
                         `)
@@ -176,7 +155,28 @@
                                     }))
                                     localStorage.setItem("session", JSON.stringify(login3.response));
                                     
-                                    runtime("overview");
+                                    // Get users profile picture (if none is found then we set this as "")
+                                    let check_for_image = setInterval(function () {
+                                        if (localStorage.getItem("session") != undefined) {
+                                            imageValid(api(`/cmd/getprofilepicture?_token=${JSON.parse(localStorage.getItem("session")).token}&entityid=${JSON.parse(localStorage.getItem("session")).user.userid}`), function (avatar_exists, url) {
+                                                if (avatar_exists) {
+                                                    urlRedirects(url, function (newUrl, valid) {
+                                                        if (valid) {
+                                                            localStorage.setItem("profile_picture", newUrl)
+                                                        } else {
+                                                            // It is a CORS blocked url, fallback to echo url
+                                                            localStorage.setItem("profile_picture", newUrl);
+                                                        }
+
+                                                        clearInterval(check_for_image);
+                                                        runtime("overview");
+                                                    })
+                                                }
+                                            });
+                                        }
+                                        else
+                                            localStorage.setItem("profile_picture", "gravatar")
+                                    }, 200)
                                 }
                             }
                         });
@@ -185,7 +185,7 @@
                 break;
             case "overview":
                 $("#overlays").append(`
-                    <div class="absolute inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+                    <div class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
                         <div class="loader"><div></div><div></div><div></div><div></div></div>
                     </div>
                 `);
@@ -379,6 +379,9 @@
                         case "averages":
                             runtime("averages");
                             break;
+                        case "announcements":
+                            runtime("announcements");
+                            break;
                         case "what_is_this":
                             $("#overlays").append(`
                                 <div id="overlay" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center animation-fadein">
@@ -388,7 +391,7 @@
                                                 <h2 class="text-2xl font-bold text-white text-center">About Proview</h2>
                                             </div>
                                             <div class="text-white">
-                                                <p>This website was created to show that <b>Echo Viewer</b> by <b>Agilix, Inc</b> could have been better. This websites design is based off <b>GradeWay</b> by <b>Srujan Mupparapu</b>, this website is not meant to infringe or plagarize his work, If it does (specifically to Srujan) please send an issue <a class="text-blue-700 hover:text-blue-600 transition" href="https://github.com/wo-r-professional/proview/issues">here</a> and I will abide to whatever you ask.</p>
+                                                <p>This website was created to show that <b>Echo Viewer</b> by <b>Agilix, Inc</b> could have been better. This websites design is based off <b>GradeWay</b> by <b>Srujan Mupparapu</b>, this website is not meant to infringe or plagarize his work, If it does (specifically to Srujan) please send an issue <a class="text-blue-700 hover:text-blue-600 cursor-pointer transition" goto="https://github.com/wo-r-professional/proview/issues">here</a> and I will abide to whatever you ask.</p>
                                             </div>
                                         </div>
                                     </div>
@@ -401,6 +404,11 @@
                                         });
                                 }
                             })
+                            
+                            $("[goto]").on("click", function (event) {
+                                window.open($(this).attr("goto"), "_blank")
+                            })
+
                             break;
                     }
                 })
@@ -429,9 +437,195 @@
             case "averages":
                 runtime("overview");
                 break;
+            case "announcements":
+                $("#overlays").append(`
+                    <div class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+                        <div class="loader"><div></div><div></div><div></div><div></div></div>
+                    </div>
+                `);
+                
+                await $("#root").html(`
+                    <div id="topnav" class="fixed top-0 left-0 right-0 hidden z-50">
+                        <div class="flex flex-row py-2 bg-blue-700">
+                            <div class="flex justify-between items-center container mx-auto px-4">
+                                <a class="cursor-pointer flex justify-center items-center w-0">
+                                    <span id="back" class="font-black w-0 text-1xl material-symbols-rounded">
+                                        arrow_back_ios_new
+                                    </span>
+                                </a>
+                                <span class="font-black text-[20px]">Announcements</span>
+                                <a id="reload" class="cursor-pointer flex justify-center items-center">
+                                    <span class="font-black material-symbols-rounded">
+                                        refresh
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="toptitle">
+                        <div class="py-5 bg-blue-700">
+                            <div class="flex justify-between items-center container mx-auto px-4">
+                                <a class="cursor-pointer flex justify-center items-center w-0">
+                                    <span id="back" class="font-black w-0 text-1xl material-symbols-rounded">
+                                        arrow_back_ios_new
+                                    </span>
+                                </a>
+                                <span class="font-black text-[20px]">Announcements</span>
+                                <a id="reload" class="cursor-pointer flex justify-center items-center">
+                                    <span class="font-black material-symbols-rounded">
+                                        refresh
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-5 pt-10 mb-10 container mx-auto py-10 px-4">
+                        <div id="communication" class="flex flex-col gap-5">
+                        </div>
+                    </div>
+
+                    <div id="bottomnav" class="fixed bottom-0 left-0 right-0">
+                        <div class="bg-zinc-800">
+                            <div class="flex flex-row justify-between items-center">
+                                <a id="overview" class="cursor-pointer flex justify-center items-center py-3 w-full">
+                                    <span class="font-black pointer-events-none material-symbols-rounded">
+                                        home
+                                    </span>
+                                </a>
+                                <a class="cursor-pointer flex justify-center items-center py-3 w-full">
+                                    <span class="material-symbols-rounded">
+                                        calendar_month
+                                    </span>
+                                </a>
+                                <a class="cursor-pointer flex justify-center items-center py-3 w-full">
+                                    <span class="font-black pointer-events-none material-symbols-rounded">
+                                        description
+                                    </span>
+                                </a>
+                                <a id="profile" class="cursor-pointer flex justify-center items-center py-3 w-full">
+                                    <span class="font-black pointer-events-none material-symbols-rounded">
+                                        settings
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `).on("click", async function (event) {
+                    switch ($(event.target).attr("id")) {
+                        case "back":
+                            runtime("overview");
+                            break;
+                        case "semiback":
+                            $("#communication").show();
+                            $("#toptitle #reload, #topnav #reload").removeClass("invisible")
+                            $("#current_communication").remove();
+                            break;
+                        case "overview":
+                            runtime("overview");
+                            break;
+                        case "profile":
+                            runtime("settings");
+                            break;
+                        case "reload":
+                            break; // TODO:
+                    }
+
+                    if ($(event.target).attr("uid") != undefined) {
+                        $("#overlays").append(`
+                            <div class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+                                <div class="loader"><div></div><div></div><div></div><div></div></div>
+                            </div>
+                        `);
+
+                        $("#communication").hide();
+
+                        console.log(event.target)
+                        
+                        await $.ajax({
+                            url: api(`/cmd/getannouncementinfo?_token=${JSON.parse(localStorage.getItem("session")).token}&packagetype=data&entityid=${JSON.parse(localStorage.getItem("session")).user.domainid}&path=${$(event.target).attr("path")}`),
+                            method: "GET",
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                            success: async (comminfo) => {
+                                console.log(comminfo)
+                                await $.ajax({
+                                    url: api(`/cmd/getannouncement?_token=${JSON.parse(localStorage.getItem("session")).token}&packagetype=data&entityid=${JSON.parse(localStorage.getItem("session")).user.domainid}&path=${$(event.target).attr("path")}`),
+                                    method: "GET",
+                                    dataType: "json",
+                                    contentType: "application/json; charset=utf-8",
+                                    success: (commdetails) => {
+                                        console.log(commdetails)
+                                        $("#toptitle #reload, #topnav #reload").addClass("invisible")
+                                        $("#toptitle, #topnav").find("#back").attr("id", "semiback");
+                                        $("#communication").parent().append(`
+                                            <div id="current_communication" class="relative flex flex-col justify-between container mx-auto bg-zinc-800 rounded-xl py-3 px-3">
+                                                <div class="flex flex-col border-b-[2px] border-zinc-700 pb-3">
+                                                    <h1 class="text-[22px] font-bold">${commdetails.announcement.title}</h1>
+                                                    <span class="font-bold text-[15px] text-zinc-400">Written ${(new Date(comminfo.response.announcement.startdate).getMonth() + 1) + '/' + (new Date(comminfo.response.announcement.startdate).getDate()) + '/' + (new Date(comminfo.response.announcement.startdate).getFullYear() % 100)}</span>
+                                                </div>
+                                                <div class="flex flex-col pt-3">
+                                                    ${commdetails.announcement.body.$xml.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').replace(/style\s*=\s*["'][^"']*["']/gi, '').replace(/<img/g, "<img class=\"rounded-xl\"")}
+                                                </div>
+                                            </div>
+                                        `)
+                                    }
+                                })
+                            }
+                        })
+
+                        $("#overlays").empty();
+                    }
+                })
+
+                if ($(window).scrollTop() > $("#toptitle").offset().top + $("#toptitle").outerHeight() - 50 || $(window).scrollTop() < $("#toptitle").offset().top - $(window).height()) {
+                    $("#topnav").fadeIn(0);
+                } else {
+                    $("#topnav").fadeOut(0);
+                }
+
+                // Manages when we scroll
+                $(window).scroll(function() {
+                    if ($(this).scrollTop() > $("#toptitle").offset().top + $("#toptitle").outerHeight() - 50 || $(this).scrollTop() < $("#toptitle").offset().top - $(window).height()) {
+                        $("#topnav").fadeIn(50);
+                    } else {
+                        $("#topnav").fadeOut(100);
+                    }
+                });
+
+                await $.ajax({
+                    url: api(`/cmd/getuserannouncementlist?_token=${JSON.parse(localStorage.getItem("session")).token}&userid=${JSON.parse(localStorage.getItem("session")).user.userid}&daysactivepastend=14`),
+                    method: "GET",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (communications) {
+                        $.each(communications.response.announcements.announcement, function (communication) {
+                            $("#communication").append(`
+                                <div uid="${this.entityid}" path="${this.path}" class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
+                                    <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
+                                        <div class="flex flex-col">
+                                            <h1 class="text-[22px] font-bold">${this.title}</h1>
+                                            <span class="font-bold text-[15px] text-zinc-400">Written ${(new Date(this.startdate).getMonth() + 1) + '/' + (new Date(this.startdate).getDate()) + '/' + (new Date(this.startdate).getFullYear() % 100)}</span>
+                                        </div>
+                                    </div>
+                                    <div class="flex justify-center items-center pointer-events-none">
+                                        <span class="material-symbols-rounded">
+                                            arrow_forward_ios
+                                        </span>
+                                    </div>
+                                </div>
+                            `)
+                        })
+                    }
+                })
+
+                $("#overlays").empty();
+
+                break;
             case "settings":
                 $("#overlays").append(`
-                    <div class="absolute inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+                    <div class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
                         <div class="loader"><div></div><div></div><div></div><div></div></div>
                     </div>
                 `);
