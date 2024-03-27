@@ -49,8 +49,6 @@
     async function runtime(ul) {
         document.title = `${ul.charAt(0).toUpperCase() + ul.slice(1)}`;
 
-        console.log("called")
-
         localStorage.setItem("ul", ul);
         $("#root").attr("ul", ul);
 
@@ -232,7 +230,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div id="courses" class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
+                        <div id="courses" class="relative relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
                             <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
                                 <div class="flex justify-center items-center bg-blue-700 px-4 py-3 rounded-2xl">
                                     <span class="text-3xl material-symbols-rounded">
@@ -250,7 +248,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div id="averages" class="flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
+                        <div id="averages" class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
                             <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
                                 <div class="flex justify-center items-center bg-blue-700 px-4 py-3 rounded-2xl">
                                     <span class="text-3xl material-symbols-rounded">
@@ -268,7 +266,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div id="todo" class="flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
+                        <div id="todo" class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
                             <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
                                 <div class="flex justify-center items-center bg-blue-700 px-4 py-3 rounded-2xl">
                                     <span class="text-3xl material-symbols-rounded">
@@ -286,7 +284,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div id="stream" class="flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
+                        <div id="stream" class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
                             <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
                                 <div class="flex justify-center items-center bg-blue-700 px-4 py-3 rounded-2xl">
                                     <span class="text-3xl material-symbols-rounded">
@@ -304,7 +302,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div id="announcements" class="flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
+                        <div id="announcements" class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
                             <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
                                 <div class="flex justify-center items-center bg-blue-700 px-4 py-3 rounded-2xl">
                                     <span class="text-3xl material-symbols-rounded">
@@ -322,7 +320,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div id="email" class="flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
+                        <div id="email" class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
                             <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
                                 <div class="flex justify-center items-center bg-blue-700 px-4 py-3 rounded-2xl">
                                     <span class="text-3xl material-symbols-rounded">
@@ -428,6 +426,27 @@
                     }
                 });
 
+                // Announcement viewed count
+                await $.ajax({
+                    url: api(`/cmd/getuserannouncementlist?_token=${JSON.parse(localStorage.getItem("session")).token}&userid=${JSON.parse(localStorage.getItem("session")).user.userid}&daysactivepastend=14`),
+                    method: "GET",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: async function (communications) {
+                        let counted = 0;
+                        await $.each(communications.response.announcements.announcement, function (i, communication) {
+                            if (!communication.viewed)
+                                counted++
+                        })
+
+                        $("#announcements").append(`
+                            <div class="absolute inline-flex right-0 top-0 h-8 w-8 -m-2 rounded-full bg-blue-700 opacity-75 justify-center items-center">
+                                <span>${counted}</span>
+                            </div> 
+                        `)
+                    }
+                })
+
                 $("#overlays").empty();
 
                 break;
@@ -435,7 +454,175 @@
                 runtime("overview")
                 break;
             case "averages":
-                runtime("overview");
+                $("#overlays").append(`
+                    <div class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+                        <div class="loader"><div></div><div></div><div></div><div></div></div>
+                    </div>
+                `);
+
+                $("#root").html(`
+                    <div id="topnav" class="fixed top-0 left-0 right-0 hidden z-50">
+                        <div class="flex flex-row py-2 bg-blue-700">
+                            <div class="flex justify-between items-center container mx-auto px-4">
+                                <a class="cursor-pointer flex justify-center items-center w-0">
+                                    <span id="back" class="font-black w-0 text-1xl material-symbols-rounded">
+                                        arrow_back_ios_new
+                                    </span>
+                                </a>
+                                <span class="font-black text-[20px]">Averages</span>
+                                <a class="cursor-pointer flex justify-center items-center">
+                                    <span id="reload" class="font-black material-symbols-rounded">
+                                        refresh
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="toptitle">
+                        <div class="py-5 bg-blue-700">
+                            <div class="flex justify-between items-center container mx-auto px-4">
+                                <a class="cursor-pointer flex justify-center items-center w-0">
+                                    <span id="back" class="font-black w-0 text-1xl material-symbols-rounded">
+                                        arrow_back_ios_new
+                                    </span>
+                                </a>
+                                <span class="font-black text-[20px]">Averages</span>
+                                <a class="cursor-pointer flex justify-center items-center">
+                                    <span id="reload" class="font-black material-symbols-rounded">
+                                        refresh
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col gap-5 pt-10 mb-10 container mx-auto py-10 px-4">
+                        <div class="relative container mx-auto bg-zinc-800 rounded-xl py-4 px-3">
+                            <h1 class="flex text-4xl font-black justify-center items-center">Classwide Averages</h1>
+                            <div id="averages" class="mt-10 grid grid-cols-1sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-5"></div>
+                        </div>
+                    </div>
+
+
+                `).on("click", function (event) {
+                    switch ($(event.target).attr("id")) {
+                        case "back":
+                            runtime("overview");
+                            break;
+                        case "reload":
+                            // TODO:
+                            break;
+                    }
+                })
+
+                if ($(window).scrollTop() > $("#toptitle").offset().top + $("#toptitle").outerHeight() - 50 || $(window).scrollTop() < $("#toptitle").offset().top - $(window).height()) {
+                    $("#topnav").fadeIn(0);
+                } else {
+                    $("#topnav").fadeOut(0);
+                }
+
+                // Manages when we scroll
+                $(window).scroll(function() {
+                    if ($(this).scrollTop() > $("#toptitle").offset().top + $("#toptitle").outerHeight() - 50 || $(this).scrollTop() < $("#toptitle").offset().top - $(window).height()) {
+                        $("#topnav").fadeIn(50);
+                    } else {
+                        $("#topnav").fadeOut(100);
+                    }
+                });
+
+                await $.ajax({
+                    url: api(`/dlap.ashx?cmd=getdomainsettings&domainid=//${JSON.parse(localStorage.getItem("session")).user.userspace}&path=public/shadow/app/buzz/settings.xml&includesource=true`),
+                    method: "GET",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: async (settings) => {
+                        let guids = "", guids_with_ids = [];
+                        $.each(settings.response.settings["scoring-objective-list"]["scoring-objective"], (i, objective) => {
+                            if (i < settings.response.settings["scoring-objective-list"]["scoring-objective"].length - 1)
+                                guids += `${objective.guid}|`
+                            else 
+                                guids += `${objective.guid}`;
+                        });
+
+                        await $.ajax({
+                            url: api(`/cmd/getobjectivelist?_token=${JSON.parse(localStorage.getItem("session")).token}&guid=${guids}`),
+                            method: "GET",
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                            success: async (objectives) => {
+                                $.each(objectives.response.objectives.objective, (i, objective) => {
+                                    guids_with_ids.push({
+                                        "target": objective.id,
+                                        "guid": objective.guid
+                                    })
+                                })
+
+                                await $.ajax({
+                                    url: api(`/cmd/listuserenrollments?_token=${JSON.parse(localStorage.getItem("session")).token}&userid=${JSON.parse(localStorage.getItem("session")).user.userid}&privileges=1&select=data,course,course.data,course.teachers,metrics`),
+                                    method: "GET",
+                                    dataType: "json",
+                                    contentType: "application/json; charset=utf-8",
+                                    success: async (courses) => {
+                                        let course_metrics = []
+                                        $.each(courses.response.enrollments.enrollment, (i, course) => {
+                                            try {
+                                                $.each(course.enrollmentmetrics.objectivescores.objectivescore, (i, score) => {
+                                                    course_metrics.push(score)
+                                                })
+                                            } catch (e) {}
+                                        })
+
+                                        // Gets the guid and target for averages
+                                        let final_objectives = []
+                                        try {
+                                            $.each(guids_with_ids, (i, guid) => {
+                                                course_metrics.find(g => {
+                                                    if (g.guid.includes(guid.guid))
+                                                        final_objectives.push({
+                                                            "guid": guid.guid,
+                                                            "target": guid.target,
+                                                            "score": Number(((g.achieved / g.possible) * 100).toFixed(2)),
+                                                        })
+                                                })
+                                            })
+                                        } catch (e) {}
+
+                                        const targets = {
+                                            "Agency": {sum: 0, count: 0},
+                                            "Collaboration": {sum: 0, count: 0},
+                                            "Knowledge & Thinking": {sum: 0, count: 0},
+                                            "Oral Communication": {sum: 0, count: 0},
+                                            "Written Communication": {sum: 0, count: 0}
+                                        };
+
+                                        await $.each(final_objectives, (i, score) => {
+                                            if (targets.hasOwnProperty(score.target)) {
+                                                targets[score.target].sum += score.score;
+                                                targets[score.target].count++;
+                                            }
+                                        });
+
+                                        // TODO:
+                                        await $.each(Object.keys(targets), async (i, target) => {
+                                            const average = targets[target].count > 0 ? targets[target].sum / targets[target].count : 0;
+                                            await $("#averages").append(`
+                                                <div id="${target.toLocaleLowerCase()}" class="bg-blue-700 py-10 rounded flex flex-col justify-center items-center gap-5">
+                                                    <span class="font-black text-2xl">${Math.round(average)}%</span>
+                                                    <h2 class="font-bold text-1xl">${target}</h2>
+                                                </div>
+                                            `)
+                                        });
+                                            
+                                    }
+                                });
+                            }
+                        })
+                    }
+                })
+
+                $("#overlays").empty();
+
                 break;
             case "announcements":
                 $("#overlays").append(`
@@ -454,8 +641,8 @@
                                     </span>
                                 </a>
                                 <span class="font-black text-[20px]">Announcements</span>
-                                <a id="reload" class="cursor-pointer flex justify-center items-center">
-                                    <span class="font-black material-symbols-rounded">
+                                <a class="cursor-pointer flex justify-center items-center">
+                                    <span id="reload"  class="font-black material-symbols-rounded">
                                         refresh
                                     </span>
                                 </a>
@@ -472,8 +659,8 @@
                                     </span>
                                 </a>
                                 <span class="font-black text-[20px]">Announcements</span>
-                                <a id="reload" class="cursor-pointer flex justify-center items-center">
-                                    <span class="font-black material-symbols-rounded">
+                                <a class="cursor-pointer flex justify-center items-center">
+                                    <span id="reload" class="font-black material-symbols-rounded">
                                         refresh
                                     </span>
                                 </a>
@@ -518,8 +705,36 @@
                             runtime("overview");
                             break;
                         case "semiback":
+                            $("#communication").empty();
+                            await $.ajax({
+                                url: api(`/cmd/getuserannouncementlist?_token=${JSON.parse(localStorage.getItem("session")).token}&userid=${JSON.parse(localStorage.getItem("session")).user.userid}&daysactivepastend=14`),
+                                method: "GET",
+                                dataType: "json",
+                                contentType: "application/json; charset=utf-8",
+                                success: function (communications) {
+                                    communications.response.announcements.announcement.sort((a, b) => new Date(b.startdate) - new Date(a.startdate));
+                                    $.each(communications.response.announcements.announcement, function (i, communication) {
+                                        $("#communication").append(`
+                                            <div uid="${communication.entityid}" path="${communication.path}" class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
+                                                <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
+                                                    <div class="flex flex-col">
+                                                        <h1 class="text-[22px] font-bold">${communication.title}</h1>
+                                                    </div>
+                                                </div>
+                                                <div class="flex justify-center items-center pointer-events-none">
+                                                    <span class="material-symbols-rounded">
+                                                        arrow_forward_ios
+                                                    </span>
+                                                </div>
+                                                ${communication.viewed ? "" : `<div class="absolute pointer-events-none inline-flex right-0 top-0 h-4 w-4 -m-1 animate-ping duration-700 rounded-full bg-blue-700 opacity-75 justify-center items-center"></div>`}
+                                            </div>
+                                        `)
+                                    })
+                                }
+                            })
                             $("#communication").show();
                             $("#toptitle #reload, #topnav #reload").removeClass("invisible")
+                            $("#toptitle, #topnav").find("#semiback").attr("id", "back");
                             $("#current_communication").remove();
                             break;
                         case "overview":
@@ -529,7 +744,43 @@
                             runtime("settings");
                             break;
                         case "reload":
-                            break; // TODO:
+                            console.log("realoded")
+                            $("#overlays").append(`
+                                <div class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+                                    <div class="loader"><div></div><div></div><div></div><div></div></div>
+                                </div>
+                            `);
+
+                            $("#communication").empty();
+                            await $.ajax({
+                                url: api(`/cmd/getuserannouncementlist?_token=${JSON.parse(localStorage.getItem("session")).token}&userid=${JSON.parse(localStorage.getItem("session")).user.userid}&daysactivepastend=14`),
+                                method: "GET",
+                                dataType: "json",
+                                contentType: "application/json; charset=utf-8",
+                                success: function (communications) {
+                                    communications.response.announcements.announcement.sort((a, b) => new Date(b.startdate) - new Date(a.startdate));
+                                    $.each(communications.response.announcements.announcement, function (i, communication) {
+                                        $("#communication").append(`
+                                            <div uid="${communication.entityid}" path="${communication.path}" class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
+                                                <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
+                                                    <div class="flex flex-col">
+                                                        <h1 class="text-[22px] font-bold">${communication.title}</h1>
+                                                    </div>
+                                                </div>
+                                                <div class="flex justify-center items-center pointer-events-none">
+                                                    <span class="material-symbols-rounded">
+                                                        arrow_forward_ios
+                                                    </span>
+                                                </div>
+                                                ${communication.viewed ? "" : `<div class="absolute pointer-events-none inline-flex right-0 top-0 h-4 w-4 -m-1 animate-ping duration-700 rounded-full bg-blue-700 opacity-75 justify-center items-center"></div>`}
+                                            </div>
+                                        `)
+                                    })
+                                }
+                            })
+
+                            $("#overlays").empty();
+                            break;
                     }
 
                     if ($(event.target).attr("uid") != undefined) {
@@ -540,8 +791,6 @@
                         `);
 
                         $("#communication").hide();
-
-                        console.log(event.target)
                         
                         await $.ajax({
                             url: api(`/cmd/getannouncementinfo?_token=${JSON.parse(localStorage.getItem("session")).token}&packagetype=data&entityid=${JSON.parse(localStorage.getItem("session")).user.domainid}&path=${$(event.target).attr("path")}`),
@@ -549,27 +798,44 @@
                             dataType: "json",
                             contentType: "application/json; charset=utf-8",
                             success: async (comminfo) => {
-                                console.log(comminfo)
                                 await $.ajax({
                                     url: api(`/cmd/getannouncement?_token=${JSON.parse(localStorage.getItem("session")).token}&packagetype=data&entityid=${JSON.parse(localStorage.getItem("session")).user.domainid}&path=${$(event.target).attr("path")}`),
                                     method: "GET",
                                     dataType: "json",
                                     contentType: "application/json; charset=utf-8",
                                     success: (commdetails) => {
-                                        console.log(commdetails)
                                         $("#toptitle #reload, #topnav #reload").addClass("invisible")
                                         $("#toptitle, #topnav").find("#back").attr("id", "semiback");
                                         $("#communication").parent().append(`
                                             <div id="current_communication" class="relative flex flex-col justify-between container mx-auto bg-zinc-800 rounded-xl py-3 px-3">
                                                 <div class="flex flex-col border-b-[2px] border-zinc-700 pb-3">
                                                     <h1 class="text-[22px] font-bold">${commdetails.announcement.title}</h1>
-                                                    <span class="font-bold text-[15px] text-zinc-400">Written ${(new Date(comminfo.response.announcement.startdate).getMonth() + 1) + '/' + (new Date(comminfo.response.announcement.startdate).getDate()) + '/' + (new Date(comminfo.response.announcement.startdate).getFullYear() % 100)}</span>
+                                                    <span class="font-bold text-[15px] text-zinc-400">Written ${new Date(commdetails.announcement.startdate).toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' })} by ${comminfo.response.announcement.creator.firstname} ${comminfo.response.announcement.creator.lastname}</span>
                                                 </div>
                                                 <div class="flex flex-col pt-3">
-                                                    ${commdetails.announcement.body.$xml.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').replace(/style\s*=\s*["'][^"']*["']/gi, '').replace(/<img/g, "<img class=\"rounded-xl\"")}
+                                                    ${commdetails.announcement.body.$xml.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').replace(/style\s*=\s*["'][^"']*["']/gi, '').replace(/<img/g, "<img class=\"rounded-xl\"").replace("href", "goto").replace(/<a/g, `<a class="text-blue-700 hover:text-blue-600 cursor-pointer transition"`)}
                                                 </div>
                                             </div>
                                         `)
+
+                                        $("[goto]").on("click", function (event) {
+                                            window.open($(this).attr("goto"), "_blank")
+                                        })
+
+                                        // They viewed so get rid of the viewed state
+                                        $.ajax({
+                                            url: api(`/cmd/updateannouncementviewed?_token=${JSON.parse(localStorage.getItem("session")).token}`),
+                                            method: "POST",
+                                            dataType: "json",
+                                            contentType: "application/json; charset=utf-8",
+                                            data: JSON.stringify({"requests": {
+                                                announcement: [{
+                                                    entityid: comminfo.response.announcement.entityid,
+                                                    path: comminfo.response.announcement.path,
+                                                    viewed: true
+                                                }]
+                                            }})
+                                        })
                                     }
                                 })
                             }
@@ -600,13 +866,13 @@
                     dataType: "json",
                     contentType: "application/json; charset=utf-8",
                     success: function (communications) {
-                        $.each(communications.response.announcements.announcement, function (communication) {
+                        communications.response.announcements.announcement.sort((a, b) => new Date(b.startdate) - new Date(a.startdate));
+                        $.each(communications.response.announcements.announcement, function (i, communication) {
                             $("#communication").append(`
-                                <div uid="${this.entityid}" path="${this.path}" class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
+                                <div uid="${communication.entityid}" path="${communication.path}" class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
                                     <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
                                         <div class="flex flex-col">
-                                            <h1 class="text-[22px] font-bold">${this.title}</h1>
-                                            <span class="font-bold text-[15px] text-zinc-400">Written ${(new Date(this.startdate).getMonth() + 1) + '/' + (new Date(this.startdate).getDate()) + '/' + (new Date(this.startdate).getFullYear() % 100)}</span>
+                                            <h1 class="text-[22px] font-bold">${communication.title}</h1>
                                         </div>
                                     </div>
                                     <div class="flex justify-center items-center pointer-events-none">
@@ -614,6 +880,7 @@
                                             arrow_forward_ios
                                         </span>
                                     </div>
+                                    ${communication.viewed ? "" : `<div class="absolute pointer-events-none inline-flex right-0 top-0 h-4 w-4 -m-1 animate-ping duration-700 rounded-full bg-blue-700 opacity-75 justify-center items-center"></div>`}
                                 </div>
                             `)
                         })
