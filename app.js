@@ -52,6 +52,8 @@
         localStorage.setItem("ul", ul);
         $("#root").attr("ul", ul);
 
+        $("head meta[name=\"theme-color\"]").remove();
+
         // bases
         $("#overlays").empty();
         $("*").off() // reset events
@@ -59,6 +61,10 @@
         // Switch between each page
         switch (ul) {
             case "login":
+                $("head").append(`
+                    <meta name="theme-color" content="#18181b">
+                `)
+
                 let remembered_details = "", hide_inputs = "";
                 if (localStorage.getItem("remembered") != undefined) {
                     remembered_details = `
