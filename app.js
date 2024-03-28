@@ -1184,7 +1184,7 @@
                             runtime("overview");
                             break;
                         case "install":
-                            navigator.serviceWorker.register('service-worker.js');
+                            navigator.serviceWorker.register('/proview/service-worker.js');
                             break;
                         case "change_name":
                             $("#overlays").append(`
