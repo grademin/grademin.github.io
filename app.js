@@ -438,12 +438,14 @@
                             if (!communication.viewed)
                                 counted++
                         })
-
-                        $("#announcements").append(`
-                            <div class="absolute inline-flex right-0 top-0 h-8 w-8 -m-2 rounded-full bg-blue-700 opacity-75 justify-center items-center">
-                                <span>${counted}</span>
-                            </div> 
-                        `)
+                        
+                        if (counted != 0) {
+                            $("#announcements").append(`
+                                <div class="absolute inline-flex right-0 top-0 h-8 w-8 -m-2 rounded-full bg-blue-700 opacity-75 justify-center items-center">
+                                    <span>${counted}</span>
+                                </div> 
+                            `)
+                        }
                     }
                 })
 
@@ -706,6 +708,7 @@
                             break;
                         case "semiback":
                             $("#communication").empty();
+
                             await $.ajax({
                                 url: api(`/cmd/getuserannouncementlist?_token=${JSON.parse(localStorage.getItem("session")).token}&userid=${JSON.parse(localStorage.getItem("session")).user.userid}&daysactivepastend=14`),
                                 method: "GET",
@@ -713,6 +716,7 @@
                                 contentType: "application/json; charset=utf-8",
                                 success: function (communications) {
                                     communications.response.announcements.announcement.sort((a, b) => new Date(b.startdate) - new Date(a.startdate));
+                                    $("#communication").empty(); // tuff
                                     $.each(communications.response.announcements.announcement, function (i, communication) {
                                         $("#communication").append(`
                                             <div uid="${communication.entityid}" path="${communication.path}" class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
@@ -732,6 +736,7 @@
                                     })
                                 }
                             })
+                            
                             $("#communication").show();
                             $("#toptitle #reload, #topnav #reload").removeClass("invisible")
                             $("#toptitle, #topnav").find("#semiback").attr("id", "back");
@@ -929,11 +934,11 @@
                     <div class="flex flex-col gap-5 pt-10 mb-10 container mx-auto py-10 px-4">
                         <div class="flex flex-col justify-center items-center container mx-auto bg-zinc-800 rounded-xl py-3 px-3">
                             <div class="flex justify-between items-center">
-                                <div class="relative rounded-full border-[6px] border-blue-500 bg-blue-600 ${localStorage.getItem("profile_picture").includes("gravatar") ? "" : `bg-[url('${localStorage.getItem("profile_picture")}')] bg-cover`} h-16 w-16 flex items-center justify-center text-2xl sm:text-2xl font-bold uppercase">
+                                <div class="relative rounded-full border-[6px] border-blue-500 bg-blue-600 ${localStorage.getItem("profile_picture").includes("gravatar") ? "" : `bg-[url('${localStorage.getItem("profile_picture")}')] bg-cover`} h-20 w-20 flex items-center justify-center text-2xl sm:text-2xl font-bold uppercase">
                                     <span class="z-1">${localStorage.getItem("profile_picture").includes("gravatar") ? JSON.parse(localStorage.getItem("remembered")).firstname.charAt(0).toUpperCase() : ""}</span>
                                 </div>
                             </div>
-                            <h1 class="text-[25px] font-bold">${JSON.parse(localStorage.getItem("session")).user.fullname}</h1>
+                            <h1 class="text-[28px] font-bold">${JSON.parse(localStorage.getItem("session")).user.fullname}</h1>
                             <div class="flex flex-row w-full mt-5 gap-5">
                                 <div class="flex-1">
                                     <button id="change_name" class="w-full px-4 py-2 bg-blue-700 text-white transition font-semibold rounded-xl hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-opacity-50">Change Name</button>
@@ -1016,7 +1021,7 @@
                                         </span>
                                     </div>
                                     <div class="flex flex-col">
-                                        <h1 class="text-[20px] font-bold">Hide your email from LTI</h1>
+                                        <h1 class="text-[20px] font-bold">Hide Your Email From LTI</h1>
                                     </div>
                                 </div>
                                 <div class="flex justify-center items-center">
@@ -1036,7 +1041,7 @@
                                         </span>
                                     </div>
                                     <div class="flex flex-col">
-                                        <h1 class="text-[20px] font-bold">Hide your name from LIT</h1>
+                                        <h1 class="text-[20px] font-bold">Hide Your Name From LTI</h1>
                                     </div>
                                 </div>
                                 <div class="flex justify-center items-center">
@@ -1046,6 +1051,28 @@
                                             <div class="bg-white w-[25px] h-[25px] rounded-full shadow-md transform translate-x-0"></div>
                                         </div>
                                     </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col container mx-auto bg-zinc-800 rounded-xl py-3 px-3">
+                            <div id="install" class="flex flex-row justify-between container mx-auto cursor-pointer">
+                                <div class="flex flex-row justify-center items-center gap-4 pointer-events-none">
+                                    <div class="flex justify-center items-center bg-blue-700 px-2 py-1 rounded-2xl">
+                                        <span class="text-3xl material-symbols-rounded">
+                                            install_mobile
+                                        </span>
+                                    </div>
+                                    <div class="flex flex-col">
+                                        <h1 class="text-[20px] font-bold">Run As An App</h1>
+                                    </div>
+                                </div>
+                                <div class="flex justify-center items-center pointer-events-none">
+                                    <div class="flex justify-center items-center">
+                                        <span class="text-3xl material-symbols-rounded">
+                                            add
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1155,6 +1182,9 @@
                             break;
                         case "back":
                             runtime("overview");
+                            break;
+                        case "install":
+                            navigator.serviceWorker.register('service-worker.js');
                             break;
                         case "change_name":
                             $("#overlays").append(`
