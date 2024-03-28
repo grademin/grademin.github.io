@@ -47,14 +47,21 @@
 
     await runtime(localStorage.getItem("ul"));
 
+    $(window).on("popstate", function (event) {
+        runtime(window.location.href.split("?page=")[1])
+    });
+
     /**
      * Handles every section of Proview.
      */
     async function runtime(ul) {
         document.title = `${ul.charAt(0).toUpperCase() + ul.slice(1)}`;
 
-        localStorage.setItem("ul", ul);
-        $("#root").attr("ul", ul);
+        localStorage.setItem("ul", window.location.href.split("?page=")[1]);
+        $("#root").attr("ul", ul);    
+        
+        // Push as if we went to a page
+        history.pushState({ page: ul }, ul.charAt(0).toUpperCase() + ul.slice(1), `?page=${ul}`);
 
         $(`meta[name="theme-color"]`).remove();
 
