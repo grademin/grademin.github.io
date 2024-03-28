@@ -24,6 +24,10 @@
     }
 
 
+    $(window).on("load", function () {
+        navigator.serviceWorker.register('service-worker.js');
+    })
+
     // inital
 
 
@@ -1068,28 +1072,6 @@
                         </div>
 
                         <div class="flex flex-col container mx-auto bg-zinc-800 rounded-xl py-3 px-3">
-                            <div id="install" class="flex flex-row justify-between container mx-auto cursor-pointer">
-                                <div class="flex flex-row justify-center items-center gap-4 pointer-events-none">
-                                    <div class="flex justify-center items-center bg-blue-700 px-2 py-1 rounded-2xl">
-                                        <span class="text-3xl material-symbols-rounded">
-                                            install_mobile
-                                        </span>
-                                    </div>
-                                    <div class="flex flex-col">
-                                        <h1 class="text-[20px] font-bold">Run As An App</h1>
-                                    </div>
-                                </div>
-                                <div class="flex justify-center items-center pointer-events-none">
-                                    <div class="flex justify-center items-center">
-                                        <span class="text-3xl material-symbols-rounded">
-                                            add
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="flex flex-col container mx-auto bg-zinc-800 rounded-xl py-3 px-3">
                             <div id="echo_plus" goto="https://github.com/wo-r-professional/echo-plus" class="flex flex-row justify-between container mx-auto cursor-pointer border-b-[2px] border-zinc-700 pb-3">
                                 <div class="flex flex-row justify-center items-center gap-4 ">
                                     <div class="flex justify-center items-center bg-blue-700 px-2 py-1 rounded-2xl">
@@ -1194,9 +1176,6 @@
                             break;
                         case "back":
                             runtime("overview");
-                            break;
-                        case "install":
-                            navigator.serviceWorker.register('service-worker.js');
                             break;
                         case "change_name":
                             $("#overlays").append(`
