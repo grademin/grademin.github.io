@@ -47,9 +47,10 @@
 
     await runtime(localStorage.getItem("ul"));
 
-    $(window).on("popstate", function (event) {
-        runtime(window.location.href.split("?page=")[1])
-    });
+    // TODO:
+    /*$(window).on("popstate", function () {
+        runtime(new URLSearchParams(window.location.search).get("prev"))
+    })*/
 
     /**
      * Handles every section of Proview.
@@ -57,11 +58,22 @@
     async function runtime(ul) {
         document.title = `${ul.charAt(0).toUpperCase() + ul.slice(1)}`;
 
-        localStorage.setItem("ul", window.location.href.split("?page=")[1]);
-        $("#root").attr("ul", ul);    
-        
+
+        localStorage.setItem("ul", ul);
+        $("#root").attr("ul", ul);  
+                
+        // TODO:
         // Push as if we went to a page
-        history.pushState({ page: ul }, ul.charAt(0).toUpperCase() + ul.slice(1), `?page=${ul}`);
+        /*let search = "";
+        new URLSearchParams(window.location.search).forEach(function (key, param) {
+            if (param == "page") {
+            }
+            else
+                search += `&${param}=${key}`
+        })
+
+        history.pushState({}, ul.charAt(0).toUpperCase() + ul.slice(1), `?page=${ul}&prev=${lastul}${search}`);*/
+
 
         $(`meta[name="theme-color"]`).remove();
 
@@ -732,6 +744,8 @@
                         case "semiback":
                             $("#communication").empty();
 
+                            history.pushState({}, ul.charAt(0).toUpperCase() + ul.slice(1), `?page=${ul}`);
+                            
                             await $.ajax({
                                 url: api(`/cmd/getuserannouncementlist?_token=${JSON.parse(localStorage.getItem("session")).token}&userid=${JSON.parse(localStorage.getItem("session")).user.userid}&daysactivepastend=14`),
                                 method: "GET",
@@ -772,7 +786,6 @@
                             runtime("settings");
                             break;
                         case "reload":
-                            console.log("realoded")
                             $("#overlays").append(`
                                 <div class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
                                     <div class="loader"><div></div><div></div><div></div><div></div></div>
@@ -819,6 +832,8 @@
                         `);
 
                         $("#communication").hide();
+
+                        //history.pushState({ page: ul }, ul.charAt(0).toUpperCase() + ul.slice(1), `?page=${ul}&uid=${$(event.target).attr("uid")}&path=${$(event.target).attr("path")}`);
                         
                         await $.ajax({
                             url: api(`/cmd/getannouncementinfo?_token=${JSON.parse(localStorage.getItem("session")).token}&packagetype=data&entityid=${JSON.parse(localStorage.getItem("session")).user.domainid}&path=${$(event.target).attr("path")}`),
@@ -888,32 +903,92 @@
                     }
                 });
 
-                await $.ajax({
-                    url: api(`/cmd/getuserannouncementlist?_token=${JSON.parse(localStorage.getItem("session")).token}&userid=${JSON.parse(localStorage.getItem("session")).user.userid}&daysactivepastend=14`),
-                    method: "GET",
-                    dataType: "json",
-                    contentType: "application/json; charset=utf-8",
-                    success: function (communications) {
-                        communications.response.announcements.announcement.sort((a, b) => new Date(b.startdate) - new Date(a.startdate));
-                        $.each(communications.response.announcements.announcement, function (i, communication) {
-                            $("#communication").append(`
-                                <div uid="${communication.entityid}" path="${communication.path}" class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
-                                    <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
-                                        <div class="flex flex-col">
-                                            <h1 class="text-[22px] font-bold">${communication.title}</h1>
+                if (new URLSearchParams(window.location.search).get("path") != null) {
+                    $("#overlays").append(`
+                        <div class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+                            <div class="loader"><div></div><div></div><div></div><div></div></div>
+                        </div>
+                    `);
+
+                    $("#communication").hide();
+                    await $.ajax({
+                        url: api(`/cmd/getannouncementinfo?_token=${JSON.parse(localStorage.getItem("session")).token}&packagetype=data&entityid=${JSON.parse(localStorage.getItem("session")).user.domainid}&path=${new URLSearchParams(window.location.search).get("path")}`),
+                        method: "GET",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        success: async (comminfo) => {
+                            await $.ajax({
+                                url: api(`/cmd/getannouncement?_token=${JSON.parse(localStorage.getItem("session")).token}&packagetype=data&entityid=${JSON.parse(localStorage.getItem("session")).user.domainid}&path=${new URLSearchParams(window.location.search).get("path")}`),
+                                method: "GET",
+                                dataType: "json",
+                                contentType: "application/json; charset=utf-8",
+                                success: (commdetails) => {
+                                    $("#toptitle #reload, #topnav #reload").addClass("invisible")
+                                    $("#toptitle, #topnav").find("#back").attr("id", "semiback");
+                                    $("#communication").parent().append(`
+                                        <div id="current_communication" class="relative flex flex-col justify-between container mx-auto bg-zinc-800 rounded-xl py-3 px-3">
+                                            <div class="flex flex-col border-b-[2px] border-zinc-700 pb-3">
+                                                <h1 class="text-[22px] font-bold">${commdetails.announcement.title}</h1>
+                                                <span class="font-bold text-[15px] text-zinc-400">Written ${new Date(commdetails.announcement.startdate).toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' })} by ${comminfo.response.announcement.creator.firstname} ${comminfo.response.announcement.creator.lastname}</span>
+                                            </div>
+                                            <div class="flex flex-col pt-3">
+                                                ${commdetails.announcement.body.$xml.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').replace(/style\s*=\s*["'][^"']*["']/gi, '').replace(/<img/g, "<img class=\"rounded-xl\"").replace("href", "goto").replace(/<a/g, `<a class="text-blue-700 hover:text-blue-600 cursor-pointer transition"`)}
+                                            </div>
                                         </div>
+                                    `)
+
+                                    $("[goto]").on("click", function (event) {
+                                        window.open($(this).attr("goto"), "_blank")
+                                    })
+
+                                    // They viewed so get rid of the viewed state
+                                    $.ajax({
+                                        url: api(`/cmd/updateannouncementviewed?_token=${JSON.parse(localStorage.getItem("session")).token}`),
+                                        method: "POST",
+                                        dataType: "json",
+                                        contentType: "application/json; charset=utf-8",
+                                        data: JSON.stringify({"requests": {
+                                            announcement: [{
+                                                entityid: comminfo.response.announcement.entityid,
+                                                path: comminfo.response.announcement.path,
+                                                viewed: true
+                                            }]
+                                        }})
+                                    })
+                                }
+                            })
+                        }
+                    })
+
+                    $("#overlays").empty();
+                } else {
+                    await $.ajax({
+                        url: api(`/cmd/getuserannouncementlist?_token=${JSON.parse(localStorage.getItem("session")).token}&userid=${JSON.parse(localStorage.getItem("session")).user.userid}&daysactivepastend=14`),
+                        method: "GET",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        success: function (communications) {
+                            communications.response.announcements.announcement.sort((a, b) => new Date(b.startdate) - new Date(a.startdate));
+                            $.each(communications.response.announcements.announcement, function (i, communication) {
+                                $("#communication").append(`
+                                    <div uid="${communication.entityid}" path="${communication.path}" class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
+                                        <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
+                                            <div class="flex flex-col">
+                                                <h1 class="text-[22px] font-bold">${communication.title}</h1>
+                                            </div>
+                                        </div>
+                                        <div class="flex justify-center items-center pointer-events-none">
+                                            <span class="material-symbols-rounded">
+                                                arrow_forward_ios
+                                            </span>
+                                        </div>
+                                        ${communication.viewed ? "" : `<div class="absolute pointer-events-none inline-flex right-0 top-0 h-4 w-4 -m-1 animate-ping duration-700 rounded-full bg-blue-700 opacity-75 justify-center items-center"></div>`}
                                     </div>
-                                    <div class="flex justify-center items-center pointer-events-none">
-                                        <span class="material-symbols-rounded">
-                                            arrow_forward_ios
-                                        </span>
-                                    </div>
-                                    ${communication.viewed ? "" : `<div class="absolute pointer-events-none inline-flex right-0 top-0 h-4 w-4 -m-1 animate-ping duration-700 rounded-full bg-blue-700 opacity-75 justify-center items-center"></div>`}
-                                </div>
-                            `)
-                        })
-                    }
-                })
+                                `)
+                            })
+                        }
+                    })
+                }
 
                 $("#overlays").empty();
 
