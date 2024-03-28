@@ -1,10 +1,10 @@
-import * as sw from "/src/service-worker.js";
+import * as sw from "/src/service.js";
 
 
 (async function () {
     "use strict";
 
-    sw.execute_worker();
+    sw.register("src/service.js");
 
 
 })();
