@@ -52,7 +52,10 @@
         localStorage.setItem("ul", ul);
         $("#root").attr("ul", ul);
 
-        $("head meta[name=\"theme-color\"]").remove();
+        $("head meta[content=\"#18181b\"]").remove();
+        $("head").append(`
+            <meta name="theme-color" content="#1d4ed8">
+        `)
 
         // bases
         $("#overlays").empty();
@@ -61,6 +64,7 @@
         // Switch between each page
         switch (ul) {
             case "login":
+                $("head meta[content=\"#1d4ed8\"]").remove();
                 $("head").append(`
                     <meta name="theme-color" content="#18181b">
                 `)
