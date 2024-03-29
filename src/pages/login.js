@@ -3,7 +3,7 @@ export async function run() {
           site = await import("../site.js");
 
     let remembered = "", hide = "";
-    if (hlp.get("remembered") != undefined) {
+    if (hlp.get("remembered") == undefined) {
         hide = "hidden";
         remembered = `
         <div class="mb-5 block w-full px-5 py-4 border-4 border-blue-700 rounded-xl shadow-sm focus:outline-none sm:text-sm">
@@ -62,10 +62,12 @@ export async function run() {
                 // Clense affected elements
                 $("#district, #username, #password").removeClass("shake").removeClass("border-red-300");
 
-                let district = hlp.get("remembered") == undefined ? $("#district").val() : hlp.get("remembered").userspace;
+                let district = hlp.get("remembered") == "" ? $("#district").val() : hlp.get("remembered").userspace;
                 if (district.includes("//"))
                     district = district.replace(/^https?:\/\//, "").split(".")[0];
 
+                    console.log(district)
+                
                 await $.ajax({
                     url: hlp.api("/cmd"),
                     method: "POST",
@@ -74,7 +76,7 @@ export async function run() {
                     data: hlp.string({"request": {
                         cmd: "login3",
                         expireseconds: "-999",
-                        username: `${district}/${hlp.get("remembered") == undefined ? $("#username").val() : hlp.get("remembered").username}`,
+                        username: `${district}/${hlp.get("remembered") == "" ? $("#username").val() : hlp.get("remembered").username}`,
                         password: $("#password").val()
                     }}),
                     success: async (login3) => {
@@ -110,6 +112,9 @@ export async function run() {
                                                 }
 
                                                 clearInterval(check);
+
+                                                if (hlp.get("pfp", false) != "")
+                                                    site.runtime("overview");
                                             })
                                         }
                                     });
@@ -117,8 +122,6 @@ export async function run() {
                                 else
                                     hlp.set("pfp", "gravatar", false)
                             })
-
-                            site.runtime("overview");
                         }
                     }
                 });

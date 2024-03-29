@@ -2,7 +2,7 @@ export async function runtime(page) {
     const hlp = await import("/proview/src/helpers.js");
 
     document.title = page.charAt(0).toUpperCase() + page.slice(1);
-    
+
     let params = "";
     new URLSearchParams(window.location.search).forEach(function (key, param) {
         if (param != "page")
@@ -11,6 +11,7 @@ export async function runtime(page) {
 
     history.pushState({page: page}, page.charAt(0).toUpperCase() + page.slice(1), `?page=${page}${params}`);
     hlp.set("page", new URLSearchParams(window.location.search).get("page"), false);
+    
 
 
     // Clense affected elements

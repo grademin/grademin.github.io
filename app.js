@@ -11,14 +11,17 @@
 
     sw.register("src/service.js");
 
-    if (hlp.get("page", false) == undefined && hlp.session.exists)
+    if (hlp.get("page", false) == "" && hlp.session.exists)
         hlp.set("page", "overview", false);
 
-    if (hlp.get("page", false) == undefined || (hlp.get("page", false) != undefined && !hlp.session.exists))
+    if (hlp.get("page", false) == "" || (hlp.get("page", false) != "" && !hlp.session.exists))
         hlp.set("page", "login", false);
     
-    if (hlp.get("settings") == undefined)
-        hlp.set("settings", hlp.string([]));
+    if (hlp.get("settings") == "")
+        hlp.set("settings", []);
+
+    if (hlp.get("history") == "")
+        hlp.set("history", [])
 
 
     ////////////////////////////////////////////////////////////
