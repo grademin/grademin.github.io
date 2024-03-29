@@ -1,5 +1,5 @@
 export async function runtime(page) {
-    const hlp = await import("/src/helpers.js");
+    const hlp = await import("/proview/src/helpers.js");
 
     document.title = page.charAt(0).toUpperCase() + page.slice(1);
     
@@ -92,17 +92,17 @@ export async function runtime(page) {
 
     switch(page) {
         case "login": {
-            const login = await import("/src/pages/login.js");
+            const login = await import("/proview/src/pages/login.js");
             login.run()
             break;
         }
         case "overview": {
-            const overview = await import("/src/pages/overview.js");
+            const overview = await import("/proview/src/pages/overview.js");
             overview.run();
             break;
         }
         case "settings": {
-            const settings = await import("/src/pages/settings.js");
+            const settings = await import("/proview/src/pages/settings.js");
             settings.run();
             break;
         }

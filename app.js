@@ -5,9 +5,9 @@
     "use strict";
 
 
-    const sw = await import("/src/service.js"),
-          hlp = await import("/src/helpers.js"),
-          site = await import("/src/site.js");
+    const sw = await import("/proview/src/service.js"),
+          hlp = await import("/proview/src/helpers.js"),
+          site = await import("/proview/src/site.js");
 
     sw.register("src/service.js");
 
