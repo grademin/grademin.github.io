@@ -6,7 +6,7 @@ export async function run() {
     if (hlp.get("remembered") != undefined) {
         hide = "hidden";
         remembered = `
-        <div class="mt-1 mb-5 block w-full px-5 py-4 border-4 border-blue-700 rounded-xl shadow-sm focus:outline-none sm:text-sm">
+        <div class="mb-5 block w-full px-5 py-4 border-4 border-blue-700 rounded-xl shadow-sm focus:outline-none sm:text-sm">
             <div class="flex flex-row gap-5 items-center">
                 <div class="flex justify-between items-center">
                     <div class="rounded-full border-[6px] border-blue-500 bg-blue-600 ${hlp.get("pfp", false).includes("gravatar") ? "" : `bg-[url('${hlp.get("pfp", false)}')] bg-cover`} h-16 w-16 flex items-center justify-center text-2xl sm:text-2xl font-bold uppercase">
@@ -30,10 +30,10 @@ export async function run() {
         <div class="relative h-[75svh] h-[75vh] flex justify-center">
             <div class="pt-20 rounded-lg container mx-auto px-4">
                 <div class="flex flex-col mb-10">
-                    <h2 class="text-7xl tracking-tight leading-wider font-black text-blue-700">Proview</h2>
+                    <h2 class="text-7xl -m-1 tracking-tight leading-wider font-black text-blue-700">Proview</h2>
                     <span class="text-2xl tracking-wide font-bold">Log In</span>
                 </div>
-                <form class="mt-16 flex flex-col justify-between h-full">
+                <form class="flex flex-col justify-between h-[65vh] h-[65svh]">
                     <div>
                         ${remembered}
                         <div class="flex mb-4 space-x-2 ${hide}">
@@ -49,7 +49,7 @@ export async function run() {
                         </div>
                     </div>
                     <div class="container mx-auto">
-                        <button type="submit" class="w-full px-4 py-2 bg-blue-700 transition text-white font-semibold rounded-xl hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Log in</button>
+                        <button type="submit" class="w-full px-4 py-3 bg-blue-700 transition text-white font-semibold rounded-xl hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Log in</button>
                     </div>        
                 </form>
             </div>
@@ -97,11 +97,11 @@ export async function run() {
                             hlp.set("session", login3.response);
                             
                             // Get users profile picture (if none is found then we set this as "")
-                            let check = setInterval(function () {
+                            let check = setInterval(async function () {
                                 if (hlp.session.exists) {
-                                    hlp.image_valid(hlp.api(`/cmd/getprofilepicture?_token=${hlp.session.token}&entityid=${hlp.session.id}`), function (url, valid) {
+                                    await hlp.image_valid(hlp.api(`/cmd/getprofilepicture?_token=${hlp.session.token}&entityid=${hlp.session.id}`), async function (url, valid) {
                                         if (valid) {
-                                            hlp.url_redirects(url, function (newUrl, redirected) {
+                                            await hlp.url_redirects(url, async function (newUrl, redirected) {
                                                 if (redirected) {
                                                     hlp.set("pfp", newUrl, false)
                                                 } else {
@@ -110,7 +110,6 @@ export async function run() {
                                                 }
 
                                                 clearInterval(check);
-                                                site.runtime("overview");
                                             })
                                         }
                                     });
@@ -118,6 +117,8 @@ export async function run() {
                                 else
                                     hlp.set("pfp", "gravatar", false)
                             })
+
+                            site.runtime("overview");
                         }
                     }
                 });

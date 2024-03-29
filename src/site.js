@@ -9,8 +9,9 @@ export async function runtime(page) {
             params += `&${param}=${key}`
     })
 
-    history.pushState({}, page.charAt(0).toUpperCase() + page.slice(1), `?page=${page}${params}`);
+    history.pushState({page: page}, page.charAt(0).toUpperCase() + page.slice(1), `?page=${page}${params}`);
     hlp.set("page", new URLSearchParams(window.location.search).get("page"), false);
+
 
     // Clense affected elements
     $("#overlays").empty();
@@ -87,6 +88,7 @@ export async function runtime(page) {
         </style>
     `)
 
+    
     ////////////////////////////////////////////////////////////
 
 

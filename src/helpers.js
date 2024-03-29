@@ -15,7 +15,10 @@ export const api = (path) => {
  * @param {boolean} parse
  */
 export function get(name, parse = true) {
-    return parse ? JSON.parse(localStorage.getItem(name)) : localStorage.getItem(name);
+    if (localStorage.getItem(name) != undefined)
+        return parse ? JSON.parse(localStorage.getItem(name)) : localStorage.getItem(name);
+    else
+        return "";
 };
 
 /**
@@ -57,10 +60,10 @@ export function string(data) {
  * @param {string} url
  * @param {function} callback
  */
-export function image_valid(url, callback) {
+export async function image_valid(url, callback) {
     let image = new Image();
-    image.onload = () => {callback(url, true)};
-    image.onerror = () => {callback(url, false)};
+    image.onload = async () => {await callback(url, true)};
+    image.onerror = async () => {await callback(url, false)};
     image.src = url;
 };
 
@@ -71,8 +74,8 @@ export function image_valid(url, callback) {
  * @param {string} url
  * @param {function} callback
  */
-export function url_redirects(url, callback) {
-    fetch(url, {
+export async function url_redirects(url, callback) {
+    await fetch(url, {
         method: "get",
         redirect: "follow", // This instructs fetch to follow redirects
     })
@@ -121,20 +124,33 @@ export async function load(main) {
  * @returns {void}
  */
 export async function animate_nav() {
-    if ($(window).scrollTop() > $("#toptitle").offset().top + $("#toptitle").outerHeight() - 50 || $(window).scrollTop() < $("#toptitle").offset().top - $(window).height()) {
-        $("#topnav").fadeIn(0);
-    } else {
-        $("#topnav").fadeOut(0);
-    }
-    
-    // Manages when we scroll
-    $(window).scroll(function() {
-        if ($(this).scrollTop() > $("#toptitle").offset().top + $("#toptitle").outerHeight() - 50 || $(this).scrollTop() < $("#toptitle").offset().top - $(window).height()) {
-            $("#topnav").fadeIn(50);
+    try {
+        if ($(window).scrollTop() > $("#top").offset().top + $("#top").outerHeight() - 40 || $(window).scrollTop() < $("#top").offset().top - $(window).height()) {
+            $("#top #scrolled-title").fadeIn(0);
         } else {
-            $("#topnav").fadeOut(100);
+            $("#top #scrolled-title").fadeOut(0);
         }
-    });
+        
+        // Manages when we scroll
+        let in_load = false;
+        $(window).scroll(function() {
+            if (!in_load) {
+                if ($(this).scrollTop() > $("#top").offset().top + $("#top").outerHeight() - 40 || $(this).scrollTop() < $("#top").offset().top - $(window).height()) {
+                    in_load = true;
+                    $("#top #scrolled-title").fadeIn(50, () => {
+                        in_load = false;
+                    });
+                    $("#top #scrolled-title").parent().addClass("shadow shadow-black")
+                } else {
+                    in_load = true;
+                    $("#top #scrolled-title").fadeOut(100, () => {
+                        in_load = false;
+                    });
+                    $("#top #scrolled-title").parent().removeClass("shadow shadow-black")
+                }
+            }
+        });
+    } catch (e) {}
 }
 
 /**

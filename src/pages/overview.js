@@ -4,18 +4,18 @@ export async function run() {
 
     hlp.load(async function () {
         await $("#root").html(`
-            <div id="topnav" class="fixed top-0 left-0 right-0 hidden z-50">
-                <div class="flex flex-row py-2 px-4 bg-blue-700">
-                    <div class="flex justify-center items-center container mx-auto px-4">
-                        <span class="font-black text-[20px]">Overview</span>
+            <div id="top" class="bg-blue-700">
+                <div class="fixed left-0 right-0 top-0 z-20 h-[46px] flex flex-row py-2 px-4 bg-blue-700">
+                    <div id="scrolled-title" class="flex justify-center items-center container mx-auto px-4">
+                        <div></div>
+                        <span class="flex-grow font-bold text-center text-[20px]">Overview</span>
+                        <div></div>
                     </div>
                 </div>
-            </div>
-            <div id="toptitle" class="bg-blue-700">
-                <div class="flex flex-row gap-10 justify-between container mx-auto py-10 px-4">
-                    <div class="flex flex-col gap-1 justify-center">
-                        <h1 class="text-5xl font-bold tracking-tight mb-0">Overview</h1>
-                        <div class="text-[20px] font-bold">${new Date().toLocaleString("default", { month: "long" })} ${new Date().getDate()}, ${new Date().getFullYear()}</div>    
+                <div class="flex flex-row gap-10 justify-between container mx-auto pt-16 pb-5 px-4">
+                    <div class="flex flex-col justify-center">
+                        <h1 class="text-5xl font-bold pb-0 -m-[2px] mb-0">Overview</h1>
+                        <div class="text-[18px] font-semibold">${new Date().toLocaleString("default", { month: "long" })} ${new Date().getDate()}, ${new Date().getFullYear()}</div>    
                     </div>
                     <div class="flex justify-between items-end cursor-pointer">
                         <div id="settings" class="rounded-full transition bg-blue-600 ${hlp.get("pfp", false).includes("gravatar") ? "" : `bg-[url('${hlp.get("pfp", false)}')] bg-cover`} border-[6px] hover:border-blue-400 active:border-blue-600 border-blue-500 h-[4.5rem] w-[4.5rem] flex items-center justify-center text-2xl font-bold uppercase">
@@ -26,7 +26,7 @@ export async function run() {
             </div>
             <!---->
             <!---->
-            <div class="flex flex-col gap-5 pt-10 mb-10 container mx-auto py-10 px-4">
+            <div class="flex flex-col gap-5 pt-[1.2rem] mb-[2rem] container mx-auto py-10 px-4">
                 <div id="what_is_this" class="flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-5 px-3 border-4 border-blue-700">
                     <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
                         <div class="flex justify-center items-center bg-blue-700 px-4 py-3 rounded-2xl">
@@ -48,7 +48,7 @@ export async function run() {
                 <div id="courses" class="relative relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
                     <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
                         <div class="flex justify-center items-center bg-blue-700 px-4 py-3 rounded-2xl">
-                            <span class="text-3xl material-symbols-rounded">
+                            <span class="text-3xl material-symbols-rounded flex justify-center">
                                 assignment
                             </span>
                         </div>
@@ -66,7 +66,7 @@ export async function run() {
                 <div id="averages" class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
                     <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
                         <div class="flex justify-center items-center bg-blue-700 px-4 py-3 rounded-2xl">
-                            <span class="text-3xl material-symbols-rounded">
+                            <span class="text-3xl material-symbols-rounded flex justify-center">
                                 show_chart
                             </span>
                         </div>
@@ -84,7 +84,7 @@ export async function run() {
                 <div id="todo" class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
                     <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
                         <div class="flex justify-center items-center bg-blue-700 px-4 py-3 rounded-2xl">
-                            <span class="text-3xl material-symbols-rounded">
+                            <span class="text-3xl material-symbols-rounded flex justify-center">
                                 task
                             </span>
                         </div>
@@ -102,7 +102,7 @@ export async function run() {
                 <div id="stream" class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
                     <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
                         <div class="flex justify-center items-center bg-blue-700 px-4 py-3 rounded-2xl">
-                            <span class="text-3xl material-symbols-rounded">
+                            <span class="text-3xl material-symbols-rounded flex justify-center">
                                 group
                             </span>
                         </div>
@@ -120,7 +120,7 @@ export async function run() {
                 <div id="announcements" class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
                     <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
                         <div class="flex justify-center items-center bg-blue-700 px-4 py-3 rounded-2xl">
-                            <span class="text-3xl material-symbols-rounded">
+                            <span class="text-3xl mt-1 material-symbols-rounded flex justify-center">
                                 feedback
                             </span>
                         </div>
@@ -138,7 +138,7 @@ export async function run() {
                 <div id="email" class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
                     <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
                         <div class="flex justify-center items-center bg-blue-700 px-4 py-3 rounded-2xl">
-                            <span class="text-3xl material-symbols-rounded">
+                            <span class="text-3xl material-symbols-rounded flex justify-center">
                                 alternate_email
                             </span>
                         </div>
@@ -156,26 +156,26 @@ export async function run() {
             </div>
             <!---->
             <!---->
-            <div id="bottomnav" class="fixed bottom-0 left-0 right-0">
+            <div id="bottom" class="fixed bottom-0 left-0 right-0">
                 <div class="bg-zinc-800">
                     <div class="flex flex-row justify-between items-center">
                         <a class="cursor-pointer flex justify-center items-center py-3 w-full">
-                            <span class="font-black text-blue-700 pointer-events-none material-symbols-rounded">
+                            <span class="text-[30px] font-black text-blue-700 pointer-events-none material-symbols-rounded">
                                 home
                             </span>
                         </a>
                         <a class="cursor-pointer flex justify-center items-center py-3 w-full">
-                            <span class="material-symbols-rounded">
+                            <span class="text-[30px] material-symbols-rounded">
                                 calendar_month
                             </span>
                         </a>
                         <a class="cursor-pointer flex justify-center items-center py-3 w-full">
-                            <span class="font-black pointer-events-none material-symbols-rounded">
+                            <span class="text-[30px] font-black pointer-events-none material-symbols-rounded">
                                 description
                             </span>
                         </a>
                         <a id="settings" class="cursor-pointer flex justify-center items-center py-3 w-full">
-                            <span class="font-black pointer-events-none material-symbols-rounded">
+                            <span class="text-[30px] font-black pointer-events-none material-symbols-rounded">
                                 settings
                             </span>
                         </a>
