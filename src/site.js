@@ -108,13 +108,5 @@ export async function runtime(page) {
             settings.run();
             break;
         }
-        default: {
-            // If the page is invalid, push an invalid page!
-            $("#root").append(`
-
-                Somthing went wrong! (DEBUG)
-            
-            `)   
-        }
     }
 }
