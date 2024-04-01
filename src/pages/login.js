@@ -3,7 +3,7 @@ export async function run() {
           site = await import("../site.js");
 
     let remembered = "", hide = "";
-    if (hlp.get("remembered") == undefined) {
+    if (hlp.get("remembered") != "") {
         hide = "hidden";
         remembered = `
         <div class="mb-5 block w-full px-5 py-4 border-4 border-blue-700 rounded-xl shadow-sm focus:outline-none sm:text-sm">
@@ -33,99 +33,99 @@ export async function run() {
                     <h2 class="text-7xl -m-1 tracking-tight leading-wider font-black text-blue-700">Proview</h2>
                     <span class="text-2xl tracking-wide font-bold">Log In</span>
                 </div>
-                <form class="flex flex-col justify-between h-[65vh] h-[65svh]">
+                <div class="flex flex-col justify-between h-[65vh] h-[65svh]">
                     <div>
                         ${remembered}
                         <div class="flex mb-4 space-x-2 ${hide}">
                             <div class="flex-1">
-                                <input style="background: transparent;" placeholder="District / Website" type="text" id="district" name="userspace" class="caret-blue-700 font-bold mt-1 block w-full px-5 py-4 border border-gray-300 rounded-xl shadow-sm focus:outline-none sm:text-sm">
+                                <input style="background: transparent;" placeholder="District / Website" type="text" id="district" class="caret-blue-700 font-bold mt-1 block w-full px-5 py-4 border border-gray-300 rounded-xl shadow-sm focus:outline-none sm:text-sm">
                             </div>
                             <div class="flex-1">
-                                <input style="background: transparent;" placeholder="Username" type="text" id="username" name="username" class="caret-blue-700 font-bold mt-1 block w-full px-5 py-4 border border-gray-300 rounded-xl shadow-sm focus:outline-none sm:text-sm">
+                                <input style="background: transparent;" placeholder="Username" type="text" id="username" class="caret-blue-700 font-bold mt-1 block w-full px-5 py-4 border border-gray-300 rounded-xl shadow-sm focus:outline-none sm:text-sm">
                             </div>
                         </div>
                         <div class="mb-6">
-                            <input style="background: transparent;" placeholder="Password" type="password" id="password" name="password" class="caret-blue-700 font-bold mt-1 block w-full px-5 py-4 border border-gray-300 rounded-xl shadow-sm focus:outline-none sm:text-sm">
+                            <input style="background: transparent;" placeholder="Password" type="password" id="password" class="caret-blue-700 font-bold mt-1 block w-full px-5 py-4 border border-gray-300 rounded-xl shadow-sm focus:outline-none sm:text-sm">
                         </div>
                     </div>
                     <div class="container mx-auto">
-                        <button type="submit" class="w-full px-4 py-3 bg-blue-700 transition text-white font-semibold rounded-xl hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Log in</button>
+                        <button id="submit" class="w-full px-4 py-3 bg-blue-700 transition text-white font-semibold rounded-xl hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Log in</button>
                     </div>        
-                </form>
+                </div>
             </div>
         </div>
-    `).submit(async function (event) {
+    `).on("click", async function (event) {
         event.preventDefault();
+        
+        if ($(event.target).attr("id") == "submit") {
+            if ((($("#district").val() != "" && $("#username").val() != "" && $("#password").val() != "") && hlp.get("remembered") == undefined) || $("#password").val() != "" && hlp.get("remembered") != undefined) {
+                hlp.load(async function () {
+                    // Clense affected elements
+                    $("#district, #username, #password").removeClass("shake border-red-300");
 
-        if ((($("#district").val() != "" && $("#username").val() != "" && $("#password").val() != "") && hlp.get("remembered") == undefined) || $("#password").val() != "" && hlp.get("remembered") != undefined) {
-            hlp.load(async function () {
-                // Clense affected elements
-                $("#district, #username, #password").removeClass("shake").removeClass("border-red-300");
+                    let district = hlp.get("remembered") == "" ? $("#district").val() : hlp.get("remembered").userspace;
+                    if (district.includes("//"))
+                        district = district.replace(/^https?:\/\//, "").split(".")[0];
+                    
+                    await $.ajax({
+                        url: hlp.api("/cmd"),
+                        method: "POST",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        data: hlp.string({"request": {
+                            cmd: "login3",
+                            expireseconds: "-999",
+                            username: `${district}/${hlp.get("remembered") == "" ? $("#username").val() : hlp.get("remembered").username}`,
+                            password: $("#password").val()
+                        }}),
+                        success: async (login3) => {
+                            if (login3.response.code != "OK") {
+                                await $("#district, #username, #password").addClass("shake").addClass("border-red-300");
+                            } else {
+                                delete login3.response.code;
+                                login3.response.token = login3.response.user.token;
+                                delete login3.response.user.token;
+                                login3.response.user.fullname = `${login3.response.user.firstname.charAt(0).toUpperCase() + login3.response.user.firstname.slice(1)} ${login3.response.user.lastname.charAt(0).toUpperCase() + login3.response.user.lastname.slice(1)}`;
 
-                let district = hlp.get("remembered") == "" ? $("#district").val() : hlp.get("remembered").userspace;
-                if (district.includes("//"))
-                    district = district.replace(/^https?:\/\//, "").split(".")[0];
+                                hlp.set("remembered", {
+                                    "username": login3.response.user.username,
+                                    "userspace": login3.response.user.userspace,
+                                    "firstname": login3.response.user.firstname,
+                                    "lastname": login3.response.user.lastname,
+                                    "fullname": login3.response.user.fullname
+                                })
 
-                    console.log(district)
-                
-                await $.ajax({
-                    url: hlp.api("/cmd"),
-                    method: "POST",
-                    dataType: "json",
-                    contentType: "application/json; charset=utf-8",
-                    data: hlp.string({"request": {
-                        cmd: "login3",
-                        expireseconds: "-999",
-                        username: `${district}/${hlp.get("remembered") == "" ? $("#username").val() : hlp.get("remembered").username}`,
-                        password: $("#password").val()
-                    }}),
-                    success: async (login3) => {
-                        if (login3.response.code != "OK") {
-                            await $("#district, #username, #password").addClass("shake").addClass("border-red-300");
-                        } else {
-                            delete login3.response.code;
-                            login3.response.token = login3.response.user.token;
-                            delete login3.response.user.token;
-                            login3.response.user.fullname = `${login3.response.user.firstname.charAt(0).toUpperCase() + login3.response.user.firstname.slice(1)} ${login3.response.user.lastname.charAt(0).toUpperCase() + login3.response.user.lastname.slice(1)}`;
+                                hlp.set("session", login3.response);
+                                
+                                // Get users profile picture (if none is found then we set this as "")
+                                let check = setInterval(async function () {
+                                    if (hlp.session.exists) {
+                                        await hlp.image_valid(hlp.api(`/cmd/getprofilepicture?_token=${hlp.session.token}&entityid=${hlp.session.id}`), async function (url, valid) {
+                                            if (valid) {
+                                                await hlp.url_redirects(url, async function (newUrl, redirected) {
+                                                    if (redirected) {
+                                                        hlp.set("pfp", newUrl, false)
+                                                    } else {
+                                                        // It is a CORS blocked url, fallback to echo url
+                                                        hlp.set("pfp", newUrl, false);
+                                                    }
 
-                            hlp.set("remembered", {
-                                "username": login3.response.user.username,
-                                "userspace": login3.response.user.userspace,
-                                "firstname": login3.response.user.firstname,
-                                "lastname": login3.response.user.lastname,
-                                "fullname": login3.response.user.fullname
-                            })
+                                                    clearInterval(check);
 
-                            hlp.set("session", login3.response);
-                            
-                            // Get users profile picture (if none is found then we set this as "")
-                            let check = setInterval(async function () {
-                                if (hlp.session.exists) {
-                                    await hlp.image_valid(hlp.api(`/cmd/getprofilepicture?_token=${hlp.session.token}&entityid=${hlp.session.id}`), async function (url, valid) {
-                                        if (valid) {
-                                            await hlp.url_redirects(url, async function (newUrl, redirected) {
-                                                if (redirected) {
-                                                    hlp.set("pfp", newUrl, false)
-                                                } else {
-                                                    // It is a CORS blocked url, fallback to echo url
-                                                    hlp.set("pfp", newUrl, false);
-                                                }
-
-                                                clearInterval(check);
-
-                                                if (hlp.get("pfp", false) != "")
-                                                    site.runtime("overview");
-                                            })
-                                        }
-                                    });
-                                }
-                                else
-                                    hlp.set("pfp", "gravatar", false)
-                            })
+                                                    if (hlp.get("pfp", false) != "")
+                                                        site.runtime("overview");
+                                                })
+                                            }
+                                        });
+                                    }
+                                    else
+                                        hlp.set("pfp", "gravatar", false)
+                                })
+                            }
                         }
-                    }
+                    });
                 });
-            });
+            }
         }
     });
 };

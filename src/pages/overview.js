@@ -14,11 +14,11 @@ export async function run() {
                 </div>
                 <div class="flex flex-row gap-10 justify-between container mx-auto pt-16 pb-5 px-4">
                     <div class="flex flex-col justify-center">
-                        <h1 class="text-5xl font-bold pb-0 -m-[2px] mb-0">Overview</h1>
-                        <div class="text-[18px] font-semibold">${new Date().toLocaleString("default", { month: "long" })} ${new Date().getDate()}, ${new Date().getFullYear()}</div>    
+                        <h1 class="text-5xl sm:text-7xl font-bold pb-0 -m-[2px] mb-0">Overview</h1>
+                        <div class="text-[18px] sm:text-[22px] font-semibold">${new Date().toLocaleString("default", { month: "long" })} ${new Date().getDate()}, ${new Date().getFullYear()}</div>    
                     </div>
                     <div class="flex justify-between items-end cursor-pointer">
-                        <div id="settings" class="rounded-full transition bg-blue-600 ${hlp.get("pfp", false).includes("gravatar") ? "" : `bg-[url('${hlp.get("pfp", false)}')] bg-cover`} border-[6px] hover:border-blue-400 active:border-blue-600 border-blue-500 h-[4.5rem] w-[4.5rem] flex items-center justify-center text-2xl font-bold uppercase">
+                        <div id="settings" class="rounded-full transition bg-blue-600 ${hlp.get("pfp", false).includes("gravatar") ? "" : `bg-[url('${hlp.get("pfp", false)}')] bg-cover`} border-[6px] hover:border-blue-400 active:border-blue-600 border-blue-500 h-[4.5rem] w-[4.5rem] sm:h-[6rem] sm:w-[6rem] flex items-center justify-center text-2xl font-bold uppercase">
                             ${hlp.get("pfp", false).includes("gravatar") ? hlp.session.firstname.charAt(0).toUpperCase() : ""}
                         </div>                    
                     </div>

@@ -78,6 +78,7 @@ export async function runtime(page) {
             
             .shake {
                 animation: shake 0.5s ease-in-out;
+                animation-duration: 800ms;
             }
         </style>
         <style is="app-loader">
