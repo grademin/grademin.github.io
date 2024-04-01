@@ -41,8 +41,12 @@
 
     // If the user "attempts" to change the page url to something it is not, then stop and don't 
     // follow the url parameters.
-    if (hlp.get("page", false) == new URLSearchParams(window.location.search).get("page"))
-        await site.runtime(new URLSearchParams(window.location.search).get("page"))
+    if (!hlp.session.exists && new URLSearchParams(window.location.search).get("page") != "login") {
+        await site.runtime("login")
+    }
+    else if (hlp.session.exists && new URLSearchParams(window.location.search).get("page") == "login") {
+        await site.runtime(hlp.get("page", false));
+    }
     else
-        await site.runtime(hlp.get("page", false))
+        await site.runtime(new URLSearchParams(window.location.search).get("page"))
 })();

@@ -9,9 +9,7 @@ export async function runtime(page) {
             params += `&${param}=${key}`
     })
 
-    // Push window state to add the affect of "changing" the page, so that history back
-    // and history forward function to the users request.
-    history.pushState({page: page}, page.charAt(0).toUpperCase() + page.slice(1), `?page=${page}${params}`);
+    history.pushState({}, "", `?page=${page}${params}`);
     hlp.set("page", new URLSearchParams(window.location.search).get("page"), false);
     
     // Clense affected elements
@@ -109,6 +107,14 @@ export async function runtime(page) {
             const settings = await import("/proview/src/pages/settings.js");
             settings.run();
             break;
+        }
+        default: {
+            // If the page is invalid, push an invalid page!
+            $("#root").append(`
+
+                Somthing went wrong! (DEBUG)
+            
+            `)   
         }
     }
 }
