@@ -9,11 +9,11 @@ export async function runtime(page) {
             params += `&${param}=${key}`
     })
 
+    // Push window state to add the affect of "changing" the page, so that history back
+    // and history forward function to the users request.
     history.pushState({page: page}, page.charAt(0).toUpperCase() + page.slice(1), `?page=${page}${params}`);
     hlp.set("page", new URLSearchParams(window.location.search).get("page"), false);
     
-
-
     // Clense affected elements
     $("#overlays").empty();
     $(`meta[name="theme-color"]`).remove();

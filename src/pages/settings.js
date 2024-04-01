@@ -1,5 +1,3 @@
-import { session } from "../helpers.js";
-
 export async function run() {
     const hlp = await import("../helpers.js"),
           site = await import("../site.js");
