@@ -257,6 +257,33 @@ export async function run() {
             }
         })
 
+
+        ////////////////////////////////////////////////////////////
+        
+
+        // Announcement "viewed" count
+        await $.ajax({
+            url: hlp.api(`/cmd/getuserannouncementlist?_token=${hlp.session.token}&userid=${hlp.session.id}&daysactivepastend=14`),
+            method: "GET",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: async function (communications) {
+                let unviewed = 0;
+                await $.each(communications.response.announcements.announcement, function (i, communication) {
+                    if (!communication.viewed)
+                        unviewed++
+                })
+                
+                if (unviewed != 0) {
+                    $("#announcements").append(`
+                        <div class="absolute inline-flex right-0 top-0 h-8 w-8 -m-2 rounded-full bg-blue-700 opacity-75 justify-center items-center">
+                            <span>${unviewed}</span>
+                        </div> 
+                    `)
+                }
+            }
+        })
+
         hlp.animate_nav();
     })
 }
