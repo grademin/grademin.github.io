@@ -9,7 +9,7 @@ export async function run() {
                 <div class="fixed left-0 right-0 top-0 z-20 h-[46px] flex flex-row py-2 px-4 bg-blue-700">
                     <div class="flex justify-center items-center container mx-auto px-4">
                         <div>
-                            <span id="go-back" class="cursor-pointer font-black text-1xl material-symbols-rounded flex justify-center items-center">
+                            <span id="go-back" class="cursor-pointer w-0 mr-[25px] font-black text-1xl material-symbols-rounded flex justify-center items-center">
                                 arrow_back_ios_new
                             </span>
                         </div>
