@@ -36,7 +36,7 @@ export async function run() {
                         </div>
                         <div class="flex flex-col">
                             <h1 class="text-[22px] font-bold">What is this</h1>
-                            <span class="font-bold text-[15px] text-zinc-400">Why was this was created</span>
+                            <span class="font-bold text-[15px] text-zinc-400">Why was this created</span>
                         </div>
                     </div>
                     <div class="flex justify-center items-center">
