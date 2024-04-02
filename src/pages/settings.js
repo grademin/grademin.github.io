@@ -274,7 +274,7 @@ export async function run() {
                 ///////// CHANGE PROFILE OVERLAY
 
                 case "change-pfp": {
-                    $("#overlays").append(`
+                    await $("#overlays").append(`
                         <div id="overlay" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center animation-fadein">
                             <div class="container mx-auto px-4 flex justify-center items-center pointer-events-none animation-popin">
                                 <div class="bg-zinc-800 rounded-xl max-w-lg px-5 py-5 pointer-events-auto w-[25rem]">
@@ -315,7 +315,7 @@ export async function run() {
                 ///////// CHANGE NAME OVERLAY
 
                 case "change-name": {
-                    $("#overlays").append(`
+                    await $("#overlays").append(`
                         <div id="overlay" class="fixed z-50 overflow-hidden inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center animation-fadein">
                             <div class="container mx-auto px-4 flex justify-center items-center pointer-events-none animation-popin">
                                 <div class="bg-zinc-800 rounded-xl max-w-lg px-5 py-5 pointer-events-auto w-[25rem]">
@@ -414,7 +414,7 @@ export async function run() {
 
         let settings = hlp.get("settings");
 
-        $.each(settings, (i, setting) => {
+        await $.each(settings, (i, setting) => {
             if (setting.$value) {
                 $(`input[setting_name="${setting.setting}"]`).prop("checked", setting.$value)
                 $(`input[setting_name="${setting.setting}"]`).parent().find("label div>div").removeClass("translate-x-0").addClass("translate-x-full").parent().removeClass("bg-zinc-600").addClass("bg-blue-700");
