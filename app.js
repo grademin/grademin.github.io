@@ -9,7 +9,11 @@
           hlp = await import("/proview/src/helpers.js"),
           site = await import("/proview/src/site.js");
 
+    
+    // This will register a Service Worker for allowing the user to install
+    // the website as an app through chrome, firefox, opera, etc.
     sw.register("src/service.js");
+
 
     if (hlp.get("page", false) == "" && hlp.session.exists)
         hlp.set("page", "overview", false);
@@ -19,9 +23,6 @@
     
     if (hlp.get("settings") == "")
         hlp.set("settings", []);
-
-    if (hlp.get("history") == "")
-        hlp.set("history", [])
 
 
     ////////////////////////////////////////////////////////////

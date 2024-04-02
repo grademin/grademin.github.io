@@ -95,7 +95,8 @@ export const session = {
     get exists() {return get("session") ? true : false},
     get token() {return get("session") ? get("session").token : undefined},
     get id() {return get("session") ? get("session").user.userid : undefined},
-    get domainid() {return get("session") ? get("session").user.userspace : undefined},
+    get domainid() {return get("session") ? get("session").user.domainid : undefined},
+    get userspace() {return get("session") ? get("session").user.userspace : undefined},
     get username() {return get("session") ? get("session").user.username : undefined},
     get firstname() {return get("session") ? get("session").user.firstname : undefined},
     get lastname() {return get("session") ? get("session").user.lastname : undefined},
@@ -135,19 +136,21 @@ export async function animate_nav() {
         let in_load = false;
         $(window).scroll(function() {
             if (!in_load) {
-                if ($(this).scrollTop() > $("#top").offset().top + $("#top").outerHeight() - 40 || $(this).scrollTop() < $("#top").offset().top - $(window).height()) {
-                    in_load = true;
-                    $("#top #scrolled-title").fadeIn(50, () => {
-                        in_load = false;
-                    });
-                    $("#top #scrolled-title").parent().addClass("shadow shadow-black")
-                } else {
-                    in_load = true;
-                    $("#top #scrolled-title").fadeOut(100, () => {
-                        in_load = false;
-                    });
-                    $("#top #scrolled-title").parent().removeClass("shadow shadow-black")
-                }
+                try {
+                    if ($(this).scrollTop() > $("#top").offset().top + $("#top").outerHeight() - 40 || $(this).scrollTop() < $("#top").offset().top - $(window).height()) {
+                        in_load = true;
+                        $("#top #scrolled-title").fadeIn(50, () => {
+                            in_load = false;
+                        });
+                        $("#top #scrolled-title").parent().addClass("shadow shadow-black")
+                    } else {
+                        in_load = true;
+                        $("#top #scrolled-title").fadeOut(100, () => {
+                            in_load = false;
+                        });
+                        $("#top #scrolled-title").parent().removeClass("shadow shadow-black")
+                    }
+                } catch (e) {}
             }
         });
     } catch (e) {}

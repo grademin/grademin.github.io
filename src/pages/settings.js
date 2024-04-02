@@ -236,6 +236,9 @@ export async function run() {
             </div>
         `).on("click", async function (event) {
             switch ($(event.target).attr("id")) {
+                ////////////////////////////////////////////////////////////
+                ////////// MAIN SETTINGS
+
                 case "logout": {
                     hlp.load(async function () {
                         await $.ajax({
@@ -254,6 +257,11 @@ export async function run() {
                     })
                     break;
                 }
+
+
+                ////////////////////////////////////////////////////////////
+                ///////// BOTTOM NAVIGATION CONTROLS
+
                 case "overview": {
                     hlp.load(async function () {
                         site.runtime("overview");
@@ -263,7 +271,7 @@ export async function run() {
 
 
                 ////////////////////////////////////////////////////////////
-
+                ///////// CHANGE PROFILE OVERLAY
 
                 case "change-pfp": {
                     $("#overlays").append(`
@@ -304,8 +312,7 @@ export async function run() {
 
 
                 ////////////////////////////////////////////////////////////
-
-
+                ///////// CHANGE NAME OVERLAY
 
                 case "change-name": {
                     $("#overlays").append(`

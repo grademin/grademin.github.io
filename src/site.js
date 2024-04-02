@@ -108,5 +108,13 @@ export async function runtime(page) {
             settings.run();
             break;
         }
+        
+        ////////////////////////////////////////////////////////////
+
+        case "announcements": {
+            const announcements = await import("/proview/src/pages/main/announcements.js");
+            announcements.run();
+            break;
+        }
     }
 }

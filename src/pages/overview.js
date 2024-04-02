@@ -27,7 +27,7 @@ export async function run() {
             <!---->
             <!---->
             <div class="flex flex-col gap-5 pt-[1.2rem] mb-[2rem] container mx-auto py-10 px-4">
-                <div id="what_is_this" class="flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-5 px-3 border-4 border-blue-700">
+                <div id="what-is-this" class="flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-5 px-3 border-4 border-blue-700">
                     <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
                         <div class="flex justify-center items-center bg-blue-700 px-4 py-3 rounded-2xl">
                             <span class="text-3xl material-symbols-rounded">
@@ -184,8 +184,74 @@ export async function run() {
             </div>
         `).on("click", async function (event) {
             switch ($(event.target).attr("id")) {
+                ////////////////////////////////////////////////////////////
+                ////////// MAIN PAGES
+
+                case "courses": {
+                    
+                }
+
+                case "averages": {
+
+                }
+
+                case "todo": {
+
+                }
+
+                case "stream": {
+
+                }
+
+                case "announcements": {
+                    await site.runtime("announcements");
+                    break;
+                }
+
+                case "email": {
+
+                }
+
+
+                ////////////////////////////////////////////////////////////
+                ///////// BOTTOM NAVIGATION CONTROLS
+
                 case "settings": {
                     await site.runtime("settings");
+                    break;
+                }
+
+
+                ////////////////////////////////////////////////////////////
+                ///////// OVERLAYS
+
+                case "what-is-this": {
+                    $("#overlays").append(`
+                        <div id="overlay" class="fixed inset-0 z-50 bg-gray-900 bg-opacity-50 flex justify-center items-center animation-fadein">
+                            <div class="container mx-auto px-4 flex justify-center items-center pointer-events-none animation-popin">
+                                <div class="bg-zinc-800 rounded-xl max-w-lg px-5 py-5 pointer-events-auto">
+                                    <div class="flex justify-center items-center mb-4">
+                                        <h2 class="text-2xl font-bold text-white text-center">About Proview</h2>
+                                    </div>
+                                    <div class="text-white">
+                                        <p>This website was created to show that <b>Echo Viewer</b> by <b>Agilix, Inc</b> could have been better. This websites design is based off <b>GradeWay</b> by <b>Srujan Mupparapu</b>, this website is not meant to infringe or plagarize his work, If it does (specifically to Srujan) please send an issue <a class="text-blue-700 hover:text-blue-600 cursor-pointer transition" goto="https://github.com/wo-r-professional/proview/issues">here</a> and I will abide to whatever you ask.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `).on("click", function (event) {
+                        switch ($(event.target).attr("id")) {
+                            case "overlay": {
+                                $("#overlay").fadeOut(400, function () {
+                                    $("#overlays").empty();
+                                });
+                            }
+                        }
+                    })
+                    
+                    $("[goto]").on("click", function (event) {
+                        window.open($(this).attr("goto"), "_blank")
+                    })
                     break;
                 }
             }
