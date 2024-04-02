@@ -16,10 +16,10 @@ export async function runtime(page) {
     $("#overlays").empty();
     $("*").off();
     
-    /*if (new URLSearchParams(window.location.search).get("page") == "login")
+    if (new URLSearchParams(window.location.search).get("page") == "login")
         $(`head [name="theme-color"]`).attr("content", "#000000");
     else
-        $(`head [name="theme-color"]`).attr("content", "#1d4ed8");*/
+        $(`head [name="theme-color"]`).attr("content", "#1d4ed8");
 
     
     ////////////////////////////////////////////////////////////

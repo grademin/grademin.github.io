@@ -109,10 +109,10 @@ export const session = {
  * @returns {void}
  */
 export async function load(main) {
-    /*if (new URLSearchParams(window.location.search).get("page") == "login")
+    if (new URLSearchParams(window.location.search).get("page") == "login")
         $(`head [name="theme-color"]`).attr("content", "#000000");
     else
-        $(`head [name="theme-color"]`).attr("content", "#1b4691");*/
+        $(`head [name="theme-color"]`).attr("content", "rgb(17 24 39 / 0.5");
     
     $("#overlays").append(`
         <div class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
@@ -122,10 +122,10 @@ export async function load(main) {
 
     await main();
 
-    /*if (new URLSearchParams(window.location.search).get("page") == "login")
+    if (new URLSearchParams(window.location.search).get("page") == "login")
         $(`head [name="theme-color"]`).attr("content", "#000000");
     else
-        $(`head [name="theme-color"]`).attr("content", "#1d4ed8");*/
+        $(`head [name="theme-color"]`).attr("content", "#1d4ed8");
 
     $("#overlays").empty();
 }
