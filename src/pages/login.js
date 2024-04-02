@@ -25,7 +25,7 @@ export async function run() {
 
     ////////////////////////////////////////////////////////////
 
-
+    
     $("#root").html(`
         <div class="relative h-[75svh] h-[75vh] flex justify-center">
             <div class="pt-20 rounded-lg container mx-auto px-4">
@@ -96,7 +96,8 @@ export async function run() {
                                 })
 
                                 hlp.set("session", login3.response);
-                                
+
+                                // FIXME: This wants to spam site.runtime(), must be mixed before going public
                                 // Get users profile picture (if none is found then we set this as "")
                                 let check = setInterval(async function () {
                                     if (hlp.session.exists) {
@@ -110,10 +111,8 @@ export async function run() {
                                                         hlp.set("pfp", newUrl, false);
                                                     }
 
-                                                    clearInterval(check);
-
                                                     if (hlp.get("pfp", false) != "")
-                                                        site.runtime("overview");
+                                                        clearInterval(check);
                                                 })
                                             }
                                         });
@@ -121,6 +120,8 @@ export async function run() {
                                     else
                                         hlp.set("pfp", "gravatar", false)
                                 })
+
+                                await site.runtime("overview");
                             }
                         }
                     });
