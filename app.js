@@ -11,7 +11,7 @@
     /**
      * Determine if Echo api is down or not
      */
-    await $.ajax({
+    $.ajax({
         url: hlp.api("/cmd?cmd=getstatus"),
         method: "GET",
         dataType: "json",
