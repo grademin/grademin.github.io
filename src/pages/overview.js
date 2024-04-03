@@ -5,7 +5,7 @@ export async function run() {
     hlp.load(async function () {
         await $("#root").html(`
             <div id="top" class="bg-blue-700">
-                <div class="fixed left-0 right-0 top-0 z-20 h-[46px] flex flex-row py-2 px-4 bg-blue-700">
+                <div class="fixed left-0 right-0 top-0 z-20 h-[46px] flex flex-row py-2 px-4 bg-blue-700 hidden">
                     <div id="scrolled-title" class="flex justify-center items-center container mx-auto px-4">
                         <div></div>
                         <span class="flex-grow font-bold text-center text-[20px]">Overview</span>

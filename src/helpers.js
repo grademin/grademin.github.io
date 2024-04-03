@@ -68,7 +68,7 @@ export async function image_valid(url, callback) {
 };
 
 /**
- * Checks if a url redirects to another url.
+ * Checks if a url redirects to another url
  * 
  * NOTE: CORS will make this not work sometimes. If this happens it will error and provide the original url.
  * @param {string} url
@@ -115,7 +115,7 @@ export async function load(main) {
         $(`head [name="theme-color"]`).attr("content", "rgb(17 24 39 / 0.5");
     
     $("#overlays").append(`
-        <div class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
+        <div id="loader" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
             <div class="loader"><div></div><div></div><div></div><div></div></div>
         </div>
     `);
@@ -127,7 +127,7 @@ export async function load(main) {
     else
         $(`head [name="theme-color"]`).attr("content", "#1d4ed8");
 
-    $("#overlays").empty();
+    $("#overlays #loader").remove();
 }
 
 /** 
@@ -145,6 +145,7 @@ export async function animate_nav() {
         // Manages when we scroll
         let in_load = false;
         $(window).scroll(function() {
+            $("#top > div").removeClass("hidden")
             if (!in_load) {
                 try {
                     if ($(this).scrollTop() > $("#top").offset().top + $("#top").outerHeight() - 40 || $(this).scrollTop() < $("#top").offset().top - $(window).height()) {

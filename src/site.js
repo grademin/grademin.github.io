@@ -13,7 +13,7 @@ export async function runtime(page) {
     hlp.set("page", new URLSearchParams(window.location.search).get("page"), false);
     
     // Clense affected elements
-    $("#overlays").empty();
+    $("#overlays:not(:has(#error))").empty();
     $("*").off();
     
     if (new URLSearchParams(window.location.search).get("page") == "login")

@@ -87,6 +87,7 @@ export async function run() {
                                 delete login3.response.user.token;
                                 login3.response.user.fullname = `${login3.response.user.firstname.charAt(0).toUpperCase() + login3.response.user.firstname.slice(1)} ${login3.response.user.lastname.charAt(0).toUpperCase() + login3.response.user.lastname.slice(1)}`;
 
+                                // This localStorage item adds details so when you logout you can easily log back in
                                 hlp.set("remembered", {
                                     "username": login3.response.user.username,
                                     "userspace": login3.response.user.userspace,
@@ -97,29 +98,18 @@ export async function run() {
 
                                 hlp.set("session", login3.response);
 
-                                // FIXME: This wants to spam site.runtime(), must be mixed before going public
                                 // Get users profile picture (if none is found then we set this as "")
-                                let check = setInterval(async function () {
-                                    if (hlp.session.exists) {
-                                        await hlp.image_valid(hlp.api(`/cmd/getprofilepicture?_token=${hlp.session.token}&entityid=${hlp.session.id}`), async function (url, valid) {
-                                            if (valid) {
-                                                await hlp.url_redirects(url, async function (newUrl, redirected) {
-                                                    if (redirected) {
-                                                        hlp.set("pfp", newUrl, false)
-                                                    } else {
-                                                        // It is a CORS blocked url, fallback to echo url
-                                                        hlp.set("pfp", newUrl, false);
-                                                    }
-
-                                                    if (hlp.get("pfp", false) != "")
-                                                        clearInterval(check);
-                                                })
-                                            }
-                                        });
-                                    }
-                                    else
+                                await hlp.image_valid(hlp.api(`/cmd/getprofilepicture?_token=${login3.response.token}&entityid=${login3.response.user.userid}`), async function (url, valid) {
+                                    if (valid) {
+                                        await hlp.url_redirects(url, async function (newUrl, redirected) {
+                                            hlp.set("pfp", newUrl, false);
+                                            clearInterval(check);
+                                        })
+                                    } else {
                                         hlp.set("pfp", "gravatar", false)
-                                })
+                                    }
+                                });
+
 
                                 await site.runtime("overview");
                             }
