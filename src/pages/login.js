@@ -103,7 +103,6 @@ export async function run() {
                                     if (valid) {
                                         await hlp.url_redirects(url, async function (newUrl, redirected) {
                                             hlp.set("pfp", newUrl, false);
-                                            clearInterval(check);
                                         })
                                     } else {
                                         hlp.set("pfp", "gravatar", false)

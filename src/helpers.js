@@ -109,25 +109,17 @@ export const session = {
  * @returns {void}
  */
 export async function load(main) {
-    if (new URLSearchParams(window.location.search).get("page") == "login")
-        $(`head [name="theme-color"]`).attr("content", "#000000");
-    else
-        $(`head [name="theme-color"]`).attr("content", "rgb(17 24 39 / 0.5");
-    
-    $("#overlays").append(`
-        <div id="loader" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
-            <div class="loader"><div></div><div></div><div></div><div></div></div>
+    await $("#overlays").append(`
+        <div id="loader" class="fixed inset-0 flex items-center justify-center bg-blue-700 z-50">
+            <div class="loader"></div>
         </div>
     `);
 
     await main();
 
-    if (new URLSearchParams(window.location.search).get("page") == "login")
-        $(`head [name="theme-color"]`).attr("content", "#000000");
-    else
-        $(`head [name="theme-color"]`).attr("content", "#1d4ed8");
-
-    $("#overlays #loader").remove();
+    await $("#overlays #loader").fadeOut(400, function () {
+        $(this).remove();
+    })
 }
 
 /** 

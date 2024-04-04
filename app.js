@@ -42,7 +42,6 @@
                         dataType: "json",
                         contentType: "application/json; charset=utf-8",
                         success: async (recheck) => {
-                            console.log(recheck)
                             if (recheck.response.status.rating > 2) {
                                 $("#overlays #error").remove();
                                 clearInterval(check);
@@ -77,45 +76,20 @@
     ////////////////////////////////////////////////////////////
 
 
-    // If the user tries to go back in history, handle it.
-    $(window).on("popstate", async function (event) {
-        event.preventDefault();
-
-        // TODO:
-    })
-
     // Head styling
     $("head").append(`
         <style is="loader">
             .loader {
                 display: inline-block;
                 position: relative;
-                width: 40px;
-                height: 0px;
+                background-image: url("src/logo/logo.png");
+                background-repeat: no-repeat;
+                background-size: cover;
+                padding: 70px;
             }
 
-            .loader div {
-                box-sizing: border-box;
-                display: block;
-                position: absolute;
-                width: 40px;
-                height: 40px;
-                border: 4px solid #fff;
-                border-radius: 50%;
-                animation: loader 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-                border-color: rgb(29, 78, 216) transparent transparent transparent;
-            }
-            
-            .loader div:nth-child(1) {
-                animation-delay: -0.45s;
-            }
-
-            .loader div:nth-child(2) {
-                animation-delay: -0.3s;
-            }
-
-            .loader div:nth-child(3) {
-                animation-delay: -0.15s;
+            .loader {
+                animation: loader 2s cubic-bezier(1, 2, 0.1, 1) infinite;
             }
             
             @keyframes loader {
