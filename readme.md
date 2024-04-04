@@ -2,15 +2,16 @@
   <img src="/src/logo/logo.png" width="300rem">
   <h1>Proview</h1>
   <p>Designed for students and serves as a place to view grades and check agendas</p>
-  <img src="https://img.shields.io/github/license/wo-r-professional/proview?style=social&label=License">
-  <img src="https://img.shields.io/github/last-commit/wo-r-professional/proview?style=social&label=Last Commit">
-  <img src="https://img.shields.io/github/deployments/wo-r-professional/proview/github-pages?style=social&label=Workflow">
+  <a href="https://github.com/wo-r-professional/proview/blob/main/license.md"><img src="https://img.shields.io/github/license/wo-r-professional/proview?style=social&label=License"></a>
+  <a href="https://github.com/wo-r-professional/proview/commits/main/"><img src="https://img.shields.io/github/last-commit/wo-r-professional/proview?style=social&label=Last Commit"></a>
+  <a href="https://github.com/wo-r-professional/proview/actions/workflows/pages/pages-build-deployment"><img src="https://img.shields.io/github/deployments/wo-r-professional/proview/github-pages?style=social&label=Github Pages"></a>
   <br>
-  <img src="https://img.shields.io/website?url=https%3A%2F%2Fwo-r-professional.github.io%2Fproview%2F%3Fpage%3Dsettings&up_message=running&down_message=stopped&style=social&label=Website Status">
+  <a href="/"><img src="https://img.shields.io/website?url=https%3A%2F%2Fwo-r-professional.github.io%2Fproview%2F%3Fpage%3Dsettings&up_message=running&down_message=stopped&style=social&label=Proview Website"></a>
   <br>
   <br>
   <div style="display: flex;"> 
-    <img src="https://github.com/wo-r-professional/proview/assets/78428114/e16703ad-379b-4f0d-a8b4-43eb9bef3080">
-    <img src="https://github.com/wo-r-professional/proview/assets/78428114/84d75959-85cb-47e0-bcf9-54458189f515">
+    <img src="https://github.com/wo-r-professional/proview/assets/78428114/5f829e68-e9e3-4369-bc92-9f872d5757c6" alt="Screenshot of login page" width="30%">
+    <img src="https://github.com/wo-r-professional/proview/assets/78428114/73ac98cd-701d-4e14-b79d-50dc27037311" alt="Screenshot of overview page" width="30%">
+    <img src="https://github.com/wo-r-professional/proview/assets/78428114/0c47dc0b-4382-4774-9416-6da24e5f7b3d" alt="Screenshot of settings page" width="30%">
   </div>
 </div>
