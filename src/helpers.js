@@ -109,17 +109,22 @@ export const session = {
  * @returns {void}
  */
 export async function load(main) {
-    await $("#overlays").append(`
-        <div id="loader" class="fixed inset-0 flex items-center justify-center bg-blue-700 z-50">
-            <div class="loader"></div>
-        </div>
-    `);
+    set("overlay_running", "", false);
+    if (get("ovelay_running", false) != null) {
+        await $("#overlays").append(`
+            <div id="loader" class="fixed inset-0 flex items-center justify-center bg-blue-700 z-50">
+                <div class="loader"></div>
+            </div>
+        `);
+    }
 
     await main();
 
     await $("#overlays #loader").fadeOut(400, function () {
         $(this).remove();
     })
+
+    remove("overlay_running");
 }
 
 /** 
