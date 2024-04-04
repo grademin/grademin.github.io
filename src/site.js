@@ -14,7 +14,7 @@ export async function runtime(page) {
     
     // Clense affected elements
     $("#overlays:not(:has(#error))").empty();
-    $("*").off();
+    $("#root").off("click");
     
     if (new URLSearchParams(window.location.search).get("page") == "login")
         $(`head [name="theme-color"]`).attr("content", "#000000");

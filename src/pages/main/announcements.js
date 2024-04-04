@@ -99,7 +99,7 @@ export async function run() {
 
         ////////////////////////////////////////////////////////////
 
-
+        
         await $.ajax({
             url: hlp.api(`/cmd/getuserannouncementlist?_token=${hlp.session.token}&userid=${hlp.session.id}&daysactivepastend=14`),
             method: "GET",
@@ -228,8 +228,8 @@ export async function run() {
                                                         viewed: true
                                                     }]
                                                 }}),
-                                                success: () => {
-                                                    $(`#communication #unviewed-${comminfo.response.announcement.path.replace(".zip", "")}`).remove();
+                                                success: async () => {
+                                                    await $(`#communication #unviewed-${comminfo.response.announcement.path.replace(".zip", "")}`).remove();
                                                 }
                                             })
 

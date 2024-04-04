@@ -79,14 +79,9 @@
 
     // If the user tries to go back in history, handle it.
     $(window).on("popstate", async function (event) {
-        if (!hlp.session.exists && new URLSearchParams(window.location.search).get("page") != "login") {
-            await site.runtime("login")
-        }
-        else if (hlp.session.exists && new URLSearchParams(window.location.search).get("page") == "login") {
-            await site.runtime(hlp.get("page", false));
-        }
-        else
-            await site.runtime(new URLSearchParams(window.location.search).get("page"))
+        event.preventDefault();
+
+        // TODO:
     })
 
     // Head styling
