@@ -178,3 +178,18 @@ export async function animate_nav() {
 export async function url(title, url) {
     history.pushState({}, title, url);
 }
+
+/**
+ * Formats text
+ * @param {string} string
+ */
+export function format(string) {
+    string = string.replace(/&lt;/g, '<')
+    string = string.replace(/&gt;/g, '>')
+    string = string.replace(/&amp;/g, '&')
+    string = string.replace(/style\s*=\s*["'][^"']*["']/gi, '')
+    string = string.replace(/<img/g, "<img class=\"rounded-xl py-2\"")
+    string = string.replace("href", "goto")
+    string = string.replace(/<a/g, `<a class="text-blue-700 hover:text-blue-600 cursor-pointer transition"`)
+    return string;
+}

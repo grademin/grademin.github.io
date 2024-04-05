@@ -65,7 +65,7 @@ export async function run() {
                     break;
                 }
 
-                
+
                 ////////////////////////////////////////////////////////////
                 ///////// BOTTOM NAVIGATION CONTROLS
 
@@ -80,5 +80,7 @@ export async function run() {
                 }
             }
         });
+
+        
     })
 }
