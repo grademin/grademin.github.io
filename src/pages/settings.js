@@ -283,7 +283,7 @@ export async function run() {
 
                 case "change-pfp": {
                     await $("#overlays").append(`
-                        <div id="overlay" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center animation-fadein">
+                        <div id="overlay" class="fixed inset-0 bg-gray-900 z-50 bg-opacity-50 flex justify-center items-center animation-fadein">
                             <div class="container mx-auto px-4 flex justify-center items-center pointer-events-none animation-popin">
                                 <div class="bg-zinc-800 rounded-xl max-w-lg px-5 py-5 pointer-events-auto w-[25rem]">
                                     <div class="flex justify-center items-center mb-4">
