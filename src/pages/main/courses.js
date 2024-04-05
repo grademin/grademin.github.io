@@ -123,8 +123,8 @@ export async function run() {
                             </span>
                         </div>
                         <div class="flex flex-col">
-                            <h1 class="text-[16px] sm:text-[22px] w-[18ch] sm:w-[30ch] md:w-[40ch] truncate font-bold">${course.title}</h1>
-                            <span class="font-bold text-[13px] sm:text-[15px] text-zinc-400">${course.start} through ${course.end}</span>
+                            <h1 class="text-[22px] w-[18ch] sm:w-[30ch] md:w-[40ch] truncate font-bold">${course.title}</h1>
+                            <span class="font-bold text-[15px] text-zinc-400">${course.start} - ${course.end}</span>
                         </div>
                     </div>
                     <div class="flex justify-center items-center pl-5">
