@@ -123,11 +123,11 @@ export async function run() {
                             </span>
                         </div>
                         <div class="flex flex-col">
-                            <h1 class="text-[22px] font-bold truncate w-[20ch] lg:w-full md:w-full sm:w-[34ch] ">${course.title}</h1>
+                            <h1 class="text-[16px] sm:text-[22px] font-bold">${course.title}</h1>
                             <span class="font-bold text-[13px] sm:text-[15px] text-zinc-400">${course.start} through ${course.end}</span>
                         </div>
                     </div>
-                    <div class="flex justify-center items-center">
+                    <div class="flex justify-center items-center pl-5">
                         <span class="material-symbols-rounded">
                             arrow_forward_ios
                         </span>
