@@ -137,11 +137,11 @@ export async function run() {
                 });
 
                 // Append the content from the announcement they clicked
-                $("#communication").parent().append(`
+                await $("#communication").parent().append(`
                     <div id="opened" class="relative flex flex-col justify-between container mx-auto bg-zinc-800 rounded-xl py-3 px-3">
                         <div class="flex flex-col border-b-[2px] border-zinc-700 pb-3">
                             <h1 class="text-[22px] font-bold">${commdetails.announcement.title}</h1>
-                            <span class="font-bold text-[15px] text-zinc-400">Written ${new Date(commdetails.announcement.startdate).toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' })} by ${comminfo.response.announcement.creator.firstname} ${comminfo.response.announcement.creator.lastname}</span>
+                            <span class="font-bold text-[15px] text-zinc-400">Written ${new Date(commdetails.announcement.startdate).toLocaleDateString(undefined, {weekday: "long", month: "long", day: "numeric"})} by ${comminfo.response.announcement.creator.firstname} ${comminfo.response.announcement.creator.lastname}</span>
                         </div>
                         <div id="body" class="flex flex-col pt-3">
                             ${hlp.format(commdetails.announcement.body.$xml)}
@@ -239,11 +239,11 @@ export async function run() {
                         })
 
                         // Append the content from the announcement they clicked
-                        $("#communication").parent().append(`
+                        await $("#communication").parent().append(`
                             <div id="opened" class="relative flex flex-col justify-between container mx-auto bg-zinc-800 rounded-xl py-3 px-3">
                                 <div class="flex flex-col border-b-[2px] border-zinc-700 pb-3">
                                     <h1 class="text-[22px] font-bold">${commdetails.announcement.title}</h1>
-                                    <span class="font-bold text-[15px] text-zinc-400">Written ${new Date(commdetails.announcement.startdate).toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' })} by ${comminfo.response.announcement.creator.firstname} ${comminfo.response.announcement.creator.lastname}</span>
+                                    <span class="font-bold text-[15px] text-zinc-400">Written ${new Date(commdetails.announcement.startdate).toLocaleDateString(undefined, {weekday: "long", month: "long", day: "numeric"})} by ${comminfo.response.announcement.creator.firstname} ${comminfo.response.announcement.creator.lastname}</span>
                                 </div>
                                 <div class="flex flex-col pt-3">
                                     ${hlp.format(commdetails.announcement.body.$xml)}

@@ -187,9 +187,29 @@ export function format(string) {
     string = string.replace(/&lt;/g, '<')
     string = string.replace(/&gt;/g, '>')
     string = string.replace(/&amp;/g, '&')
+    string = string.replace(/id="isPasted"/g, "");
     string = string.replace(/style\s*=\s*["'][^"']*["']/gi, '')
     string = string.replace(/<img/g, "<img class=\"rounded-xl py-2\"")
     string = string.replace("href", "goto")
     string = string.replace(/<a/g, `<a class="text-blue-700 hover:text-blue-600 cursor-pointer transition"`)
     return string;
+}
+
+/** 
+ * Returns a color from a score
+ * @param {int} int
+ */
+export function score_to_color(int) {
+    let color;
+    if (isNaN(int))
+        color = "";
+    else if (int >= 80)
+        color = "green";
+    else if (int < 80 && int > 60) {
+        color = "yellow";
+    }
+    else if (int < 60)
+        color = "red";
+
+    return color;
 }
