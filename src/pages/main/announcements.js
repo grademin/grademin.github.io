@@ -6,16 +6,16 @@ export async function run() {
     hlp.load(async function () {
         await $("#root").html(`
             <div id="top" class="bg-blue-700">
-                <div class="fixed left-0 right-0 top-0 z-20 h-[46px] flex flex-row py-2 px-4 bg-blue-700">
-                    <div class="flex justify-center items-center container mx-auto px-4">
-                        <div>
-                            <span id="go-back" class="cursor-pointer w-0 mr-[25px] font-black text-1xl material-symbols-rounded flex justify-center items-center">
+                <div class="fixed left-0 right-0 top-0 z-20 flex flex-row bg-blue-700">
+                    <div class="flex justify-center items-center container mx-auto py-2 px-4">
+                        <div id="go-back" class="-ml-2 cursor-pointer py-3 px-6 rounded-full active:bg-white active:bg-opacity-20 active:shadow-lg">
+                            <span class="w-0 -ml-[1px] font-black pointer-events-none text-1xl material-symbols-rounded flex justify-center items-center">
                                 arrow_back_ios_new
                             </span>
                         </div>
-                        <span class="flex-grow font-bold text-center text-[20px]">Announcements</span>
-                        <div>
-                            <span id="reload" class="cursor-pointer font-black text-1xl material-symbols-rounded flex justify-center items-center">
+                        <span class="flex-grow font-bold text-center text-[22px]">Announcements</span>
+                        <div id="reload" class="-mr-2 cursor-pointer py-3 px-6 rounded-full active:bg-white active:bg-opacity-20 active:shadow-lg">
+                            <span class="w-0 font-black pointer-events-none text-1xl material-symbols-rounded flex justify-center items-center">
                                 refresh
                             </span>
                         </div>
@@ -24,7 +24,7 @@ export async function run() {
             </div>
             <!---->
             <!---->
-            <div class="flex flex-col gap-5 pt-[1.2rem] mt-[46px] mb-[2rem] container mx-auto py-10 px-4">
+            <div class="flex flex-col gap-5 pt-[2rem] mt-[46px] mb-[1.7rem] container mx-auto py-10 px-4">
                 <div id="communication" class="flex flex-col gap-5"></div>
             </div>
             <!---->
@@ -103,7 +103,6 @@ export async function run() {
 
         // F U ajax with non-async success functions
         // literally only takes an "async" next to a function to fix it bruh
-        // REMEMBER: this is how we should code ajax stuff when using hlp.load!
         
         async function call() {
         const communications = await $.ajax({

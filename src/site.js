@@ -12,8 +12,6 @@ export async function runtime(page) {
     history.pushState({}, "", `?page=${page}${params}`);
     hlp.set("page", new URLSearchParams(window.location.search).get("page"), false);
     
-    // Clense affected elements
-    $("#overlays:not(:has(#error))").empty();
     $("#root").off("click");
     
     if (new URLSearchParams(window.location.search).get("page") == "login")
@@ -43,6 +41,12 @@ export async function runtime(page) {
         }
         
         ////////////////////////////////////////////////////////////
+
+        case "courses": {
+            const courses = await import("/proview/src/pages/main/courses.js");
+            courses.run();
+            break;
+        }
 
         case "announcements": {
             const announcements = await import("/proview/src/pages/main/announcements.js");

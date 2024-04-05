@@ -109,22 +109,24 @@ export const session = {
  * @returns {void}
  */
 export async function load(main) {
-    set("overlay_running", "", false);
-    if (get("ovelay_running", false) != null) {
+    if (get("overlay_active", false) == "true" && $("#overlays").is(":empty"))
+        remove("overlay_active");    
+
+    if (get("overlay_active", false) != "true") {
         await $("#overlays").append(`
             <div id="loader" class="fixed inset-0 flex items-center justify-center bg-blue-700 z-50">
                 <div class="loader"></div>
             </div>
         `);
+        set("overlay_active", "true", false);
     }
 
     await main();
 
     await $("#overlays #loader").fadeOut(400, function () {
         $(this).remove();
+        remove("overlay_active");
     })
-
-    remove("overlay_running");
 }
 
 /** 
@@ -134,29 +136,33 @@ export async function load(main) {
 export async function animate_nav() {
     try {
         if ($(window).scrollTop() > $("#top").offset().top + $("#top").outerHeight() - 40 || $(window).scrollTop() < $("#top").offset().top - $(window).height()) {
-            $("#top #scrolled-title").fadeIn(0);
+            $("#top #scrolled-title span").fadeIn(0);
         } else {
-            $("#top #scrolled-title").fadeOut(0);
+            $("#top #scrolled-title span").fadeOut(0);
         }
         
         // Manages when we scroll
         let in_load = false;
         $(window).scroll(function() {
-            $("#top > div").removeClass("hidden")
+            if ($(this).scrollTop() == 0) {
+                $("#top #scrolled-title").parent().removeClass("shadow shadow-black")
+                $("#top #scrolled-title span").fadeOut(100);
+            }
+
             if (!in_load) {
                 try {
-                    if ($(this).scrollTop() > $("#top").offset().top + $("#top").outerHeight() - 40 || $(this).scrollTop() < $("#top").offset().top - $(window).height()) {
+                    if ($(this).scrollTop() > $("#top").offset().top + $("#top").outerHeight() - 62 || $(this).scrollTop() < $("#top").offset().top - $(window).height()) {
                         in_load = true;
-                        $("#top #scrolled-title").fadeIn(50, () => {
+                        $("#top #scrolled-title").parent().addClass("shadow shadow-black")
+                        $("#top #scrolled-title span").fadeIn(100, () => {
                             in_load = false;
                         });
-                        $("#top #scrolled-title").parent().addClass("shadow shadow-black")
                     } else {
                         in_load = true;
-                        $("#top #scrolled-title").fadeOut(100, () => {
+                        $("#top #scrolled-title").parent().removeClass("shadow shadow-black")
+                        $("#top #scrolled-title span").fadeOut(100, () => {
                             in_load = false;
                         });
-                        $("#top #scrolled-title").parent().removeClass("shadow shadow-black")
                     }
                 } catch (e) {}
             }
