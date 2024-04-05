@@ -59,6 +59,10 @@ export async function run() {
                 ////////////////////////////////////////////////////////////
                 ///////// MAIN CONTROLS
 
+                case "semi-back": {
+                    break;
+                }
+
                 case "go-back": {
                     history.pushState({}, "", `?page=overview`);
                     await site.runtime("overview");
@@ -111,7 +115,7 @@ export async function run() {
         course_list = course_list.sort((first, last) => first.order - last.order);
         $.each(course_list, function (i, course) {
             $("#courses").append(`
-                <div class="relative relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
+                <div uid="${course.id}" courseid="${course.courseid}" class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
                     <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
                         <div class="flex justify-center items-center bg-${hlp.score_to_color(course.score)}-500 px-4 py-3 rounded-2xl">
                             <span class="text-1xl font-bold py-2 px-2 flex justify-center">
@@ -119,8 +123,8 @@ export async function run() {
                             </span>
                         </div>
                         <div class="flex flex-col">
-                            <h1 class="text-[22px] font-bold">${course.title}</h1>
-                            <span class="font-bold text-[15px] text-zinc-400">${course.start} through ${course.end}</span>
+                            <h1 class="text-[22px] font-bold truncate w-[20ch] lg:w-full md:w-full sm:w-[34ch] ">${course.title}</h1>
+                            <span class="font-bold text-[13px] sm:text-[15px] text-zinc-400">${course.start} through ${course.end}</span>
                         </div>
                     </div>
                     <div class="flex justify-center items-center">
@@ -129,9 +133,10 @@ export async function run() {
                         </span>
                     </div>
                 </div>
-            `)
+            `).children().off().on("click", function (event) {
+                //TODO:
+                //console.log(event.target)
+            })
         })
-
-        //$("#courses").append()
     })
 }
