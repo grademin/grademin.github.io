@@ -115,15 +115,15 @@ export async function run() {
         course_list = course_list.sort((first, last) => first.order - last.order);
         $.each(course_list, function (i, course) {
             $("#courses").append(`
-                <div uid="${course.id}" courseid="${course.courseid}" class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
+                <div uid="${course.id}" courseid="${course.courseid}" class="flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
                     <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
                         <div class="flex justify-center items-center bg-${hlp.score_to_color(course.score)}-500 px-4 py-3 rounded-2xl">
-                            <span class="text-1xl font-bold py-2 px-2 flex justify-center">
-                                ${isNaN(course.score) ? "--" : `${course.score}`}
+                            <span class="text-1xl font-bold py-2 px-2 w-max flex justify-center">
+                                ${isNaN(course.score) ? "N/A" : `${course.score}`}
                             </span>
                         </div>
                         <div class="flex flex-col">
-                            <h1 class="text-[16px] sm:text-[22px] font-bold">${course.title}</h1>
+                            <h1 class="text-[16px] sm:text-[22px] w-[18ch] sm:w-[30ch] truncate font-bold">${course.title}</h1>
                             <span class="font-bold text-[13px] sm:text-[15px] text-zinc-400">${course.start} through ${course.end}</span>
                         </div>
                     </div>
