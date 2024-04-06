@@ -266,14 +266,17 @@ export async function run() {
                     break;
                 }
 
+                case "hide-courses": {
+                    site.runtime("hide-courses");
+                    break;
+                }
+
 
                 ////////////////////////////////////////////////////////////
                 ///////// BOTTOM NAVIGATION CONTROLS
 
                 case "overview": {
-                    hlp.load(async function () {
-                        site.runtime("overview");
-                    })
+                    site.runtime("overview");
                     break;
                 }
 

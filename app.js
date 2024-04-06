@@ -91,10 +91,13 @@
         hlp.set("page", "login", false);
     
     if (hlp.get("settings") == "")
-        hlp.set("settings", []);
+        hlp.set("settings", [{"setting":"color-coding","$value":true},{"setting":"hide-excused","$value":true}]);
 
     if (hlp.get("pfp", false) == "")
-        hlp.set("pfp", "gravatar");
+        hlp.set("pfp", "gravatar", false);
+
+    if (hlp.get("hidden") == "")
+        hlp.set("hidden", []);
 
 
     ////////////////////////////////////////////////////////////

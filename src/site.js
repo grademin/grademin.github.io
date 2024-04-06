@@ -1,7 +1,7 @@
 export async function runtime(page) {
     const hlp = await import("/proview/src/helpers.js");
 
-    document.title = page.charAt(0).toUpperCase() + page.slice(1);
+    document.title = page.includes("-") ? page.split("-")[0].charAt(0).toUpperCase() + page.split("-")[0].slice(1) + " " + page.split("-")[1].charAt(0).toUpperCase() + page.split("-")[1].slice(1) : page.charAt(0).toUpperCase() + page.slice(1);
 
     let params = "";
     new URLSearchParams(window.location.search).forEach(function (key, param) {
@@ -51,6 +51,14 @@ export async function runtime(page) {
         case "announcements": {
             const announcements = await import("/proview/src/pages/main/announcements.js");
             announcements.run();
+            break;
+        }
+
+        ////////////////////////////////////////////////////////////
+
+        case "hide-courses": {
+            const hide_courses = await import("/proview/src/pages/settings/hide-courses.js");
+            hide_courses.run();
             break;
         }
     }
