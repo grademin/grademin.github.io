@@ -416,6 +416,11 @@ export async function run() {
             }
         })
 
+        hlp.swiped(async function () {
+            history.pushState({}, "", `?page=overview`);
+            await site.runtime("overview");
+        })
+
         $("[goto]").on("click", function (event) {
             window.open($(this).attr("goto"), "_blank")
         })

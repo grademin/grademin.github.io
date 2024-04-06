@@ -213,3 +213,98 @@ export function score_to_color(int) {
 
     return color;
 }
+
+/**
+ * Handles swiping, if its detected the function provided within `main` will be executed
+ * @param {function} main
+ */
+export async function swiped(main) {
+    let start = { x: 0, y: 0 };
+    let end = { x: 0, y: 0 };
+    let target = document;
+    
+    target.addEventListener('pointerdown', function(e) {
+        if (e.clientX >= 0 && e.clientX <= 90) {
+            e.target.setPointerCapture(e.pointerId);
+    
+            start.x = e.clientX;
+            start.y = e.clientY;
+        } else {
+            start.x = null;
+            start.y = null;
+        }
+    });
+    
+    target.addEventListener('pointerup', async function(e) {
+        if (start.x !== null && start.y !== null) {
+            end.x = e.clientX;
+            end.y = e.clientY;
+    
+            await swipe();
+        }
+    });
+    
+    async function swipe() {
+        if (start.x === null || start.y === null)
+            return;
+    
+        const deltaX = end.x - start.x;
+        const deltaY = end.y - start.y;
+        const thresholdX = 100;
+        const thresholdY = 50;
+    
+        if (Math.abs(deltaX) > thresholdX && Math.abs(deltaY) < thresholdY) {
+            if(deltaX > 0) {
+                await main();
+            }
+        }
+    }
+}
+
+/**
+ * Like swipe() this handles swiping downwards, for example, reloading content.
+ * @param {function} main
+ */
+export async function swiped_down(main) {
+    let start = { x: 0, y: 0 };
+    let end = { x: 0, y: 0 };
+    let target = document;
+    
+    target.addEventListener('pointerdown', function(e) {
+        if (e.clientY >= 0 && e.clientY <= 90) {
+            e.target.setPointerCapture(e.pointerId);
+    
+            start.x = e.clientX;
+            start.y = e.clientY;
+        } else {
+            start.x = null;
+            start.y = null;
+        }
+    });
+    
+    target.addEventListener('pointerup', async function(e) {
+        if (start.x !== null && start.y !== null) {
+            end.x = e.clientX;
+            end.y = e.clientY;
+    
+            await swipe();
+        }
+    });
+    
+    async function swipe() {
+        if (start.x === null || start.y === null) {
+            return;
+        }
+    
+        const deltaX = end.x - start.x;
+        const deltaY = end.y - start.y;
+        const thresholdX = 50;
+        const thresholdY = 100;
+    
+        if (Math.abs(deltaY) > thresholdY && Math.abs(deltaX) < thresholdX) {
+            if(deltaY > 0) {
+                await main();
+            }
+        }
+    }
+}

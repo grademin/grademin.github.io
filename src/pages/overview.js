@@ -43,8 +43,8 @@ export async function run() {
                             </span>
                         </div>
                         <div class="flex flex-col">
-                            <h1 class="text-[22px] font-bold">What is this</h1>
-                            <span class="font-bold text-[15px] text-zinc-400">Why was this created</span>
+                            <h1 class="text-[22px] font-bold">What is Proview?</h1>
+                            <span class="font-bold text-[15px] text-zinc-400">About this site and it's purpose</span>
                         </div>
                     </div>
                     <div class="flex justify-center items-center">
@@ -62,25 +62,7 @@ export async function run() {
                         </div>
                         <div class="flex flex-col">
                             <h1 class="text-[22px] font-bold">Courses</h1>
-                            <span class="font-bold text-[15px] text-zinc-400">See your current courses</span>
-                        </div>
-                    </div>
-                    <div class="flex justify-center items-center">
-                        <span class="material-symbols-rounded">
-                            arrow_forward_ios
-                        </span>
-                    </div>
-                </div>
-                <div id="averages" class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
-                    <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
-                        <div class="flex justify-center items-center bg-blue-700 px-4 py-3 rounded-2xl">
-                            <span class="text-3xl material-symbols-rounded flex justify-center">
-                                show_chart
-                            </span>
-                        </div>
-                        <div class="flex flex-col">
-                            <h1 class="text-[22px] font-bold">Averages</h1>
-                            <span class="font-bold text-[15px] text-zinc-400">See your objective averages</span>
+                            <span class="font-bold text-[15px] text-zinc-400">View your current courses</span>
                         </div>
                     </div>
                     <div class="flex justify-center items-center">
@@ -98,7 +80,7 @@ export async function run() {
                         </div>
                         <div class="flex flex-col">
                             <h1 class="text-[22px] font-bold">Todo List</h1>
-                            <span class="font-bold text-[15px] text-zinc-400">See due or past due work</span>
+                            <span class="font-bold text-[15px] text-zinc-400">View due or past due work</span>
                         </div>
                     </div>
                     <div class="flex justify-center items-center">
@@ -116,7 +98,7 @@ export async function run() {
                         </div>
                         <div class="flex flex-col">
                             <h1 class="text-[22px] font-bold">Activity Stream</h1>
-                            <span class="font-bold text-[15px] text-zinc-400">See your activites</span>
+                            <span class="font-bold text-[15px] text-zinc-400">See all recent activity</span>
                         </div>
                     </div>
                     <div class="flex justify-center items-center">

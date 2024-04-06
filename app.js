@@ -4,6 +4,21 @@
 (async function () {
     "use strict";
 
+    /**
+     * Manages custom css stuff that tailwind can handle for us
+     */
+    tailwind.config = {
+        theme: {
+            extend: {
+                screens: {
+                    "x-sm": "475px",
+                    "xl-sm": "325px"
+                },
+            },
+        },
+        plugins: [],
+    }
+
     const sw = await import("/proview/src/service.js"),
           hlp = await import("/proview/src/helpers.js"),
           site = await import("/proview/src/site.js");
