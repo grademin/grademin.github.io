@@ -12,7 +12,7 @@ Created so that I don't forget some of the things that need to (happen / be fixe
 - Contact teachers 
 - Settings page settings (lets you configure the website to your liking)
 - Change name & Change profile picture (settings page)
-- Add `Hide Courses` to continue work on `Courses`
+- ~~Add `Hide Courses` to continue work on `Courses`~~
 
 
 # Fix
@@ -20,6 +20,7 @@ Created so that I don't forget some of the things that need to (happen / be fixe
 - ~~Navigation header buttons need to be spaced from the top and bottom so that mobile users can click it easily.~~
 - ~~(maybe) redo the announcements reload feature so that it doesn't do it by reloading the page, and instead fetchs the stuff again.~~
 - ~~Container followed custom screen sizes from `tailwind.config`~~
+- ~~Never thought about the title having a "-" so i made it space that and handle the second word~~
 
 # Finished
 - Added Announcements
