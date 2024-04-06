@@ -217,6 +217,7 @@ export async function run() {
                 ///////// OVERLAYS
 
                 case "what-is-this": {
+                    $("body").addClass("overflow-hidden");
                     $("#overlays").append(`
                         <div id="overlay" class="fixed inset-0 z-50 bg-gray-900 bg-opacity-50 flex justify-center items-center animation-fadein">
                             <div class="container mx-auto px-4 flex justify-center items-center pointer-events-none animation-popin">
@@ -236,6 +237,7 @@ export async function run() {
                                 $("#overlay").fadeOut(400, function () {
                                     $("#overlays").empty();
                                 });
+                                $("body").removeClass("overflow-hidden");
                             }
                         }
                     })

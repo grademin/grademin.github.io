@@ -282,6 +282,7 @@ export async function run() {
                 ///////// CHANGE PROFILE OVERLAY
 
                 case "change-pfp": {
+                    $("body").addClass("overflow-hidden");
                     await $("#overlays").append(`
                         <div id="overlay" class="fixed inset-0 bg-gray-900 z-50 bg-opacity-50 flex justify-center items-center animation-fadein">
                             <div class="container mx-auto px-4 flex justify-center items-center pointer-events-none animation-popin">
@@ -302,6 +303,7 @@ export async function run() {
                                 $("#overlay").fadeOut(400, function () {
                                     $("#overlays").empty();
                                 });
+                                $("body").removeClass("overflow-hidden");
                                 break;
                             }
                             case "submit": {
@@ -323,6 +325,7 @@ export async function run() {
                 ///////// CHANGE NAME OVERLAY
 
                 case "change-name": {
+                    $("body").addClass("overflow-hidden");
                     await $("#overlays").append(`
                         <div id="overlay" class="fixed z-50 overflow-hidden inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center animation-fadein">
                             <div class="container mx-auto px-4 flex justify-center items-center pointer-events-none animation-popin">
@@ -346,12 +349,14 @@ export async function run() {
                                     $("#overlay").fadeOut(400, function () {
                                         $("#overlays").empty();
                                     });
+                                    $("body").removeClass("overflow-hidden");
                                 } else {
                                     $("#overlays #overlay").each(function () {
                                        $(this).fadeOut(400, function () {
                                             $("#overlays").empty();
                                         });
                                     });
+                                    $("body").removeClass("overflow-hidden");
                                 }
                                 break;
                             }
@@ -416,10 +421,6 @@ export async function run() {
             }
         })
 
-        hlp.swiped(async function () {
-            history.pushState({}, "", `?page=overview`);
-            await site.runtime("overview");
-        })
 
         $("[goto]").on("click", function (event) {
             window.open($(this).attr("goto"), "_blank")

@@ -92,17 +92,6 @@ export async function run() {
             }
         });
 
-        hlp.swiped_down(async function () {
-            hlp.load(async function () {
-                await call();
-            });
-        })
-
-        hlp.swiped(async function () {
-            history.pushState({}, "", `?page=overview`);
-            await site.runtime("overview");
-        })
-
 
         ////////////////////////////////////////////////////////////
 

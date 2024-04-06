@@ -101,26 +101,7 @@ export async function run() {
                 }
             }
         });
-
-        hlp.swiped_down(async function () {
-            hlp.load(async function () {
-                await call();
-            });
-        })
-
-        hlp.swiped(async function () {
-            if (new URLSearchParams(window.location.search).get("path") != null) {
-                history.pushState({}, "", `?page=announcements`);
-                $("#opened").remove();
-                $("#communication").show();
-                $("#reload").removeClass("invisible");
-                $("#semi-back").attr("id", "go-back");
-            } else {
-                history.pushState({}, "", `?page=overview`);
-                await site.runtime("overview");
-            }
-        })
-
+        
 
         ////////////////////////////////////////////////////////////
 
