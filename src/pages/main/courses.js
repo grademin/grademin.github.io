@@ -133,19 +133,24 @@ export async function run() {
             course_list = course_list.sort((first, last) => first.order - last.order);
 
             if (new URLSearchParams(window.location.search).get("eid") != null && new URLSearchParams(window.location.search).get("courseid") != null) {
-                let landing = await $.ajax({
-                    url: hlp.api(`/cmd/getresource?_token=${hlp.session.token}&entityid=${new URLSearchParams(window.location.search).get("courseid")}&path=Templates/Data/Course/landing-page.html`),
-                    method: "GET",
-                    dataType: "html",
-                    contentType: "application/json; charset=utf-8"
-                })
+                let landing = "No description for this course", details, settings, objectives, agendas;
+                try {
+                    landing = await $.ajax({
+                        url: hlp.api(`/cmd/getresource?_token=${hlp.session.token}&entityid=${new URLSearchParams(window.location.search).get("courseid")}&path=Templates/Data/Course/landing-page.html`),
+                        method: "GET",
+                        dataType: "html",
+                        contentType: "application/json; charset=utf-8"
+                    })
+                } catch (e) {}
 
-                let details = await $.ajax({
-                    url: hlp.api(`/cmd?cmd=getenrollment3&_token=${hlp.session.token}&enrollmentid=${new URLSearchParams(window.location.search).get("eid")}&privileges=1&select=data,course,course.data,course.teachers,metrics`),
-                    method: "GET",
-                    dataType: "json",
-                    contentType: "application/json; charset=utf-8"
-                })
+                try {
+                    details = await $.ajax({
+                        url: hlp.api(`/cmd?cmd=getenrollment3&_token=${hlp.session.token}&enrollmentid=${new URLSearchParams(window.location.search).get("eid")}&privileges=1&select=data,course,course.data,course.teachers,metrics`),
+                        method: "GET",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8"
+                    })
+                } catch (e) {}
 
                 details = details.response.enrollment
                 let score = Math.round((details.enrollmentmetrics.achieved / details.enrollmentmetrics.possible) * 100)
@@ -153,12 +158,15 @@ export async function run() {
                 
                 ////////////////////////////////////////////////////////////
                 ///////// OBJECTIVES
-                let settings = await $.ajax({
-                    url: hlp.api(`/dlap.ashx?cmd=getdomainsettings&domainid=//${hlp.session.userspace}&path=public/shadow/app/buzz/settings.xml`),
-                    method: "GET",
-                    dataType: "json",
-                    contentType: "application/json; charset=utf-8"
-                })
+                try {
+                    settings = await $.ajax({
+                        url: hlp.api(`/dlap.ashx?cmd=getdomainsettings&domainid=//${hlp.session.userspace}&path=public/shadow/app/buzz/settings.xml`),
+                        method: "GET",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8"
+                    })
+                } catch (e) {}
+
 
                 let guids = "";
                 $.each(settings.response.settings["scoring-objective-list"]["scoring-objective"], (i, objective) => {
@@ -168,7 +176,7 @@ export async function run() {
                         guids += `${objective.guid}`;
                 });
 
-                let objectives = await $.ajax({
+                objectives = await $.ajax({
                     url: hlp.api(`/cmd/getobjectivelist?_token=${hlp.session.token}&guid=${guids}`),
                     method: "GET",
                     dataType: "json",
@@ -191,21 +199,25 @@ export async function run() {
 
                 ////////////////////////////////////////////////////////////
                 ///////// AGENDA
-                let agendas = await $.ajax({
-                    url: hlp.api(`/cmd/getresourcelist2?_token=${hlp.session.token}&class=EVNT&path=AGND/*&entityid=${new URLSearchParams(window.location.search).get("courseid")}`),
-                    method: "GET",
-                    dataType: "json",
-                    contentType: "application/json; charset=utf-8"
-                })
+                try {
+                    agendas = await $.ajax({
+                        url: hlp.api(`/cmd/getresourcelist2?_token=${hlp.session.token}&class=EVNT&path=AGND/*&entityid=${new URLSearchParams(window.location.search).get("courseid")}`),
+                        method: "GET",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8"
+                    })
+                } catch (e) {}
 
                 let agenda = "";
                 if (agendas.response.resources.resource.some(date => date.path === `AGND/${new Date().toLocaleDateString('sv-SE')}`)) {
-                    agenda = await $.ajax({
-                        url: hlp.api(`/cmd/getresource?_token=${hlp.session.token}&class=EVNT&entityid=${new URLSearchParams(window.location.search).get("courseid")}&path=AGND/${new Date().toLocaleDateString('sv-SE')}`),
-                        method: "GET",
-                        dataType: "html",
-                        contentType: "application/json; charset=utf-8"
-                    })
+                    try {
+                        agenda = await $.ajax({
+                            url: hlp.api(`/cmd/getresource?_token=${hlp.session.token}&class=EVNT&entityid=${new URLSearchParams(window.location.search).get("courseid")}&path=AGND/${new Date().toLocaleDateString('sv-SE')}`),
+                            method: "GET",
+                            dataType: "html",
+                            contentType: "application/json; charset=utf-8"
+                        })
+                    } catch (e) {}
                 } else {
                     agenda = `<span class="flex justify-center items-center">No agenda for today</span>`;
                 }
@@ -233,7 +245,7 @@ export async function run() {
                                         </svg>
                                     </div>
                                     <div class="absolute inset-0 flex flex-col justify-center items-center">
-                                        <span class="score font-bold text-3xl">${score}</span>
+                                        <span class="score font-bold text-3xl">${isNaN(score) ? "0" : score}</span>
                                         <span class="font-bold text-zinc-400 text-sm">Overall</span>
                                     </div>
                                 </div>
@@ -366,20 +378,26 @@ export async function run() {
                 `).children().off().on("click", function (event) {
                     hlp.load(async function () {
                         history.pushState({}, "", `?page=${new URLSearchParams(window.location.search).get("page")}&target=activity&eid=${$(event.target).attr("eid")}&courseid=${$(event.target).attr("courseid")}`);
+                        
+                        let landing = "No description for this course", details, settings, objectives, agendas;
+                        
+                        try {
+                            landing = await $.ajax({
+                                url: hlp.api(`/cmd/getresource?_token=${hlp.session.token}&entityid=${$(event.target).attr("courseid")}&path=Templates/Data/Course/landing-page.html`),
+                                method: "GET",
+                                dataType: "html",
+                                contentType: "application/json; charset=utf-8"
+                            })
+                        } catch (e) {}
 
-                        let landing = await $.ajax({
-                            url: hlp.api(`/cmd/getresource?_token=${hlp.session.token}&entityid=${$(event.target).attr("courseid")}&path=Templates/Data/Course/landing-page.html`),
-                            method: "GET",
-                            dataType: "html",
-                            contentType: "application/json; charset=utf-8"
-                        })
-
-                        let details = await $.ajax({
-                            url: hlp.api(`/cmd?cmd=getenrollment3&_token=${hlp.session.token}&enrollmentid=${$(event.target).attr("eid")}&privileges=1&select=data,course,course.data,course.teachers,metrics`),
-                            method: "GET",
-                            dataType: "json",
-                            contentType: "application/json; charset=utf-8"
-                        })
+                        try {
+                            details = await $.ajax({
+                                url: hlp.api(`/cmd?cmd=getenrollment3&_token=${hlp.session.token}&enrollmentid=${$(event.target).attr("eid")}&privileges=1&select=data,course,course.data,course.teachers,metrics`),
+                                method: "GET",
+                                dataType: "json",
+                                contentType: "application/json; charset=utf-8"
+                            })
+                        } catch (e) {}
 
                         details = details.response.enrollment
                         let score = Math.round((details.enrollmentmetrics.achieved / details.enrollmentmetrics.possible) * 100)
@@ -387,12 +405,14 @@ export async function run() {
                         
                         ////////////////////////////////////////////////////////////
                         ///////// OBJECTIVES
-                        let settings = await $.ajax({
-                            url: hlp.api(`/dlap.ashx?cmd=getdomainsettings&domainid=//${hlp.session.userspace}&path=public/shadow/app/buzz/settings.xml`),
-                            method: "GET",
-                            dataType: "json",
-                            contentType: "application/json; charset=utf-8"
-                        })
+                        try {
+                            settings = await $.ajax({
+                                url: hlp.api(`/dlap.ashx?cmd=getdomainsettings&domainid=//${hlp.session.userspace}&path=public/shadow/app/buzz/settings.xml`),
+                                method: "GET",
+                                dataType: "json",
+                                contentType: "application/json; charset=utf-8"
+                            })
+                        } catch (e) {}
 
                         let guids = "";
                         $.each(settings.response.settings["scoring-objective-list"]["scoring-objective"], (i, objective) => {
@@ -402,12 +422,14 @@ export async function run() {
                                 guids += `${objective.guid}`;
                         });
 
-                        let objectives = await $.ajax({
-                            url: hlp.api(`/cmd/getobjectivelist?_token=${hlp.session.token}&guid=${guids}`),
-                            method: "GET",
-                            dataType: "json",
-                            contentType: "application/json; charset=utf-8"
-                        })
+                        try {
+                            objectives = await $.ajax({
+                                url: hlp.api(`/cmd/getobjectivelist?_token=${hlp.session.token}&guid=${guids}`),
+                                method: "GET",
+                                dataType: "json",
+                                contentType: "application/json; charset=utf-8"
+                            })
+                        } catch (e) {}
                         
                         let objective_score = [];
 
@@ -425,21 +447,25 @@ export async function run() {
 
                         ////////////////////////////////////////////////////////////
                         ///////// AGENDA
-                        let agendas = await $.ajax({
-                            url: hlp.api(`/cmd/getresourcelist2?_token=${hlp.session.token}&class=EVNT&path=AGND/*&entityid=${$(event.target).attr("courseid")}`),
-                            method: "GET",
-                            dataType: "json",
-                            contentType: "application/json; charset=utf-8"
-                        })
+                        try {
+                            agendas = await $.ajax({
+                                url: hlp.api(`/cmd/getresourcelist2?_token=${hlp.session.token}&class=EVNT&path=AGND/*&entityid=${$(event.target).attr("courseid")}`),
+                                method: "GET",
+                                dataType: "json",
+                                contentType: "application/json; charset=utf-8"
+                            })
+                        } catch (e) {}
 
                         let agenda = "";
                         if (agendas.response.resources.resource.some(date => date.path === `AGND/${new Date().toLocaleDateString('sv-SE')}`)) {
-                            agenda = await $.ajax({
-                                url: hlp.api(`/cmd/getresource?_token=${hlp.session.token}&class=EVNT&entityid=${$(event.target).attr("courseid")}&path=AGND/${new Date().toLocaleDateString('sv-SE')}`),
-                                method: "GET",
-                                dataType: "html",
-                                contentType: "application/json; charset=utf-8"
-                            })
+                            try {
+                                agenda = await $.ajax({
+                                    url: hlp.api(`/cmd/getresource?_token=${hlp.session.token}&class=EVNT&entityid=${$(event.target).attr("courseid")}&path=AGND/${new Date().toLocaleDateString('sv-SE')}`),
+                                    method: "GET",
+                                    dataType: "html",
+                                    contentType: "application/json; charset=utf-8"
+                                })
+                            } catch (e) {}
                         } else {
                             agenda = `<span class="flex justify-center items-center">No agenda for today</span>`;
                         }
@@ -467,7 +493,7 @@ export async function run() {
                                                 </svg>
                                             </div>
                                             <div class="absolute inset-0 flex flex-col justify-center items-center">
-                                                <span class="score font-bold text-3xl">${score}</span>
+                                                <span class="score font-bold text-3xl">${isNaN(score) ? "0" : score}</span>
                                                 <span class="font-bold text-zinc-400 text-sm">Overall</span>
                                             </div>
                                         </div>
