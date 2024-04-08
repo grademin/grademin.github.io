@@ -58,7 +58,7 @@ export async function run() {
                                 <h1 class="text-[20px] font-bold">Notification Preferences</h1>
                             </div>
                         </div>
-                        <div class="flex justify-center items-center">
+                        <div class="flex justify-center items-center pointer-events-none">
                             <span class="material-symbols-rounded">
                                 arrow_forward_ios
                             </span>
@@ -75,7 +75,7 @@ export async function run() {
                                 <h1 class="text-[20px] font-bold">Hide Courses</h1>
                             </div>
                         </div>
-                        <div class="flex justify-center items-center">
+                        <div class="flex justify-center items-center pointer-events-none">
                             <span class="material-symbols-rounded">
                                 arrow_forward_ios
                             </span>

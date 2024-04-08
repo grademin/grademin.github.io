@@ -47,7 +47,7 @@ export async function run() {
                             <span class="font-bold text-[15px] text-zinc-400">About this site and it's purpose</span>
                         </div>
                     </div>
-                    <div class="flex justify-center items-center">
+                    <div class="flex justify-center items-center pointer-events-none">
                         <span class="material-symbols-rounded">
                             arrow_forward_ios
                         </span>
@@ -65,7 +65,7 @@ export async function run() {
                             <span class="font-bold text-[15px] text-zinc-400">View your current courses</span>
                         </div>
                     </div>
-                    <div class="flex justify-center items-center">
+                    <div class="flex justify-center items-center pointer-events-none">
                         <span class="material-symbols-rounded">
                             arrow_forward_ios
                         </span>
@@ -83,7 +83,7 @@ export async function run() {
                             <span class="font-bold text-[15px] text-zinc-400">View due or past due work</span>
                         </div>
                     </div>
-                    <div class="flex justify-center items-center">
+                    <div class="flex justify-center items-center pointer-events-none">
                         <span class="material-symbols-rounded">
                             arrow_forward_ios
                         </span>
@@ -101,7 +101,7 @@ export async function run() {
                             <span class="font-bold text-[15px] text-zinc-400">See all recent activity</span>
                         </div>
                     </div>
-                    <div class="flex justify-center items-center">
+                    <div class="flex justify-center items-center pointer-events-none">
                         <span class="material-symbols-rounded">
                             arrow_forward_ios
                         </span>
@@ -119,7 +119,7 @@ export async function run() {
                             <span class="font-bold text-[15px] text-zinc-400">See current announcements</span>
                         </div>
                     </div>
-                    <div class="flex justify-center items-center">
+                    <div class="flex justify-center items-center pointer-events-none">
                         <span class="material-symbols-rounded">
                             arrow_forward_ios
                         </span>
@@ -137,7 +137,7 @@ export async function run() {
                             <span class="font-bold text-[15px] text-zinc-400">Email your teachers</span>
                         </div>
                     </div>
-                    <div class="flex justify-center items-center">
+                    <div class="flex justify-center items-center pointer-events-none">
                         <span class="material-symbols-rounded">
                             arrow_forward_ios
                         </span>

@@ -184,13 +184,20 @@ export async function url(title, url) {
  * @param {string} string
  */
 export function format(string) {
+    if (string == "" || string == null || string == undefined)
+        string = "";
+    
+    string = string.replace(/<table/g, `<table class="w-full"`);
+    string = string.replace(/<u>/g, "")
     string = string.replace(/&lt;/g, '<')
     string = string.replace(/&gt;/g, '>')
     string = string.replace(/&amp;/g, '&')
     string = string.replace(/id="isPasted"/g, "");
+    string = string.replace(/dir="ltr"/g, "");
+    string = string.replace(/<td/g, `<td class="flex flex-col gap-5"`)
     string = string.replace(/style\s*=\s*["'][^"']*["']/gi, '')
     string = string.replace(/<img/g, "<img class=\"rounded-xl py-2\"")
-    string = string.replace("href", "goto")
+    string = string.replace(/href/g, "goto")
     string = string.replace(/<a/g, `<a class="text-blue-700 hover:text-blue-600 cursor-pointer transition"`)
     return string;
 }
@@ -212,4 +219,18 @@ export function score_to_color(int) {
         color = "red";
 
     return color;
+}
+
+
+/**
+ * Returns a single number from `achieved` and `possible` json outputs
+ * 
+ * NOTE: This MUST have json paths directly to `.achieved` and `.possible` or else it won't work!
+ * @param {JSON} json
+ */
+export function decode_score(json) {
+    if (json == undefined)
+        return;
+
+    return Math.round((json.achieved / json.possible) * 100)
 }

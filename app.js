@@ -12,7 +12,8 @@
             extend: {
                 screens: {
                     "x-sm": "475px",
-                    "xl-sm": "325px"
+                    "xl-sm": "325px",
+                    "xxl-sm": "245px"
                 },
                 container: {
                     screens: {
