@@ -99,7 +99,6 @@ export async function run() {
 
             $("#todo-list").empty();
             $.each(duesoon.response.items.item, (i, due) => {
-                console.log(due)
                 $("#todo-list").append(`
                     <div class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl py-3 px-3">
                         <div class="flex flex-row justify-center items-center gap-5 pointer-events-none w-full">

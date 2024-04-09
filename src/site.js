@@ -60,6 +60,12 @@ export async function runtime(page) {
             break;
         }
 
+        case "activity-stream": {
+            const stream = await import("/proview/src/pages/main/activity-stream.js");
+            stream.run();
+            break;
+        }
+
         ////////////////////////////////////////////////////////////
 
         case "hide-courses": {

@@ -2,6 +2,8 @@ export async function run() {
     const hlp = await import("../../helpers.js"),
           site = await import("../../site.js");
 
+    // FIXME: Errors on stuff that doesn't exist sometimes.
+
     // BIG TODO: Clean this, cuz holy is it a mess rn
     hlp.load(async function () {
         await $("#root").html(`
@@ -103,6 +105,7 @@ export async function run() {
 
 
         async function call() {
+            // FIXME: this stuff don't work if you never ordered courses in the first place.
             let order = await $.ajax({
                 url: hlp.api(`/cmd/getresource?_token=${hlp.session.token}&entityid=${hlp.session.id}&path=Assets/BuzzCourseCardSettings.json`),
                 method: "GET",
@@ -134,7 +137,7 @@ export async function run() {
             course_list = course_list.sort((first, last) => first.order - last.order);
 
             if (new URLSearchParams(window.location.search).get("eid") != null && new URLSearchParams(window.location.search).get("courseid") != null) {
-                let landing = "No description for this course", details, settings, objectives, agendas;
+                let landing = "No description for this course", details = [], settings = [], objectives = [], agendas = [];
                 try {
                     landing = await $.ajax({
                         url: hlp.api(`/cmd/getresource?_token=${hlp.session.token}&entityid=${new URLSearchParams(window.location.search).get("courseid")}&path=Templates/Data/Course/landing-page.html`),

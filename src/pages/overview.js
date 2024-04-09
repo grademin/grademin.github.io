@@ -89,7 +89,7 @@ export async function run() {
                         </span>
                     </div>
                 </div>
-                <div id="stream" class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
+                <div id="activity-stream" class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
                     <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
                         <div class="flex justify-center items-center bg-blue-700 px-4 py-3 rounded-2xl">
                             <span class="text-3xl material-symbols-rounded flex justify-center">
@@ -183,7 +183,7 @@ export async function run() {
                 }
 
                 case "averages": {
-
+                    break;
                 }
 
                 case "todo-list": {
@@ -191,8 +191,9 @@ export async function run() {
                     break;
                 }
 
-                case "stream": {
-
+                case "activity-stream": {
+                    await site.runtime("activity-stream");
+                    break;
                 }
 
                 case "announcements": {
@@ -201,7 +202,7 @@ export async function run() {
                 }
 
                 case "email": {
-
+                    break;
                 }
 
 
