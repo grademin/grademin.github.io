@@ -54,6 +54,12 @@ export async function runtime(page) {
             break;
         }
 
+        case "todo-list": {
+            const todo_list = await import("/proview/src/pages/main/todo-list.js")
+            todo_list.run();
+            break;
+        }
+
         ////////////////////////////////////////////////////////////
 
         case "hide-courses": {

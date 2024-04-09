@@ -71,7 +71,7 @@ export async function run() {
                         </span>
                     </div>
                 </div>
-                <div id="todo" class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
+                <div id="todo-list" class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
                     <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
                         <div class="flex justify-center items-center bg-blue-700 px-4 py-3 rounded-2xl">
                             <span class="text-3xl material-symbols-rounded flex justify-center">
@@ -186,8 +186,9 @@ export async function run() {
 
                 }
 
-                case "todo": {
-
+                case "todo-list": {
+                    await site.runtime("todo-list");
+                    break;
                 }
 
                 case "stream": {
@@ -274,6 +275,21 @@ export async function run() {
                         </div> 
                     `)
                 }
+            }
+        })
+
+        // Todo List current todos
+        await $.ajax({
+            url: hlp.api(`/cmd/getduesoonlist?_token=${hlp.session.token}&days=3&userId=${hlp.session.id}&utcoffset=300`),
+            method: "GET",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: async function (due) {
+                $("#todo-list").append(`
+                    <div class="absolute inline-flex right-0 top-0 h-8 w-8 -m-2 rounded-full bg-blue-700 opacity-75 justify-center items-center">
+                        <span>${due.response.items.item.length}</span>
+                    </div> 
+                `)
             }
         })
 
