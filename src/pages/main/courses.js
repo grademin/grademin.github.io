@@ -5,6 +5,9 @@ export async function run() {
     const site = await import("../../site.js");
 
 
+    // TODO: text that is long enough breaks the page in "landing" & "agenda"
+    // TODO: page duplicates on refresh button
+
     hlp.load(async function () {
         await $("#root").html(`
             <div id="top" class="bg-blue-700">
@@ -302,7 +305,7 @@ export async function run() {
 
             try {
                 agendas = await $.ajax({
-                    url: hlp.api(`/cmd/getresourcelist2?_token=${hlp.session.token}&class=EVNT&path=AGND/*&entityid=${(()=>{
+                    url: hlp.api(`/cmd/gestresourcelist2?_token=${hlp.session.token}&class=EVNT&path=AGND/*&entityid=${(()=>{
                         return new URLSearchParams(window.location.search).get("courseid") == null ? courseid : new URLSearchParams(window.location.search).get("courseid");
                     })()}`),
                     method: "GET",
@@ -313,21 +316,20 @@ export async function run() {
             } catch (e) {}
 
             let agenda = ""
-            if (agendas.length == 0) {
+            try {
+                agenda = hlp.format(await $.ajax({
+                    url: hlp.api(`/cmd/getsresource?_token=${hlp.session.token}&class=EVNT&entityid=${new URLSearchParams(window.location.search).get("courseid")}&path=AGND/${new Date().toLocaleDateString('sv-SE')}`),
+                    method: "GET",
+                    dataType: "html",
+                    contentType: "application/json; charset=utf-8"
+                }));
+            } catch (e) {}
+            
+            if (agenda.includes("errorId"))
                 agenda = `<span class="flex justify-center items-center">No agenda for today</span>`;
-            } else {
-                try {
-                    agenda = hlp.format(await $.ajax({
-                        url: hlp.api(`/cmd/getresource?_token=${hlp.session.token}&class=EVNT&entityid=${new URLSearchParams(window.location.search).get("courseid")}&path=AGND/${new Date().toLocaleDateString('sv-SE')}`),
-                        method: "GET",
-                        dataType: "html",
-                        contentType: "application/json; charset=utf-8"
-                    }));
-                } catch (e) {}
-            }
 
 
-
+            $("#course").empty();
             await $("#courses").parent().append(`
                 <div id="course" class="flex flex-col gap-5">
                     <div class="flex flex-col gap-5">
@@ -457,7 +459,7 @@ export async function run() {
                 if (new_agenda != "") {
                     $("#agenda").html(new_agenda);
                 } else {
-                    $("#agenda").html("<span>No agenda for today</span>")
+                    $("#agenda").html(`<span class="flex justify-center items-center">No agenda for today</span>`)
                 }
             })
 
@@ -479,7 +481,7 @@ export async function run() {
                 if (new_agenda != "") {
                     $("#agenda").html(new_agenda);
                 } else {
-                    $("#agenda").html("<span>No agenda for today</span>")
+                    $("#agenda").html(`<span class="flex justify-center items-center">No agenda for today</span>`)
                 }
             })
 
@@ -501,7 +503,7 @@ export async function run() {
                 if (new_agenda != "") {
                     $("#agenda").html(new_agenda);
                 } else {
-                    $("#agenda").html("<span>No agenda for today</span>")
+                    $("#agenda").html(`<span class="flex justify-center items-center">No agenda for today</span>`)
                 }
             })
 
