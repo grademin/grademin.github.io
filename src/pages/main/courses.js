@@ -318,7 +318,7 @@ export async function run() {
             let agenda = ""
             try {
                 agenda = hlp.format(await $.ajax({
-                    url: hlp.api(`/cmd/getsresource?_token=${hlp.session.token}&class=EVNT&entityid=${new URLSearchParams(window.location.search).get("courseid")}&path=AGND/${new Date().toLocaleDateString('sv-SE')}`),
+                    url: hlp.api(`/cmd/getresource?_token=${hlp.session.token}&class=EVNT&entityid=${new URLSearchParams(window.location.search).get("courseid")}&path=AGND/${new Date().toLocaleDateString('sv-SE')}`),
                     method: "GET",
                     dataType: "html",
                     contentType: "application/json; charset=utf-8"
@@ -329,7 +329,7 @@ export async function run() {
                 agenda = `<span class="flex justify-center items-center">No agenda for today</span>`;
 
 
-            $("#course").empty();
+            $("#course").remove();
             await $("#courses").parent().append(`
                 <div id="course" class="flex flex-col gap-5">
                     <div class="flex flex-col gap-5">
@@ -418,7 +418,7 @@ export async function run() {
                         </div>
                     </div>
                     <div class="flex flex-row gap-5">
-                        <div id="agenda-back" class="flex flex-2 flex-col bg-zinc-800 justify-center items-center cursor-pointer rounded-xl w-min py-3 px-3">
+                        <div id="agenda-back" class="flex flex-2 flex-col bg-blue-700 transition text-white font-semibold rounded-xl hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 justify-center items-center cursor-pointer rounded-xl w-min py-3 px-3">
                             <span class="material-symbols-rounded">
                                 arrow_back_ios_new
                             </span>
@@ -426,12 +426,12 @@ export async function run() {
                         <div id="agenda-date" class="flex flex-1 flex-col bg-zinc-800 justify-center items-center rounded-xl w-min py-3 px-3">
                             <span class="font-bold">${new Date().toLocaleDateString('en-US')}</span>
                         </div>
-                        <div id="agenda-forward" class="flex flex-2 flex-col bg-zinc-800 justify-center items-center cursor-pointer rounded-xl w-min py-3 px-3">
+                        <div id="agenda-forward" class="flex flex-2 flex-col bg-blue-700 transition text-white font-semibold rounded-xl hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 justify-center items-center cursor-pointer rounded-xl w-min py-3 px-3">
                             <span class="material-symbols-rounded">
                                 arrow_forward_ios
                             </span>
                         </div>
-                        <button id="today" class="flex flex-2 px-4 py-3 bg-zinc-800 transition text-white font-semibold rounded-xl focus:outline-none">Today</button>
+                        <button id="today" class="flex flex-2 px-4 py-3 bg-blue-700 transition text-white font-semibold rounded-xl hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition text-white font-semibold rounded-xl focus:outline-none">Today</button>
                     </div>
                     <div id="agenda" class="flex flex-col justify-between container mx-auto bg-zinc-800 rounded-xl py-3 px-3">
                         ${agenda}
