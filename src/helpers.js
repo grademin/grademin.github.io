@@ -186,20 +186,24 @@ export async function url(title, url) {
 export function format(string) {
     if (string == "" || string == null || string == undefined)
         string = "";
-    
-    string = string.replace(/<table/g, `<table class="w-full"`);
-    string = string.replace(/<u>/g, "")
+
+    // Convert all entities to html 
     string = string.replace(/&lt;/g, '<')
     string = string.replace(/&gt;/g, '>')
     string = string.replace(/&amp;/g, '&')
+
+    // Others
+    string = string.replace(/<table/g, `<table class="w-full"`);
+    string = string.replace(/<td/g, `<td class="flex flex-col gap-5"`)
+    string = string.replace(/style\s*=\s*["'][^"']*["']/gi, "")
+    string = string.replace(/<u>/g, "")
     string = string.replace(/id="isPasted"/g, "");
     string = string.replace(/dir="ltr"/g, "");
-    string = string.replace(/<td/g, `<td class="flex flex-col gap-5"`)
-    string = string.replace(/style\s*=\s*["'][^"']*["']/gi, '')
+    string = string.replace(/<span/g, `<span class="w-full break-all"`)
     string = string.replace(/<img/g, "<img class=\"rounded-xl py-2\"")
     string = string.replace(/href/g, "goto")
     string = string.replace(/<a/g, `<a class="text-blue-700 hover:text-blue-600 cursor-pointer transition"`)
-    return string;
+    return string.trim();
 }
 
 /** 
