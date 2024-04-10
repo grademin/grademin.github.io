@@ -64,6 +64,7 @@ export async function run() {
                 ///////// MAIN CONTROLS
 
                 case "go-back": {
+                    // TODO: remove event listener for scroll
                     history.pushState({}, "", `?page=overview`);
                     await site.runtime("overview");
                     break;

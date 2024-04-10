@@ -21,6 +21,9 @@ Created so that I don't forget some of the things that need to (happen / be fixe
 - ~~(maybe) redo the announcements reload feature so that it doesn't do it by reloading the page, and instead fetchs the stuff again.~~
 - ~~Container followed custom screen sizes from `tailwind.config`~~
 - ~~Never thought about the title having a "-" so i made it space that and handle the second word~~
+- A lot of ajax request can error out for seemingly unreasonable reasons, like fr its suprising.
+- Fix infinite loading from functioning outside "Activity Stream"
+- Just fix stuff in general lol
 
 # Finished
 - Added Announcements
