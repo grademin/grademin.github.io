@@ -98,7 +98,7 @@ export async function run() {
                         </div>
                         <div class="flex flex-col">
                             <h1 class="text-[22px] font-bold">Activity Stream</h1>
-                            <span class="font-bold text-[15px] text-zinc-400">See all recent activity</span>
+                            <span class="font-bold text-[15px] text-zinc-400">See all recent activities</span>
                         </div>
                     </div>
                     <div class="flex justify-center items-center pointer-events-none">
@@ -307,7 +307,6 @@ export async function run() {
                     codes = "100|200|201|300|301|400|401|500|501|600|601|803";
             } catch (e) {}
 
-            // TODO:
             await $.ajax({
                 url: hlp.api(`/cmd/getuseractivitystream?_token=${hlp.session.token}&userid=${hlp.session.id}&types=${codes}`),
                 method: "GET",
@@ -315,8 +314,40 @@ export async function run() {
                 contentType: "application/json; charset=utf-8",
                 success: async function (activities) {
                     activities.response.activities.activity.sort((a, b) => new Date(b.date) - new Date(a.date));
+                    
+                    if (hlp.get("activities") == "") {
+                        hlp.set("activities", {
+                            start: new Date().toLocaleDateString('en-US'),
+                            data: {
+                                items: [],
+                                $unviewed: 0
+                            }
+                        })
+                    }
 
-                    //console.log(activities)
+                    let items = hlp.get("activities");
+                    let unviewed = 0;
+                    $.each(activities.response.activities.activity, (i, activity) => {
+                        if (new Date(activity.date) >= new Date(hlp.get("activities").start)) {
+                            if (!items.data.items.find(name => name.item.includes(activity.data.item.title))) {
+                                unviewed++
+                                items.data.$unviewed = unviewed
+                                items.data.items.push({
+                                    item: activity.data.item.title,
+                                });
+                                
+                                hlp.set("activities", items);
+                            }
+                        }
+                    })
+
+                    if (hlp.get("activities").data.$unviewed != 0) {
+                        $("#activity-stream").append(`
+                            <div class="absolute inline-flex right-0 top-0 h-8 w-8 -m-2 rounded-full bg-blue-700 opacity-75 justify-center items-center">
+                                <span>${hlp.get("activities").data.$unviewed}</span>
+                            </div> 
+                        `)
+                    }
                 }
             })
         } catch (e) {}

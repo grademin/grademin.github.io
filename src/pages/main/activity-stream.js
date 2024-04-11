@@ -99,6 +99,13 @@ export async function run() {
         
 
         async function call() {
+            // viewed activity stream
+            let viewed = hlp.get("activities");
+            viewed.start = new Date().toLocaleDateString('en-US');
+            viewed.data.$unviewed = 0;
+            hlp.set("activities", viewed); 
+
+            
             let codes = "200|201|301|400|401|500|501|601|803";
             try {
                 let settings = hlp.get("settings");
@@ -218,7 +225,7 @@ export async function run() {
                                 <div class="flex flex-row justify-center items-center gap-5 pointer-events-none w-full">
                                     <div class="flex flex-col w-full">
                                         <h1 class="text-[18px] sm:text-[22px] w-[10ch] xl-sm:w-[23ch] x-sm:w-[30ch] sm:w-full truncate font-bold">${activity.data.item.title}</h1>
-                                        <span class="font-bold text-[15px] text-zinc-400"> posted ${new Date(activity.date).toLocaleDateString(undefined, {weekday: "long", year: "numeric", month: "long", day: "numeric"})} by ${activity.data.user.firstname} ${activity.data.user.lastname}</span>
+                                        <span class="font-bold text-[15px] text-zinc-400">Objective posted ${new Date(activity.date).toLocaleDateString(undefined, {weekday: "long", year: "numeric", month: "long", day: "numeric"})} by ${activity.data.user.firstname} ${activity.data.user.lastname}</span>
                                     </div>
                                 </div>
                             </div>
@@ -236,8 +243,8 @@ export async function run() {
                                 </div>
                             </div>
                             <div class="flex flex-row gap-5 container mx-auto">
-                                <div class="relative w-min flex flex-row gap-5 bg-${hlp.score_to_color(hlp.decode_score(newactivity.data.newgrade))}-500 justify-between bg-zinc-800 rounded-xl py-2 px-3">
-                                    <span class="font-bold">${hlp.decode_score(newactivity.data.newgrade)}</span>
+                                <div class="relative w-min flex flex-row gap-5 bg-${hlp.score_to_color(hlp.decode_score(activity.data.newgrade))}-500 justify-between bg-zinc-800 rounded-xl py-2 px-3">
+                                    <span class="font-bold">${hlp.decode_score(activity.data.newgrade)}</span>
                                 </div>
                             </div>
                         </div>
