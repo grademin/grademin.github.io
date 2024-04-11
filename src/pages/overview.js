@@ -289,11 +289,13 @@ export async function run() {
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 success: async function (due) {
-                    $("#todo-list").append(`
-                        <div class="absolute inline-flex right-0 top-0 h-8 w-8 -m-2 rounded-full bg-blue-700 opacity-75 justify-center items-center">
-                            <span>${due.response.items.item.length}</span>
-                        </div> 
-                    `)
+                    if (due.response.items.item.length != 0) {
+                        $("#todo-list").append(`
+                            <div class="absolute inline-flex right-0 top-0 h-8 w-8 -m-2 rounded-full bg-blue-700 opacity-75 justify-center items-center">
+                                <span>${due.response.items.item.length}</span>
+                            </div> 
+                        `)
+                    }
                 }
             })
         } catch (e) {}
