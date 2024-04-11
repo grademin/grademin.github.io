@@ -257,42 +257,69 @@ export async function run() {
         
 
         // Announcement "viewed" count
-        await $.ajax({
-            url: hlp.api(`/cmd/getuserannouncementlist?_token=${hlp.session.token}&userid=${hlp.session.id}&daysactivepastend=14`),
-            method: "GET",
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            success: async function (communications) {
-                let unviewed = 0;
-                await $.each(communications.response.announcements.announcement, function (i, communication) {
-                    if (!communication.viewed)
-                        unviewed++
-                })
-                
-                if (unviewed != 0) {
-                    $("#announcements").append(`
+        try {
+            await $.ajax({
+                url: hlp.api(`/cmd/getuserannouncementlist?_token=${hlp.session.token}&userid=${hlp.session.id}&daysactivepastend=14`),
+                method: "GET",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: async function (communications) {
+                    let unviewed = 0;
+                    await $.each(communications.response.announcements.announcement, function (i, communication) {
+                        if (!communication.viewed)
+                            unviewed++
+                    })
+                    
+                    if (unviewed != 0) {
+                        $("#announcements").append(`
+                            <div class="absolute inline-flex right-0 top-0 h-8 w-8 -m-2 rounded-full bg-blue-700 opacity-75 justify-center items-center">
+                                <span>${unviewed}</span>
+                            </div> 
+                        `)
+                    }
+                }
+            })
+        } catch (e) {}
+
+        // Todo List current todos
+        try {
+            await $.ajax({
+                url: hlp.api(`/cmd/getduesoonlist?_token=${hlp.session.token}&days=3&userId=${hlp.session.id}&utcoffset=300`),
+                method: "GET",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: async function (due) {
+                    $("#todo-list").append(`
                         <div class="absolute inline-flex right-0 top-0 h-8 w-8 -m-2 rounded-full bg-blue-700 opacity-75 justify-center items-center">
-                            <span>${unviewed}</span>
+                            <span>${due.response.items.item.length}</span>
                         </div> 
                     `)
                 }
-            }
-        })
+            })
+        } catch (e) {}
 
-        // Todo List current todos
-        await $.ajax({
-            url: hlp.api(`/cmd/getduesoonlist?_token=${hlp.session.token}&days=3&userId=${hlp.session.id}&utcoffset=300`),
-            method: "GET",
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            success: async function (due) {
-                $("#todo-list").append(`
-                    <div class="absolute inline-flex right-0 top-0 h-8 w-8 -m-2 rounded-full bg-blue-700 opacity-75 justify-center items-center">
-                        <span>${due.response.items.item.length}</span>
-                    </div> 
-                `)
-            }
-        })
+        // Activity stream
+        try {
+            let codes = "200|201|301|400|401|500|501|601|803";
+            try {
+                let settings = hlp.get("settings");
+                if (settings.find(name => name.setting.includes("include-self")).$value)
+                    codes = "100|200|201|300|301|400|401|500|501|600|601|803";
+            } catch (e) {}
+
+            // TODO:
+            await $.ajax({
+                url: hlp.api(`/cmd/getuseractivitystream?_token=${hlp.session.token}&userid=${hlp.session.id}&types=${codes}`),
+                method: "GET",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: async function (activities) {
+                    activities.response.activities.activity.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+                    //console.log(activities)
+                }
+            })
+        } catch (e) {}
 
         hlp.animate_nav();
     })

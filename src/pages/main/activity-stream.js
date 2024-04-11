@@ -4,7 +4,8 @@ export async function run() {
     const hlp = await import("../../helpers.js"),
           site = await import("../../site.js");
 
-    // TODO:
+    // TODO: add feedback to activity stream
+    // TODO: fix this lol
           
     hlp.load(async function () {
         await $("#root").html(`
@@ -66,6 +67,7 @@ export async function run() {
                 case "go-back": {
                     // TODO: remove event listener for scroll
                     history.pushState({}, "", `?page=overview`);
+                    window.onscroll = null;
                     await site.runtime("overview");
                     break;
                 }
@@ -82,11 +84,13 @@ export async function run() {
                 ///////// BOTTOM NAVIGATION CONTROLS
 
                 case "overview": {
+                    window.onscroll = null;
                     await site.runtime("overview");
                     break;
                 }
 
                 case "settings": {
+                    window.onscroll = null;
                     await site.runtime("settings");
                     break;
                 }
@@ -113,7 +117,7 @@ export async function run() {
             
             let pagnateKey = activity.response.activities.endkey;
 
-            let settings, objectives, manifest, learning_objectives;
+            let settings, objectives;
 
             try {
                 settings = await $.ajax({
@@ -240,7 +244,7 @@ export async function run() {
                     `)
                 }
 
-                window.onscroll = async function(ev) {
+                window.onscroll = async function() {
                     if ((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight) {
                         let newactivity = await $.ajax({
                             url: hlp.api(`/cmd/getuseractivitystream?_token=${hlp.session.token}&userid=${hlp.session.id}&types=${codes}&startkey=${pagnateKey}`),
@@ -251,8 +255,6 @@ export async function run() {
             
                         newactivity.response.activities.activity.sort((a, b) => new Date(b.date) - new Date(a.date));
                         
-                        console.log(newactivity.response.activities.activity)
-
                         pagnateKey = newactivity.response.activities.endkey;
                         $.each(newactivity.response.activities.activity, async (i, newactivity) => {
                             // Undefined means the user submitted in that activity

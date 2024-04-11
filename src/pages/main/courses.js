@@ -423,15 +423,15 @@ export async function run() {
                                 arrow_back_ios_new
                             </span>
                         </div>
-                        <div id="agenda-date" class="flex flex-1 flex-col bg-zinc-800 justify-center items-center rounded-xl w-min py-3 px-3">
-                            <span class="font-bold">${new Date().toLocaleDateString('en-US')}</span>
+                        <div id="agenda-date" class="flex flex-1 flex-col x-sm:flex-row bg-zinc-800 justify-center items-center rounded-xl w-min py-3 px-3">
+                            <span class="font-bold flex-1 flex justify-center">${new Date().toLocaleDateString('en-US')}</span>
                         </div>
                         <div id="agenda-forward" class="flex flex-2 flex-col bg-blue-700 transition text-white font-semibold rounded-xl hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 justify-center items-center cursor-pointer rounded-xl w-min py-3 px-3">
                             <span class="material-symbols-rounded">
                                 arrow_forward_ios
                             </span>
                         </div>
-                        <button id="today" class="flex flex-2 px-4 py-3 bg-blue-700 transition text-white font-semibold rounded-xl hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition text-white font-semibold rounded-xl focus:outline-none">Today</button>
+                        <button id="today" class="flex flex-2 justify-center items-center px-4 py-3 bg-blue-700 transition text-white font-semibold rounded-xl hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition text-white font-semibold rounded-xl focus:outline-none">Today</button>
                     </div>
                     <div id="agenda" class="flex flex-col justify-between container mx-auto bg-zinc-800 rounded-xl py-3 px-3">
                         ${agenda}
@@ -439,7 +439,7 @@ export async function run() {
                 </div>
             `).find("#courses").hide();
 
-            let current_date = new Date($("#agenda-date").text());
+            let current_date = new Date();
 
             $("#today").on("click", async function () {
                 current_date.setDate(new Date().getDate());
@@ -458,6 +458,9 @@ export async function run() {
 
                 if (new_agenda != "") {
                     $("#agenda").html(new_agenda);
+                    $("[goto]").on("click", function (event) {
+                        window.open($(this).attr("goto"), "_blank")
+                    })
                 } else {
                     $("#agenda").html(`<span class="flex justify-center items-center">No agenda for today</span>`)
                 }
@@ -476,10 +479,13 @@ export async function run() {
                     }));
                 } catch (e) {}
 
-                $("#agenda-date span").html(new Date(current_date).toLocaleDateString('en-US'))
+                $("#agenda-date span:not(#agenda-date-day)").html(new Date(current_date).toLocaleDateString('en-US'))
 
                 if (new_agenda != "") {
                     $("#agenda").html(new_agenda);
+                    $("[goto]").on("click", function (event) {
+                        window.open($(this).attr("goto"), "_blank")
+                    })
                 } else {
                     $("#agenda").html(`<span class="flex justify-center items-center">No agenda for today</span>`)
                 }
@@ -502,6 +508,9 @@ export async function run() {
 
                 if (new_agenda != "") {
                     $("#agenda").html(new_agenda);
+                    $("[goto]").on("click", function (event) {
+                        window.open($(this).attr("goto"), "_blank")
+                    })
                 } else {
                     $("#agenda").html(`<span class="flex justify-center items-center">No agenda for today</span>`)
                 }
