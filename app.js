@@ -10,6 +10,9 @@
     tailwind.config = {
         theme: {
             extend: {
+                width: {
+                    'full': '100% !important',
+                },
                 screens: {
                     "x-sm": "475px",
                     "xl-sm": "325px",

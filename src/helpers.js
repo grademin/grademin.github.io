@@ -194,16 +194,16 @@ export function format(string) {
 
     // Others
     // HACK: This might not work, but for my stuff it works just fine.
-    string = string.replace(/<table/g, `<table style="width: 100% !important;"`);
-    string = string.replace(/<td/g, `<td class="flex flex-col gap-5"`)
-    string = string.replace(/font-size:/g, "");
-    string = string.replace(/list-style-type:/g, "")
-    string = string.replace(/-color:/g, "");
-    string = string.replace(/color:/g, "");
-    string = string.replace(/font-family:/g, "");
-    string = string.replace(/text-decoration:/g, "");
-    string = string.replace(/solid #000000 1pt/g, "solid rgb(63, 63, 70) .1px")
-    string = string.replace(/::marker/g, "")
+    string = string.replace(/<table/g, `<table class="w-full"`);
+    string = string.replace(/<td/g, `<td class="flex flex-col gap-5 w-full"`);
+        string = string.replace(/(?<=<[^>]+)font-size:/g, "");
+    string = string.replace(/(?<=<[^>]+)list-style-type:/g, "");
+    string = string.replace(/(?<=<[^>]+)-color:/g, "");
+    string = string.replace(/(?<=<[^>]+)color:/g, "");
+    string = string.replace(/(?<=<[^>]+)font-family:/g, "");
+    string = string.replace(/(?<=<[^>]+)text-decoration:/g, "");
+    string = string.replace(/(?<=<[^>]+)solid #000000 1pt/g, "solid rgb(63, 63, 70) .1px");
+    string = string.replace(/(?<=<[^>]+)::marker/g, "");
     string = string.replace(/<p/g, "<span");
     //string = string.replace(/style\s*=\s*["'][^"']*["']/gi, "")
     string = string.replace(/<u>/g, "")
@@ -211,7 +211,7 @@ export function format(string) {
     string = string.replace(/<\/strong>/g, "")
     string = string.replace(/id="isPasted"/g, "");
     string = string.replace(/dir="ltr"/g, "");
-    string = string.replace(/<span/g, `<span class="w-full word-wrap: break-word; word-break: break-word;"`)
+    string = string.replace(/<span/g, `<span class="w-full" style="word-wrap: break-word; word-break: break-word;"`)
     string = string.replace(/<img/g, "<img class=\"rounded-xl py-2\"")
     string = string.replace(/href/g, "goto")
     string = string.replace(/<a/g, `<a class="text-blue-700 hover:text-blue-600 cursor-pointer transition"`)

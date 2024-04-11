@@ -325,9 +325,8 @@ export async function run() {
                 }));
             } catch (e) {}
             
-            if (agenda.includes("errorId"))
+            if (agenda.includes("errorId") || agenda == "")
                 agenda = `<span class="flex justify-center items-center">No agenda for today</span>`;
-
 
             $("#course").remove();
             await $("#courses").parent().append(`
@@ -417,21 +416,23 @@ export async function run() {
                             ${landing}
                         </div>
                     </div>
-                    <div class="flex flex-row gap-5">
-                        <div id="agenda-back" class="flex flex-2 flex-col bg-blue-700 transition text-white font-semibold rounded-xl hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 justify-center items-center cursor-pointer rounded-xl w-min py-3 px-3">
-                            <span class="material-symbols-rounded">
-                                arrow_back_ios_new
-                            </span>
-                        </div>
-                        <div id="agenda-date" class="flex flex-1 flex-col x-sm:flex-row bg-zinc-800 justify-center items-center rounded-xl w-min py-3 px-3">
-                            <span class="font-bold flex-1 flex justify-center">${new Date().toLocaleDateString('en-US')}</span>
-                        </div>
-                        <div id="agenda-forward" class="flex flex-2 flex-col bg-blue-700 transition text-white font-semibold rounded-xl hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 justify-center items-center cursor-pointer rounded-xl w-min py-3 px-3">
-                            <span class="material-symbols-rounded">
-                                arrow_forward_ios
-                            </span>
-                        </div>
-                        <button id="today" class="flex flex-2 justify-center items-center px-4 py-3 bg-blue-700 transition text-white font-semibold rounded-xl hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition text-white font-semibold rounded-xl focus:outline-none">Today</button>
+                    <div class="flex flex-col gap-5">
+                        <div class="flex flex-row gap-5">
+                            <div id="agenda-back" class="flex flex-2 flex-col bg-blue-700 transition text-white font-semibold rounded-xl hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 justify-center items-center cursor-pointer rounded-xl w-min py-3 px-3">
+                                <span class="material-symbols-rounded">
+                                    arrow_back_ios_new
+                                </span>
+                            </div>
+                            <div id="agenda-date" class="flex flex-col w-full bg-zinc-800 justify-center items-center rounded-xl py-3 px-3">
+                                <span class="font-bold flex-1 flex justify-center">${new Date().toLocaleDateString('en-US')}</span>
+                            </div>  
+                            <div id="agenda-forward" class="flex flex-2 flex-col bg-blue-700 transition text-white font-semibold rounded-xl hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 justify-center items-center cursor-pointer rounded-xl w-min py-3 px-3">
+                                <span class="material-symbols-rounded">
+                                    arrow_forward_ios
+                                </span>
+                            </div>
+                            <button id="today" class="flex flex-1 justify-center items-center px-4 py-3 bg-blue-700 transition text-white font-semibold rounded-xl hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition text-white font-semibold rounded-xl focus:outline-none">Today</button>
+                        </div> 
                     </div>
                     <div id="agenda" class="flex flex-col justify-between container mx-auto bg-zinc-800 rounded-xl py-3 px-3">
                         ${agenda}
