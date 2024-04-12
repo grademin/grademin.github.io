@@ -106,6 +106,7 @@ export async function run() {
             let settings = [];
             let objectives = [];
             let next_activities = [];
+            let feedback = [];
 
             try {
                 let settings = hlp.get("settings");
@@ -156,22 +157,12 @@ export async function run() {
                         contentType: "application/json; charset=utf-8"
                     })
                 } catch (e) {}
-
-                try {
-                    objective = course_details.response.enrollment.enrollmentmetrics.objectivescores.objectivescore;                    
-                } catch (e) {}
-                
-                a = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Agency")).guid));
-                c = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Collaboration")).guid));
-                k = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Knowledge & Thinking")).guid));
-                o = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Oral Communication")).guid));
-                w = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Written Communication")).guid));
             }
 
             $("#activity-stream").empty();
             content(activities.response.activities.activity);
             window.onscroll = async function() {
-                if ((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight) {
+                if ((window.innerHeight + window.scrollY) + 50 >= document.documentElement.scrollHeight) {
                     try {
                         next_activities = await $.ajax({
                             url: hlp.api(`/cmd/getuseractivitystream?_token=${hlp.session.token}&userid=${hlp.session.id}&types=${codes}&startkey=${pagnateKey}`),
@@ -179,21 +170,17 @@ export async function run() {
                             dataType: "json",
                             contentType: "application/json; charset=utf-8"
                         })
+
+                        if (next_activities.length != 0) {
+                            next_activities.response.activities.activity.sort((a, b) => new Date(b.date) - new Date(a.date));
+                            pagnateKey = next_activities.response.activities.endkey;
+                            
+                            content(next_activities.response.activities.activity)
+                        }
                     } catch (e) {}
-
-                    if (next_activities.length != 0) {
-                        next_activities.response.activities.activity.sort((a, b) => new Date(b.date) - new Date(a.date));
-                        pagnateKey = next_activities.response.activities.endkey;
-
-                        content(next_activities.response.activities.activity)
-                    }
                 }
             }
 
-
-            // TODO:
-            //"100|200|201|300|301|400|401|500|501|600|601|803"
-            //"200|201|301|400|401|500|501|601|803"
             function content(json) {
                 $.each(json, (i, activity) => {
                     switch (activity.type) {
@@ -214,6 +201,82 @@ export async function run() {
                         case 201:
                         case 200: {
                             // Grade Posted
+                            if (activity.data.newgrade.objectivescores != undefined) {
+                                try {
+                                    try {
+                                        objective = activity.data.newgrade.objectivescores.objectivescore;                
+                                    } catch (e) {}
+                                                        
+                                    a = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Agency")).guid));
+                                    c = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Collaboration")).guid));
+                                    k = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Knowledge & Thinking")).guid));
+                                    o = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Oral Communication")).guid));
+                                    w = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Written Communication")).guid));
+                                } catch (e) {}
+
+                                $("#activity-stream").append(`
+                                    <div class="flex flex-col gap-2">
+                                        <div class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl py-3 px-3">
+                                            <div class="flex flex-row justify-center items-center gap-5 w-full">
+                                                <div class="flex flex-col w-full">
+                                                    <h1 class="text-[18px] sm:text-[22px] w-[10ch] xl-sm:w-[23ch] x-sm:w-[30ch] sm:w-full truncate font-bold">${activity.data.item.title}</h1>
+                                                    <span class="font-bold text-[15px] text-zinc-400">Grade posted ${new Date(activity.date).toLocaleDateString(undefined, {weekday: "long", year: "numeric", month: "long", day: "numeric"})} by ${activity.data.user.firstname} ${activity.data.user.lastname}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex flex-row gap-5 container mx-auto">
+                                            ${a != undefined ? `
+                                            <div class="relative w-min flex flex-row gap-5 justify-between bg-zinc-800 rounded-xl py-2 px-3">
+                                                <span class="font-bold">${hlp.decode_score(a)}</span>
+                                                <div class="rounded-lg bg-yellow-500 p-3"></div>
+                                            </div>
+                                            ` : ""}
+                                            ${c != undefined ? `
+                                            <div class="relative w-min flex flex-row gap-5 justify-between bg-zinc-800 rounded-xl py-2 px-3">
+                                                <span class="font-bold">${hlp.decode_score(c)}</span>    
+                                                <div class="rounded-lg bg-violet-500 p-3"></div>
+                                            </div>
+                                            ` : ""}
+                                            ${k != undefined ? `
+                                            <div class="relative w-min flex flex-row gap-5 justify-between bg-zinc-800 rounded-xl py-2 px-3">
+                                                <span class="font-bold">${hlp.decode_score(k)}</span>    
+                                                <div class="rounded-lg bg-blue-500 p-3"></div> 
+                                            </div>
+                                            ` : ""}
+                                            ${o != undefined ? `
+                                            <div class="relative w-min flex flex-row gap-5 justify-between bg-zinc-800 rounded-xl py-2 px-3">
+                                                <span class="font-bold">${hlp.decode_score(o)}</span>
+                                                <div class="rounded-lg bg-green-500 p-3"></div>
+                                            </div>
+                                            ` : ""}
+                                            ${w != undefined ? `
+                                            <div class="relative w-min flex flex-row gap-5 justify-between bg-zinc-800 rounded-xl py-2 px-3">
+                                                <span class="font-bold">${hlp.decode_score(w)}</span>
+                                                <div class="rounded-lg bg-cyan-500 p-3"></div>
+                                            </div>
+                                            ` : ""}
+                                        </div>
+                                    </div>
+                                `)
+                            } else {
+                                $("#activity-stream").append(`
+                                    <div class="flex flex-col gap-2">
+                                        <div class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl py-3 px-3">
+                                            <div class="flex flex-row justify-center items-center gap-5 pointer-events-none w-full">
+                                                <div class="flex flex-col w-full">
+                                                    <h1 class="text-[18px] sm:text-[22px] w-[10ch] xl-sm:w-[23ch] x-sm:w-[30ch] sm:w-full truncate font-bold">${activity.data.item.title}</h1>
+                                                    <span class="font-bold text-[15px] text-zinc-400">Grade posted ${new Date(activity.date).toLocaleDateString(undefined, {weekday: "long", year: "numeric", month: "long", day: "numeric"})} by ${activity.data.user.firstname} ${activity.data.user.lastname}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex flex-row gap-5 container mx-auto">
+                                            <div class="relative w-min flex flex-row gap-5 bg-${hlp.score_to_color(hlp.decode_score(activity.data.newgrade))}-500 justify-between bg-zinc-800 rounded-xl py-2 px-3">
+                                                <span class="font-bold">${hlp.decode_score(activity.data.newgrade)}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `)
+                            }
                             break;
                         }
                         case 300: {
@@ -251,6 +314,16 @@ export async function run() {
                         }
                         case 803: {
                             // An assignment was allowed a retry
+                            $("#activity-stream").append(`
+                                <div class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl py-3 px-3">
+                                    <div class="flex flex-row justify-center items-center gap-5 pointer-events-none w-full">
+                                        <div class="flex flex-col w-full">
+                                            <h1 class="text-[18px] sm:text-[22px] w-[10ch] xl-sm:w-[23ch] x-sm:w-[30ch] sm:w-full truncate font-bold">${activity.data.item.title}</h1>
+                                            <span class="font-bold text-[15px] text-zinc-400">A retry has been allowed for this assignement</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            `)
                             break;
                         }
                     }
