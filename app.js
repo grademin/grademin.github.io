@@ -15,6 +15,7 @@
                 },
                 screens: {
                     "x-sm": "475px",
+                    "xs-sm": "375px",
                     "xl-sm": "325px",
                     "xxl-sm": "245px"
                 },

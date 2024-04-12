@@ -76,6 +76,57 @@ export async function run() {
                     break;
                 }
 
+                case "agency":
+                case "collaboration":
+                case "knowlege":
+                case "oral":
+                case "written": {
+                    $("body").addClass("overflow-hidden");
+                    $("#overlays").append(`
+                        <div id="overlay" class="fixed inset-0 z-50 bg-gray-900 bg-opacity-50 flex justify-center items-center animation-fadein">
+                            <div class="container mx-auto px-4 flex justify-center items-center pointer-events-none animation-popin">
+                                <div class="bg-zinc-800 rounded-xl max-w-lg px-5 py-5 pointer-events-auto">
+                                    <div class="flex justify-center items-center mb-4">
+                                        <h2 class="text-2xl font-bold text-white text-center">Color Legend</h2>
+                                    </div>
+                                    <div class="flex flex-col gap-5">
+                                        <div class="flex flex-row gap-5">
+                                            <div class="rounded-lg flex-2 bg-yellow-500 p-4 float-left"></div>
+                                            <span class="flex flex-1 items-center font-bold">Agency</span>
+                                        </div>
+                                        <div class="flex flex-row gap-5">
+                                            <div class="rounded-lg flex-2 bg-violet-500 p-4 float-left"></div>
+                                            <span class="flex flex-1 items-center font-bold">Collaboration</span>
+                                        </div>
+                                        <div class="flex flex-row gap-5">
+                                            <div class="rounded-lg flex-2 bg-blue-500 p-4 float-left"></div>
+                                            <span class="flex flex-1 items-center font-bold">Knowlege & Thinking</span>
+                                        </div>
+                                        <div class="flex flex-row gap-5">
+                                            <div class="rounded-lg flex-2 bg-green-500 p-4 float-left"></div>
+                                            <span class="flex flex-1 items-center font-bold">Oral Communication</span>
+                                        </div>
+                                        <div class="flex flex-row gap-5">
+                                            <div class="rounded-lg flex-2 bg-cyan-500 p-4 float-left"></div>
+                                            <span class="flex flex-1 items-center font-bold">Written Communication</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `).on("click", function (event) {
+                        switch ($(event.target).attr("id")) {
+                            case "overlay": {
+                                $("#overlay").fadeOut(400, function () {
+                                    $("#overlays").empty();
+                                });
+                                $("body").removeClass("overflow-hidden");
+                            }
+                        }
+                    })
+                    break;
+                }
+
 
 
                 case "overview": {
@@ -106,7 +157,6 @@ export async function run() {
             let settings = [];
             let objectives = [];
             let next_activities = [];
-            let feedback = [];
 
             try {
                 let settings = hlp.get("settings");
@@ -200,6 +250,33 @@ export async function run() {
                         }
                         case 201:
                         case 200: {
+                            // User has been excused
+                            if (activity.data.item.gradeflags == 16) {
+                                if (activity.data.newgrade.objectivescores == undefined) {
+                                    $("#activity-stream").append(`
+                                        <div class="flex flex-col gap-2">
+                                            <div class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl py-3 px-3">
+                                                <div class="flex flex-row justify-center items-center gap-5 pointer-events-none w-full">
+                                                    <div class="flex flex-col w-full">
+                                                        <h1 class="text-[18px] sm:text-[22px] w-[10ch] xl-sm:w-[23ch] x-sm:w-[30ch] sm:w-full truncate font-bold">${activity.data.item.title}</h1>
+                                                        <span class="font-bold text-[15px] text-zinc-400">Grade posted ${new Date(activity.date).toLocaleDateString(undefined, {weekday: "long", year: "numeric", month: "long", day: "numeric"})} by ${activity.data.user.firstname} ${activity.data.user.lastname}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flex flex-row gap-2 container mx-auto">
+                                                <div class="relative w-min flex flex-row gap-5 bg-zinc-800 justify-between bg-zinc-800 rounded-xl py-2 px-3">
+                                                    <span class="font-bold">Excused</span>
+                                                </div>
+                                                <div class="relative w-min flex flex-row gap-5 bg-${hlp.score_to_color(hlp.decode_score(activity.data.newgrade))}-500 justify-between bg-zinc-800 rounded-xl py-2 px-3">
+                                                    <span class="font-bold">${hlp.decode_score(activity.data.newgrade)}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `)
+                                    return;
+                                }
+                            }
+
                             // Grade Posted
                             if (activity.data.newgrade.objectivescores != undefined) {
                                 try {
@@ -213,51 +290,67 @@ export async function run() {
                                     o = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Oral Communication")).guid));
                                     w = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Written Communication")).guid));
                                 } catch (e) {}
-
-                                $("#activity-stream").append(`
-                                    <div class="flex flex-col gap-2">
-                                        <div class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl py-3 px-3">
-                                            <div class="flex flex-row justify-center items-center gap-5 w-full">
-                                                <div class="flex flex-col w-full">
-                                                    <h1 class="text-[18px] sm:text-[22px] w-[10ch] xl-sm:w-[23ch] x-sm:w-[30ch] sm:w-full truncate font-bold">${activity.data.item.title}</h1>
-                                                    <span class="font-bold text-[15px] text-zinc-400">Grade posted ${new Date(activity.date).toLocaleDateString(undefined, {weekday: "long", year: "numeric", month: "long", day: "numeric"})} by ${activity.data.user.firstname} ${activity.data.user.lastname}</span>
+                                
+                                if (a != undefined || c != undefined || k != undefined || o != undefined || w != undefined) {
+                                    $("#activity-stream").append(`
+                                        <div class="flex flex-col gap-2">
+                                            <div class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl py-3 px-3">
+                                                <div class="flex flex-row justify-center items-center gap-5 w-full">
+                                                    <div class="flex flex-col w-full">
+                                                        <h1 class="text-[18px] sm:text-[22px] w-[10ch] xl-sm:w-[23ch] x-sm:w-[30ch] sm:w-full truncate font-bold">${activity.data.item.title}</h1>
+                                                        <span class="font-bold text-[15px] text-zinc-400">Grade posted ${new Date(activity.date).toLocaleDateString(undefined, {weekday: "long", year: "numeric", month: "long", day: "numeric"})} by ${activity.data.user.firstname} ${activity.data.user.lastname}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flex flex-row gap-2 flex-wrap container mx-auto">
+                                                ${a != undefined ? `
+                                                <div id="agency" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer bg-zinc-800 rounded-xl py-2 px-3">
+                                                    <span class="font-bold pointer-events-none">${hlp.decode_score(a)}</span>
+                                                    <div class="rounded-lg bg-yellow-500 p-3 pointer-events-none"></div>
+                                                </div>
+                                                ` : ""}
+                                                ${c != undefined ? `
+                                                <div id="collaboration" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer bg-zinc-800 rounded-xl py-2 px-3">
+                                                    <span class="font-bold pointer-events-none">${hlp.decode_score(c)}</span>    
+                                                    <div class="rounded-lg bg-violet-500 p-3 pointer-events-none"></div>
+                                                </div>
+                                                ` : ""}
+                                                ${k != undefined ? `
+                                                <div id="knowlege" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer bg-zinc-800 rounded-xl py-2 px-3">
+                                                    <span class="font-bold pointer-events-none">${hlp.decode_score(k)}</span>    
+                                                    <div class="rounded-lg bg-blue-500 p-3 pointer-events-none"></div> 
+                                                </div>
+                                                ` : ""}
+                                                ${o != undefined ? `
+                                                <div id="oral" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer bg-zinc-800 rounded-xl py-2 px-3">
+                                                    <span class="font-bold pointer-events-none">${hlp.decode_score(o)}</span>
+                                                    <div class="rounded-lg bg-green-500 p-3 pointer-events-none"></div>
+                                                </div>
+                                                ` : ""}
+                                                ${w != undefined ? `
+                                                <div id="written" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer bg-zinc-800 rounded-xl py-2 px-3">
+                                                    <span class="font-bold pointer-events-none">${hlp.decode_score(w)}</span>
+                                                    <div class="rounded-lg bg-cyan-500 p-3 pointer-events-none"></div>
+                                                </div>
+                                                ` : ""}
+                                            </div>
+                                        </div>
+                                    `)
+                                } else {
+                                    // TODO: This can have learning objectives (different from normal objectives)
+                                    $("#activity-stream").append(`
+                                        <div class="flex flex-col gap-2">
+                                            <div class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl py-3 px-3">
+                                                <div class="flex flex-row justify-center items-center gap-5 pointer-events-none w-full">
+                                                    <div class="flex flex-col w-full">
+                                                        <h1 class="text-[18px] sm:text-[22px] w-[10ch] xl-sm:w-[23ch] x-sm:w-[30ch] sm:w-full truncate font-bold">${activity.data.item.title}</h1>
+                                                        <span class="font-bold text-[15px] text-zinc-400">Objective posted ${new Date(activity.date).toLocaleDateString(undefined, {weekday: "long", year: "numeric", month: "long", day: "numeric"})} by ${activity.data.user.firstname} ${activity.data.user.lastname}</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="flex flex-row gap-5 container mx-auto">
-                                            ${a != undefined ? `
-                                            <div class="relative w-min flex flex-row gap-5 justify-between bg-zinc-800 rounded-xl py-2 px-3">
-                                                <span class="font-bold">${hlp.decode_score(a)}</span>
-                                                <div class="rounded-lg bg-yellow-500 p-3"></div>
-                                            </div>
-                                            ` : ""}
-                                            ${c != undefined ? `
-                                            <div class="relative w-min flex flex-row gap-5 justify-between bg-zinc-800 rounded-xl py-2 px-3">
-                                                <span class="font-bold">${hlp.decode_score(c)}</span>    
-                                                <div class="rounded-lg bg-violet-500 p-3"></div>
-                                            </div>
-                                            ` : ""}
-                                            ${k != undefined ? `
-                                            <div class="relative w-min flex flex-row gap-5 justify-between bg-zinc-800 rounded-xl py-2 px-3">
-                                                <span class="font-bold">${hlp.decode_score(k)}</span>    
-                                                <div class="rounded-lg bg-blue-500 p-3"></div> 
-                                            </div>
-                                            ` : ""}
-                                            ${o != undefined ? `
-                                            <div class="relative w-min flex flex-row gap-5 justify-between bg-zinc-800 rounded-xl py-2 px-3">
-                                                <span class="font-bold">${hlp.decode_score(o)}</span>
-                                                <div class="rounded-lg bg-green-500 p-3"></div>
-                                            </div>
-                                            ` : ""}
-                                            ${w != undefined ? `
-                                            <div class="relative w-min flex flex-row gap-5 justify-between bg-zinc-800 rounded-xl py-2 px-3">
-                                                <span class="font-bold">${hlp.decode_score(w)}</span>
-                                                <div class="rounded-lg bg-cyan-500 p-3"></div>
-                                            </div>
-                                            ` : ""}
-                                        </div>
-                                    </div>
-                                `)
+                                    `)
+                                }
                             } else {
                                 $("#activity-stream").append(`
                                     <div class="flex flex-col gap-2">
@@ -269,7 +362,7 @@ export async function run() {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="flex flex-row gap-5 container mx-auto">
+                                        <div class="flex flex-row gap-2 container mx-auto">
                                             <div class="relative w-min flex flex-row gap-5 bg-${hlp.score_to_color(hlp.decode_score(activity.data.newgrade))}-500 justify-between bg-zinc-800 rounded-xl py-2 px-3">
                                                 <span class="font-bold">${hlp.decode_score(activity.data.newgrade)}</span>
                                             </div>
@@ -326,6 +419,7 @@ export async function run() {
                             `)
                             break;
                         }
+                        // TODO: find excused items: 0x2 in data.item.gradeflags
                     }
                 })
             }

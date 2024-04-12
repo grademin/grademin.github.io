@@ -2,6 +2,7 @@ export async function run() {
     const hlp = await import("../../helpers.js"),
           site = await import("../../site.js");
 
+    // TODO:
           
     hlp.load(async function () {
         await $("#root").html(`
@@ -97,6 +98,8 @@ export async function run() {
                 contentType: "application/json; charset=utf-8"
             })
 
+            duesoon.response.items.item.sort((a, b) => new Date(b.duedate) - new Date(a.duedate));
+
             $("#todo-list").empty();
             $.each(duesoon.response.items.item, (i, due) => {
                 $("#todo-list").append(`
@@ -107,15 +110,21 @@ export async function run() {
                                 <span class="font-bold text-[15px] text-zinc-400 border-b-[2px] border-zinc-700 pb-3">Assigned by ${due.entity.title}</span>
                                 <span class="font-bold text-[15px] text-zinc-400 pt-3">${(() => {
                                     // I actually never knew you could use functions in ${}, thanks gpt? i guess.
-                                    const dueDate = new Date(due.duedate);
-                                    const currentDate = new Date();
-                                    currentDate.setHours(0, 0, 0, 0);
-                                    
-                                    // Compare dueDate with currentDate
-                                    if (dueDate < currentDate) {
-                                        return `Past Due: ${dueDate.toLocaleDateString(undefined, {weekday: "long", year: "numeric", month: "long", day: "numeric"})}`;
+                                    let getdue = new Date(due.duedate);
+                                    let today = new Date();
+                                    today.setHours(0, 0, 0, 0);
+
+                                    let tomorrow = new Date(today);
+                                    tomorrow.setDate(tomorrow.getDate() + 1);
+
+                                    if (getdue < today) {
+                                        return `Past Due: ${getdue.toLocaleDateString(undefined, {weekday: "long", year: "numeric", month: "long", day: "numeric"})}`;
+                                    } else if (getdue.toDateString() === today.toDateString()) {
+                                        return "Due: Today";
+                                    } else if (getdue.toDateString() === tomorrow.toDateString()) {
+                                        return `Due: ${tomorrow.toLocaleDateString(undefined, {weekday: "long"})}`;
                                     } else {
-                                        return `Due: ${dueDate.toLocaleDateString(undefined, {weekday: "long", year: "numeric", month: "long", day: "numeric"})}`;
+                                        return `Due: ${getdue.toLocaleDateString(undefined, {weekday: "long", year: "numeric", month: "long", day: "numeric"})}`;
                                     }
                                 })()}</span>
                             </div>

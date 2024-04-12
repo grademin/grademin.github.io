@@ -332,7 +332,7 @@ export async function run() {
             await $("#courses").parent().append(`
                 <div id="course" class="flex flex-col gap-5">
                     <div class="flex flex-col gap-5">
-                        <div class="flex flex-row gap-5">
+                        <div class="flex flex-row ${a == undefined ? c == undefined ? "flex-col" : "flex-col" : ""} gap-5">
                             <div class="relative flex-1 flex flex-col justify-between container mx-auto bg-zinc-800 rounded-xl py-3 px-3">
                                 <div class="flex justify-center items-center h-full">
                                     <svg width="136" height="136" viewBox="0 0 136 136">
