@@ -9,8 +9,8 @@ export async function run() {
           
     hlp.load(async function () {
         await $("#root").html(`
-            <div id="top" class="bg-blue-700">
-                <div class="fixed left-0 right-0 top-0 z-20 flex flex-row bg-blue-700">
+            <div id="top" class="${hlp.theme("bg", "700")} text-white">
+                <div class="fixed left-0 right-0 top-0 z-20 flex flex-row ${hlp.theme("bg", "700")}">
                     <div class="flex justify-center items-center container mx-auto py-2 px-4">
                         <div id="go-back" class="-ml-2 cursor-pointer py-3 px-6 rounded-full active:bg-white active:bg-opacity-20 active:shadow-lg">
                             <span class="w-0 -ml-[1px] font-black pointer-events-none text-1xl material-symbols-rounded flex justify-center items-center">
@@ -34,7 +34,7 @@ export async function run() {
             <!---->
             <!---->
             <div id="bottom" class="fixed bottom-0 left-0 right-0">
-                <div class="bg-zinc-800">
+                <div class="${hlp.theme("theme-card")}">
                     <div class="flex flex-row justify-between items-center">
                         <a id="overview" class="cursor-pointer flex justify-center items-center py-3 w-full">
                             <span class="text-[30px] font-black pointer-events-none material-symbols-rounded">
@@ -85,9 +85,9 @@ export async function run() {
                     $("#overlays").append(`
                         <div id="overlay" class="fixed inset-0 z-50 bg-gray-900 bg-opacity-50 flex justify-center items-center animation-fadein">
                             <div class="container mx-auto px-4 flex justify-center items-center pointer-events-none animation-popin">
-                                <div class="bg-zinc-800 rounded-xl max-w-lg px-5 py-5 pointer-events-auto">
+                                <div class="${hlp.theme("theme-card")} rounded-xl max-w-lg px-5 py-5 pointer-events-auto">
                                     <div class="flex justify-center items-center mb-4">
-                                        <h2 class="text-2xl font-bold text-white text-center">Color Legend</h2>
+                                        <h2 class="text-2xl font-bold ${hlp.theme("theme-text")} text-center">Color Legend</h2>
                                     </div>
                                     <div class="flex flex-col gap-5">
                                         <div class="flex flex-row gap-5">
@@ -237,7 +237,7 @@ export async function run() {
                         case 100: {
                             // You submitted something
                             $("#activity-stream").append(`
-                                <div class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl py-3 px-3">
+                                <div class="relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
                                     <div class="flex flex-row justify-center items-center gap-5 pointer-events-none w-full">
                                         <div class="flex flex-col w-full">
                                             <h1 class="text-[18px] sm:text-[22px] w-[10ch] xl-sm:w-[23ch] x-sm:w-[30ch] sm:w-full truncate font-bold">${activity.data.item.title}</h1>
@@ -255,7 +255,7 @@ export async function run() {
                                 if (activity.data.newgrade.objectivescores == undefined) {
                                     $("#activity-stream").append(`
                                         <div class="flex flex-col gap-2">
-                                            <div class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl py-3 px-3">
+                                            <div class="relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
                                                 <div class="flex flex-row justify-center items-center gap-5 pointer-events-none w-full">
                                                     <div class="flex flex-col w-full">
                                                         <h1 class="text-[18px] sm:text-[22px] w-[10ch] xl-sm:w-[23ch] x-sm:w-[30ch] sm:w-full truncate font-bold">${activity.data.item.title}</h1>
@@ -264,10 +264,10 @@ export async function run() {
                                                 </div>
                                             </div>
                                             <div class="flex flex-row gap-2 container mx-auto">
-                                                <div class="relative w-min flex flex-row gap-5 bg-zinc-800 justify-between bg-zinc-800 rounded-xl py-2 px-3">
+                                                <div class="relative w-min flex flex-row gap-5 ${hlp.theme("theme-card")} justify-between ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
                                                     <span class="font-bold">Excused</span>
                                                 </div>
-                                                <div class="relative w-min flex flex-row gap-5 bg-${hlp.score_to_color(hlp.decode_score(activity.data.newgrade))}-500 justify-between bg-zinc-800 rounded-xl py-2 px-3">
+                                                <div class="relative w-min flex flex-row gap-5 bg-${hlp.score_to_color(hlp.decode_score(activity.data.newgrade))}-500 justify-between ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
                                                     <span class="font-bold">${hlp.decode_score(activity.data.newgrade)}</span>
                                                 </div>
                                             </div>
@@ -294,7 +294,7 @@ export async function run() {
                                 if (a != undefined || c != undefined || k != undefined || o != undefined || w != undefined) {
                                     $("#activity-stream").append(`
                                         <div class="flex flex-col gap-2">
-                                            <div class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl py-3 px-3">
+                                            <div class="relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
                                                 <div class="flex flex-row justify-center items-center gap-5 w-full">
                                                     <div class="flex flex-col w-full">
                                                         <h1 class="text-[18px] sm:text-[22px] w-[10ch] xl-sm:w-[23ch] x-sm:w-[30ch] sm:w-full truncate font-bold">${activity.data.item.title}</h1>
@@ -304,31 +304,31 @@ export async function run() {
                                             </div>
                                             <div class="flex flex-row gap-2 flex-wrap container mx-auto">
                                                 ${a != undefined ? `
-                                                <div id="agency" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer bg-zinc-800 rounded-xl py-2 px-3">
+                                                <div id="agency" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
                                                     <span class="font-bold pointer-events-none">${hlp.decode_score(a)}</span>
                                                     <div class="rounded-lg bg-yellow-500 p-3 pointer-events-none"></div>
                                                 </div>
                                                 ` : ""}
                                                 ${c != undefined ? `
-                                                <div id="collaboration" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer bg-zinc-800 rounded-xl py-2 px-3">
+                                                <div id="collaboration" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
                                                     <span class="font-bold pointer-events-none">${hlp.decode_score(c)}</span>    
                                                     <div class="rounded-lg bg-violet-500 p-3 pointer-events-none"></div>
                                                 </div>
                                                 ` : ""}
                                                 ${k != undefined ? `
-                                                <div id="knowlege" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer bg-zinc-800 rounded-xl py-2 px-3">
+                                                <div id="knowlege" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
                                                     <span class="font-bold pointer-events-none">${hlp.decode_score(k)}</span>    
                                                     <div class="rounded-lg bg-blue-500 p-3 pointer-events-none"></div> 
                                                 </div>
                                                 ` : ""}
                                                 ${o != undefined ? `
-                                                <div id="oral" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer bg-zinc-800 rounded-xl py-2 px-3">
+                                                <div id="oral" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
                                                     <span class="font-bold pointer-events-none">${hlp.decode_score(o)}</span>
                                                     <div class="rounded-lg bg-green-500 p-3 pointer-events-none"></div>
                                                 </div>
                                                 ` : ""}
                                                 ${w != undefined ? `
-                                                <div id="written" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer bg-zinc-800 rounded-xl py-2 px-3">
+                                                <div id="written" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
                                                     <span class="font-bold pointer-events-none">${hlp.decode_score(w)}</span>
                                                     <div class="rounded-lg bg-cyan-500 p-3 pointer-events-none"></div>
                                                 </div>
@@ -340,7 +340,7 @@ export async function run() {
                                     // TODO: This can have learning objectives (different from normal objectives)
                                     $("#activity-stream").append(`
                                         <div class="flex flex-col gap-2">
-                                            <div class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl py-3 px-3">
+                                            <div class="relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
                                                 <div class="flex flex-row justify-center items-center gap-5 pointer-events-none w-full">
                                                     <div class="flex flex-col w-full">
                                                         <h1 class="text-[18px] sm:text-[22px] w-[10ch] xl-sm:w-[23ch] x-sm:w-[30ch] sm:w-full truncate font-bold">${activity.data.item.title}</h1>
@@ -354,7 +354,7 @@ export async function run() {
                             } else {
                                 $("#activity-stream").append(`
                                     <div class="flex flex-col gap-2">
-                                        <div class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl py-3 px-3">
+                                        <div class="relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
                                             <div class="flex flex-row justify-center items-center gap-5 pointer-events-none w-full">
                                                 <div class="flex flex-col w-full">
                                                     <h1 class="text-[18px] sm:text-[22px] w-[10ch] xl-sm:w-[23ch] x-sm:w-[30ch] sm:w-full truncate font-bold">${activity.data.item.title}</h1>
@@ -363,7 +363,7 @@ export async function run() {
                                             </div>
                                         </div>
                                         <div class="flex flex-row gap-2 container mx-auto">
-                                            <div class="relative w-min flex flex-row gap-5 bg-${hlp.score_to_color(hlp.decode_score(activity.data.newgrade))}-500 justify-between bg-zinc-800 rounded-xl py-2 px-3">
+                                            <div class="relative w-min flex flex-row gap-5 bg-${hlp.score_to_color(hlp.decode_score(activity.data.newgrade))}-500 justify-between ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
                                                 <span class="font-bold">${hlp.decode_score(activity.data.newgrade)}</span>
                                             </div>
                                         </div>
@@ -408,7 +408,7 @@ export async function run() {
                         case 803: {
                             // An assignment was allowed a retry
                             $("#activity-stream").append(`
-                                <div class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl py-3 px-3">
+                                <div class="relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
                                     <div class="flex flex-row justify-center items-center gap-5 pointer-events-none w-full">
                                         <div class="flex flex-col w-full">
                                             <h1 class="text-[18px] sm:text-[22px] w-[10ch] xl-sm:w-[23ch] x-sm:w-[30ch] sm:w-full truncate font-bold">${activity.data.item.title}</h1>

@@ -10,8 +10,8 @@ export async function run() {
 
     hlp.load(async function () {
         await $("#root").html(`
-            <div id="top" class="bg-blue-700">
-                <div class="fixed left-0 right-0 top-0 z-20 flex flex-row bg-blue-700">
+            <div id="top" class="${hlp.theme("bg", "700")} text-white">
+                <div class="fixed left-0 right-0 top-0 z-20 flex flex-row ${hlp.theme("bg", "700")}">
                     <div class="flex justify-center items-center container mx-auto py-2 px-4">
                         <div id="go-back" class="-ml-2 cursor-pointer py-3 px-6 rounded-full active:bg-white active:bg-opacity-20 active:shadow-lg">
                             <span class="w-0 -ml-[1px] font-black pointer-events-none text-1xl material-symbols-rounded flex justify-center items-center">
@@ -35,7 +35,7 @@ export async function run() {
             <!---->
             <!---->
             <div id="bottom" class="fixed bottom-0 left-0 right-0">
-                <div class="bg-zinc-800">
+                <div class="${hlp.theme("theme-card")}">
                     <div class="flex flex-row justify-between items-center">
                         <a id="overview" class="cursor-pointer flex justify-center items-center py-3 w-full">
                             <span class="text-[30px] font-black pointer-events-none material-symbols-rounded">
@@ -172,7 +172,7 @@ export async function run() {
             
             if (all_courses.length == 0) {
                 $("#courses").append(`
-                    <div class="flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
+                    <div class="flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl cursor-pointer py-3 px-3">
                         <span class="text-center w-full">You have no courses to view</span>
                     </div>
                 `)
@@ -189,11 +189,11 @@ export async function run() {
                     } catch (e) {}
 
                     $("#courses").append(`
-                        <div uid="${course.id}" eid="${course.enrollmentid}" courseid="${course.courseid}" class="flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
+                        <div uid="${course.id}" eid="${course.enrollmentid}" courseid="${course.courseid}" class="flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl cursor-pointer py-3 px-3">
                             <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
                                 <div class="flex justify-center items-center bg-${hlp.score_to_color(course.score)}-500 px-4 py-3 rounded-2xl">
-                                    <span class="text-1xl font-bold py-2 px-2 w-max flex justify-center">
-                                    ${isNaN(course.score) ? "N/A" : `${course.score}`}
+                                    <span class="text-1xl font-bold text-white py-2 px-2 w-max flex justify-center">
+                                        ${isNaN(course.score) ? `<span class="text-black">N/A</span>` : `${course.score}`}
                                     </span>
                                 </div>
                                 <div class="flex flex-col">
@@ -333,10 +333,10 @@ export async function run() {
                 <div id="course" class="flex flex-col gap-5">
                     <div class="flex flex-col gap-5">
                         <div class="flex flex-row ${a == undefined ? c == undefined ? "flex-col" : "flex-col" : ""} gap-5">
-                            <div class="relative flex-1 flex flex-col justify-between container mx-auto bg-zinc-800 rounded-xl py-3 px-3">
+                            <div class="relative flex-1 flex flex-col justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
                                 <div class="flex justify-center items-center h-full">
                                     <svg width="136" height="136" viewBox="0 0 136 136">
-                                        <circle class="stroke-zinc-700" cx="68" cy="68" r="54" fill="none" stroke="inherit" stroke-width="16" />
+                                        <circle class="${hlp.theme("theme-stroke")}" cx="68" cy="68" r="54" fill="none" stroke="inherit" stroke-width="16" />
                                         <circle class="stroke-${hlp.score_to_color(score)}-500" cx="68" cy="68" r="54" fill="none" stroke-width="16" stroke-dasharray="339.292" stroke-dashoffset="${339.292 * (1 - score / 100)}" transform="rotate(-90 68 68)" />
                                     </svg>
                                 </div>
@@ -348,7 +348,7 @@ export async function run() {
                             ${objective.length != 0 ? `
                             <div class="flex flex-col gap-5">
                                 ${a != undefined ? `
-                                <div class="relative flex-1 bg-zinc-800 rounded-xl py-3 px-3">
+                                <div class="relative flex-1 ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
                                     <div class="flex flex-col gap-2">
                                         <span class="font-bold">Agency</span>
                                         <div class="flex flex-row gap-10 sm:gap-20 justify-between items-center">
@@ -359,7 +359,7 @@ export async function run() {
                                 </div>
                                 ` : ""}
                                 ${c != undefined ? `
-                                <div class="relative flex-1 bg-zinc-800 rounded-xl py-3 px-3">
+                                <div class="relative flex-1 ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
                                     <div class="flex flex-col gap-2">
                                         <span class="font-bold">Collaboration</span>
                                         <div class="flex flex-row gap-10 sm:gap-20 justify-between items-center">
@@ -375,7 +375,7 @@ export async function run() {
                         ${objective.length != 0 ? `
                         <div class="flex flex-row flex-wrap gap-5">
                             ${k != undefined ? `
-                            <div class="relative flex-1 bg-zinc-800 rounded-xl py-3 px-3">
+                            <div class="relative flex-1 ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
                                 <div class="flex flex-col gap-2">
                                     <span class="font-bold">K & T</span>
                                     <div class="flex flex-row gap-5 sm:gap-20 justify-between items-center">
@@ -386,7 +386,7 @@ export async function run() {
                             </div>
                             ` : ""}
                             ${o != undefined ? `
-                            <div class="relative flex-1 bg-zinc-800 rounded-xl py-3 px-3">
+                            <div class="relative flex-1 ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
                                 <div class="flex flex-col gap-2">
                                     <span class="font-bold">Comms</span>
                                     <div class="flex flex-row gap-5 sm:gap-20 justify-between items-center">
@@ -397,7 +397,7 @@ export async function run() {
                             </div>
                             ` : ""}
                             ${w != undefined ? `
-                            <div class="relative flex-1 bg-zinc-800 rounded-xl py-3 px-3">
+                            <div class="relative flex-1 ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
                                 <div class="flex flex-col gap-2">
                                     <span class="font-bold">Written</span>
                                     <div class="flex flex-row gap-5 sm:gap-20 justify-between items-center">
@@ -410,7 +410,7 @@ export async function run() {
                         </div>
                         ` : ""}
                     </div>
-                    <div class="flex flex-col justify-between container mx-auto bg-zinc-800 rounded-xl py-3 px-3">
+                    <div class="flex flex-col justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
                         <span class="font-bold text-2xl border-b-[2px] border-zinc-700 pb-3">${course_details.response.enrollment.course.title}</span>
                         <div class="pt-3">
                             ${landing}
@@ -418,23 +418,23 @@ export async function run() {
                     </div>
                     <div class="flex flex-col gap-5">
                         <div class="flex flex-row gap-5">
-                            <div id="agenda-back" class="flex flex-2 flex-col bg-blue-700 transition text-white font-semibold rounded-xl hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 justify-center items-center cursor-pointer rounded-xl w-min py-3 px-3">
+                            <div id="agenda-back" class="flex flex-2 flex-col ${hlp.theme("bg", "700")} transition text-white font-semibold rounded-xl hover:${hlp.theme("bg", "500")} focus:outline-none focus:ring-2 focus:${hlp.theme("ring", "500")} focus:ring-opacity-50 justify-center items-center cursor-pointer rounded-xl w-min py-3 px-3">
                                 <span class="material-symbols-rounded">
                                     arrow_back_ios_new
                                 </span>
                             </div>
-                            <div id="agenda-date" class="flex flex-col w-full bg-zinc-800 justify-center items-center rounded-xl py-3 px-3">
+                            <div id="agenda-date" class="flex flex-col w-full ${hlp.theme("theme-card")} justify-center items-center rounded-xl py-3 px-3">
                                 <span class="font-bold flex-1 flex justify-center">${new Date().toLocaleDateString('en-US')}</span>
                             </div>  
-                            <div id="agenda-forward" class="flex flex-2 flex-col bg-blue-700 transition text-white font-semibold rounded-xl hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 justify-center items-center cursor-pointer rounded-xl w-min py-3 px-3">
+                            <div id="agenda-forward" class="flex flex-2 flex-col ${hlp.theme("bg", "700")} transition text-white font-semibold rounded-xl hover:${hlp.theme("bg", "500")} focus:outline-none focus:ring-2 focus:${hlp.theme("ring", "500")} focus:ring-opacity-50 justify-center items-center cursor-pointer rounded-xl w-min py-3 px-3">
                                 <span class="material-symbols-rounded">
                                     arrow_forward_ios
                                 </span>
                             </div>
-                            <button id="today" class="flex flex-1 justify-center items-center px-4 py-3 bg-blue-700 transition text-white font-semibold rounded-xl hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition text-white font-semibold rounded-xl focus:outline-none">Today</button>
+                            <button id="today" class="flex flex-1 justify-center items-center px-4 py-3 ${hlp.theme("bg", "700")} transition text-white font-semibold rounded-xl hover:${hlp.theme("bg", "500")} focus:outline-none focus:ring-2 focus:${hlp.theme("ring", "500")} focus:ring-opacity-50 transition text-white font-semibold rounded-xl focus:outline-none">Today</button>
                         </div> 
                     </div>
-                    <div id="agenda" class="flex flex-col justify-between container mx-auto bg-zinc-800 rounded-xl py-3 px-3">
+                    <div id="agenda" class="flex flex-col justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
                         ${agenda}
                     </div>
                 </div>

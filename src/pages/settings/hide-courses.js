@@ -4,8 +4,8 @@ export async function run() {
 
     hlp.load(async function () {
         await $("#root").html(`
-            <div id="top" class="bg-blue-700">
-                <div class="fixed left-0 right-0 top-0 z-20 flex flex-row bg-blue-700">
+            <div id="top" class="${hlp.theme("bg", "700")} text-white">
+                <div class="fixed left-0 right-0 top-0 z-20 flex flex-row ${hlp.theme("bg", "700")}">
                     <div class="flex justify-center items-center container mx-auto py-2 px-4">
                         <div id="go-back" class="-ml-2 cursor-pointer py-3 px-6 rounded-full active:bg-white active:bg-opacity-20 active:shadow-lg">
                             <span class="w-0 -ml-[1px] font-black pointer-events-none text-1xl material-symbols-rounded flex justify-center items-center">
@@ -29,7 +29,7 @@ export async function run() {
             <!---->
             <!---->
             <div id="bottom" class="fixed bottom-0 left-0 right-0">
-                <div class="bg-zinc-800">
+                <div class="${hlp.theme("theme-card")}">
                     <div class="flex flex-row justify-between items-center">
                         <a id="overview" class="cursor-pointer flex justify-center items-center py-3 w-full">
                             <span class="text-[30px] font-black pointer-events-none material-symbols-rounded">
@@ -47,7 +47,7 @@ export async function run() {
                             </span>
                         </a>
                         <a id="settings" class="cursor-pointer flex justify-center items-center py-3 w-full">
-                            <span class="text-[30px] text-blue-700 font-black pointer-events-none material-symbols-rounded">
+                            <span class="text-[30px] ${hlp.theme("text", "700")} font-black pointer-events-none material-symbols-rounded">
                                 settings
                             </span>
                         </a>
@@ -118,7 +118,7 @@ export async function run() {
             $("#hide-courses").empty();
             $.each(course_list, function (i, course) {
                 $("#hide-courses").append(`
-                    <div id="hide" class="flex flex-col container mx-auto bg-zinc-800 rounded-xl py-3 px-3">
+                    <div id="hide" class="flex flex-col container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
                         <div class="flex flex-row justify-between container mx-auto cursor-pointer">
                             <div  class="flex flex-row justify-center items-center pointer-events-none">
                                 <div class="flex flex-col">

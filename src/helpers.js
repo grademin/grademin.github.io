@@ -114,7 +114,7 @@ export async function load(main) {
 
     if (get("overlay_active", false) != "true") {
         await $("#overlays").append(`
-            <div id="loader" class="fixed inset-0 flex items-center justify-center bg-blue-700 z-50">
+            <div id="loader" class="fixed inset-0 flex items-center justify-center ${theme("bg", "700")} z-50">
                 <div class="loader"></div>
             </div>
         `);
@@ -127,6 +127,85 @@ export async function load(main) {
         $(this).remove();
         remove("overlay_active");
     })
+}
+
+/**
+ * Handles themeing within the website
+ * @param {int} type 
+ */
+export function theme(type, value) {
+    let theme = "light";
+    let theme_color = "indigo" // emerald, pink, orange, cyan, blue, rose, red, indigo, violet, fuchsia
+
+    switch (type) {
+        case "theme-shadow": {
+            if (theme == "light") {
+                return `shadow-lg`;
+            } else {
+                return ``;
+            }
+        }
+        case "theme-input": {
+            if (theme == "light") {
+                return `bg-zinc-200`;
+            } else {
+                return `bg-zinc-700`;
+            }
+        }
+        case "theme-card": {
+            if (theme == "light") {
+                return `bg-zinc-100 shadow-lg`;
+            } else {
+                return `bg-zinc-800`;
+            }
+        }
+        case "theme-toggle": {
+            if (theme == "light") {
+                return `bg-black`;
+            } else {
+                return `bg-zinc-600`;
+            }
+        }
+        case "theme-text": {
+            if (theme == "light") {
+                return `text-black`;
+            } else {
+                return `text-white`;
+            }
+        }
+        case "theme-bg": {
+            if (theme == "light") {
+                return `bg-white`;
+            } else {
+                return `bg-black`;
+            }
+        }
+        case "theme-stroke": {
+            if (theme == "light") {
+                return `stroke-zinc-200`;
+            } else {
+                return `stroke-zinc-700`;
+            }
+        }
+        case "bg": {
+            return `bg-${theme_color}-${value}`;
+        }
+        case "border": {
+            return `border-${theme_color}-${value}`;
+        }
+        case "text": {
+            return `text-${theme_color}-${value}`;
+        }
+        case "caret": {
+            return `caret-${theme_color}-${value}`;
+        }
+        case "ring": {
+            return `ring-${theme_color}-${value}`;
+        }
+        case "stroke": {
+            return `stroke-${theme_color}-${value}`;
+        }
+    }
 }
 
 /** 
@@ -194,18 +273,7 @@ export function format(string) {
 
     // Others
     // HACK: This might not work, but for my stuff it works just fine.
-    string = string.replace(/<table/g, `<table class="w-full"`);
-    string = string.replace(/<td/g, `<td class="flex flex-col gap-5 w-full"`);
-        string = string.replace(/(?<=<[^>]+)font-size:/g, "");
-    string = string.replace(/(?<=<[^>]+)list-style-type:/g, "");
-    string = string.replace(/(?<=<[^>]+)-color:/g, "");
-    string = string.replace(/(?<=<[^>]+)color:/g, "");
-    string = string.replace(/(?<=<[^>]+)font-family:/g, "");
-    string = string.replace(/(?<=<[^>]+)text-decoration:/g, "");
-    string = string.replace(/(?<=<[^>]+)solid #000000 1pt/g, "solid rgb(63, 63, 70) .1px");
-    string = string.replace(/(?<=<[^>]+)::marker/g, "");
-    string = string.replace(/<p/g, "<span");
-    //string = string.replace(/style\s*=\s*["'][^"']*["']/gi, "")
+    string = string.replace(/style\s*=\s*["'][^"']*["']/gi, "")
     string = string.replace(/<u>/g, "")
     string = string.replace(/<strong>/g, "")
     string = string.replace(/<\/strong>/g, "")
@@ -214,7 +282,7 @@ export function format(string) {
     string = string.replace(/<span/g, `<span class="w-full" style="word-wrap: break-word; word-break: break-word;"`)
     string = string.replace(/<img/g, "<img class=\"rounded-xl py-2\"")
     string = string.replace(/href/g, "goto")
-    string = string.replace(/<a/g, `<a class="text-blue-700 hover:text-blue-600 cursor-pointer transition"`)
+    string = string.replace(/<a/g, `<a class="${theme("text", "700")} hover:${theme("text", "600")} cursor-pointer transition"`)
     return string.trim();
 }
 

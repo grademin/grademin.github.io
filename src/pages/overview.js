@@ -4,8 +4,8 @@ export async function run() {
 
     hlp.load(async function () {
         await $("#root").html(`
-            <div id="top" class="bg-blue-700">
-                <div class="fixed left-0 right-0 top-0 z-20 flex flex-row bg-blue-700">
+            <div id="top" class="${hlp.theme("bg", "700")} text-white">
+                <div class="fixed left-0 right-0 top-0 z-20 flex flex-row ${hlp.theme("bg", "700")}">
                     <div id="scrolled-title" class="flex justify-center items-center container mx-auto py-2 px-4 h-[60px]">
                         <div class="invisible -ml-2 cursor-pointer py-3 px-6 rounded-full active:bg-white active:bg-opacity-20 active:shadow-lg">
                             <span class="w-0 -ml-[1px] font-black pointer-events-none text-1xl material-symbols-rounded flex justify-center items-center">
@@ -23,11 +23,11 @@ export async function run() {
                 <div class="flex flex-row gap-10 justify-between container mx-auto pt-16 pb-5 px-4">
                     <div class="flex flex-col justify-center">
                         <h1 class="text-5xl sm:text-7xl font-bold pb-0 -m-[2px] mb-0">Overview</h1>
-                        <div class="text-[18px] sm:text-[22px] font-semibold">${new Date().toLocaleString("default", { month: "long" })} ${new Date().getDate()}, ${new Date().getFullYear()}</div>    
+                        <div class="text-[18px] sm:text-[22px] font-bold">${new Date().toLocaleString("default", { month: "long" })} ${new Date().getDate()}, ${new Date().getFullYear()}</div>    
                     </div>
                     <div class="flex justify-between items-end cursor-pointer">
-                        <div id="settings" class="rounded-full transition bg-blue-600 ${hlp.get("pfp", false).includes("gravatar") ? "" : `bg-[url('${hlp.get("pfp", false)}')] bg-cover`} border-[6px] hover:border-blue-400 active:border-blue-600 border-blue-500 h-[4.5rem] w-[4.5rem] sm:h-[6rem] sm:w-[6rem] flex items-center justify-center text-2xl font-bold uppercase">
-                            ${hlp.get("pfp", false).includes("gravatar") ? hlp.session.firstname.charAt(0).toUpperCase() : ""}
+                        <div id="settings" class="rounded-full transition ${hlp.theme("bg", "600")} ${hlp.get("pfp", false).length == 0 ? "" : `bg-[url('${hlp.get("pfp", false)}')] bg-cover`} border-[6px] hover:${hlp.theme("border", "400")} active:${hlp.theme("border", "600")} ${hlp.theme("border", "500")} h-[4.5rem] w-[4.5rem] sm:h-[6rem] sm:w-[6rem] flex items-center justify-center text-2xl font-bold uppercase">
+                            ${hlp.get("pfp", false).length == 0 ? hlp.session.firstname.charAt(0).toUpperCase() : ""}
                         </div>
                     </div>
                 </div>
@@ -35,10 +35,10 @@ export async function run() {
             <!---->
             <!---->
             <div class="flex flex-col gap-5 pt-[1.1rem] mb-[1.8rem] container mx-auto py-10 px-4">
-                <div id="what-is-this" class="flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-5 px-3 border-4 border-blue-700">
+                <div id="what-is-this" class="flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl cursor-pointer py-5 px-3 border-4 ${hlp.theme("border", "700")}">
                     <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
-                        <div class="flex justify-center items-center bg-blue-700 px-4 py-3 rounded-2xl">
-                            <span class="text-3xl material-symbols-rounded">
+                        <div class="flex justify-center items-center ${hlp.theme("bg", "700")} px-4 py-3 rounded-2xl">
+                            <span class="text-3xl text-white material-symbols-rounded">
                                 help
                             </span>
                         </div>
@@ -53,10 +53,10 @@ export async function run() {
                         </span>
                     </div>
                 </div>
-                <div id="courses" class="relative relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
+                <div id="courses" class="relative relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl cursor-pointer py-3 px-3">
                     <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
-                        <div class="flex justify-center items-center bg-blue-700 px-4 py-3 rounded-2xl">
-                            <span class="text-3xl material-symbols-rounded flex justify-center">
+                        <div class="flex justify-center items-center ${hlp.theme("bg", "700")} px-4 py-3 rounded-2xl">
+                            <span class="text-3xl material-symbols-rounded text-white flex justify-center">
                                 assignment
                             </span>
                         </div>
@@ -71,10 +71,10 @@ export async function run() {
                         </span>
                     </div>
                 </div>
-                <div id="todo-list" class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
+                <div id="todo-list" class="relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl cursor-pointer py-3 px-3">
                     <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
-                        <div class="flex justify-center items-center bg-blue-700 px-4 py-3 rounded-2xl">
-                            <span class="text-3xl material-symbols-rounded flex justify-center">
+                        <div class="flex justify-center items-center ${hlp.theme("bg", "700")} px-4 py-3 rounded-2xl">
+                            <span class="text-3xl material-symbols-rounded text-white flex justify-center">
                                 task
                             </span>
                         </div>
@@ -89,10 +89,10 @@ export async function run() {
                         </span>
                     </div>
                 </div>
-                <div id="activity-stream" class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
+                <div id="activity-stream" class="relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl cursor-pointer py-3 px-3">
                     <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
-                        <div class="flex justify-center items-center bg-blue-700 px-4 py-3 rounded-2xl">
-                            <span class="text-3xl material-symbols-rounded flex justify-center">
+                        <div class="flex justify-center items-center ${hlp.theme("bg", "700")} px-4 py-3 rounded-2xl">
+                            <span class="text-3xl material-symbols-rounded text-white flex justify-center">
                                 group
                             </span>
                         </div>
@@ -107,10 +107,10 @@ export async function run() {
                         </span>
                     </div>
                 </div>
-                <div id="announcements" class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
+                <div id="announcements" class="relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl cursor-pointer py-3 px-3">
                     <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
-                        <div class="flex justify-center items-center bg-blue-700 px-4 py-3 rounded-2xl">
-                            <span class="text-3xl mt-1 material-symbols-rounded flex justify-center">
+                        <div class="flex justify-center items-center ${hlp.theme("bg", "700")} px-4 py-3 rounded-2xl">
+                            <span class="text-3xl mt-1 material-symbols-rounded text-white flex justify-center">
                                 feedback
                             </span>
                         </div>
@@ -125,10 +125,10 @@ export async function run() {
                         </span>
                     </div>
                 </div>
-                <div id="email" class="relative flex flex-row justify-between container mx-auto bg-zinc-800 rounded-xl cursor-pointer py-3 px-3">
+                <div id="email" class="relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl cursor-pointer py-3 px-3">
                     <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
-                        <div class="flex justify-center items-center bg-blue-700 px-4 py-3 rounded-2xl">
-                            <span class="text-3xl material-symbols-rounded flex justify-center">
+                        <div class="flex justify-center items-center ${hlp.theme("bg", "700")} px-4 py-3 rounded-2xl">
+                            <span class="text-3xl material-symbols-rounded text-white flex justify-center">
                                 alternate_email
                             </span>
                         </div>
@@ -147,10 +147,10 @@ export async function run() {
             <!---->
             <!---->
             <div id="bottom" class="fixed bottom-0 left-0 right-0">
-                <div class="bg-zinc-800">
+                <div class="${hlp.theme("theme-card")}">
                     <div class="flex flex-row justify-between items-center">
                         <a class="cursor-pointer flex justify-center items-center py-3 w-full">
-                            <span class="text-[30px] font-black text-blue-700 pointer-events-none material-symbols-rounded">
+                            <span class="text-[30px] font-black ${hlp.theme("text", "700")} pointer-events-none material-symbols-rounded">
                                 home
                             </span>
                         </a>
@@ -172,11 +172,8 @@ export async function run() {
                     </div>
                 </div>
             </div>
-        `).on("click", async function (event) {
-            switch ($(event.target).attr("id")) {
-                ////////////////////////////////////////////////////////////
-                ////////// MAIN PAGES
-
+        `).on("click", async function (e) {
+            switch ($(e.target).attr("id")) {
                 case "courses": {
                     await site.runtime("courses");
                     break;
@@ -206,8 +203,6 @@ export async function run() {
                 }
 
 
-                ////////////////////////////////////////////////////////////
-                ///////// BOTTOM NAVIGATION CONTROLS
 
                 case "settings": {
                     await site.runtime("settings");
@@ -215,20 +210,18 @@ export async function run() {
                 }
 
 
-                ////////////////////////////////////////////////////////////
-                ///////// OVERLAYS
 
                 case "what-is-this": {
                     $("body").addClass("overflow-hidden");
                     $("#overlays").append(`
                         <div id="overlay" class="fixed inset-0 z-50 bg-gray-900 bg-opacity-50 flex justify-center items-center animation-fadein">
                             <div class="container mx-auto px-4 flex justify-center items-center pointer-events-none animation-popin">
-                                <div class="bg-zinc-800 rounded-xl max-w-lg px-5 py-5 pointer-events-auto">
+                                <div class="${hlp.theme("theme-card")} ${hlp.theme("theme-text")} rounded-xl max-w-lg px-5 py-5 pointer-events-auto">
                                     <div class="flex justify-center items-center mb-4">
-                                        <h2 class="text-2xl font-bold text-white text-center">About Proview</h2>
+                                        <h2 class="text-2xl font-bold text-center">About Proview</h2>
                                     </div>
-                                    <div class="text-white">
-                                        <p>This website was created to show that <b>Echo Viewer</b> by <b>Agilix, Inc</b> could have been better. This websites design is based off <b>GradeWay</b> by <b>Srujan Mupparapu</b>, this website is not meant to infringe or plagarize his work, If it does (specifically to Srujan) please send an issue <a class="text-blue-700 hover:text-blue-600 cursor-pointer transition" goto="https://github.com/wo-r-professional/proview/issues">here</a> and I will abide to whatever you ask.</p>
+                                    <div>
+                                        <p>This website was created to show that <b>Echo Viewer</b> by <b>Agilix, Inc</b> could have been better. This websites design is based off <b>GradeWay</b> by <b>Srujan Mupparapu</b>, this website is not meant to infringe or plagarize his work, If it does (specifically to Srujan) please send an issue <a class="${hlp.theme("text", "700")} hover:${hlp.theme("text", "600")} cursor-pointer transition" goto="https://github.com/wo-r-professional/proview/issues">here</a> and I will abide to whatever you ask.</p>
                                     </div>
                                 </div>
                             </div>
@@ -252,52 +245,48 @@ export async function run() {
             }
         })
 
-
-        ////////////////////////////////////////////////////////////
         
 
         // Announcement "viewed" count
         try {
-            await $.ajax({
+            let communications = await $.ajax({
                 url: hlp.api(`/cmd/getuserannouncementlist?_token=${hlp.session.token}&userid=${hlp.session.id}&daysactivepastend=14`),
                 method: "GET",
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
-                success: async function (communications) {
-                    let unviewed = 0;
-                    await $.each(communications.response.announcements.announcement, function (i, communication) {
-                        if (!communication.viewed)
-                            unviewed++
-                    })
-                    
-                    if (unviewed != 0) {
-                        $("#announcements").append(`
-                            <div class="absolute inline-flex right-0 top-0 h-8 w-8 -m-2 rounded-full bg-blue-700 opacity-75 justify-center items-center">
-                                <span>${unviewed}</span>
-                            </div> 
-                        `)
-                    }
-                }
             })
+
+            let unviewed = 0;
+            await $.each(communications.response.announcements.announcement, function (i, communication) {
+                if (!communication.viewed)
+                    unviewed++
+            })
+            
+            if (unviewed != 0) {
+                await $("#announcements").append(`
+                    <div class="absolute ${hlp.theme("theme-shadow")} text-white inline-flex right-0 top-0 h-8 w-8 -m-2 rounded-full ${hlp.theme("bg", "700")} justify-center items-center">
+                        <span>${unviewed}</span>
+                    </div> 
+                `)
+            }
         } catch (e) {}
 
         // Todo List current todos
         try {
-            await $.ajax({
+            let due = await $.ajax({
                 url: hlp.api(`/cmd/getduesoonlist?_token=${hlp.session.token}&days=3&userId=${hlp.session.id}&utcoffset=300`),
                 method: "GET",
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
-                success: async function (due) {
-                    if (due.response.items.item.length != 0) {
-                        $("#todo-list").append(`
-                            <div class="absolute inline-flex right-0 top-0 h-8 w-8 -m-2 rounded-full bg-blue-700 opacity-75 justify-center items-center">
-                                <span>${due.response.items.item.length}</span>
-                            </div> 
-                        `)
-                    }
-                }
             })
+
+            if (due.response.items.item.length != 0) {
+                await $("#todo-list").append(`
+                    <div class="absolute ${hlp.theme("theme-shadow")} text-white inline-flex right-0 top-0 h-8 w-8 -m-2 rounded-full ${hlp.theme("bg", "700")} justify-center items-center">
+                        <span>${due.response.items.item.length}</span>
+                    </div> 
+                `)
+            }
         } catch (e) {}
 
         // Activity stream
@@ -309,49 +298,48 @@ export async function run() {
                     codes = "100|200|201|300|301|400|401|500|501|600|601|803";
             } catch (e) {}
 
-            await $.ajax({
+            let activities = await $.ajax({
                 url: hlp.api(`/cmd/getuseractivitystream?_token=${hlp.session.token}&userid=${hlp.session.id}&types=${codes}`),
                 method: "GET",
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
-                success: async function (activities) {
-                    activities.response.activities.activity.sort((a, b) => new Date(b.date) - new Date(a.date));
+            })
+
+            activities.response.activities.activity.sort((a, b) => new Date(b.date) - new Date(a.date));
                     
-                    if (hlp.get("activities") == "") {
-                        hlp.set("activities", {
-                            start: new Date().toLocaleDateString('en-US'),
-                            data: {
-                                items: [],
-                                $unviewed: 0
-                            }
-                        })
+            if (hlp.get("activities") == "") {
+                hlp.set("activities", {
+                    start: new Date().toLocaleDateString('en-US'),
+                    data: {
+                        items: [],
+                        $unviewed: 0
                     }
+                })
+            }
 
-                    let items = hlp.get("activities");
-                    let unviewed = 0;
-                    $.each(activities.response.activities.activity, (i, activity) => {
-                        if (new Date(activity.date) >= new Date(hlp.get("activities").start)) {
-                            if (!items.data.items.find(name => name.item.includes(activity.data.item.title))) {
-                                unviewed++
-                                items.data.$unviewed = unviewed
-                                items.data.items.push({
-                                    item: activity.data.item.title,
-                                });
-                                
-                                hlp.set("activities", items);
-                            }
-                        }
-                    })
-
-                    if (hlp.get("activities").data.$unviewed != 0) {
-                        $("#activity-stream").append(`
-                            <div class="absolute inline-flex right-0 top-0 h-8 w-8 -m-2 rounded-full bg-blue-700 opacity-75 justify-center items-center">
-                                <span>${hlp.get("activities").data.$unviewed}</span>
-                            </div> 
-                        `)
+            let items = hlp.get("activities");
+            let unviewed = 0;
+            await $.each(activities.response.activities.activity, (i, activity) => {
+                if (new Date(activity.date) >= new Date(hlp.get("activities").start)) {
+                    if (!items.data.items.find(name => name.item.includes(activity.data.item.title))) {
+                        unviewed++
+                        items.data.$unviewed = unviewed
+                        items.data.items.push({
+                            item: activity.data.item.title,
+                        });
+                        
+                        hlp.set("activities", items);
                     }
                 }
             })
+
+            if (hlp.get("activities").data.$unviewed != 0) {
+                await $("#activity-stream").append(`
+                    <div class="absolute ${hlp.theme("theme-shadow")} text-white inline-flex right-0 top-0 h-8 w-8 -m-2 rounded-full ${hlp.theme("bg", "700")} justify-center items-center">
+                        <span>${hlp.get("activities").data.$unviewed}</span>
+                    </div> 
+                `)
+            }
         } catch (e) {}
 
         hlp.animate_nav();

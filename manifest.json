@@ -10,6 +10,7 @@
     ],
     "start_url": "/proview/",
     "background_color": "#1d4ed8",
+    "theme_color": "#1d4ed8",
     "display": "standalone",
     "scope": "/proview/"
 }
