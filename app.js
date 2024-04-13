@@ -97,7 +97,10 @@
         hlp.set("page", "login", false);
     
     if (hlp.get("settings") == "")
-        hlp.set("settings", [{"setting":"color-coding","$value":true}]);
+        hlp.set("settings", []);
+
+    if (hlp.get("theme_settings") == "")
+        hlp.set("theme_settings", {"sync":true,"theme":"dark","theme_color":"blue"});
 
     if (hlp.get("pfp", false) == "")
         hlp.set("pfp", "", false);

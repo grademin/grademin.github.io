@@ -134,8 +134,8 @@ export async function load(main) {
  * @param {int} type 
  */
 export function theme(type, value) {
-    let theme = "light";
-    let theme_color = "indigo" // emerald, pink, orange, cyan, blue, rose, red, indigo, violet, fuchsia
+    let theme = get("theme_settings").theme;
+    let theme_color = get("theme_settings").theme_color; // emerald, pink, orange, cyan, blue, rose, red, indigo, violet, fuchsia
 
     switch (type) {
         case "theme-shadow": {
@@ -188,16 +188,182 @@ export function theme(type, value) {
             }
         }
         case "bg": {
-            return `bg-${theme_color}-${value}`;
+            switch (theme_color) {
+                case "green": {
+                    if (value == 600)
+                        return `bg-${theme_color}-400`
+                    else
+                        return `bg-${theme_color}-500`;
+                }
+                case "orange": {
+                    if (value == 600)
+                        return `bg-${theme_color}-300`;
+                    else
+                        return `bg-${theme_color}-400`;
+                }
+                case "violet": {
+                    if (value == 600)
+                        return `bg-${theme_color}-500`;
+                    else
+                        return `bg-${theme_color}-600`;
+                }
+                case "rose": {
+                    if (value == 600)
+                        return `bg-${theme_color}-600`;
+                    else
+                        return `bg-${theme_color}-700`;
+                }
+                /*case "indigo": {
+                    //return `bg-${theme_color}-700`;
+                }*/
+                case "fuchsia": {
+                    if (value == 600)
+                        return `bg-${theme_color}-500`;
+                    else
+                        return `bg-${theme_color}-600`;
+                }
+                case "teal": {
+                    if (value == 600)
+                        return `bg-${theme_color}-300`;
+                    else
+                        return `bg-${theme_color}-400`;
+                }
+                default:
+                    return `bg-${theme_color}-${value}`;
+            }
         }
         case "border": {
-            return `border-${theme_color}-${value}`;
+            // TODO: Active states
+            switch (theme_color) {
+                case "green": {
+                    if (value == 700)
+                        return `border-${theme_color}-400`; // BOX BORDER
+                    else if (value == 400)
+                        return `border-${theme_color}-700`; // HOVER BORDER
+                    else if (value == 500)
+                        return `border-${theme_color}-600`; // BORDER
+                    else
+                        return `border-${theme_color}-${value}`;
+                }
+                case "orange": {
+                    if (value == 700)
+                        return `border-${theme_color}-400`;
+                    else if (value == 400)
+                        return `border-${theme_color}-600`;
+                    else if (value == 500)
+                        return `border-${theme_color}-500`;
+                    else
+                        return `border-${theme_color}-${value}`;
+                }
+                case "violet": {
+                    if (value == 700)
+                        return `border-${theme_color}-600`;
+                    else if (value == 400)
+                        return `border-${theme_color}-400`;
+                    else if (value == 500)
+                        return `border-${theme_color}-700`;
+                    else
+                        return `border-${theme_color}-${value}`;
+                }
+                case "rose": {
+                    if (value == 700)
+                        return `border-${theme_color}-700`;
+                    else if (value == 400)
+                        return `border-${theme_color}-400`;
+                    else if (value == 500)
+                        return `border-${theme_color}-500`;
+                    else
+                        return `border-${theme_color}-${value}`;
+                }
+                case "fuchsia": {
+                    if (value == 700)
+                        return `border-${theme_color}-600`;
+                    else if (value == 400)
+                        return `border-${theme_color}-700`;
+                    else if (value == 500)
+                        return `border-${theme_color}-400`;
+                    else
+                        return `border-${theme_color}-${value}`;
+                }
+                case "teal": {
+                    if (value == 700)
+                        return `border-${theme_color}-400`;
+                    else if (value == 400)
+                        return `border-${theme_color}-600`;
+                    else if (value == 500)
+                        return `border-${theme_color}-500`;
+                    else
+                        return `border-${theme_color}-${value}`;
+                }
+                default:
+                    return `border-${theme_color}-${value}`;
+            }
         }
         case "text": {
-            return `text-${theme_color}-${value}`;
+            switch (theme_color) {
+                case "green": {
+                    if (value == 600)
+                        return `text-${theme_color}-600`;
+                    else
+                        return `text-${theme_color}-500`;
+                }
+                case "orange": {
+                    if (value == 600)
+                        return `text-${theme_color}-500`;
+                    else
+                        return `text-${theme_color}-400`;
+                }
+                case "violet": {
+                    if (value == 600)
+                        return `text-${theme_color}-700`;
+                    else
+                        return `text-${theme_color}-600`;
+                }
+                case "rose": {
+                    if (value == 600)
+                        return `text-${theme_color}-800`;
+                    else
+                        return `text-${theme_color}-700`;
+                }
+                case "fuchsia": {
+                    if (value == 600)
+                        return `text-${theme_color}-700`;
+                    else
+                        return `text-${theme_color}-600`;
+                }
+                case "teal": {
+                    if (value == 600)
+                        return `text-${theme_color}-500`;
+                    else
+                        return `text-${theme_color}-400`;
+                }
+                default:
+                    return `text-${theme_color}-${value}`;       
+            }
         }
         case "caret": {
-            return `caret-${theme_color}-${value}`;
+            switch (theme_color) {
+                case "green": {
+                    return `caret-${theme_color}-500`;
+                }
+                case "orange": {                    
+                    return `caret-${theme_color}-400`;
+                }
+                case "violet": {
+                    return `caret-${theme_color}-600`;
+                }
+                case "rose": {
+                    return `caret-${theme_color}-700`;
+                }
+                case "fuchsia": {
+                    return `caret-${theme_color}-600`;
+                }
+                case "teal": {
+                    return `caret-${theme_color}-400`;
+                }
+                default:
+                    return `caret-${theme_color}-${value}`;       
+            }
         }
         case "ring": {
             return `ring-${theme_color}-${value}`;
@@ -215,7 +381,10 @@ export function theme(type, value) {
 export async function animate_nav() {
     try {
         if ($(window).scrollTop() > $("#top").offset().top + $("#top").outerHeight() - 40 || $(window).scrollTop() < $("#top").offset().top - $(window).height()) {
-            $("#top #scrolled-title span").fadeIn(0);
+            if (window.scrollTop() == 0)
+                $("#top #scrolled-title span").fadeOut(0);
+            else
+                $("#top #scrolled-title span").fadeIn(0);
         } else {
             $("#top #scrolled-title span").fadeOut(0);
         }
@@ -272,7 +441,6 @@ export function format(string) {
     string = string.replace(/&amp;/g, '&')
 
     // Others
-    // HACK: This might not work, but for my stuff it works just fine.
     string = string.replace(/style\s*=\s*["'][^"']*["']/gi, "")
     string = string.replace(/<u>/g, "")
     string = string.replace(/<strong>/g, "")

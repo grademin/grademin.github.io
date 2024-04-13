@@ -106,27 +106,7 @@ export async function run() {
                 </div>
                 <!---->
                 <div class="flex flex-col container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
-                    <div id="color-coding" class="flex flex-row justify-between container mx-auto cursor-pointer border-b-[2px] border-zinc-700 pb-3">
-                        <div  class="flex flex-row justify-center items-center gap-4 pointer-events-none">
-                            <div class="flex justify-center items-center ${hlp.theme("bg", "700")} px-2 py-1 rounded-2xl">
-                                <span class="text-3xl material-symbols-rounded text-white">
-                                    palette
-                                </span>
-                            </div>
-                            <div class="flex flex-col">
-                                <h1 class="text-[20px] font-bold">Color Coding</h1>
-                            </div>
-                        </div>
-                        <div class="flex justify-center items-center">
-                            <input setting_name="color-coding" type="checkbox" class="hidden">
-                            <label class="flex items-center cursor-pointer">
-                                <div class="w-[3.7rem] h-[33px] ${hlp.theme("theme-toggle")} rounded-full p-1">
-                                    <div class="bg-white w-[25px] h-[25px] rounded-full shadow-md transform translate-x-0"></div>
-                                </div>
-                            </label>
-                        </div>
-                    </div>
-                    <div id="include-self" class="flex flex-row justify-between container mx-auto cursor-pointer border-b-[2px] border-zinc-700 py-4">
+                    <div id="include-self" class="flex flex-row justify-between container mx-auto cursor-pointer border-b-[2px] border-zinc-700 pb-3">
                         <div class="flex flex-row justify-center items-center gap-4 pointer-events-none">
                             <div class="flex justify-center items-center ${hlp.theme("bg", "700")} px-2 py-1 rounded-2xl">
                                 <span class="text-3xl material-symbols-rounded text-white">
@@ -286,6 +266,11 @@ export async function run() {
                 }
 
 
+
+                case "theme": {
+                    site.runtime("theme-color");
+                    break;
+                }
 
                 case "hide-courses": {
                     site.runtime("hide-courses");

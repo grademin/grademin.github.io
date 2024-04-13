@@ -62,7 +62,6 @@ export async function run() {
         `).on("click", async function (e) {
             switch ($(e.target).attr("id")) {
                 case "go-back": {
-                    // TODO: remove event listener for scroll
                     history.pushState({}, "", `?page=overview`);
                     window.onscroll = null;
                     await site.runtime("overview");

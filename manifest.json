@@ -3,14 +3,14 @@
     "name": "Proview",
     "icons": [
         {
-            "src": "logo-full.jpg",
+            "src": "logo-transparent.png",
             "sizes": "72x72 96x96 128x128 256x256",
-            "type": "image/jpeg"
+            "type": "image/png"
         }
     ],
     "start_url": "/proview/",
-    "background_color": "#1d4ed8",
-    "theme_color": "#1d4ed8",
+    "background_color": "",
+    "theme_color": "",
     "display": "standalone",
     "scope": "/proview/"
 }
