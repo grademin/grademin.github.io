@@ -38,7 +38,7 @@ export async function runtime(page) {
                 $(`head [name="background-color"]`).attr("content", "rgb(124, 58, 237)");
                 break;
             }
-            case "red": {
+            case "rose": {
                 $(`head [name="theme-color"]`).attr("content", "rgb(190, 18, 60)");
                 $(`head [name="background-color"]`).attr("content", "rgb(190, 18, 60)");
                 break;
