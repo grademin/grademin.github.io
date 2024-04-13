@@ -13,53 +13,7 @@ export async function runtime(page) {
     hlp.set("page", new URLSearchParams(window.location.search).get("page"), false);
     
     $("#root").off("click");
-    
-    if (new URLSearchParams(window.location.search).get("page") == "login")
-        $(`head [name="theme-color"]`).attr("content", "#000000");
-    else {
-        switch (hlp.get("theme_settings").theme_color) {
-            case "blue": {
-                $(`head [name="theme-color"]`).attr("content", "rgb(29, 78, 216)");
-                $(`head [name="background-color"]`).attr("content", "rgb(29, 78, 216)");
-                break;
-            }
-            case "green": {
-                $(`head [name="theme-color"]`).attr("content", "rgb(34, 197, 94)");
-                $(`head [name="background-color"]`).attr("content", "rgb(34, 197, 94)");
-                break;
-            }
-            case "orange": {
-                $(`head [name="theme-color"]`).attr("content", "rgb(251, 146, 60)");
-                $(`head [name="background-color"]`).attr("content", "rgb(251, 146, 60)");
-                break;
-            }
-            case "violet": {
-                $(`head [name="theme-color"]`).attr("content", "rgb(124, 58, 237)");
-                $(`head [name="background-color"]`).attr("content", "rgb(124, 58, 237)");
-                break;
-            }
-            case "rose": {
-                $(`head [name="theme-color"]`).attr("content", "rgb(190, 18, 60)");
-                $(`head [name="background-color"]`).attr("content", "rgb(190, 18, 60)");
-                break;
-            }
-            case "indigo": {
-                $(`head [name="theme-color"]`).attr("content", "rgb(67, 56, 202)");
-                $(`head [name="background-color"]`).attr("content", "rgb(67, 56, 202)");
-                break;
-            }
-            case "fuchsia": {
-                $(`head [name="theme-color"]`).attr("content", "rgb(192, 38, 211)");
-                $(`head [name="background-color"]`).attr("content", "rgb(192, 38, 211)");
-                break;
-            }
-            case "teal": {
-                $(`head [name="theme-color"]`).attr("content", "rgb(45, 212, 191)");
-                $(`head [name="background-color"]`).attr("content", "rgb(45, 212, 191)");
-                break;
-            }
-        }
-    }
+
     
     ////////////////////////////////////////////////////////////
 
@@ -112,6 +66,12 @@ export async function runtime(page) {
         case "theme-color": {
             const theme_color = await import("/proview/src/pages/settings/theme-color.js");
             theme_color.run();
+            break;
+        }
+
+        case "notifications": {
+            const notifications = await import("/proview/src/pages/settings/notifications.js");
+            notifications.run();
             break;
         }
 

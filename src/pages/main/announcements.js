@@ -3,7 +3,7 @@ export async function run() {
           site = await import("../../site.js");
 
 
-    // TODO:
+    // TODO: clean
           
     hlp.load(async function () {
         await $("#root").html(`

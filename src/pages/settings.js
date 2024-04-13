@@ -2,7 +2,8 @@ export async function run() {
     const hlp = await import("../helpers.js"),
           site = await import("../site.js");
 
-    // TODO:
+    // TODO: clean
+    // FIX: the items don't take the entire area, meaning the outer edges can't be clicked, not a problem for mobile, but a problem for desktop
 
     hlp.load(async function () {
         await $("#root").html(`
@@ -77,7 +78,7 @@ export async function run() {
                                 </span>
                             </div>
                             <div class="flex flex-col">
-                                <h1 class="text-[20px] font-bold">Notification Preferences</h1>
+                                <h1 class="text-[20px] font-bold">Notifications</h1>
                             </div>
                         </div>
                         <div class="flex justify-center items-center pointer-events-none">
@@ -269,6 +270,11 @@ export async function run() {
 
                 case "theme": {
                     site.runtime("theme-color");
+                    break;
+                }
+
+                case "notifications": {
+                    site.runtime("notifications");
                     break;
                 }
 

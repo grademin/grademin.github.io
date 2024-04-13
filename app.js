@@ -4,6 +4,9 @@
 (async function () {
     "use strict";
 
+
+    // TODO: clean
+
     /**
      * Manages custom css stuff that tailwind can handle for us
      */
@@ -163,8 +166,14 @@
         </style>
     `)
 
-    $("body").addClass(`${hlp.theme("theme-bg")} ${hlp.theme("theme-text")}`);
+    let theme_settings = hlp.get("theme_settings");
+    // Did user change there agent theme?
+    if (theme_settings.sync)
+        theme_settings.theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light";
+        
+    hlp.set("theme_settings", theme_settings);
 
+    $("body").addClass(`${hlp.theme("theme-bg")} ${hlp.theme("theme-text")}`);
 
     // If the user "attempts" to change the page url to something it is not, then stop and don't 
     // follow the url parameters.

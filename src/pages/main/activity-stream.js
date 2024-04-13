@@ -4,8 +4,7 @@ export async function run() {
     const hlp = await import("../../helpers.js"),
           site = await import("../../site.js");
 
-    // TODO: add feedback to activity stream
-    // TODO: fix this lol
+    // TODO: add try and catches to everything!
           
     hlp.load(async function () {
         await $("#root").html(`

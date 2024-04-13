@@ -5,9 +5,6 @@ export async function run() {
     const site = await import("../../site.js");
 
 
-    // TODO: text that is long enough breaks the page in "landing" & "agenda"
-    // TODO: page duplicates on refresh button
-
     hlp.load(async function () {
         await $("#root").html(`
             <div id="top" class="${hlp.theme("bg", "700")} text-white">
