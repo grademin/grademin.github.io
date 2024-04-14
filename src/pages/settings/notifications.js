@@ -159,11 +159,17 @@ export async function run() {
 
 
                 case "test_push": {
-                    await sw.notify("Test Notification!", {
-                        "body": "This is a test notification. It could include Grades, Past Due or Due Assignements, ect!",
-                        "icon": "logo/logo.png",
-                        "tag": "notification-sample",
-                        "vibrate": [200, 100, 200, 100, 200, 100, 200],
+                    await Notification.requestPermission().then((result) => {
+                        if (result === "granted") {
+                            navigator.serviceWorker.ready.then((registration) => {
+                                registration.showNotification("Test Notification! #2", {
+                                    "body": "This is a test notification. It could include Grades, Past Due or Due Assignements, ect!",
+                                    "icon": "../../logo/logo-full.png",
+                                    "tag": "notification-sample",
+                                    "vibrate": [200, 100, 200, 100, 200, 100, 200],
+                                });
+                            });
+                        }
                     })
                     break;
                 }
