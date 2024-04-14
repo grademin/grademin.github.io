@@ -159,9 +159,11 @@ export async function run() {
 
 
                 case "test_push": {
-                    sw.notify("Test Notification!", {
-                        "body": "This is a test notification.",
-                        "icon": "../../logo/logo-full.png",
+                    await sw.notify("Test Notification!", {
+                        "body": "This is a test notification. It could include Grades, Past Due or Due Assignements, ect!",
+                        "icon": "../../logo/logo.png",
+                        "tag": "notification-sample",
+                        "vibrate": [200, 100, 200, 100, 200, 100, 200],
                     })
                     break;
                 }

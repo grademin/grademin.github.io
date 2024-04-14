@@ -1,16 +1,4 @@
 /**
- * The Service Worker allows the website to be installed as a Mobile App, without
- * the harsh requirements needed to upload such an app to the App Store or to the Play Store.
- */
-if ("serviceWorker" in navigator) {
-    self.addEventListener('install', function(event) {});
-    self.addEventListener('activate', function(event) {});
-    self.addEventListener('fetch', function(event) {
-        event.respondWith(fetch(event.request));
-    });
-}
-
-/**
  * Sends a notification from the web app
  * @param {string} title
  * @param {ArrayLike} content

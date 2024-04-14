@@ -90,7 +90,7 @@
     
     // This will register a Service Worker for allowing the user to install
     // the website as an app through chrome, firefox, opera, etc.
-    sw.register("src/service.js");
+    await sw.register("app-worker.js");
 
 
     if (hlp.get("page", false) == "" && hlp.session.exists)
