@@ -16,7 +16,7 @@ if ("serviceWorker" in navigator) {
  * @param {ArrayLike} content
  */
 export async function notify(title, content) {
-    Notification.requestPermission().then((result) => {
+    await Notification.requestPermission().then((result) => {
         if (result === "granted") {
             navigator.serviceWorker.ready.then((registration) => {
                 registration.showNotification(title, content);
