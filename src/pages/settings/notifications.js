@@ -1,6 +1,7 @@
 export async function run() {
     const hlp = await import("../../helpers.js"),
-          site = await import("../../site.js");
+          site = await import("../../site.js"),
+          sw = await import("../../service.js");
 
     // TODO: clean
     // TODO: use the fixed items for everything else. these:
@@ -110,6 +111,15 @@ export async function run() {
                         </div>
                     </div>
                 </div>
+                <div class="flex flex-col container mx-auto ${hlp.theme("theme-card")} rounded-xl px-3">
+                    <div id="test_push" class="flex flex-row justify-between container mx-auto cursor-pointer py-3">
+                        <div class="flex flex-row justify-center items-center gap-4 pointer-events-none">
+                            <div class="flex flex-col items-center">
+                                <h1 class="text-[20px] font-bold">Test Push</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <!---->
             <!---->
@@ -147,6 +157,16 @@ export async function run() {
                     break;
                 }
 
+
+                case "test_push": {
+                    sw.notify("Test Notification!", {
+                        "body": "This is a test notification. It could include Grades, Past Due or Due Assignements, ect!",
+                        "icon": "../../logo/logo.png",
+                        "tag": "notification-sample",
+                        "vibrate": [200, 100, 200, 100, 200, 100, 200],
+                    })
+                    break;
+                }
 
 
                 case "overview": {

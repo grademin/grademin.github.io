@@ -11,6 +11,21 @@ if ("serviceWorker" in navigator) {
 }
 
 /**
+ * Sends a notification from the web app
+ * @param {string} title
+ * @param {ArrayLike} content
+ */
+export async function notify(title, content) {
+    Notification.requestPermission().then((result) => {
+        if (result === "granted") {
+            navigator.serviceWorker.ready.then((registration) => {
+                registration.showNotification(title, content);
+            });
+        }
+    });
+}
+
+/**
  * This registers the Service Worker.
  * @param path {string}
  * @example sw.register(path);
