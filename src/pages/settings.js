@@ -358,12 +358,17 @@ export async function run() {
                                 break;
                             }
                             case "submit-name": {
-                                if ($("#name").val().split(" ").length == 2) {
+                                if ($("#name").val().split(" ").length == 2 && $("#name").val().length != 0) {
                                     if ($("#name").val() != `${hlp.session.firstname} ${hlp.session.lastname}`) {
+                                        let remembered = hlp.get("remembered");
                                         let session = hlp.get("session");
+                                        remembered.firstname = $("#name").val().split(" ")[0];
                                         session.user.firstname = $("#name").val().split(" ")[0];
+                                        remembered.lastname = $("#name").val().split(" ")[1];
                                         session.user.lastname = $("#name").val().split(" ")[1];
+                                        remembered.fullname = `${$("#name").val().split(" ")[0].charAt(0).toUpperCase() + $("#name").val().split(" ")[0].slice(1)} ${$("#name").val().split(" ")[1].charAt(0).toUpperCase() + $("#name").val().split(" ")[1].slice(1)}`
                                         session.user.fullname = `${$("#name").val().split(" ")[0].charAt(0).toUpperCase() + $("#name").val().split(" ")[0].slice(1)} ${$("#name").val().split(" ")[1].charAt(0).toUpperCase() + $("#name").val().split(" ")[1].slice(1)}`
+                                        hlp.set("remembered", remembered)
                                         hlp.set("session", session)
 
                                         $("#overlays").empty();
