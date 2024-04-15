@@ -3,6 +3,7 @@ export async function run() {
           site = await import("../site.js");
 
     // TODO: clean
+    // TODO: add `manage account` so you have the option to remove the account
     // FIX: the items don't take the entire area, meaning the outer edges can't be clicked, not a problem for mobile, but a problem for desktop
 
     await hlp.load(async function () {
