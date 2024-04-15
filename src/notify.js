@@ -1,7 +1,7 @@
 const hlp = await import("/proview/src/helpers.js");
 const sw = await import("/proview/src/service.js");
 
-
+// TODO: remove
 export async function todos() {
     setInterval(async function () {
         let notifications = hlp.get("notifications");

@@ -3,7 +3,7 @@ export async function run() {
           site = await import("../../site.js"),
           sw = await import("../../service.js");
 
-    // TODO: clean
+    // TODO: remove (sad but better for the future)
     // TODO: use the fixed items for everything else. these:
     // <div class="flex flex-col gap-5 pt-[2rem] mt-[46px] mb-[1.7rem] container mx-auto py-10 px-4">
     //   <div class="flex flex-col container mx-auto ${hlp.theme("theme-card")} rounded-xl px-3">

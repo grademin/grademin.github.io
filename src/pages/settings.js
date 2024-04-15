@@ -358,6 +358,7 @@ export async function run() {
                                 break;
                             }
                             case "submit-name": {
+                                // TODO: login will reset this, make it so login ignores if this is active
                                 if ($("#name").val().split(" ").length == 2 && $("#name").val().length != 0) {
                                     if ($("#name").val() != `${hlp.session.firstname} ${hlp.session.lastname}`) {
                                         let remembered = hlp.get("remembered");
