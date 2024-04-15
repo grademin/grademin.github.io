@@ -5,6 +5,8 @@ export async function run() {
           site = await import("../../site.js");
 
     // TODO: add try and catches to everything!
+    // TODO: echo actually has an api for the exact date & time the user last viewed
+    // the stream, so use that AND follow the date by date and exact time!
           
     await hlp.load(async function () {
         await $("#root").html(`
