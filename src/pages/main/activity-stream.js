@@ -209,6 +209,7 @@ export async function run() {
 
             $("#activity-stream").empty();
             content(activities.response.activities.activity);
+            // TODO: there has got to be a better way to do this & works 100% of the time
             window.onscroll = async function() {
                 if ((window.innerHeight + window.scrollY) + 50 >= document.documentElement.scrollHeight) {
                     try {
@@ -239,7 +240,7 @@ export async function run() {
                                     <div class="flex flex-row justify-center items-center gap-5 pointer-events-none w-full">
                                         <div class="flex flex-col w-full">
                                             <h1 class="text-[18px] sm:text-[22px] w-[10ch] xl-sm:w-[23ch] x-sm:w-[30ch] sm:w-full truncate font-bold">${activity.data.item.title}</h1>
-                                            <span class="font-bold text-[15px] text-zinc-400">Submitted ${new Date(activity.date).toLocaleDateString(undefined, {weekday: "long", year: "numeric", month: "long", day: "numeric"})} by you</span>
+                                            <span class="font-bold text-[15px] text-zinc-400">Submitted ${new Date(activity.date).toLocaleDateString(undefined, {weekday: "long", year: "numeric", month: "long", day: "numeric"})} by You</span>
                                         </div>
                                     </div>
                                 </div>
