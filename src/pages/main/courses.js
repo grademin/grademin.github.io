@@ -432,7 +432,7 @@ export async function run() {
                         </div> 
                     </div>
                     <div id="agenda" class="flex flex-col justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
-                        ${agenda}
+                        ${agenda.replace(/\[~]/g, `https://api.agilixbuzz.com/Resz/${hlp.session.token}/${new URLSearchParams(window.location.search).get("eid")}/Assets`)}
                     </div>
                 </div>
             `).find("#courses").hide();
