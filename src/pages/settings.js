@@ -301,7 +301,7 @@ export async function run() {
                                 </div>
                             </div>
                         </div>
-                    `).on("click", async function (e) {
+                    `).off().on("click", async function (e) {
                         switch ($(e.target).attr("id")) {
                             case "overlay": {
                                 $("#overlay").fadeOut(400, function () {
@@ -348,7 +348,7 @@ export async function run() {
                                 </div>
                             </div>
                         </div>
-                    `).on("click", function (e) {
+                    `).off().on("click", function (e) {
                         switch ($(e.target).attr("id")) {
                             case "overlay": {
                                 $("#overlay").fadeOut(400, function () {

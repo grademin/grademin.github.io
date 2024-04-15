@@ -109,6 +109,7 @@
 
     /**
      * These handle notifications.
+     * TODO: remove
      */
     {
         // Assignements are posted.

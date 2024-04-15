@@ -85,18 +85,27 @@ export async function run() {
                         delete login3.response.code;
                         login3.response.token = login3.response.user.token;
                         delete login3.response.user.token;
-                        login3.response.user.fullname = `${login3.response.user.firstname.charAt(0).toUpperCase() + login3.response.user.firstname.slice(1)} ${login3.response.user.lastname.charAt(0).toUpperCase() + login3.response.user.lastname.slice(1)}`;
+                        
+                        if (hlp.get("remembered") == "") {
+                            login3.response.user.fullname = `${login3.response.user.firstname.charAt(0).toUpperCase() + login3.response.user.firstname.slice(1)} ${login3.response.user.lastname.charAt(0).toUpperCase() + login3.response.user.lastname.slice(1)}`;
+                            
+                            // This localStorage item adds details so when you logout you can easily log back in
+                            hlp.set("remembered", {
+                                "username": login3.response.user.username,
+                                "userspace": login3.response.user.userspace,
+                                "firstname": login3.response.user.firstname,
+                                "lastname": login3.response.user.lastname,
+                                "fullname": login3.response.user.fullname
+                            })
 
-                        // This localStorage item adds details so when you logout you can easily log back in
-                        hlp.set("remembered", {
-                            "username": login3.response.user.username,
-                            "userspace": login3.response.user.userspace,
-                            "firstname": login3.response.user.firstname,
-                            "lastname": login3.response.user.lastname,
-                            "fullname": login3.response.user.fullname
-                        })
-
-                        hlp.set("session", login3.response);
+                            hlp.set("session", login3.response);
+                        } else {
+                            login3.response.user.firstname = hlp.get("remembered").firstname;
+                            login3.response.user.lastname = hlp.get("remembered").lastname;
+                            login3.response.user.fullname = `${hlp.get("remembered").firstname.charAt(0).toUpperCase() + hlp.get("remembered").firstname.slice(1)} ${hlp.get("remembered").lastname.charAt(0).toUpperCase() + hlp.get("remembered").lastname.slice(1)}`;
+                        
+                            hlp.set("session", login3.response);
+                        }
 
                         await site.runtime("overview");
                     }
