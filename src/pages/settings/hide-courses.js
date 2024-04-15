@@ -122,7 +122,7 @@ export async function run() {
                 $("#hide-courses").append(`
                     <div id="hide" class="flex flex-col container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
                         <div class="flex flex-row justify-between container mx-auto cursor-pointer">
-                            <div  class="flex flex-row justify-center items-center pointer-events-none">
+                            <div class="flex flex-row justify-center items-center pointer-events-none">
                                 <div class="flex flex-col">
                                     <h1 class="text-[22px] w-[13ch] x-sm:w-[20ch] sm:w-[30ch] md:w-[40ch] lg:w-full truncate font-bold">${course.title}</h1>
                                 </div>

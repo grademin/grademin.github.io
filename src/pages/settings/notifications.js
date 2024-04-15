@@ -30,92 +30,68 @@ export async function run() {
             <!---->
             <!---->
             <div class="flex flex-col gap-5 pt-[2rem] mt-[46px] mb-[1.7rem] container mx-auto py-10 px-4">
-                <div class="flex flex-col container mx-auto ${hlp.theme("theme-card")} rounded-xl px-3">
-                    <div id="enable" class="flex flex-row justify-between container mx-auto cursor-pointer py-3">
-                        <div class="flex flex-row justify-center items-center gap-4 pointer-events-none">
-                            <div class="flex flex-col items-center">
-                                <h1 class="text-[20px] font-bold">Enable Notifications</h1>
+                <div id="notifications" class="flex flex-col gap-5">
+                    <div class="flex flex-col container mx-auto ${hlp.theme("theme-card")} rounded-xl px-3">
+                        <div id="chip-indicators" class="flex flex-row justify-between container mx-auto cursor-pointer py-3">
+                            <div class="flex flex-row justify-center items-center gap-4 pointer-events-none">
+                                <div class="flex flex-col items-center">
+                                    <h1 class="text-[20px] font-bold">Visual Chip Indicators</h1>
+                                </div>
+                            </div>
+                            <div class="flex justify-center items-center">
+                                <input notification_name="chip-indicators" type="checkbox" class="hidden">
+                                <label class="flex items-center cursor-pointer">
+                                    <div class="w-[3.7rem] h-[33px] ${hlp.theme("theme-toggle")} rounded-full p-1">
+                                        <div class="bg-white w-[25px] h-[25px] rounded-full shadow-md transform translate-x-0"></div>
+                                    </div>
+                                </label>
                             </div>
                         </div>
-                        <div class="flex justify-center items-center">
-                            <input setting_name="include-self" type="checkbox" class="hidden">
-                            <label class="flex items-center cursor-pointer">
-                                <div class="w-[3.7rem] h-[33px] ${hlp.theme("theme-toggle")} rounded-full p-1">
-                                    <div class="bg-white w-[25px] h-[25px] rounded-full shadow-md transform translate-x-0"></div>
-                                </div>
-                            </label>
-                        </div>
                     </div>
-                </div>
-                <div class="flex flex-col container mx-auto ${hlp.theme("theme-card")} rounded-xl px-3">
-                    <div id="chip-indicators" class="flex flex-row justify-between container mx-auto cursor-pointer py-3">
-                        <div class="flex flex-row justify-center items-center gap-4 pointer-events-none">
-                            <div class="flex flex-col items-center">
-                                <h1 class="text-[20px] font-bold">Visual Chip Indicators</h1>
+                    <div class="flex flex-col container mx-auto ${hlp.theme("theme-card")} rounded-xl px-3">
+                        <div id="posted" class="flex flex-row justify-between container mx-auto cursor-pointer gap-5 py-3 border-b-[2px] border-zinc-700">
+                            <div class="flex flex-row justify-center items-center gap-4 pointer-events-none">
+                                <div class="flex flex-col items-center">
+                                    <h1 class="text-[20px] font-bold">Notify When an Assignement is Posted</h1>
+                                </div>
+                            </div>
+                            <div class="flex justify-center items-center">
+                                <input notification_name="posted" type="checkbox" class="hidden">
+                                <label class="flex items-center cursor-pointer">
+                                    <div class="w-[3.7rem] h-[33px] ${hlp.theme("theme-toggle")} rounded-full p-1">
+                                        <div class="bg-white w-[25px] h-[25px] rounded-full shadow-md transform translate-x-0"></div>
+                                    </div>
+                                </label>
                             </div>
                         </div>
-                        <div class="flex justify-center items-center">
-                            <input setting_name="include-self" type="checkbox" class="hidden">
-                            <label class="flex items-center cursor-pointer">
-                                <div class="w-[3.7rem] h-[33px] ${hlp.theme("theme-toggle")} rounded-full p-1">
-                                    <div class="bg-white w-[25px] h-[25px] rounded-full shadow-md transform translate-x-0"></div>
+                        <div id="past-due" class="flex flex-row justify-between container mx-auto cursor-pointer gap-5 py-3 border-b-[2px] border-zinc-700">
+                            <div class="flex flex-row justify-center items-center gap-4 pointer-events-none">
+                                <div class="flex flex-col items-center">
+                                    <h1 class="text-[20px] font-bold">Notify When an Assignment is Past Due</h1>
                                 </div>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex flex-col container mx-auto ${hlp.theme("theme-card")} rounded-xl px-3">
-                    <div id="posted" class="flex flex-row justify-between container mx-auto cursor-pointer gap-5 py-3 border-b-[2px] border-zinc-700">
-                        <div class="flex flex-row justify-center items-center gap-4 pointer-events-none">
-                            <div class="flex flex-col items-center">
-                                <h1 class="text-[20px] font-bold">Notify When an Assignement is Posted</h1>
+                            </div>
+                            <div class="flex justify-center items-center">
+                                <input notification_name="past-due" type="checkbox" class="hidden">
+                                <label class="flex items-center cursor-pointer">
+                                    <div class="w-[3.7rem] h-[33px] ${hlp.theme("theme-toggle")} rounded-full p-1">
+                                        <div class="bg-white w-[25px] h-[25px] rounded-full shadow-md transform translate-x-0"></div>
+                                    </div>
+                                </label>
                             </div>
                         </div>
-                        <div class="flex justify-center items-center">
-                            <input setting_name="include-self" type="checkbox" class="hidden">
-                            <label class="flex items-center cursor-pointer">
-                                <div class="w-[3.7rem] h-[33px] ${hlp.theme("theme-toggle")} rounded-full p-1">
-                                    <div class="bg-white w-[25px] h-[25px] rounded-full shadow-md transform translate-x-0"></div>
+                        <div id="new-grade" class="flex flex-row justify-between container mx-auto cursor-pointer gap-5 py-3">
+                            <div class="flex flex-row justify-center items-center gap-4 pointer-events-none">
+                                <div class="flex flex-col items-center">
+                                    <h1 class="text-[20px] font-bold">Notify When a New Grade is Posted</h1>
                                 </div>
-                            </label>
-                        </div>
-                    </div>
-                    <div id="past-due" class="flex flex-row justify-between container mx-auto cursor-pointer gap-5 py-3 border-b-[2px] border-zinc-700">
-                        <div class="flex flex-row justify-center items-center gap-4 pointer-events-none">
-                            <div class="flex flex-col items-center">
-                                <h1 class="text-[20px] font-bold">Notify When an Assignment is Past Due</h1>
                             </div>
-                        </div>
-                        <div class="flex justify-center items-center">
-                            <input setting_name="include-self" type="checkbox" class="hidden">
-                            <label class="flex items-center cursor-pointer">
-                                <div class="w-[3.7rem] h-[33px] ${hlp.theme("theme-toggle")} rounded-full p-1">
-                                    <div class="bg-white w-[25px] h-[25px] rounded-full shadow-md transform translate-x-0"></div>
-                                </div>
-                            </label>
-                        </div>
-                    </div>
-                    <div id="new-grade" class="flex flex-row justify-between container mx-auto cursor-pointer gap-5 py-3">
-                        <div class="flex flex-row justify-center items-center gap-4 pointer-events-none">
-                            <div class="flex flex-col items-center">
-                                <h1 class="text-[20px] font-bold">Notify When a New Grade is Posted</h1>
-                            </div>
-                        </div>
-                        <div class="flex justify-center items-center">
-                            <input setting_name="include-self" type="checkbox" class="hidden">
-                            <label class="flex items-center cursor-pointer">
-                                <div class="w-[3.7rem] h-[33px] ${hlp.theme("theme-toggle")} rounded-full p-1">
-                                    <div class="bg-white w-[25px] h-[25px] rounded-full shadow-md transform translate-x-0"></div>
-                                </div>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex flex-col container mx-auto ${hlp.theme("theme-card")} rounded-xl px-3">
-                    <div id="test_push" class="flex flex-row justify-between container mx-auto cursor-pointer py-3">
-                        <div class="flex flex-row justify-center items-center gap-4 pointer-events-none">
-                            <div class="flex flex-col items-center">
-                                <h1 class="text-[20px] font-bold">Test Push</h1>
+                            <div class="flex justify-center items-center">
+                                <input notification_name="new-grade" type="checkbox" class="hidden">
+                                <label class="flex items-center cursor-pointer">
+                                    <div class="w-[3.7rem] h-[33px] ${hlp.theme("theme-toggle")} rounded-full p-1">
+                                        <div class="bg-white w-[25px] h-[25px] rounded-full shadow-md transform translate-x-0"></div>
+                                    </div>
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -158,16 +134,6 @@ export async function run() {
                 }
 
 
-                case "test_push": {
-                    await sw.notify("Test Notification! #3", {
-                        "body": "This is a test notification. It could include Grades, Past Due or Due Assignements, ect!",
-                        "icon": "src/logo/logo.png",
-                        "tag": "notification-sample",
-                        "vibrate": [200, 100, 200, 100, 200, 100, 200],
-                    })
-                    break;
-                }
-
 
                 case "overview": {
                     await site.runtime("overview");
@@ -183,7 +149,40 @@ export async function run() {
 
 
         async function call() {
+            let notifications = hlp.get("notifications");
 
+            await $.each(notifications, (i, notification) => {
+                if (notification.$value) {
+                    $(`input[notification_name="${notification.option}"]`).prop("checked", notification.$value);
+                    $(`input[notification_name="${notification.option}"]`).parent().find("label div>div").removeClass("translate-x-0").addClass("translate-x-full").parent().removeClass(`${hlp.theme("theme-toggle")}`).addClass(`${hlp.theme("bg", "700")}`);
+                }
+            })
+
+            $("#root #notifications div[id]:has(input)").on("click", function() {
+                if ($(this).find("input").prop("checked"))
+                    $(this).find("input").prop("checked", "")
+                else
+                    $(this).find("input").prop("checked", "true")
+
+
+                if ($(this).find("input").prop("checked")) {
+                    $(this).find("label div div").removeClass("translate-x-0").addClass("translate-x-full duration-300 ease-in-out").parent().removeClass(`${hlp.theme("theme-toggle")}`).addClass(`${hlp.theme("bg", "700")}`);
+                } else {
+                    $(this).find("label div div").removeClass("translate-x-full").addClass("translate-x-0 duration-300 ease-in-out").parent().removeClass(`${hlp.theme("bg", "700")}`).addClass(`${hlp.theme("theme-toggle")}`);
+                }
+                
+                if (!hlp.string(notifications).includes($(this).find("input").attr("notification_name"))) {
+                    notifications.push({
+                        option: $(this).find("input").attr("notification_name"),
+                        $value:  $(this).find("input").prop("checked")
+                    })
+    
+                    hlp.set("notifications", notifications);
+                } else {
+                    notifications.find(name => name.option.includes($(this).find("input").attr("notification_name"))).$value = $(this).find("input").prop("checked")
+                    hlp.set("notifications", notifications);
+                }
+            });
         }
 
         await call();

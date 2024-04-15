@@ -2,6 +2,7 @@ export async function run() {
     const hlp = await import("../helpers.js"),
           site = await import("../site.js");
 
+
     // TODO: clean
 
     hlp.load(async function () {
@@ -247,100 +248,106 @@ export async function run() {
             }
         })
 
-        
-
-        // Announcement "viewed" count
         try {
-            let communications = await $.ajax({
-                url: hlp.api(`/cmd/getuserannouncementlist?_token=${hlp.session.token}&userid=${hlp.session.id}&daysactivepastend=14`),
-                method: "GET",
-                dataType: "json",
-                contentType: "application/json; charset=utf-8",
-            })
+            let notifications = hlp.get("notifications");
+            if (notifications.find(name => name.option.includes("chip-indicators")).$value) {
+                // Announcement "viewed" count
+                try {
+                    let communications = await $.ajax({
+                        url: hlp.api(`/cmd/getuserannouncementlist?_token=${hlp.session.token}&userid=${hlp.session.id}&daysactivepastend=14`),
+                        method: "GET",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                    })
 
-            let unviewed = 0;
-            await $.each(communications.response.announcements.announcement, function (i, communication) {
-                if (!communication.viewed)
-                    unviewed++
-            })
-            
-            if (unviewed != 0) {
-                await $("#announcements").append(`
-                    <div class="absolute ${hlp.theme("theme-shadow")} text-white inline-flex right-0 top-0 h-8 w-8 -m-2 rounded-full ${hlp.theme("bg", "700")} justify-center items-center">
-                        <span>${unviewed}</span>
-                    </div> 
-                `)
-            }
-        } catch (e) {}
-
-        // Todo List current todos
-        try {
-            let due = await $.ajax({
-                url: hlp.api(`/cmd/getduesoonlist?_token=${hlp.session.token}&days=3&userId=${hlp.session.id}&utcoffset=300`),
-                method: "GET",
-                dataType: "json",
-                contentType: "application/json; charset=utf-8",
-            })
-
-            if (due.response.items.item.length != 0) {
-                await $("#todo-list").append(`
-                    <div class="absolute ${hlp.theme("theme-shadow")} text-white inline-flex right-0 top-0 h-8 w-8 -m-2 rounded-full ${hlp.theme("bg", "700")} justify-center items-center">
-                        <span>${due.response.items.item.length}</span>
-                    </div> 
-                `)
-            }
-        } catch (e) {}
-
-        // Activity stream
-        try {
-            let codes = "200|201|301|400|401|500|501|601|803";
-            try {
-                let settings = hlp.get("settings");
-                if (settings.find(name => name.setting.includes("include-self")).$value)
-                    codes = "100|200|201|300|301|400|401|500|501|600|601|803";
-            } catch (e) {}
-
-            let activities = await $.ajax({
-                url: hlp.api(`/cmd/getuseractivitystream?_token=${hlp.session.token}&userid=${hlp.session.id}&types=${codes}`),
-                method: "GET",
-                dataType: "json",
-                contentType: "application/json; charset=utf-8",
-            })
-
-            activities.response.activities.activity.sort((a, b) => new Date(b.date) - new Date(a.date));
+                    let unviewed = 0;
+                    await $.each(communications.response.announcements.announcement, function (i, communication) {
+                        if (!communication.viewed)
+                            unviewed++
+                    })
                     
-            if (hlp.get("activities") == "") {
-                hlp.set("activities", {
-                    start: new Date().toLocaleDateString('en-US'),
-                    data: {
-                        items: [],
-                        $unviewed: 0
+                    if (unviewed != 0) {
+                        await $("#announcements").append(`
+                            <div class="absolute ${hlp.theme("theme-shadow")} text-white inline-flex right-0 top-0 h-8 w-8 -m-2 rounded-full ${hlp.theme("bg", "700")} justify-center items-center">
+                                <span>${unviewed}</span>
+                            </div> 
+                        `)
                     }
-                })
-            }
+                } catch (e) {}
 
-            let items = hlp.get("activities");
-            let unviewed = 0;
-            await $.each(activities.response.activities.activity, (i, activity) => {
-                if (new Date(activity.date) >= new Date(hlp.get("activities").start)) {
-                    if (!items.data.items.find(name => name.item.includes(activity.data.item.title))) {
-                        unviewed++
-                        items.data.$unviewed = unviewed
-                        items.data.items.push({
-                            item: activity.data.item.title,
-                        });
-                        
-                        hlp.set("activities", items);
+                // Todo List current todos
+                try {
+                    let due = await $.ajax({
+                        url: hlp.api(`/cmd/getduesoonlist?_token=${hlp.session.token}&days=3&userId=${hlp.session.id}&utcoffset=300`),
+                        method: "GET",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                    })
+
+                    due.response.items.item.sort((a, b) => new Date(b.duedate) - new Date(a.duedate));
+
+                    if (due.response.items.item.length != 0) {
+                        await $("#todo-list").append(`
+                            <div class="absolute ${hlp.theme("theme-shadow")} text-white inline-flex right-0 top-0 h-8 w-8 -m-2 rounded-full ${hlp.theme("bg", "700")} justify-center items-center">
+                                <span>${due.response.items.item.length}</span>
+                            </div> 
+                        `)
                     }
-                }
-            })
+                } catch (e) {}
 
-            if (hlp.get("activities").data.$unviewed != 0) {
-                await $("#activity-stream").append(`
-                    <div class="absolute ${hlp.theme("theme-shadow")} text-white inline-flex right-0 top-0 h-8 w-8 -m-2 rounded-full ${hlp.theme("bg", "700")} justify-center items-center">
-                        <span>${hlp.get("activities").data.$unviewed}</span>
-                    </div> 
-                `)
+                // Activity stream
+                try {
+                    let codes = "200|201|301|400|401|500|501|601|803";
+                    try {
+                        let settings = hlp.get("settings");
+                        if (settings.find(name => name.setting.includes("include-self")).$value)
+                            codes = "100|200|201|300|301|400|401|500|501|600|601|803";
+                    } catch (e) {}
+
+                    let activities = await $.ajax({
+                        url: hlp.api(`/cmd/getuseractivitystream?_token=${hlp.session.token}&userid=${hlp.session.id}&types=${codes}`),
+                        method: "GET",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                    })
+
+                    activities.response.activities.activity.sort((a, b) => new Date(b.date) - new Date(a.date));
+                            
+                    if (hlp.get("activities") == "") {
+                        hlp.set("activities", {
+                            start: new Date().toLocaleDateString('en-US'),
+                            data: {
+                                items: [],
+                                $unviewed: 0
+                            }
+                        })
+                    }
+
+                    let items = hlp.get("activities");
+                    let unviewed = 0;
+                    await $.each(activities.response.activities.activity, (i, activity) => {
+                        if (new Date(activity.date) >= new Date(hlp.get("activities").start)) {
+                            if (!items.data.items.find(name => name.item.includes(activity.data.item.title))) {
+                                unviewed++
+                                items.data.$unviewed = unviewed
+                                items.data.items.push({
+                                    item: activity.data.item.title,
+                                });
+                                
+                                hlp.set("activities", items);
+                            }
+                        }
+                    })
+
+                    if (hlp.get("activities").data.$unviewed != 0) {
+                        await $("#activity-stream").append(`
+                            <div class="absolute ${hlp.theme("theme-shadow")} text-white inline-flex right-0 top-0 h-8 w-8 -m-2 rounded-full ${hlp.theme("bg", "700")} justify-center items-center">
+                                <span>${hlp.get("activities").data.$unviewed}</span>
+                            </div> 
+                        `)
+                    }
+                } catch (e) {}
+
             }
         } catch (e) {}
 

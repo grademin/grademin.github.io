@@ -20,6 +20,50 @@
         <meta name="theme-color" content="">
         <meta name="background-color" content="">
         <script src="src/thirdparty/tailwind.js"></script>
+        <style is="loader">
+            .loader {
+                display: inline-block;
+                position: relative;
+                background-image: url("src/logo/logo-transparent.png");
+                background-repeat: no-repeat;
+                background-size: cover;
+                padding: 70px;
+            }
+
+            .loader {
+                animation: loader 2s cubic-bezier(1, 2, 0.1, 1) infinite;
+            }
+            
+            @keyframes loader {
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+        </style>
+        <style is="shake">
+            @keyframes shake {
+                0% { transform: translateX(0); }
+                25% { transform: translateX(-8px); }
+                50% { transform: translateX(8px); }
+                75% { transform: translateX(-4px); }
+                100% { transform: translateX(0); }
+            }
+            
+            .shake {
+                animation: shake 0.5s ease-in-out;
+                animation-duration: 800ms;
+            }
+        </style>
+        <style is="app-loader">
+            .app-loading {
+                position: absolute;
+                top: calc(50% - 32px);
+                left: calc(50% - 32px);
+            }
+        </style>
     </head>
     <body class="overscroll-none font-['Nunito']">
         <div id="root"></div>
