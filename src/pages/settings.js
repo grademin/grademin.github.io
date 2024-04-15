@@ -5,7 +5,7 @@ export async function run() {
     // TODO: clean
     // FIX: the items don't take the entire area, meaning the outer edges can't be clicked, not a problem for mobile, but a problem for desktop
 
-    hlp.load(async function () {
+    await hlp.load(async function () {
         await $("#root").html(`
             <div id="top" class="${hlp.theme("bg", "700")} text-white">
                 <div class="fixed left-0 right-0 top-0 z-20 flex flex-row ${hlp.theme("bg", "700")}">

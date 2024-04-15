@@ -135,7 +135,7 @@ export async function load(main) {
  */
 export function theme(type, value) {
     let theme = get("theme_settings").theme;
-    let theme_color = get("theme_settings").theme_color; // emerald, pink, orange, cyan, blue, rose, red, indigo, violet, fuchsia
+    let theme_color = get("theme_settings").theme_color;
 
     switch (type) {
         case "theme-shadow": {
@@ -485,4 +485,43 @@ export function decode_score(json) {
         return;
 
     return Math.round((json.achieved / json.possible) * 100)
+}
+
+/**
+ * Prevents errors from code, if an error occurs (and the bool "showerror" is true) then 
+ * it provides an overlay for the error.
+ * @param {function} main
+ * @param {boolean} showerror
+ */
+export async function prevent_errors(main, showerror) {
+    try {
+        await main();
+    } catch (e) {
+        if (showerror) {
+            $("body").addClass("overflow-hidden");
+            $("#overlays").append(`
+                <div id="error" class="fixed inset-0 z-50 bg-gray-900 bg-opacity-50 flex justify-center items-center animation-fadein">
+                    <div class="container mx-auto px-4 flex justify-center items-center pointer-events-none animation-popin">
+                        <div class="${theme("theme-card")} ${theme("theme-text")} rounded-xl max-w-lg px-5 py-5 pointer-events-auto">
+                            <div class="flex justify-center items-center mb-4">
+                                <h2 class="text-2xl font-bold text-center">Error Occured</h2>
+                            </div>
+                            <div>
+                                <p>${e}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).on("click", function (event) {
+                switch ($(event.target).attr("id")) {
+                    case "overlay": {
+                        $("#error").fadeOut(400, function () {
+                            $("#overlays").empty();
+                        });
+                        $("body").removeClass("overflow-hidden");
+                    }
+                }
+            })
+        }
+    }
 }

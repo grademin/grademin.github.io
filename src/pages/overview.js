@@ -5,7 +5,7 @@ export async function run() {
 
     // TODO: clean
 
-    hlp.load(async function () {
+    await hlp.load(async function () {
         await $("#root").html(`
             <div id="top" class="${hlp.theme("bg", "700")} text-white">
                 <div class="fixed left-0 right-0 top-0 z-20 flex flex-row ${hlp.theme("bg", "700")}">

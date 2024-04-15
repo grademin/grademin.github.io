@@ -8,7 +8,7 @@ export async function run() {
     // <div class="flex flex-col gap-5 pt-[2rem] mt-[46px] mb-[1.7rem] container mx-auto py-10 px-4">
     //   <div class="flex flex-col container mx-auto ${hlp.theme("theme-card")} rounded-xl px-3">
 
-    hlp.load(async function () {
+    await hlp.load(async function () {
         await $("#root").html(`
             <div id="top" class="${hlp.theme("bg", "700")} text-white">
                 <div class="fixed left-0 right-0 top-0 z-20 flex flex-row ${hlp.theme("bg", "700")}">

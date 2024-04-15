@@ -21,17 +21,17 @@ export async function runtime(page) {
     switch(page) {
         case "login": {
             const login = await import("/proview/src/pages/login.js");
-            login.run()
+            await login.run()
             break;
         }
         case "overview": {
             const overview = await import("/proview/src/pages/overview.js");
-            overview.run();
+            await overview.run();
             break;
         }
         case "settings": {
             const settings = await import("/proview/src/pages/settings.js");
-            settings.run();
+            await settings.run();
             break;
         }
         
@@ -39,25 +39,25 @@ export async function runtime(page) {
 
         case "courses": {
             const courses = await import("/proview/src/pages/main/courses.js");
-            courses.run();
+            await courses.run();
             break;
         }
 
         case "announcements": {
             const announcements = await import("/proview/src/pages/main/announcements.js");
-            announcements.run();
+            await announcements.run();
             break;
         }
 
         case "todo-list": {
             const todo_list = await import("/proview/src/pages/main/todo-list.js")
-            todo_list.run();
+            await todo_list.run();
             break;
         }
 
         case "activity-stream": {
             const stream = await import("/proview/src/pages/main/activity-stream.js");
-            stream.run();
+            await stream.run();
             break;
         }
 
@@ -65,19 +65,19 @@ export async function runtime(page) {
 
         case "theme-color": {
             const theme_color = await import("/proview/src/pages/settings/theme-color.js");
-            theme_color.run();
+            await theme_color.run();
             break;
         }
 
         case "notifications": {
             const notifications = await import("/proview/src/pages/settings/notifications.js");
-            notifications.run();
+            await notifications.run();
             break;
         }
 
         case "hide-courses": {
             const hide_courses = await import("/proview/src/pages/settings/hide-courses.js");
-            hide_courses.run();
+            await hide_courses.run();
             break;
         }
     }

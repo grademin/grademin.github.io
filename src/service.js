@@ -18,8 +18,10 @@ export async function notify(title, content) {
  * @param path {string}
  * @example sw.register(path);
  */
-export async function register (path) {
-    navigator.serviceWorker.register(path);
+export async function register(path) {
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register(path);
+    }
 }
 
 /**

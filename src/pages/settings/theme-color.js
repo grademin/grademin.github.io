@@ -119,8 +119,18 @@ export async function run() {
                 theme_settings.sync = true;
                 theme_settings.theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light";
                 
-                theme_settings.theme == "light" ? $("body").removeClass("text-white").removeClass("text-black").addClass("text-black") : $("body").removeClass("text-black").removeClass("text-white").addClass("text-white");
-                theme_settings.theme == "light" ? $("body").removeClass("bg-black").removeClass("bg-white").addClass("text-white") : $("body").removeClass("bg-white").removeClass("bg-black").addClass("bg-black");
+                if (theme_settings.theme == "light") {
+                    $("body").removeClass("bg-white").removeClass("bg-black");
+                    $("body").removeClass("text-white").removeClass("text-black");
+                    $("body").addClass("bg-white");
+                    $("body").addClass("text-black");
+                } else {
+                    $("body").removeClass("bg-white").removeClass("bg-black");
+                    $("body").removeClass("text-white").removeClass("text-black");
+                    $("body").addClass("bg-black");
+                    $("body").addClass("text-white");
+                }
+
                 site.runtime("theme-color");
             } else {
                 $(this).find("label div div").removeClass("translate-x-full").addClass("translate-x-0 duration-300 ease-in-out").parent().removeClass(`${hlp.theme("bg", "700")}`).addClass(`${hlp.theme("theme-toggle")}`);
@@ -300,8 +310,17 @@ export async function run() {
                         theme_settings.theme_color = $(e.target).attr("id").split("-")[1];
                         theme_settings.theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light";
 
-                        theme_settings.theme == "light" ? $("body").removeClass("text-white").removeClass("text-black").addClass("text-black") : $("body").removeClass("text-black").removeClass("text-white").addClass("text-white");
-                        theme_settings.theme == "light" ? $("body").removeClass("bg-black").removeClass("bg-white").addClass("text-white") : $("body").removeClass("bg-white").removeClass("bg-black").addClass("bg-black");
+                        if (theme_settings.theme == "light") {
+                            $("body").removeClass("bg-white").removeClass("bg-black");
+                            $("body").removeClass("text-white").removeClass("text-black");
+                            $("body").addClass("bg-white");
+                            $("body").addClass("text-black");
+                        } else {
+                            $("body").removeClass("bg-white").removeClass("bg-black");
+                            $("body").removeClass("text-white").removeClass("text-black");
+                            $("body").addClass("bg-black");
+                            $("body").addClass("text-white");
+                        }
 
                         hlp.set("theme_settings", theme_settings);
                         site.runtime("theme-color");
@@ -652,9 +671,18 @@ export async function run() {
                         theme_settings.theme_color = $(e.target).attr("id").split("-")[1];
                         theme_settings.theme = $(e.target).attr("id").split("-")[2];
                         
-                        theme_settings.theme == "light" ? $("body").removeClass("text-white").removeClass("text-black").addClass("text-black") : $("body").removeClass("text-black").removeClass("text-white").addClass("text-white");
-                        theme_settings.theme == "light" ? $("body").removeClass("bg-black").removeClass("bg-white").addClass("text-white") : $("body").removeClass("bg-white").removeClass("bg-black").addClass("bg-black");
-
+                        if (theme_settings.theme == "light") {
+                            $("body").removeClass("bg-white").removeClass("bg-black");
+                            $("body").removeClass("text-white").removeClass("text-black");
+                            $("body").addClass("bg-white");
+                            $("body").addClass("text-black");
+                        } else {
+                            $("body").removeClass("bg-white").removeClass("bg-black");
+                            $("body").removeClass("text-white").removeClass("text-black");
+                            $("body").addClass("bg-black");
+                            $("body").addClass("text-white");
+                        }
+                        
                         hlp.set("theme_settings", theme_settings);
                         site.runtime("theme-color");
                     }
