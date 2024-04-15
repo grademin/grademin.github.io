@@ -187,7 +187,15 @@ export async function run() {
                                 arrow_forward_ios
                             </span>
                         </div>
-                        ${communication.viewed ? "" : `<div id="unviewed-${communication.path.replace(".zip", "")}" class="absolute pointer-events-none inline-flex right-0 top-0 h-4 w-4 -m-1 animate-ping duration-700 rounded-full ${hlp.theme("bg", "700")} opacity-75 justify-center items-center"></div>`}
+                        
+                        ${(()=>{
+                            let notifications = hlp.get("notifications");
+                            if (notifications.find(name => name.option.includes("chip-indicators")).$value) {
+                                return !communication.viewed ? "" : `<div id="unviewed-${communication.path.replace(".zip", "")}" class="absolute pointer-events-none inline-flex right-0 top-0 h-4 w-4 -m-1 animate-ping duration-700 rounded-full ${hlp.theme("bg", "700")} opacity-75 justify-center items-center"></div>`
+                            } else {
+                                return ""
+                            }
+                        })()}
                     </div>
                 `).children().off().on("click", async function (event) {
                     hlp.load(async function () {

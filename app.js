@@ -7,6 +7,7 @@
     const sw = await import("/proview/src/service.js");
     const hlp = await import("/proview/src/helpers.js");
     const site = await import("/proview/src/site.js");
+    const notify = await import("/proview/src/notify.js");
 
     /**
      * Handles themes automatically. (should run first since color is something the user sees first)
@@ -105,6 +106,20 @@
     // This will register a Service Worker for allowing the user to install
     // the website as an app through chrome, firefox, opera, etc.
     await sw.register("app-worker.js");
+
+    /**
+     * These handle notifications.
+     */
+    {
+        // Assignements are posted.
+        await notify.todos();
+
+        // An assignement is past due or close to due.
+        //await notify.pastdue();
+
+        // A course is failing a grade.
+        //await notify.coursefailing();
+    }
 
     /**
      * Handles all the localstorage items that need to be setup before hand.
