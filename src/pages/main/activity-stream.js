@@ -153,7 +153,7 @@ export async function run() {
             }
 
             let codes = "200|201|301|400|401|500|501|601|803";
-            let pagnateKey = "";
+            let pagnateKey = null;
             let activities = [];
             let settings = [];
             let objectives = [];
@@ -189,7 +189,7 @@ export async function run() {
 
             let guids = "";
             if (settings.length != 0) {
-                $.each(settings.response.settings["scoring-objective-list"]["scoring-objective"], (i, objective) => {
+                await $.each(settings.response.settings["scoring-objective-list"]["scoring-objective"], (i, objective) => {
                     if (i < settings.response.settings["scoring-objective-list"]["scoring-objective"].length - 1)
                         guids += `${objective.guid}|`
                     else 
@@ -213,25 +213,25 @@ export async function run() {
             $("#activity-stream").empty();
             content(activities.response.activities.activity);
             // TODO: there has got to be a better way to do this & works 100% of the time
-            window.onscroll = async function() {
-                if ((window.innerHeight + window.scrollY) + 50 >= document.documentElement.scrollHeight) {
-                    try {
+            $(window).scroll(async function() {
+                if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
+                    hlp.prevent_errors(async function () {
+                        console.log(pagnateKey)
                         next_activities = await $.ajax({
-                            url: hlp.api(`/cmd/getuseractivitystream?_token=${hlp.session.token}&userid=${hlp.session.id}&types=${codes}&startkey=${pagnateKey}`),
+                            url: hlp.api(`/cmd/getuseractivitystream?_token=${hlp.session.token}&userid=${hlp.session.id}&types=${codes}&startkey=${encodeURIComponent(pagnateKey)}`),
                             method: "GET",
                             dataType: "json",
                             contentType: "application/json; charset=utf-8"
                         })
-
+                        
                         if (next_activities.length != 0) {
                             next_activities.response.activities.activity.sort((a, b) => new Date(b.date) - new Date(a.date));
                             pagnateKey = next_activities.response.activities.endkey;
-                            
                             content(next_activities.response.activities.activity)
                         }
-                    } catch (e) {}
+                    })
                 }
-            }
+            });
 
             function content(json) {
                 $.each(json, (i, activity) => {
@@ -269,7 +269,7 @@ export async function run() {
                                                 <div class="relative w-min flex flex-row gap-5 ${hlp.theme("theme-card")} justify-between ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
                                                     <span class="font-bold">Excused</span>
                                                 </div>
-                                                <div class="relative w-min flex flex-row gap-5 bg-${hlp.score_to_color(hlp.decode_score(activity.data.newgrade))}-500 justify-between ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
+                                                <div class="relative w-min flex flex-row gap-5 bg-${hlp.score_to_color(hlp.decode_score(activity.data.newgrade))}-500 text-white justify-between rounded-xl py-2 px-3">
                                                     <span class="font-bold">${hlp.decode_score(activity.data.newgrade)}</span>
                                                 </div>
                                             </div>
@@ -346,9 +346,20 @@ export async function run() {
                                                 <div class="flex flex-row justify-center items-center gap-5 pointer-events-none w-full">
                                                     <div class="flex flex-col w-full">
                                                         <h1 class="text-[18px] sm:text-[22px] w-[10ch] xl-sm:w-[23ch] x-sm:w-[30ch] sm:w-full truncate font-bold">${activity.data.item.title}</h1>
-                                                        <span class="font-bold text-[15px] text-zinc-400">Objective posted ${new Date(activity.date).toLocaleDateString(undefined, {weekday: "long", year: "numeric", month: "long", day: "numeric"})} by ${activity.data.user.firstname} ${activity.data.user.lastname}</span>
+                                                        <span class="font-bold text-[15px] text-zinc-400">Grade posted ${new Date(activity.date).toLocaleDateString(undefined, {weekday: "long", year: "numeric", month: "long", day: "numeric"})} by ${activity.data.user.firstname} ${activity.data.user.lastname}</span>
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <div class="flex flex-row gap-2 container mx-auto">
+                                                ${(() => {
+                                                    for (let objective of activity.data.newgrade.objectivescores.objectivescore) {
+                                                        return `
+                                                        <div class="relative w-min flex flex-row gap-5 bg-${hlp.score_to_color(hlp.decode_score(objective))}-500 text-white justify-between rounded-xl py-2 px-3">
+                                                            <span class="font-bold">${hlp.decode_score(objective)}</span>
+                                                        </div>
+                                                        `
+                                                    }
+                                                })()}
                                             </div>
                                         </div>
                                     `)
@@ -365,7 +376,7 @@ export async function run() {
                                             </div>
                                         </div>
                                         <div class="flex flex-row gap-2 container mx-auto">
-                                            <div class="relative w-min flex flex-row gap-5 bg-${hlp.score_to_color(hlp.decode_score(activity.data.newgrade))}-500 justify-between ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
+                                            <div class="relative w-min flex flex-row gap-5 bg-${hlp.score_to_color(hlp.decode_score(activity.data.newgrade))}-500 justify-between rounded-xl py-2 px-3">
                                                 <span class="font-bold">${hlp.decode_score(activity.data.newgrade)}</span>
                                             </div>
                                         </div>
@@ -404,7 +415,7 @@ export async function run() {
                             break;
                         }
                         case 800: {
-                            // Grade below passing (TODO: add this to notifications)
+                            // Grade below passing
                             break;
                         }
                         case 803: {

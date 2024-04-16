@@ -182,10 +182,6 @@ export async function run() {
                     break;
                 }
 
-                case "averages": {
-                    break;
-                }
-
                 case "todo-list": {
                     await site.runtime("todo-list");
                     break;

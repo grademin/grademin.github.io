@@ -91,7 +91,7 @@ export async function run() {
                     </div>
                     <!---->
                     <div class="flex flex-col container mx-auto ${hlp.theme("theme-card")} rounded-xl px-3">
-                        <div id="enroll-course" class="flex flex-row justify-between container mx-auto cursor-pointer py-3">
+                        <div id="enroll" class="flex flex-row justify-between container mx-auto cursor-pointer py-3">
                             <div class="flex flex-row justify-center items-center gap-4 pointer-events-none leading-none">
                                 <div class="flex justify-center items-center ${hlp.theme("bg", "700")} px-2 py-1 rounded-2xl">
                                     <span class="text-3xl material-symbols-rounded text-white">
@@ -99,7 +99,7 @@ export async function run() {
                                     </span>
                                 </div>
                                 <div class="flex flex-col items-center">
-                                    <h1 class="text-[20px] font-bold">Enroll In A Course</h1>
+                                    <h1 class="text-[20px] font-bold">Enroll In Course</h1>
                                 </div>
                             </div>
                             <div class="flex justify-center items-center">
@@ -132,7 +132,7 @@ export async function run() {
                             </div>
                         </div>
                         <!---->
-                        <div id="self-activities" class="flex flex-row justify-between container mx-auto cursor-pointer py-3 border-b-[2px] border-zinc-700">
+                        <div id="include-self" class="flex flex-row justify-between container mx-auto cursor-pointer py-3 border-b-[2px] border-zinc-700">
                                 <div class="flex flex-row justify-center items-center gap-4 pointer-events-none leading-none">
                                     <div class="flex justify-center items-center ${hlp.theme("bg", "700")} px-2 py-1 rounded-2xl">
                                     <span class="text-3xl material-symbols-rounded text-white">
@@ -144,7 +144,7 @@ export async function run() {
                                 </div>
                             </div>
                             <div class="flex justify-center items-center">
-                                <input option="self-activities" type="checkbox" class="hidden">
+                                <input option="include-self" type="checkbox" class="hidden">
                                 <label class="flex items-center cursor-pointer">
                                     <div class="w-[3.7rem] h-[33px] ${hlp.theme("theme-toggle")} rounded-full p-1">
                                         <div class="bg-white w-[25px] h-[25px] rounded-full shadow-md transform translate-x-0"></div>

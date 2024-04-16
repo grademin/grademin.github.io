@@ -191,8 +191,8 @@ export async function run() {
                         <div uid="${course.id}" eid="${course.enrollmentid}" courseid="${course.courseid}" class="flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl cursor-pointer py-3 px-3">
                             <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
                                 <div class="flex justify-center items-center bg-${hlp.score_to_color(course.score)}-500 px-9 py-6 rounded-2xl">
-                                    <span class="text-1xl font-bold text-white w-0 flex justify-center">
-                                        ${isNaN(course.score) ? `<span class="text-black">N/A</span>` : `${course.score}`}
+                                    <span class="text-1xl font-bold text-white w-0 flex justify-center whitespace-nowrap">
+                                        ${isNaN(course.score) ? `<span class="text-black w-max">N/A</span>` : `${course.score}`}
                                     </span>
                                 </div>
                                 <div class="flex flex-col">
@@ -457,7 +457,7 @@ export async function run() {
                 $("#agenda-date span").html(new Date(current_date).toLocaleDateString('en-US'))
 
                 if (new_agenda != "") {
-                    $("#agenda").html(new_agenda);
+                    $("#agenda").html(new_agenda.replace(/\[~]/g, `https://api.agilixbuzz.com/Resz/${hlp.session.token}/${new URLSearchParams(window.location.search).get("eid")}/Assets`));
                     $("[goto]").on("click", function (event) {
                         window.open($(this).attr("goto"), "_blank")
                     })
@@ -482,7 +482,7 @@ export async function run() {
                 $("#agenda-date span:not(#agenda-date-day)").html(new Date(current_date).toLocaleDateString('en-US'))
 
                 if (new_agenda != "") {
-                    $("#agenda").html(new_agenda);
+                    $("#agenda").html(new_agenda.replace(/\[~]/g, `https://api.agilixbuzz.com/Resz/${hlp.session.token}/${new URLSearchParams(window.location.search).get("eid")}/Assets`));
                     $("[goto]").on("click", function (event) {
                         window.open($(this).attr("goto"), "_blank")
                     })
@@ -507,7 +507,7 @@ export async function run() {
                 $("#agenda-date span").html(new Date(current_date).toLocaleDateString('en-US'))
 
                 if (new_agenda != "") {
-                    $("#agenda").html(new_agenda);
+                    $("#agenda").html(new_agenda.replace(/\[~]/g, `https://api.agilixbuzz.com/Resz/${hlp.session.token}/${new URLSearchParams(window.location.search).get("eid")}/Assets`));
                     $("[goto]").on("click", function (event) {
                         window.open($(this).attr("goto"), "_blank")
                     })

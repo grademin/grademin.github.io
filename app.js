@@ -120,7 +120,7 @@
         }
         
         if (hlp.get("settings") == "") {
-            hlp.set("settings", [{"setting":"include-self","$value":true},{"setting":"hide-lti-details","$value":false},{"setting":"chip-indicators","$value":true},{"setting":"hide-excused","$value":false},{"setting":"self-activities","$value":false}]);
+            hlp.set("settings", [{"setting":"include-self","$value":true},{"setting":"hide-lti-details","$value":false},{"setting":"chip-indicators","$value":true},{"setting":"hide-excused","$value":false}]);
         }
 
         if (hlp.get("pfp", false) == "") {
