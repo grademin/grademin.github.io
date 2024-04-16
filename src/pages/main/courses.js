@@ -451,13 +451,13 @@ export async function run() {
                         method: "GET",
                         dataType: "html",
                         contentType: "application/json; charset=utf-8"
-                    }));
+                    })).replace(/\[~]/g, `https://api.agilixbuzz.com/Resz/${hlp.session.token}/${new URLSearchParams(window.location.search).get("eid")}/Assets`);
                 } catch (e) {}
 
                 $("#agenda-date span").html(new Date(current_date).toLocaleDateString('en-US'))
 
                 if (new_agenda != "") {
-                    $("#agenda").html(new_agenda.replace(/\[~]/g, `https://api.agilixbuzz.com/Resz/${hlp.session.token}/${new URLSearchParams(window.location.search).get("eid")}/Assets`));
+                    $("#agenda").html(new_agenda);
                     $("[goto]").on("click", function (event) {
                         window.open($(this).attr("goto"), "_blank")
                     })
@@ -476,13 +476,13 @@ export async function run() {
                         method: "GET",
                         dataType: "html",
                         contentType: "application/json; charset=utf-8"
-                    }));
+                    })).replace(/\[~]/g, `https://api.agilixbuzz.com/Resz/${hlp.session.token}/${new URLSearchParams(window.location.search).get("eid")}/Assets`);
                 } catch (e) {}
 
                 $("#agenda-date span:not(#agenda-date-day)").html(new Date(current_date).toLocaleDateString('en-US'))
 
                 if (new_agenda != "") {
-                    $("#agenda").html(new_agenda.replace(/\[~]/g, `https://api.agilixbuzz.com/Resz/${hlp.session.token}/${new URLSearchParams(window.location.search).get("eid")}/Assets`));
+                    $("#agenda").html(new_agenda);
                     $("[goto]").on("click", function (event) {
                         window.open($(this).attr("goto"), "_blank")
                     })
@@ -501,13 +501,13 @@ export async function run() {
                         method: "GET",
                         dataType: "html",
                         contentType: "application/json; charset=utf-8"
-                    }));
+                    })).replace(/\[~]/g, `https://api.agilixbuzz.com/Resz/${hlp.session.token}/${new URLSearchParams(window.location.search).get("eid")}/Assets`);
                 } catch (e) {}
 
                 $("#agenda-date span").html(new Date(current_date).toLocaleDateString('en-US'))
 
                 if (new_agenda != "") {
-                    $("#agenda").html(new_agenda.replace(/\[~]/g, `https://api.agilixbuzz.com/Resz/${hlp.session.token}/${new URLSearchParams(window.location.search).get("eid")}/Assets`));
+                    $("#agenda").html(new_agenda);
                     $("[goto]").on("click", function (event) {
                         window.open($(this).attr("goto"), "_blank")
                     })
