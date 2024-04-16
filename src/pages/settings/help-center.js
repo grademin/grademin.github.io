@@ -84,6 +84,11 @@ export async function run() {
                             This app cannot reset your password, you will have to do this through your Echo website. Or refer to one of your administrators of your school.
                         </p>
                         <br>
+                        <h1 class="text-3xl font-black">What will "Hide Courses" do?</h1>
+                        <p>
+                            A hidden course will be completely hidden from everything, this means it will not be included in your average grade, or be included in your average objectives. Basically this hidden course will just not exist anymore if its hidden.
+                        </p>
+                        <br>
                         <h1 class="text-3xl font-black">Can people see that I've changed my name and profile picture?</h1>
                         <p>
                             From Echos website, no. However people have <b>eyes</b>. And could see your name from a glance off your screen. Please be careful about what you decide to make your name and profile picture.
