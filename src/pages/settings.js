@@ -99,7 +99,7 @@ export async function run() {
                                     </span>
                                 </div>
                                 <div class="flex flex-col items-center">
-                                    <h1 class="text-[20px] font-bold">Enroll In Course</h1>
+                                    <h1 class="text-[20px] font-bold">Enroll In A Course</h1>
                                 </div>
                             </div>
                             <div class="flex justify-center items-center">
@@ -336,6 +336,11 @@ export async function run() {
 
                 case "theme-color": {
                     site.runtime("theme-color");
+                    break;
+                }
+
+                case "enroll": {
+                    site.runtime("enroll");
                     break;
                 }
 

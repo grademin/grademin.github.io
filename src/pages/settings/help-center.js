@@ -9,7 +9,7 @@ export async function run() {
     await hlp.load(async function () {
         $("#root").empty();
         await $("#overlays").html(`
-            <div id="help-center" class="fixed h-full inset-0 z-20 bg-white text-black overflow-scroll">
+            <div id="help-center" class="fixed h-full inset-0 z-20 bg-white text-black overflow-scroll overscroll-none">
                 <div id="top" class="text-black">
                     <div class="fixed left-0 right-0 top-0 z-20 flex flex-row">
                         <div class="flex justify-center items-center container mx-auto py-2 px-4 bg-white">
@@ -61,6 +61,16 @@ export async function run() {
                             Yes, except for <b>"District / Website"</b>, that can be all caps or all lowercase.
                         </p>
                         <br>
+                        <h1 class="text-3xl font-black">What is "Hide Details From LTI"?</h1>
+                        <p>
+                            This is a tool for Echo, providing seamless and secure access for students and teachers to the learning tools they regularly use. This uses your <b>email</b> and <b>name</b>, so if you would prefer to not have those included then just turn it off.
+                        </p>
+                        <br>
+                        <h1 class="text-3xl font-black">What is "Visual Chip Indicators"?</h1>
+                        <p>
+                            These are those little colored circles at the corner of your <b>Courses, Todos, and Activity Stream</b>. If you don't want that then you can easily turn it off with this setting.
+                        </p>
+                        <br>
                         <h1 class="text-3xl font-black">What do these colors represent?</h1>
                         <p>
                             Assuming you question the following colors <i>(Blue, Orange, Cyan, Purple, Teal, and Green)</i>, these represent your objectives. Objectives are what any school under the <b>New Tech Network</b> follow for grading. To learn a lot more about how that grading works please refer to <a goto="https://newtechnetwork.org/what-we-do/learning-outcomes/" class="text-blue-700 hover:text-blue-600 cursor-pointer transition">this documentation</a> to get the full explanation.
@@ -77,6 +87,11 @@ export async function run() {
                         <h1 class="text-3xl font-black">Can people see that I've changed my name and profile picture?</h1>
                         <p>
                             From Echos website, no. However people have <b>eyes</b>. And could see your name from a glance off your screen. Please be careful about what you decide to make your name and profile picture.
+                        </p>
+                        <br>
+                        <h1 class="text-3xl font-black">Whats the difference between "Logout" and "Remove From This Device"?</h1>
+                        <p>
+                            Logout simply logs you out, saving everything except your password for easily logging back in. <b>Remove From This Device</b> removes everything. Custom Name, Profile Picture, Settings, Everything. Hence why its in a completely seperate page.
                         </p>
                         <br>
                         <h1 class="text-3xl font-black">Other questions or concerns?</h1>

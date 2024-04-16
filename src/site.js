@@ -75,6 +75,12 @@ export async function runtime(page) {
             break;
         }
 
+        case "enroll": {
+            const enroll = await import("/proview/src/pages/settings/enroll.js");
+            await enroll.run();
+            break;
+        }
+
         case "help-center": {
             const help_center = await import("/proview/src/pages/settings/help-center.js");
             await help_center.run();
