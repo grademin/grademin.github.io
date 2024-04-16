@@ -176,85 +176,201 @@ export async function run() {
                 pagnateKey = activities.response.activities.endkey;
             } catch (e) {}
             
-
-
-            try {
-                settings = await $.ajax({
-                    url: hlp.api(`/dlap.ashx?cmd=getdomainsettings&domainid=//${hlp.session.userspace}&path=public/shadow/app/buzz/settings.xml`),
-                    method: "GET",
-                    dataType: "json",
-                    contentType: "application/json; charset=utf-8"
-                })
-            } catch (e) {}
-
-            let guids = "";
-            if (settings.length != 0) {
-                await $.each(settings.response.settings["scoring-objective-list"]["scoring-objective"], (i, objective) => {
-                    if (i < settings.response.settings["scoring-objective-list"]["scoring-objective"].length - 1)
-                        guids += `${objective.guid}|`
-                    else 
-                        guids += `${objective.guid}`;
-                });
-            }
-
-            let objective = [];
-            let a = undefined, c = undefined, k = undefined, o = undefined, w = undefined;
-            if (guids != "") {
+            if (activities.length == 0) {
+                $("#activity-stream").empty();
+                $("#activity-stream").append(`
+                    <div class="flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl cursor-pointer py-3 px-3">
+                        <span class="text-center w-full">You have no activities</span>
+                    </div>
+                `)
+            } else {
                 try {
-                    objectives = await $.ajax({
-                        url: hlp.api(`/cmd/getobjectivelist?_token=${hlp.session.token}&guid=${guids}`),
+                    settings = await $.ajax({
+                        url: hlp.api(`/dlap.ashx?cmd=getdomainsettings&domainid=//${hlp.session.userspace}&path=public/shadow/app/buzz/settings.xml`),
                         method: "GET",
                         dataType: "json",
                         contentType: "application/json; charset=utf-8"
                     })
                 } catch (e) {}
-            }
 
-            $("#activity-stream").empty();
-            content(activities.response.activities.activity);
-            // TODO: there has got to be a better way to do this & works 100% of the time
-            $(window).scroll(async function() {
-                if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
-                    hlp.prevent_errors(async function () {
-                        console.log(pagnateKey)
-                        next_activities = await $.ajax({
-                            url: hlp.api(`/cmd/getuseractivitystream?_token=${hlp.session.token}&userid=${hlp.session.id}&types=${codes}&startkey=${encodeURIComponent(pagnateKey)}`),
+                let guids = "";
+                if (settings.length != 0) {
+                    await $.each(settings.response.settings["scoring-objective-list"]["scoring-objective"], (i, objective) => {
+                        if (i < settings.response.settings["scoring-objective-list"]["scoring-objective"].length - 1)
+                            guids += `${objective.guid}|`
+                        else 
+                            guids += `${objective.guid}`;
+                    });
+                }
+
+                let objective = [];
+                let a = undefined, c = undefined, k = undefined, o = undefined, w = undefined;
+                if (guids != "") {
+                    try {
+                        objectives = await $.ajax({
+                            url: hlp.api(`/cmd/getobjectivelist?_token=${hlp.session.token}&guid=${guids}`),
                             method: "GET",
                             dataType: "json",
                             contentType: "application/json; charset=utf-8"
                         })
-                        
-                        if (next_activities.length != 0) {
-                            next_activities.response.activities.activity.sort((a, b) => new Date(b.date) - new Date(a.date));
-                            pagnateKey = next_activities.response.activities.endkey;
-                            content(next_activities.response.activities.activity)
-                        }
-                    })
+                    } catch (e) {}
                 }
-            });
 
-            function content(json) {
-                $.each(json, (i, activity) => {
-                    switch (activity.type) {
-                        case 100: {
-                            // You submitted something
-                            $("#activity-stream").append(`
-                                <div class="relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
-                                    <div class="flex flex-row justify-center items-center gap-5 pointer-events-none w-full">
-                                        <div class="flex flex-col w-full">
-                                            <h1 class="text-[18px] sm:text-[22px] w-[10ch] xl-sm:w-[23ch] x-sm:w-[30ch] sm:w-full truncate font-bold">${activity.data.item.title}</h1>
-                                            <span class="font-bold text-[15px] text-zinc-400">Submitted ${new Date(activity.date).toLocaleDateString(undefined, {weekday: "long", year: "numeric", month: "long", day: "numeric"})} by You</span>
+                $("#activity-stream").empty();
+                content(activities.response.activities.activity);
+                // TODO: there has got to be a better way to do this & works 100% of the time
+                window.onscroll = async function() {
+                    if ((window.innerHeight + window.scrollY) + 50 >= document.documentElement.scrollHeight) {
+                        hlp.prevent_errors(async function () {
+                            console.log(pagnateKey)
+                            next_activities = await $.ajax({
+                                url: hlp.api(`/cmd/getuseractivitystream?_token=${hlp.session.token}&userid=${hlp.session.id}&types=${codes}&startkey=${encodeURIComponent(pagnateKey)}`),
+                                method: "GET",
+                                dataType: "json",
+                                contentType: "application/json; charset=utf-8"
+                            })
+                            
+                            if (next_activities.length != 0) {
+                                next_activities.response.activities.activity.sort((a, b) => new Date(b.date) - new Date(a.date));
+                                pagnateKey = next_activities.response.activities.endkey;
+                                content(next_activities.response.activities.activity)
+                            }
+                        })
+                    }
+                };
+
+                function content(json) {
+                    $.each(json, (i, activity) => {
+                        switch (activity.type) {
+                            case 100: {
+                                // You submitted something
+                                $("#activity-stream").append(`
+                                    <div class="relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
+                                        <div class="flex flex-row justify-center items-center gap-5 pointer-events-none w-full">
+                                            <div class="flex flex-col w-full">
+                                                <h1 class="text-[18px] sm:text-[22px] w-[10ch] xl-sm:w-[23ch] x-sm:w-[30ch] sm:w-full truncate font-bold">${activity.data.item.title}</h1>
+                                                <span class="font-bold text-[15px] text-zinc-400">Submitted ${new Date(activity.date).toLocaleDateString(undefined, {weekday: "long", year: "numeric", month: "long", day: "numeric"})} by You</span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            `)
-                            break;
-                        }
-                        case 201:
-                        case 200: {
-                            // User has been excused
-                            if (activity.data.item.gradeflags == 16) {
-                                if (activity.data.newgrade.objectivescores == undefined) {
+                                `)
+                                break;
+                            }
+                            case 201:
+                            case 200: {
+                                // User has been excused
+                                if (activity.data.item.gradeflags == 16) {
+                                    if (activity.data.newgrade.objectivescores == undefined) {
+                                        $("#activity-stream").append(`
+                                            <div class="flex flex-col gap-2">
+                                                <div class="relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
+                                                    <div class="flex flex-row justify-center items-center gap-5 pointer-events-none w-full">
+                                                        <div class="flex flex-col w-full">
+                                                            <h1 class="text-[18px] sm:text-[22px] w-[10ch] xl-sm:w-[23ch] x-sm:w-[30ch] sm:w-full truncate font-bold">${activity.data.item.title}</h1>
+                                                            <span class="font-bold text-[15px] text-zinc-400">Grade posted ${new Date(activity.date).toLocaleDateString(undefined, {weekday: "long", year: "numeric", month: "long", day: "numeric"})} by ${activity.data.user.firstname} ${activity.data.user.lastname}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="flex flex-row gap-2 container mx-auto">
+                                                    <div class="relative w-min flex flex-row gap-5 ${hlp.theme("theme-card")} justify-between ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
+                                                        <span class="font-bold">Excused</span>
+                                                    </div>
+                                                    <div class="relative w-min flex flex-row gap-5 bg-${hlp.score_to_color(hlp.decode_score(activity.data.newgrade))}-500 text-white justify-between rounded-xl py-2 px-3">
+                                                        <span class="font-bold">${hlp.decode_score(activity.data.newgrade)}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        `)
+                                        return;
+                                    }
+                                }
+
+                                // Grade Posted
+                                if (activity.data.newgrade.objectivescores != undefined) {
+                                    try {
+                                        try {
+                                            objective = activity.data.newgrade.objectivescores.objectivescore;                
+                                        } catch (e) {}
+                                                            
+                                        a = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Agency")).guid));
+                                        c = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Collaboration")).guid));
+                                        k = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Knowledge & Thinking")).guid));
+                                        o = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Oral Communication")).guid));
+                                        w = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Written Communication")).guid));
+                                    } catch (e) {}
+                                    
+                                    if (a != undefined || c != undefined || k != undefined || o != undefined || w != undefined) {
+                                        $("#activity-stream").append(`
+                                            <div class="flex flex-col gap-2">
+                                                <div class="relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
+                                                    <div class="flex flex-row justify-center items-center gap-5 w-full">
+                                                        <div class="flex flex-col w-full">
+                                                            <h1 class="text-[18px] sm:text-[22px] w-[10ch] xl-sm:w-[23ch] x-sm:w-[30ch] sm:w-full truncate font-bold">${activity.data.item.title}</h1>
+                                                            <span class="font-bold text-[15px] text-zinc-400">Grade posted ${new Date(activity.date).toLocaleDateString(undefined, {weekday: "long", year: "numeric", month: "long", day: "numeric"})} by ${activity.data.user.firstname} ${activity.data.user.lastname}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="flex flex-row gap-2 flex-wrap container mx-auto">
+                                                    ${a != undefined ? `
+                                                    <div id="agency" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
+                                                        <span class="font-bold pointer-events-none">${hlp.decode_score(a)}</span>
+                                                        <div class="rounded-lg bg-yellow-500 p-3 pointer-events-none"></div>
+                                                    </div>
+                                                    ` : ""}
+                                                    ${c != undefined ? `
+                                                    <div id="collaboration" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
+                                                        <span class="font-bold pointer-events-none">${hlp.decode_score(c)}</span>    
+                                                        <div class="rounded-lg bg-violet-500 p-3 pointer-events-none"></div>
+                                                    </div>
+                                                    ` : ""}
+                                                    ${k != undefined ? `
+                                                    <div id="knowlege" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
+                                                        <span class="font-bold pointer-events-none">${hlp.decode_score(k)}</span>    
+                                                        <div class="rounded-lg bg-blue-500 p-3 pointer-events-none"></div> 
+                                                    </div>
+                                                    ` : ""}
+                                                    ${o != undefined ? `
+                                                    <div id="oral" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
+                                                        <span class="font-bold pointer-events-none">${hlp.decode_score(o)}</span>
+                                                        <div class="rounded-lg bg-green-500 p-3 pointer-events-none"></div>
+                                                    </div>
+                                                    ` : ""}
+                                                    ${w != undefined ? `
+                                                    <div id="written" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
+                                                        <span class="font-bold pointer-events-none">${hlp.decode_score(w)}</span>
+                                                        <div class="rounded-lg bg-cyan-500 p-3 pointer-events-none"></div>
+                                                    </div>
+                                                    ` : ""}
+                                                </div>
+                                            </div>
+                                        `)
+                                    } else {
+                                        // TODO: This can have learning objectives (different from normal objectives)
+                                        $("#activity-stream").append(`
+                                            <div class="flex flex-col gap-2">
+                                                <div class="relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
+                                                    <div class="flex flex-row justify-center items-center gap-5 pointer-events-none w-full">
+                                                        <div class="flex flex-col w-full">
+                                                            <h1 class="text-[18px] sm:text-[22px] w-[10ch] xl-sm:w-[23ch] x-sm:w-[30ch] sm:w-full truncate font-bold">${activity.data.item.title}</h1>
+                                                            <span class="font-bold text-[15px] text-zinc-400">Grade posted ${new Date(activity.date).toLocaleDateString(undefined, {weekday: "long", year: "numeric", month: "long", day: "numeric"})} by ${activity.data.user.firstname} ${activity.data.user.lastname}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="flex flex-row gap-2 container mx-auto">
+                                                    ${(() => {
+                                                        for (let objective of activity.data.newgrade.objectivescores.objectivescore) {
+                                                            return `
+                                                            <div class="relative w-min flex flex-row gap-5 bg-${hlp.score_to_color(hlp.decode_score(objective))}-500 text-white justify-between rounded-xl py-2 px-3">
+                                                                <span class="font-bold">${hlp.decode_score(objective)}</span>
+                                                            </div>
+                                                            `
+                                                        }
+                                                    })()}
+                                                </div>
+                                            </div>
+                                        `)
+                                    }
+                                } else {
                                     $("#activity-stream").append(`
                                         <div class="flex flex-col gap-2">
                                             <div class="relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
@@ -266,175 +382,66 @@ export async function run() {
                                                 </div>
                                             </div>
                                             <div class="flex flex-row gap-2 container mx-auto">
-                                                <div class="relative w-min flex flex-row gap-5 ${hlp.theme("theme-card")} justify-between ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
-                                                    <span class="font-bold">Excused</span>
-                                                </div>
-                                                <div class="relative w-min flex flex-row gap-5 bg-${hlp.score_to_color(hlp.decode_score(activity.data.newgrade))}-500 text-white justify-between rounded-xl py-2 px-3">
+                                                <div class="relative w-min flex flex-row gap-5 bg-${hlp.score_to_color(hlp.decode_score(activity.data.newgrade))}-500 justify-between rounded-xl py-2 px-3">
                                                     <span class="font-bold">${hlp.decode_score(activity.data.newgrade)}</span>
                                                 </div>
                                             </div>
                                         </div>
                                     `)
-                                    return;
                                 }
+                                break;
                             }
-
-                            // Grade Posted
-                            if (activity.data.newgrade.objectivescores != undefined) {
-                                try {
-                                    try {
-                                        objective = activity.data.newgrade.objectivescores.objectivescore;                
-                                    } catch (e) {}
-                                                        
-                                    a = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Agency")).guid));
-                                    c = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Collaboration")).guid));
-                                    k = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Knowledge & Thinking")).guid));
-                                    o = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Oral Communication")).guid));
-                                    w = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Written Communication")).guid));
-                                } catch (e) {}
-                                
-                                if (a != undefined || c != undefined || k != undefined || o != undefined || w != undefined) {
-                                    $("#activity-stream").append(`
-                                        <div class="flex flex-col gap-2">
-                                            <div class="relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
-                                                <div class="flex flex-row justify-center items-center gap-5 w-full">
-                                                    <div class="flex flex-col w-full">
-                                                        <h1 class="text-[18px] sm:text-[22px] w-[10ch] xl-sm:w-[23ch] x-sm:w-[30ch] sm:w-full truncate font-bold">${activity.data.item.title}</h1>
-                                                        <span class="font-bold text-[15px] text-zinc-400">Grade posted ${new Date(activity.date).toLocaleDateString(undefined, {weekday: "long", year: "numeric", month: "long", day: "numeric"})} by ${activity.data.user.firstname} ${activity.data.user.lastname}</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="flex flex-row gap-2 flex-wrap container mx-auto">
-                                                ${a != undefined ? `
-                                                <div id="agency" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
-                                                    <span class="font-bold pointer-events-none">${hlp.decode_score(a)}</span>
-                                                    <div class="rounded-lg bg-yellow-500 p-3 pointer-events-none"></div>
-                                                </div>
-                                                ` : ""}
-                                                ${c != undefined ? `
-                                                <div id="collaboration" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
-                                                    <span class="font-bold pointer-events-none">${hlp.decode_score(c)}</span>    
-                                                    <div class="rounded-lg bg-violet-500 p-3 pointer-events-none"></div>
-                                                </div>
-                                                ` : ""}
-                                                ${k != undefined ? `
-                                                <div id="knowlege" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
-                                                    <span class="font-bold pointer-events-none">${hlp.decode_score(k)}</span>    
-                                                    <div class="rounded-lg bg-blue-500 p-3 pointer-events-none"></div> 
-                                                </div>
-                                                ` : ""}
-                                                ${o != undefined ? `
-                                                <div id="oral" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
-                                                    <span class="font-bold pointer-events-none">${hlp.decode_score(o)}</span>
-                                                    <div class="rounded-lg bg-green-500 p-3 pointer-events-none"></div>
-                                                </div>
-                                                ` : ""}
-                                                ${w != undefined ? `
-                                                <div id="written" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
-                                                    <span class="font-bold pointer-events-none">${hlp.decode_score(w)}</span>
-                                                    <div class="rounded-lg bg-cyan-500 p-3 pointer-events-none"></div>
-                                                </div>
-                                                ` : ""}
-                                            </div>
-                                        </div>
-                                    `)
-                                } else {
-                                    // TODO: This can have learning objectives (different from normal objectives)
-                                    $("#activity-stream").append(`
-                                        <div class="flex flex-col gap-2">
-                                            <div class="relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
-                                                <div class="flex flex-row justify-center items-center gap-5 pointer-events-none w-full">
-                                                    <div class="flex flex-col w-full">
-                                                        <h1 class="text-[18px] sm:text-[22px] w-[10ch] xl-sm:w-[23ch] x-sm:w-[30ch] sm:w-full truncate font-bold">${activity.data.item.title}</h1>
-                                                        <span class="font-bold text-[15px] text-zinc-400">Grade posted ${new Date(activity.date).toLocaleDateString(undefined, {weekday: "long", year: "numeric", month: "long", day: "numeric"})} by ${activity.data.user.firstname} ${activity.data.user.lastname}</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="flex flex-row gap-2 container mx-auto">
-                                                ${(() => {
-                                                    for (let objective of activity.data.newgrade.objectivescores.objectivescore) {
-                                                        return `
-                                                        <div class="relative w-min flex flex-row gap-5 bg-${hlp.score_to_color(hlp.decode_score(objective))}-500 text-white justify-between rounded-xl py-2 px-3">
-                                                            <span class="font-bold">${hlp.decode_score(objective)}</span>
-                                                        </div>
-                                                        `
-                                                    }
-                                                })()}
-                                            </div>
-                                        </div>
-                                    `)
-                                }
-                            } else {
+                            case 300: {
+                                // Student posted a board post (ex: comment)
+                                break;
+                            }
+                            case 301: {
+                                // Board post (ex: comments)
+                                break;
+                            }
+                            case 400: {
+                                // Course announcement
+                                break;
+                            }
+                            case 401: {
+                                // Course announcement deleted
+                                break;
+                            }
+                            case 501:
+                            case 500: {
+                                // Badge has been given to the student
+                                break;
+                            }
+                            case 600: {
+                                // Student sent an email
+                                break;
+                            }
+                            case 601: {
+                                // Student got an email
+                                break;
+                            }
+                            case 800: {
+                                // Grade below passing
+                                break;
+                            }
+                            case 803: {
+                                // An assignment was allowed a retry
                                 $("#activity-stream").append(`
-                                    <div class="flex flex-col gap-2">
-                                        <div class="relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
-                                            <div class="flex flex-row justify-center items-center gap-5 pointer-events-none w-full">
-                                                <div class="flex flex-col w-full">
-                                                    <h1 class="text-[18px] sm:text-[22px] w-[10ch] xl-sm:w-[23ch] x-sm:w-[30ch] sm:w-full truncate font-bold">${activity.data.item.title}</h1>
-                                                    <span class="font-bold text-[15px] text-zinc-400">Grade posted ${new Date(activity.date).toLocaleDateString(undefined, {weekday: "long", year: "numeric", month: "long", day: "numeric"})} by ${activity.data.user.firstname} ${activity.data.user.lastname}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-row gap-2 container mx-auto">
-                                            <div class="relative w-min flex flex-row gap-5 bg-${hlp.score_to_color(hlp.decode_score(activity.data.newgrade))}-500 justify-between rounded-xl py-2 px-3">
-                                                <span class="font-bold">${hlp.decode_score(activity.data.newgrade)}</span>
+                                    <div class="relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
+                                        <div class="flex flex-row justify-center items-center gap-5 pointer-events-none w-full">
+                                            <div class="flex flex-col w-full">
+                                                <h1 class="text-[18px] sm:text-[22px] w-[10ch] xl-sm:w-[23ch] x-sm:w-[30ch] sm:w-full truncate font-bold">${activity.data.item.title}</h1>
+                                                <span class="font-bold text-[15px] text-zinc-400">A retry has been allowed for this assignement</span>
                                             </div>
                                         </div>
                                     </div>
                                 `)
+                                break;
                             }
-                            break;
+                            // TODO: find excused items: 0x2 in data.item.gradeflags
                         }
-                        case 300: {
-                            // Student posted a board post (ex: comment)
-                            break;
-                        }
-                        case 301: {
-                            // Board post (ex: comments)
-                            break;
-                        }
-                        case 400: {
-                            // Course announcement
-                            break;
-                        }
-                        case 401: {
-                            // Course announcement deleted
-                            break;
-                        }
-                        case 501:
-                        case 500: {
-                            // Badge has been given to the student
-                            break;
-                        }
-                        case 600: {
-                            // Student sent an email
-                            break;
-                        }
-                        case 601: {
-                            // Student got an email
-                            break;
-                        }
-                        case 800: {
-                            // Grade below passing
-                            break;
-                        }
-                        case 803: {
-                            // An assignment was allowed a retry
-                            $("#activity-stream").append(`
-                                <div class="relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
-                                    <div class="flex flex-row justify-center items-center gap-5 pointer-events-none w-full">
-                                        <div class="flex flex-col w-full">
-                                            <h1 class="text-[18px] sm:text-[22px] w-[10ch] xl-sm:w-[23ch] x-sm:w-[30ch] sm:w-full truncate font-bold">${activity.data.item.title}</h1>
-                                            <span class="font-bold text-[15px] text-zinc-400">A retry has been allowed for this assignement</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            `)
-                            break;
-                        }
-                        // TODO: find excused items: 0x2 in data.item.gradeflags
-                    }
-                })
+                    })
+                }
             }
         }
 

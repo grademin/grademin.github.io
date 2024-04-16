@@ -103,162 +103,175 @@ export async function run() {
         // literally only takes an "async" next to a function to fix it bruh
         
         async function call() {
-            const communications = await $.ajax({
-                url: hlp.api(`/cmd/getuserannouncementlist?_token=${hlp.session.token}&userid=${hlp.session.id}&daysactivepastend=14`),
-                method: "GET",
-                dataType: "json",
-                contentType: "application/json; charset=utf-8"
-            });
+            let communications = [];
 
-            // Sort them by latest
-            communications.response.announcements.announcement.sort((a, b) => new Date(b.startdate) - new Date(a.startdate));
-
-            if (new URLSearchParams(window.location.search).get("path") != null) {
-                $("#communication").hide();
-
-                const comminfo = await $.ajax({
-                    url: hlp.api(`/cmd/getannouncementinfo?_token=${hlp.session.token}&packagetype=data&entityid=${hlp.session.domainid}&path=${new URLSearchParams(window.location.search).get("path")}`),
+            try {
+                communications = await $.ajax({
+                    url: hlp.api(`/cmd/getuserannouncementlist?_token=${hlp.session.token}&userid=${hlp.session.id}&daysactivepastend=14`),
                     method: "GET",
                     dataType: "json",
                     contentType: "application/json; charset=utf-8"
                 });
+            } catch (e) {}
 
-                const commdetails = await $.ajax({
-                    url: hlp.api(`/cmd/getannouncement?_token=${hlp.session.token}&packagetype=data&entityid=${hlp.session.domainid}&path=${comminfo.response.announcement.path}`),
-                    method: "GET",
-                    dataType: "json",
-                    contentType: "application/json; charset=utf-8"
-                });
-
-                // Append the content from the announcement they clicked
-                await $("#communication").parent().append(`
-                    <div id="opened" class="relative flex flex-col justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
-                        <div class="flex flex-col border-b-[2px] border-zinc-700 pb-3">
-                            <h1 class="text-[22px] font-bold">${commdetails.announcement.title}</h1>
-                            <span class="font-bold text-[15px] text-zinc-400">Written ${new Date(commdetails.announcement.startdate).toLocaleDateString(undefined, {weekday: "long", month: "long", day: "numeric"})} by ${comminfo.response.announcement.creator.firstname} ${comminfo.response.announcement.creator.lastname}</span>
-                        </div>
-                        <div id="body" class="flex flex-col pt-3">
-                            ${hlp.format(commdetails.announcement.body.$xml)}
-                        </div>
-                    </div>
-                `).find("#communication").hide();
-
-                $("#go-back").attr("id", "semi-back")
-                $("#reload").addClass("invisible");
-
-                // User viewed the announcement, ensure it is not viewed anymore.
-                await $.ajax({
-                    url: hlp.api(`/cmd/updateannouncementviewed?_token=${hlp.session.token}`),
-                    method: "POST",
-                    dataType: "json",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify({
-                        requests: {
-                            announcement: [{
-                                entityid: comminfo.response.announcement.entityid,
-                                path: comminfo.response.announcement.path,
-                                viewed: true
-                            }]
-                        }
-                    }),
-                    success: async () => {
-                        try {
-                            await $(`#communication #unviewed-${comminfo.response.announcement.path.replace(".zip", "")}`).remove();
-                        } catch (e) {}
-                    }
-                })
-
-                $("[goto]").on("click", function (event) {
-                    window.open($(this).attr("goto"), "_blank")
-                })
-            }
-
-            $("#communication").empty();
-            await $.each(communications.response.announcements.announcement, async function (i, communication) {
+            if (communications == 0) {
+                $("#communication").empty();
                 $("#communication").append(`
-                    <div path="${communication.path}" class="relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl cursor-pointer py-3 px-3">
-                        <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
-                            <div class="flex flex-col">
-                                <h1 class="text-[18px] sm:text-[22px] font-bold">${communication.title}</h1>
-                            </div>
-                        </div>
-                        <div class="flex justify-center items-center pointer-events-none">
-                            <span class="material-symbols-rounded">
-                                arrow_forward_ios
-                            </span>
-                        </div>
-                        
-                        ${(()=>{
-                            let settings = hlp.get("settings");
-                            if (settings.find(name => name.setting.includes("chip-indicators")).$value) {
-                                return communication.viewed ? "" : `<div id="unviewed-${communication.path.replace(".zip", "")}" class="absolute pointer-events-none inline-flex right-0 top-0 h-4 w-4 -m-1 animate-ping duration-700 rounded-full ${hlp.theme("bg", "700")} opacity-75 justify-center items-center"></div>`
-                            } else {
-                                return ""
-                            }
-                        })()}
+                    <div class="flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl cursor-pointer py-3 px-3">
+                        <span class="text-center w-full">There are no announcements</span>
                     </div>
-                `).children().off().on("click", async function (event) {
-                    hlp.load(async function () {
-                        history.pushState({}, "", `?page=${new URLSearchParams(window.location.search).get("page")}&path=${$(event.target).attr("path")}`);
+                `)
+            } else {
+                // Sort them by latest
+                communications.response.announcements.announcement.sort((a, b) => new Date(b.startdate) - new Date(a.startdate));
 
-                        const comminfo = await $.ajax({
-                            url: hlp.api(`/cmd/getannouncementinfo?_token=${hlp.session.token}&packagetype=data&entityid=${hlp.session.domainid}&path=${$(event.target).attr("path")}`),
-                            method: "GET",
-                            dataType: "json",
-                            contentType: "application/json; charset=utf-8"
-                        });
+                if (new URLSearchParams(window.location.search).get("path") != null) {
+                    $("#communication").hide();
 
-                        const commdetails = await $.ajax({
-                            url: hlp.api(`/cmd/getannouncement?_token=${hlp.session.token}&packagetype=data&entityid=${hlp.session.domainid}&path=${comminfo.response.announcement.path}`),
-                            method: "GET",
-                            dataType: "json",
-                            contentType: "application/json; charset=utf-8"
-                        });
+                    const comminfo = await $.ajax({
+                        url: hlp.api(`/cmd/getannouncementinfo?_token=${hlp.session.token}&packagetype=data&entityid=${hlp.session.domainid}&path=${new URLSearchParams(window.location.search).get("path")}`),
+                        method: "GET",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8"
+                    });
 
-                        $("#go-back").attr("id", "semi-back")
-                        $("#reload").addClass("invisible");
+                    const commdetails = await $.ajax({
+                        url: hlp.api(`/cmd/getannouncement?_token=${hlp.session.token}&packagetype=data&entityid=${hlp.session.domainid}&path=${comminfo.response.announcement.path}`),
+                        method: "GET",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8"
+                    });
 
-                        // User viewed the announcement, ensure it is not viewed anymore.
-                        await $.ajax({
-                            url: hlp.api(`/cmd/updateannouncementviewed?_token=${hlp.session.token}`),
-                            method: "POST",
-                            dataType: "json",
-                            contentType: "application/json; charset=utf-8",
-                            data: JSON.stringify({
-                                requests: {
-                                    announcement: [{
-                                        entityid: comminfo.response.announcement.entityid,
-                                        path: comminfo.response.announcement.path,
-                                        viewed: true
-                                    }]
-                                }
-                            }),
-                            success: async () => {
-                                try {
-                                    await $(`#communication #unviewed-${comminfo.response.announcement.path.replace(".zip", "")}`).remove();
-                                } catch (e) {}
+                    // Append the content from the announcement they clicked
+                    await $("#communication").parent().append(`
+                        <div id="opened" class="relative flex flex-col justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
+                            <div class="flex flex-col border-b-[2px] border-zinc-700 pb-3">
+                                <h1 class="text-[22px] font-bold">${commdetails.announcement.title}</h1>
+                                <span class="font-bold text-[15px] text-zinc-400">Written ${new Date(commdetails.announcement.startdate).toLocaleDateString(undefined, {weekday: "long", month: "long", day: "numeric"})} by ${comminfo.response.announcement.creator.firstname} ${comminfo.response.announcement.creator.lastname}</span>
+                            </div>
+                            <div id="body" class="flex flex-col pt-3">
+                                ${hlp.format(commdetails.announcement.body.$xml)}
+                            </div>
+                        </div>
+                    `).find("#communication").hide();
+
+                    $("#go-back").attr("id", "semi-back")
+                    $("#reload").addClass("invisible");
+
+                    // User viewed the announcement, ensure it is not viewed anymore.
+                    await $.ajax({
+                        url: hlp.api(`/cmd/updateannouncementviewed?_token=${hlp.session.token}`),
+                        method: "POST",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify({
+                            requests: {
+                                announcement: [{
+                                    entityid: comminfo.response.announcement.entityid,
+                                    path: comminfo.response.announcement.path,
+                                    viewed: true
+                                }]
                             }
-                        })
+                        }),
+                        success: async () => {
+                            try {
+                                await $(`#communication #unviewed-${comminfo.response.announcement.path.replace(".zip", "")}`).remove();
+                            } catch (e) {}
+                        }
+                    })
 
-                        // Append the content from the announcement they clicked
-                        await $("#communication").parent().append(`
-                            <div id="opened" class="relative flex flex-col justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
-                                <div class="flex flex-col border-b-[2px] border-zinc-700 pb-3">
-                                    <h1 class="text-[22px] font-bold">${commdetails.announcement.title}</h1>
-                                    <span class="font-bold text-[15px] text-zinc-400">Written ${new Date(commdetails.announcement.startdate).toLocaleDateString(undefined, {weekday: "long", month: "long", day: "numeric"})} by ${comminfo.response.announcement.creator.firstname} ${comminfo.response.announcement.creator.lastname}</span>
-                                </div>
-                                <div class="flex flex-col pt-3">
-                                    ${hlp.format(commdetails.announcement.body.$xml)}
+                    $("[goto]").on("click", function (event) {
+                        window.open($(this).attr("goto"), "_blank")
+                    })
+                }
+
+                $("#communication").empty();
+                await $.each(communications.response.announcements.announcement, async function (i, communication) {
+                    $("#communication").append(`
+                        <div path="${communication.path}" class="relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl cursor-pointer py-3 px-3">
+                            <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
+                                <div class="flex flex-col">
+                                    <h1 class="text-[18px] sm:text-[22px] font-bold">${communication.title}</h1>
                                 </div>
                             </div>
-                        `).find("#communication").hide();
+                            <div class="flex justify-center items-center pointer-events-none">
+                                <span class="material-symbols-rounded">
+                                    arrow_forward_ios
+                                </span>
+                            </div>
+                            
+                            ${(()=>{
+                                let settings = hlp.get("settings");
+                                if (settings.find(name => name.setting.includes("chip-indicators")).$value) {
+                                    return communication.viewed ? "" : `<div id="unviewed-${communication.path.replace(".zip", "")}" class="absolute pointer-events-none inline-flex right-0 top-0 h-4 w-4 -m-1 animate-ping duration-700 rounded-full ${hlp.theme("bg", "700")} opacity-75 justify-center items-center"></div>`
+                                } else {
+                                    return ""
+                                }
+                            })()}
+                        </div>
+                    `).children().off().on("click", async function (event) {
+                        hlp.load(async function () {
+                            history.pushState({}, "", `?page=${new URLSearchParams(window.location.search).get("page")}&path=${$(event.target).attr("path")}`);
 
-                        $("[goto]").on("click", function (event) {
-                            window.open($(this).attr("goto"), "_blank")
+                            const comminfo = await $.ajax({
+                                url: hlp.api(`/cmd/getannouncementinfo?_token=${hlp.session.token}&packagetype=data&entityid=${hlp.session.domainid}&path=${$(event.target).attr("path")}`),
+                                method: "GET",
+                                dataType: "json",
+                                contentType: "application/json; charset=utf-8"
+                            });
+
+                            const commdetails = await $.ajax({
+                                url: hlp.api(`/cmd/getannouncement?_token=${hlp.session.token}&packagetype=data&entityid=${hlp.session.domainid}&path=${comminfo.response.announcement.path}`),
+                                method: "GET",
+                                dataType: "json",
+                                contentType: "application/json; charset=utf-8"
+                            });
+
+                            $("#go-back").attr("id", "semi-back")
+                            $("#reload").addClass("invisible");
+
+                            // User viewed the announcement, ensure it is not viewed anymore.
+                            await $.ajax({
+                                url: hlp.api(`/cmd/updateannouncementviewed?_token=${hlp.session.token}`),
+                                method: "POST",
+                                dataType: "json",
+                                contentType: "application/json; charset=utf-8",
+                                data: JSON.stringify({
+                                    requests: {
+                                        announcement: [{
+                                            entityid: comminfo.response.announcement.entityid,
+                                            path: comminfo.response.announcement.path,
+                                            viewed: true
+                                        }]
+                                    }
+                                }),
+                                success: async () => {
+                                    try {
+                                        await $(`#communication #unviewed-${comminfo.response.announcement.path.replace(".zip", "")}`).remove();
+                                    } catch (e) {}
+                                }
+                            })
+
+                            // Append the content from the announcement they clicked
+                            await $("#communication").parent().append(`
+                                <div id="opened" class="relative flex flex-col justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
+                                    <div class="flex flex-col border-b-[2px] border-zinc-700 pb-3">
+                                        <h1 class="text-[22px] font-bold">${commdetails.announcement.title}</h1>
+                                        <span class="font-bold text-[15px] text-zinc-400">Written ${new Date(commdetails.announcement.startdate).toLocaleDateString(undefined, {weekday: "long", month: "long", day: "numeric"})} by ${comminfo.response.announcement.creator.firstname} ${comminfo.response.announcement.creator.lastname}</span>
+                                    </div>
+                                    <div class="flex flex-col pt-3">
+                                        ${hlp.format(commdetails.announcement.body.$xml)}
+                                    </div>
+                                </div>
+                            `).find("#communication").hide();
+
+                            $("[goto]").on("click", function (event) {
+                                window.open($(this).attr("goto"), "_blank")
+                            })
                         })
                     })
                 })
-            })
+            }
         }
 
         await call();

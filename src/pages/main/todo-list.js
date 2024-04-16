@@ -86,47 +86,60 @@ export async function run() {
         });
 
         async function call() {
-            let duesoon = await $.ajax({
-                url: hlp.api(`/cmd/getduesoonlist?_token=${hlp.session.token}&days=3&userId=${hlp.session.id}&utcoffset=300`),
-                method: "GET",
-                dataType: "json",
-                contentType: "application/json; charset=utf-8"
-            })
+            let duesoon = [];
 
-            duesoon.response.items.item.sort((a, b) => new Date(b.duedate) - new Date(a.duedate));
+            try {
+                duesoon = await $.ajax({
+                    url: hlp.api(`/cmd/getduesoonlist?_token=${hlp.session.token}&days=3&userId=${hlp.session.id}&utcoffset=300`),
+                    method: "GET",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8"
+                })
+            } catch (e) {}
 
-            $("#todo-list").empty();
-            $.each(duesoon.response.items.item, (i, due) => {
+            if (duesoon.length == 0) {
+                $("#todo-list").empty();
                 $("#todo-list").append(`
-                    <div class="relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
-                        <div class="flex flex-row justify-center items-center gap-5 pointer-events-none w-full">
-                            <div class="flex flex-col w-full">
-                                <h1 class="text-[18px] sm:text-[22px] w-[10ch] xl-sm:w-[23ch] x-sm:w-[30ch] sm:w-full truncate font-bold">${due.title}</h1>
-                                <span class="font-bold text-[15px] text-zinc-400 border-b-[2px] border-zinc-700 pb-3">Assigned by ${due.entity.title}</span>
-                                <span class="font-bold text-[15px] text-zinc-400 pt-3">${(() => {
-                                    // I actually never knew you could use functions in ${}, thanks gpt? i guess.
-                                    let getdue = new Date(due.duedate);
-                                    let today = new Date();
-                                    today.setHours(0, 0, 0, 0);
+                    <div class="flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl cursor-pointer py-3 px-3">
+                        <span class="text-center w-full">You have no current todos</span>
+                    </div>
+                `)
+            } else {
+                duesoon.response.items.item.sort((a, b) => new Date(b.duedate) - new Date(a.duedate));
 
-                                    let tomorrow = new Date(today);
-                                    tomorrow.setDate(tomorrow.getDate() + 1);
+                $("#todo-list").empty();
+                $.each(duesoon.response.items.item, (i, due) => {
+                    $("#todo-list").append(`
+                        <div class="relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
+                            <div class="flex flex-row justify-center items-center gap-5 pointer-events-none w-full">
+                                <div class="flex flex-col w-full">
+                                    <h1 class="text-[18px] sm:text-[22px] w-[10ch] xl-sm:w-[23ch] x-sm:w-[30ch] sm:w-full truncate font-bold">${due.title}</h1>
+                                    <span class="font-bold text-[15px] text-zinc-400 border-b-[2px] border-zinc-700 pb-3">Assigned by ${due.entity.title}</span>
+                                    <span class="font-bold text-[15px] text-zinc-400 pt-3">${(() => {
+                                        // I actually never knew you could use functions in ${}, thanks gpt? i guess.
+                                        let getdue = new Date(due.duedate);
+                                        let today = new Date();
+                                        today.setHours(0, 0, 0, 0);
 
-                                    if (getdue < today) {
-                                        return `Past Due: ${getdue.toLocaleDateString(undefined, {weekday: "long", year: "numeric", month: "long", day: "numeric"})}`;
-                                    } else if (getdue.toDateString() === today.toDateString()) {
-                                        return "Due: Today";
-                                    } else if (getdue.toDateString() === tomorrow.toDateString()) {
-                                        return `Due: ${tomorrow.toLocaleDateString(undefined, {weekday: "long"})}`;
-                                    } else {
-                                        return `Due: ${getdue.toLocaleDateString(undefined, {weekday: "long", year: "numeric", month: "long", day: "numeric"})}`;
-                                    }
-                                })()}</span>
+                                        let tomorrow = new Date(today);
+                                        tomorrow.setDate(tomorrow.getDate() + 1);
+
+                                        if (getdue < today) {
+                                            return `Past Due: ${getdue.toLocaleDateString(undefined, {weekday: "long", year: "numeric", month: "long", day: "numeric"})}`;
+                                        } else if (getdue.toDateString() === today.toDateString()) {
+                                            return "Due: Today";
+                                        } else if (getdue.toDateString() === tomorrow.toDateString()) {
+                                            return `Due: ${tomorrow.toLocaleDateString(undefined, {weekday: "long"})}`;
+                                        } else {
+                                            return `Due: ${getdue.toLocaleDateString(undefined, {weekday: "long", year: "numeric", month: "long", day: "numeric"})}`;
+                                        }
+                                    })()}</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                `);
-            })
+                    `);
+                })
+            }
         }
 
         await call();

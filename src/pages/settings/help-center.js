@@ -4,6 +4,8 @@ export async function run() {
     const hlp = await import("../../helpers.js");
     const site = await import("../../site.js");
 
+    // TODO: add stuff about settings
+
     await hlp.load(async function () {
         $("#root").empty();
         await $("#overlays").html(`
