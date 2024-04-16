@@ -146,10 +146,11 @@ export async function run() {
 
         async function main() {
             let viewed = hlp.get("activities");
-            viewed.start = new Date().toLocaleDateString('en-US');
-            viewed.data.$unviewed = 0;
-            hlp.set("activities", viewed); 
-
+            if (viewed  != "") {
+                viewed.start = new Date().toLocaleDateString('en-US');
+                viewed.data.$unviewed = 0;
+                hlp.set("activities", viewed); 
+            }
 
             let codes = "200|201|301|400|401|500|501|601|803";
             let pagnateKey = "";

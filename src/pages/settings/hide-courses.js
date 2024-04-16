@@ -26,7 +26,8 @@ export async function run() {
             <!---->
             <!---->
             <div class="flex flex-col gap-5 pt-[2rem] mt-[46px] mb-[1.7rem] container mx-auto py-10 px-4">
-                <div id="hide-courses" class="flex flex-col gap-5"></div>
+                <div id="hide-courses" class="flex flex-col gap-5">
+                </div>
             </div>
             <!---->
             <!---->

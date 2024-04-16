@@ -1,4 +1,9 @@
 /**
+ * Proview Version
+ */
+export const version = "1.1.2";
+
+/**
  * A simple function to make api links stand out.
  * 
  * NOTE: The string must start with "/".
@@ -380,8 +385,8 @@ export function theme(type, value) {
  */
 export async function animate_nav() {
     try {
-        if ($(window).scrollTop() > $("#top").offset().top + $("#top").outerHeight() - 40 || $(window).scrollTop() < $("#top").offset().top - $(window).height()) {
-            if (window.scrollTop() == 0)
+        if ($(window).scrollTop() > $("#top").offset().top + $("#top").outerHeight() - 40 || $(document).scrollTop() < $("#top").offset().top - $(window).height()) {
+            if (window.scrollY == 0)
                 $("#top #scrolled-title span").fadeOut(0);
             else
                 $("#top #scrolled-title span").fadeIn(0);
@@ -391,23 +396,23 @@ export async function animate_nav() {
         
         // Manages when we scroll
         let in_load = false;
-        $(window).scroll(function() {
-            if ($(this).scrollTop() == 0) {
-                $("#top #scrolled-title").parent().removeClass("shadow shadow-black")
+        window.addEventListener('scroll', function() {
+            if (window.scrollY == 0) {
+                $("#top #scrolled-title").parent().removeClass("shadow shadow-black");
                 $("#top #scrolled-title span").fadeOut(100);
             }
-
+    
             if (!in_load) {
                 try {
-                    if ($(this).scrollTop() > $("#top").offset().top + $("#top").outerHeight() - 62 || $(this).scrollTop() < $("#top").offset().top - $(window).height()) {
+                    if (window.scrollY > $("#top").offset().top + $("#top").outerHeight() - 62 || window.scrollY < $("#top").offset().top - window.innerHeight) {
                         in_load = true;
-                        $("#top #scrolled-title").parent().addClass("shadow shadow-black")
+                        $("#top #scrolled-title").parent().addClass("shadow shadow-black");
                         $("#top #scrolled-title span").fadeIn(100, () => {
                             in_load = false;
                         });
                     } else {
                         in_load = true;
-                        $("#top #scrolled-title").parent().removeClass("shadow shadow-black")
+                        $("#top #scrolled-title").parent().removeClass("shadow shadow-black");
                         $("#top #scrolled-title span").fadeOut(100, () => {
                             in_load = false;
                         });

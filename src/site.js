@@ -69,15 +69,21 @@ export async function runtime(page) {
             break;
         }
 
-        case "notifications": {
-            const notifications = await import("/proview/src/pages/settings/notifications.js");
-            await notifications.run();
-            break;
-        }
-
         case "hide-courses": {
             const hide_courses = await import("/proview/src/pages/settings/hide-courses.js");
             await hide_courses.run();
+            break;
+        }
+
+        case "help-center": {
+            const help_center = await import("/proview/src/pages/settings/help-center.js");
+            await help_center.run();
+            break;
+        }
+
+        case "manage-account": {
+            const manage_account = await import("/proview/src/pages/settings/manage-account.js");
+            await manage_account.run();
             break;
         }
     }

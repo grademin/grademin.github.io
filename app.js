@@ -7,7 +7,6 @@
     const sw = await import("/proview/src/service.js");
     const hlp = await import("/proview/src/helpers.js");
     const site = await import("/proview/src/site.js");
-    const notify = await import("/proview/src/notify.js");
 
     /**
      * Handles themes automatically. (should run first since color is something the user sees first)
@@ -29,6 +28,7 @@
 
     /**
      * Manages custom css stuff that tailwind can handle for us.
+     * TODO: add better sizes for smaller phones
      */
     tailwind.config = {
         theme: {
@@ -108,21 +108,6 @@
     await sw.register("app-worker.js");
 
     /**
-     * These handle notifications.
-     * TODO: remove
-     */
-    {
-        // Assignements are posted.
-        await notify.todos();
-
-        // An assignement is past due or close to due.
-        //await notify.pastdue();
-
-        // A course is failing a grade.
-        //await notify.coursefailing();
-    }
-
-    /**
      * Handles all the localstorage items that need to be setup before hand.
      */
     {
@@ -135,7 +120,7 @@
         }
         
         if (hlp.get("settings") == "") {
-            hlp.set("settings", []);
+            hlp.set("settings", [{"setting":"include-self","$value":true},{"setting":"hide-lti-details","$value":false},{"setting":"chip-indicators","$value":true},{"setting":"hide-excused","$value":false},{"setting":"self-activities","$value":false}]);
         }
 
         if (hlp.get("pfp", false) == "") {
@@ -146,8 +131,8 @@
             hlp.set("hidden", []);
         }
 
-        if (hlp.get("notifications") == "") {
-            hlp.set("notifications", [{"option":"chip-indicators","$value":true},{"option":"posted","$value":true},{"option":"past-due","$value":true},{"option":"new-grade","$value":true}]);
+        if (hlp.get("activities") == "") {
+            hlp.set("activities", []);
         }
     }
 
