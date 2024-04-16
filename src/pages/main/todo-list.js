@@ -34,7 +34,7 @@ export async function run() {
                 <div class="${hlp.theme("theme-card")}">
                     <div class="flex flex-row justify-between items-center">
                         <a id="overview" class="cursor-pointer flex justify-center items-center py-3 w-full">
-                            <span class="text-[30px] font-black pointer-events-none material-symbols-rounded">
+                            <span class="text-[30px] ${hlp.theme("text", "700")} font-black pointer-events-none material-symbols-rounded">
                                 home
                             </span>
                         </a>
