@@ -4,6 +4,8 @@ export async function run() {
     const hlp = await import("../helpers.js");
     const site = await import("../site.js");
 
+    // TODO: add enroll course to this
+
     await hlp.load(async function () {
         await $("#root").html(`
             <div id="top" class="${hlp.theme("bg", "700")} text-white">
@@ -89,6 +91,26 @@ export async function run() {
                     </div>
                     <!---->
                     <div class="flex flex-col container mx-auto ${hlp.theme("theme-card")} rounded-xl px-3">
+                        <div id="enroll-course" class="flex flex-row justify-between container mx-auto cursor-pointer py-3">
+                            <div class="flex flex-row justify-center items-center gap-4 pointer-events-none leading-none">
+                                <div class="flex justify-center items-center ${hlp.theme("bg", "700")} px-2 py-1 rounded-2xl">
+                                    <span class="text-3xl material-symbols-rounded text-white">
+                                        post_add
+                                    </span>
+                                </div>
+                                <div class="flex flex-col items-center">
+                                    <h1 class="text-[20px] font-bold">Enroll In A Course</h1>
+                                </div>
+                            </div>
+                            <div class="flex justify-center items-center">
+                                <span class="material-symbols-rounded">
+                                    arrow_forward_ios
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <!---->
+                    <div class="flex flex-col container mx-auto ${hlp.theme("theme-card")} rounded-xl px-3">
                         <div id="chip-indicators" class="flex flex-row justify-between container mx-auto cursor-pointer py-3 border-b-[2px] border-zinc-700">
                             <div class="flex flex-row justify-center items-center gap-4 pointer-events-none">
                                 <div class="flex justify-center items-center ${hlp.theme("bg", "700")} px-2 py-1 rounded-2xl">
@@ -162,7 +184,7 @@ export async function run() {
                                     </span>
                                 </div>
                                 <div class="flex flex-col items-center">
-                                    <h1 class="text-[20px] font-bold">Hide details from LTI</h1>
+                                    <h1 class="text-[20px] font-bold">Hide Details From LTI</h1>
                                 </div>
                             </div>
                             <div class="flex justify-center items-center">

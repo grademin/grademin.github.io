@@ -101,7 +101,7 @@ export async function run() {
                         </div>
                         <div class="flex flex-col">
                             <h1 class="text-[22px] font-bold">Activity Stream</h1>
-                            <span class="font-bold text-[15px] text-zinc-400">See all recent activities</span>
+                            <span class="font-bold text-[15px] text-zinc-400">View all recent activities</span>
                         </div>
                     </div>
                     <div class="flex justify-center items-center pointer-events-none">
@@ -119,7 +119,7 @@ export async function run() {
                         </div>
                         <div class="flex flex-col">
                             <h1 class="text-[22px] font-bold">Announcements</h1>
-                            <span class="font-bold text-[15px] text-zinc-400">See current announcements</span>
+                            <span class="font-bold text-[15px] text-zinc-400">View current announcements</span>
                         </div>
                     </div>
                     <div class="flex justify-center items-center pointer-events-none">
@@ -249,8 +249,8 @@ export async function run() {
         })
 
         try {
-            let notifications = hlp.get("notifications");
-            if (notifications.find(name => name.option.includes("chip-indicators")).$value) {
+            let settings = hlp.get("settings");
+            if (settings.find(name => name.setting.includes("chip-indicators")).$value) {
                 // Announcement "viewed" count
                 try {
                     let communications = await $.ajax({

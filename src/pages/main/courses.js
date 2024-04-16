@@ -4,6 +4,8 @@ export async function run() {
     const hlp = await import("../../helpers.js");
     const site = await import("../../site.js");
 
+    // TODO: add better container classes other than x-sm and stuf, so text does ... better. Also fix 
+    // the score box getting longer and bigger if the score is 100
 
     await hlp.load(async function () {
         await $("#root").html(`
@@ -188,8 +190,8 @@ export async function run() {
                     $("#courses").append(`
                         <div uid="${course.id}" eid="${course.enrollmentid}" courseid="${course.courseid}" class="flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl cursor-pointer py-3 px-3">
                             <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
-                                <div class="flex justify-center items-center bg-${hlp.score_to_color(course.score)}-500 px-4 py-3 rounded-2xl">
-                                    <span class="text-1xl font-bold text-white py-2 px-2 w-max flex justify-center">
+                                <div class="flex justify-center items-center bg-${hlp.score_to_color(course.score)}-500 px-9 py-6 rounded-2xl">
+                                    <span class="text-1xl font-bold text-white w-0 flex justify-center">
                                         ${isNaN(course.score) ? `<span class="text-black">N/A</span>` : `${course.score}`}
                                     </span>
                                 </div>
