@@ -32,7 +32,7 @@ export async function run() {
                             <h1 class="text-[24px] font-bold">Enroll In A Course</h1>
                             <span>Enter a registration code to enroll in a course.</span>
                         </div>
-                        <input placeholder="Registration Code" id="enroll-input" value="${hlp.get("pfp", false).length == 0 ? "" : hlp.get("pfp", false)}" class="${hlp.theme("caret", "700")} font-bold ${hlp.theme("theme-input")} mt-1 block w-full px-5 py-4 rounded-xl shadow-sm focus:outline-none sm:text-sm">
+                        <input placeholder="Registration Code" id="enroll-input" class="${hlp.theme("caret", "700")} font-bold ${hlp.theme("theme-input")} mt-1 block w-full px-5 py-4 rounded-xl shadow-sm focus:outline-none sm:text-sm">
                     </div>
                     <button id="enroll" class="w-full px-4 py-3 ${hlp.theme("bg", "700")} text-white transition font-semibold rounded-xl hover:${hlp.theme("bg", "500")} focus:outline-none focus:ring-2 focus:${hlp.theme("ring", "700")} focus:ring-opacity-50">Verify Code</button>
                 </div>
