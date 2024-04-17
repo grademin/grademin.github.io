@@ -5,6 +5,7 @@ export async function run() {
 
     // TODO: clean
     // TODO: HELLA CLEAN THIS PLZ
+    // TODO: add fix for forward event going to end of next month instead of beginning.
           
     await hlp.load(async function () {
         await $("#root").html(`
@@ -66,6 +67,8 @@ export async function run() {
                             <span class="flex flex-1 items-center font-bold">Assignements Exist</span>
                         </div>
                     </div>
+                </div>
+                <div id="calendar-contents" class="container mx-auto ${hlp.theme("theme-card")} rounded-xl px-3 py-3">
                 </div>
             </div>
             <!---->
@@ -207,7 +210,36 @@ export async function run() {
                 await $.each(calendar_list.response.calendar.duedates.item, (i, due) => {
                     if ($(`#calendar #${new Date(due.duedate).toLocaleDateString('sv-SE')}`).length) {
                         $(`#calendar #${new Date(due.duedate).toLocaleDateString('sv-SE')} > span`).addClass(`${hlp.theme("bg", "700")} text-white rounded-xl`).off().on("click", function () {
-                            $("#calendar-contents").remove();
+                            $("#calendar-contents").empty();
+                            
+                            details = "";
+                            $.each(calendar_list.response.calendar.duedates.item, (i, this_due) => {
+                                if (new Date(this_due.duedate).toLocaleDateString('sv-SE') == new Date(due.duedate).toLocaleDateString('sv-SE')) {
+                                    details += `
+                                        <div class="flex flex-col gap-5">
+                                            <div class="flex flex-row gap-5">
+                                                <div class="flex flex-col flex-1">
+                                                    <span class="flex items-center font-bold">${this_due.title}</span>
+                                                    <span class="flex items-center font-bold text-zinc-400">Assigned by ${courses.response.enrollments.enrollment.find(name => name.course.id.includes(this_due.courseid)).course.title}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `;
+                                }
+                            })
+                            
+                            $("#calendar-contents").append(`
+                                <div class="flex flex-col justify-between container mx-auto rounded-xl">
+                                    <span class="font-bold text-2xl border-b-[2px] border-zinc-700 pb-3">${new Date(due.duedate).toLocaleDateString('en-US', { month: 'long', day: "numeric" })}</span>
+                                    <div class="pt-3 flex flex-col gap-5">
+                                        ${details}
+                                    </div>
+                                </div>
+                            `)
+                        })
+
+                        if ($(`#calendar #${new Date().toLocaleDateString("sv-SE")}`).attr("id") == $(`#calendar #${new Date(due.duedate).toLocaleDateString('sv-SE')}`).attr("id")) {
+                            $("#calendar-contents").empty();
 
                             details = "";
                             $.each(calendar_list.response.calendar.duedates.item, (i, this_due) => {
@@ -225,13 +257,45 @@ export async function run() {
                                 }
                             })
                             
-                            $("#calendar-data").append(`
-                                <div id="calendar-contents" class="container mx-auto ${hlp.theme("theme-card")} rounded-xl px-3 py-3">
-                                    <div class="flex flex-col justify-between container mx-auto rounded-xl">
-                                        <span class="font-bold text-2xl border-b-[2px] border-zinc-700 pb-3">${new Date(due.duedate).toLocaleDateString('en-US', { month: 'long', day: "numeric" })}</span>
-                                        <div class="pt-3 flex flex-col gap-5">
-                                            ${details}
-                                        </div>
+                            $("#calendar-contents").html(`
+                                <div class="flex flex-col justify-between container mx-auto rounded-xl">
+                                    <span class="font-bold text-2xl border-b-[2px] border-zinc-700 pb-3">${new Date(due.duedate).toLocaleDateString('en-US', { month: 'long', day: "numeric" })}</span>
+                                    <div class="pt-3 flex flex-col gap-5">
+                                        ${details}
+                                    </div>
+                                </div>
+                            `)
+                        }
+                    }
+                })
+
+                await $.each($("#calendar div[id]"), (i, days) => {
+                    if (!$(days).find("span").hasClass(hlp.theme("bg", "700"))) {
+                        let dates = new Date($(days).attr("id"));
+                        dates.setDate(dates.getDate() + 1);
+                        dates = dates.toLocaleDateString('en-US', { month: 'long', day: "numeric" });
+                        if ($(`#calendar #${new Date().toLocaleDateString("sv-SE")}`).attr("id") == $(`#calendar #${new Date(dates).toLocaleDateString('sv-SE')}`).attr("id")) {
+                            $("#calendar-contents").html(`
+                                <div class="flex flex-col justify-between container mx-auto rounded-xl">
+                                    <span class="font-bold text-2xl border-b-[2px] border-zinc-700 pb-3">${dates}</span>
+                                    <div class="pt-3 flex flex-col gap-5">
+                                        There is nothing for this day
+                                    </div>
+                                </div>
+                            `)
+                        }
+                            
+
+                        $(days).find("span").off().on("click", function () {
+                            let date = new Date($(this).parent().attr("id"));
+                            date.setDate(date.getDate() + 1);
+                            date = date.toLocaleDateString('en-US', { month: 'long', day: "numeric" });
+
+                            $("#calendar-contents").html(`
+                                <div class="flex flex-col justify-between container mx-auto rounded-xl">
+                                    <span class="font-bold text-2xl border-b-[2px] border-zinc-700 pb-3">${date}</span>
+                                    <div class="pt-3 flex flex-col gap-5">
+                                        There is nothing for this day
                                     </div>
                                 </div>
                             `)
@@ -245,17 +309,20 @@ export async function run() {
                 $(`#calendar #${new Date().toLocaleDateString('sv-SE')} > span`).addClass(`${hlp.theme("bg", "300")} text-white rounded-xl`)
             }
 
+            $("#calendar-contents").empty();
             await content();
             
             let current_date = new Date();
-            $("#forward").on("click", async function () {
+            $("#forward").off().on("click", async function () {
+                $("#calendar-contents").empty();
                 current_date.setMonth(current_date.getMonth() + 1);
                 $("#calendar-date").html(current_date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }))
                 await calendar(current_date.getFullYear(), current_date.getMonth());
                 await content();
             })
     
-            $("#back").on("click", async function () {
+            $("#back").off().on("click", async function () {
+                $("#calendar-contents").empty();
                 current_date.setMonth(current_date.getMonth() - 1);
                 $("#calendar-date").html(current_date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }))
                 await calendar(current_date.getFullYear(), current_date.getMonth());
