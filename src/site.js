@@ -49,6 +49,12 @@ export async function runtime(page) {
             break;
         }
 
+        case "calendar": {
+            const calendar = await import("/proview/src/pages/main/calendar.js");
+            await calendar.run();
+            break;
+        }
+
         case "todo-list": {
             const todo_list = await import("/proview/src/pages/main/todo-list.js")
             await todo_list.run();

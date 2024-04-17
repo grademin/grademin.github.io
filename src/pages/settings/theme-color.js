@@ -56,8 +56,8 @@ export async function run() {
                                 home
                             </span>
                         </a>
-                        <a class="cursor-pointer flex justify-center items-center py-3 w-full">
-                            <span class="text-[30px] material-symbols-rounded">
+                        <a id="calendar" class="cursor-pointer flex justify-center items-center py-3 w-full">
+                            <span class="text-[30px] font-black pointer-events-none material-symbols-rounded">
                                 calendar_month
                             </span>
                         </a>
@@ -83,6 +83,11 @@ export async function run() {
                 }
 
 
+
+                case "calendar": {
+                    await site.runtime("calendar");
+                    break;
+                }
 
                 case "overview": {
                     site.runtime("overview");

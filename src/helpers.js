@@ -1,7 +1,7 @@
 /**
  * Proview Version
  */
-export const version = "1.2.1";
+export const version = "1.2.2";
 
 /**
  * A simple function to make api links stand out.
@@ -197,6 +197,10 @@ export function theme(type, value) {
                 case "green": {
                     if (value == 600)
                         return `bg-${theme_color}-400`
+                    else if (value == 300)
+                        return `bg-${theme_color}-700`
+                    else if (value == 200)
+                        return `bg-${theme_color}-900`
                     else
                         return `bg-${theme_color}-500`;
                 }
