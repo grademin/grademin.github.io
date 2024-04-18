@@ -308,7 +308,7 @@ export async function run() {
                 
                 // This handles if the current day you click has nothing
                 await $.each($("#calendar div[id]"), (i, days) => {
-                    if (!$(days).find("span").hasClass(hlp.theme("bg", "700"))) {
+                    if (!$(days).find("span").hasClass(hlp.theme("bg", "700")) || !$(days).find("span").hasClass("bg-yellow-500")) {
                         let dates = new Date($(days).attr("id"));
                         dates.setDate(dates.getDate() + 1);
                         dates = dates.toLocaleDateString('en-US', { month: 'long', day: "numeric" });
