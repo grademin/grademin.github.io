@@ -136,6 +136,9 @@ export async function run() {
         });
 
         async function call() {
+            $("#calendar").empty();
+            $("#content").empty();
+
             async function set_calendar(year, month) {
                 let first_day = new Date(year, month, 1).getDay();
                 let days_current_month = new Date(year, month + 1, 0).getDate();
@@ -308,7 +311,7 @@ export async function run() {
                 
                 // This handles if the current day you click has nothing
                 await $.each($("#calendar div[id]"), (i, days) => {
-                    if (!$(days).find("span").hasClass(hlp.theme("bg", "700")) || !$(days).find("span").hasClass("bg-yellow-500")) {
+                    if (!$(days).find("span").hasClass(hlp.theme("bg", "700")) && !$(days).find("span").hasClass("bg-yellow-500")) {
                         let dates = new Date($(days).attr("id"));
                         dates.setDate(dates.getDate() + 1);
                         dates = dates.toLocaleDateString('en-US', { month: 'long', day: "numeric" });
@@ -324,7 +327,7 @@ export async function run() {
                             `)
                         }
 
-                        $(days).find("span").off().on("mousedown", function () {
+                        $(days).find("span").off().on("click", function () {
                             let date = new Date($(this).parent().attr("id"));
                             date.setDate(date.getDate() + 1);
                             date = date.toLocaleDateString('en-US', { month: 'long', day: "numeric" });
@@ -347,7 +350,7 @@ export async function run() {
             $(`#calendar #${new Date().toLocaleDateString('sv-SE')} > span`).addClass(`${hlp.theme("bg", "300")} text-white rounded-xl`);
             
             let current_date = new Date();
-            $("#forward").off().on("mousedown", async function () {
+            $("#forward").off().on("click", async function () {
                 $("#calendar").empty();
                 current_date.setMonth(current_date.getMonth() + 1);
                 $("#date").html(current_date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }))
@@ -356,7 +359,7 @@ export async function run() {
                 await content(false);
             })
     
-            $("#back").off().on("mousedown", async function () {
+            $("#back").off().on("click", async function () {
                 $("#calendar").empty();
                 current_date.setMonth(current_date.getMonth() - 1);
                 $("#date").html(current_date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }))
