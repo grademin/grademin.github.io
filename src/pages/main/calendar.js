@@ -1,12 +1,9 @@
+import { set } from "../../helpers.js";
+
 export async function run() {
-    const hlp = await import("../../helpers.js"),
-          site = await import("../../site.js");
+    const hlp = await import("../../helpers.js");
+    const site = await import("../../site.js");
 
-
-    // TODO: clean
-    // TODO: HELLA CLEAN THIS PLZ
-    // TODO: add fix for forward event going to end of next month instead of beginning.
-          
     await hlp.load(async function () {
         await $("#root").html(`
             <div id="top" class="${hlp.theme("bg", "700")} text-white">
@@ -28,30 +25,34 @@ export async function run() {
             </div>
             <!---->
             <!---->
-            <div id="calendar-data" class="flex flex-col gap-5 pt-[2rem] mt-[46px] mb-[1.7rem] container mx-auto py-10 px-4">
+            <div class="flex flex-col gap-5 pt-[2rem] mt-[46px] mb-[1.7rem] container mx-auto py-10 px-4">
                 <div class="container mx-auto ${hlp.theme("theme-card")} rounded-xl px-3 py-3">
                     <div class="flex flex-col gap-5">
-                        <div class="flex justify-center items-center container mx-auto">
+                        <div class="flex flex-row w-full gap-5 justify-center items-center mx-auto">
                             <div id="back" class="-ml-3 flex-2 cursor-pointer py-5 px-9 rounded-full">
                                 <span class="w-0 font-black pointer-events-none text-1xl material-symbols-rounded flex justify-center items-center">
                                     arrow_back_ios_new
                                 </span>
                             </div>
-                            <span id="calendar-date" class="flex-grow flex-1 font-bold text-center text-[22px]">${new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</span>
+                            <span id="date" class="flex-grow flex-1 font-bold text-center text-[22px]">${new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</span>
                             <div id="forward" class="-mr-3 flex-2 cursor-pointer py-5 px-9 rounded-full">
                                 <span class="w-0 font-black pointer-events-none text-1xl material-symbols-rounded flex justify-center items-center">
                                     arrow_forward_ios
                                 </span>
                             </div>
                         </div>
-                        <div id="calendar" class="grid grid-cols-7 text-center">
-                            <div class="font-bold text-1xl">su</div>
-                            <div class="font-bold text-1xl">mo</div>
-                            <div class="font-bold text-1xl">tu</div>
-                            <div class="font-bold text-1xl">we</div>
-                            <div class="font-bold text-1xl">th</div>
-                            <div class="font-bold text-1xl">fr</div>
-                            <div class="font-bold text-1xl">sa</div>
+                        <div class="flex flex-col">
+                            <div class="grid grid-cols-7 text-center">
+                                <div class="font-bold text-1xl">su</div>
+                                <div class="font-bold text-1xl">mo</div>
+                                <div class="font-bold text-1xl">tu</div>
+                                <div class="font-bold text-1xl">we</div>
+                                <div class="font-bold text-1xl">th</div>
+                                <div class="font-bold text-1xl">fr</div>
+                                <div class="font-bold text-1xl">sa</div>
+                            </div>
+                            <div id="calendar" class="grid grid-cols-7 text-center">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -66,9 +67,13 @@ export async function run() {
                             <div class="rounded-lg flex-2 ${hlp.theme("bg", "700")} p-4 float-left"></div>
                             <span class="flex flex-1 items-center font-bold">Assignements Exist</span>
                         </div>
+                        <div class="flex flex-row gap-5">
+                            <div class="rounded-lg flex-2 bg-yellow-500 p-4 float-left"></div>
+                            <span class="flex flex-1 items-center font-bold">Assignements Due</span>
+                        </div>
                     </div>
                 </div>
-                <div id="calendar-contents" class="container mx-auto ${hlp.theme("theme-card")} rounded-xl px-3 py-3">
+                <div id="contents" class="container mx-auto ${hlp.theme("theme-card")} rounded-xl px-3 py-3">
                 </div>
             </div>
             <!---->
@@ -99,8 +104,8 @@ export async function run() {
                     </div>
                 </div>
             </div>
-        `).on("click", async function (event) {
-            switch ($(event.target).attr("id")) {
+        `).on("click", async function (e) {
+            switch ($(e.target).attr("id")) {
                 case "go-back": {
                     history.pushState({}, "", `?page=overview`);
                     await site.runtime("overview");
@@ -131,38 +136,32 @@ export async function run() {
         });
 
         async function call() {
-            async function calendar(year, month) {
-                const firstDay = new Date(year, month, 1).getDay();
-                const daysInMonth = new Date(year, month + 1, 0).getDate();
-                const daysInPreviousMonth = new Date(year, month, 0).getDate();
+            async function set_calendar(year, month) {
+                let first_day = new Date(year, month, 1).getDay();
+                let days_current_month = new Date(year, month + 1, 0).getDate();
+                let days_previous_month = new Date(year, month, 0).getDate();
 
-                // Clear previous cells, except for the first 7 children (day headers)
-                $('#calendar').find('div:gt(6)').remove();
-            
-                // Add empty cells at the start if the month does not start on Sunday
-                for (let i = 0; i < firstDay; i++) {
-                    let prevMonthDay = daysInPreviousMonth - firstDay + 1 + i;
+                // last month
+                for (let i = 0; i < first_day; i++) {
+                    let previous_month = days_previous_month - first_day + 1 + i;
                     await $('#calendar').append(`
                         <div class="text-center py-1 flex justify-center items-center font-bold text-zinc-400">
-                            <span class="w-10 h-10 flex items-center justify-center">${prevMonthDay}</span>
+                            <span class="w-10 h-10 flex items-center justify-center">${previous_month}</span>
                         </div>
                     `);
                 }
 
-                // Fill the calendar with the days of the current month
-                for (let day = 1; day <= daysInMonth; day++) {
-                    let date = new Date(year, month, day).toLocaleDateString('sv-SE');
+                // current month
+                for (let day = 1; day <= days_current_month; day++) {
                     await $('#calendar').append(`
-                        <div id="${date}" class="text-center py-1 cursor-pointer flex justify-center items-center font-bold">
+                        <div id="${new Date(year, month, day).toLocaleDateString('sv-SE')}" class="text-center py-1 cursor-pointer flex justify-center items-center font-bold">
                             <span class="w-10 h-10 flex items-center justify-center">${day}</span>
                         </div>
                     `);
                 }
 
-                // Fill the remaining cells with days from the next month
-                let daysAfter = 42 - firstDay - daysInMonth; // 42 cells - 6 weeks
-                for (let i = 1; i <= daysAfter; i++) {
-                    let date = new Date(year, month + 1, i).toLocaleDateString('sv-SE');
+                // future month
+                for (let i = 1; i <= 42 - first_day - days_current_month; i++) {
                     await $('#calendar').append(`
                         <div class="text-center py-1 flex justify-center items-center font-bold text-zinc-400">
                             <span class="w-10 h-10 flex items-center justify-center">${i}</span>
@@ -170,18 +169,23 @@ export async function run() {
                     `);
                 }
             }
+            
+            await set_calendar(new Date().getFullYear(), new Date().getMonth())
+
+            let courses = [];
+            let calendar = [];
 
 
-            calendar(new Date().getFullYear(), new Date().getMonth());      
-
-            let courses = await $.ajax({
-                url: hlp.api(`/cmd/listuserenrollments?_token=${hlp.session.token}&userid=${hlp.session.id}&privileges=1&select=data,course,course.data,course.teachers,metrics`),
-                method: "GET",
-                dataType: "json",
-                contentType: "application/json; charset=utf-8"
+            await hlp.prevent_errors(async function () {
+                courses = await $.ajax({
+                    url: hlp.api(`/cmd/listuserenrollments?_token=${hlp.session.token}&userid=${hlp.session.id}&privileges=1&select=data,course,course.data,course.teachers,metrics`),
+                    method: "GET",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8"
+                });
             });
             
-            let ids = "";
+            let courseids = "";
             let hidden = hlp.get("hidden");
             if (courses.length != 0) {
                 $.each(courses.response.enrollments.enrollment, (i, course) => {
@@ -191,91 +195,126 @@ export async function run() {
                     } catch (e) {}
 
                     if (i < courses.response.enrollments.enrollment.length - 1)
-                        ids += `${course.id},`
+                        courseids += `${course.id},`
                     else 
-                        ids += `${course.id}`;
+                        courseids += `${course.id}`;
                 });
-            }
+            } 
 
-            let calendar_list = await $.ajax({
-                url: hlp.api(`/cmd/getcalendaritems?_token=${hlp.session.token}&enrollmentid=${ids}`),
-                method: "GET",
-                dataType: "json",
-                contentType: "application/json; charset=utf-8"
-            })
+            await hlp.prevent_errors(async function () {
+                calendar = await $.ajax({
+                    url: hlp.api(`/cmd/getcalendaritems?_token=${hlp.session.token}&enrollmentid=${courseids}`),
+                    method: "GET",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8"
+                });
+            });
 
-            
-            async function content() {
-                let details = "";
-                await $.each(calendar_list.response.calendar.duedates.item, (i, due) => {
-                    if ($(`#calendar #${new Date(due.duedate).toLocaleDateString('sv-SE')}`).length) {
-                        $(`#calendar #${new Date(due.duedate).toLocaleDateString('sv-SE')} > span`).addClass(`${hlp.theme("bg", "700")} text-white rounded-xl`).off().on("click", function () {
-                            $("#calendar-contents").empty();
-                            
-                            details = "";
-                            $.each(calendar_list.response.calendar.duedates.item, (i, this_due) => {
-                                if (new Date(this_due.duedate).toLocaleDateString('sv-SE') == new Date(due.duedate).toLocaleDateString('sv-SE')) {
-                                    details += `
-                                        <div class="flex flex-col gap-5">
-                                            <div class="flex flex-row gap-5">
-                                                <div class="flex flex-col flex-1">
-                                                    <span class="flex items-center font-bold">${this_due.title}</span>
-                                                    <span class="flex items-center font-bold text-zinc-400">Assigned by ${courses.response.enrollments.enrollment.find(name => name.course.id.includes(this_due.courseid)).course.title}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    `;
-                                }
+
+            async function content(go_to_today) {
+                // create the cell groups
+                let cell_group = [];
+                $.each(calendar.response.calendar.duedates.item, (i, due) => {
+                    if (cell_group[due.duedate] == undefined) {
+                        if (!cell_group.find(name => name.duedate.includes(due.duedate))) {
+                            cell_group.push({
+                                duedate: due.duedate,
+                                has_non_completed: false,
+                                items: []
                             })
-                            
-                            $("#calendar-contents").append(`
-                                <div class="flex flex-col justify-between container mx-auto rounded-xl">
-                                    <span class="font-bold text-2xl border-b-[2px] border-zinc-700 pb-3">${new Date(due.duedate).toLocaleDateString('en-US', { month: 'long', day: "numeric" })}</span>
-                                    <div class="pt-3 flex flex-col gap-5">
-                                        ${details}
-                                    </div>
-                                </div>
-                            `)
-                        })
-
-                        if ($(`#calendar #${new Date().toLocaleDateString("sv-SE")}`).attr("id") == $(`#calendar #${new Date(due.duedate).toLocaleDateString('sv-SE')}`).attr("id")) {
-                            $("#calendar-contents").empty();
-
-                            details = "";
-                            $.each(calendar_list.response.calendar.duedates.item, (i, this_due) => {
-                                if (new Date(this_due.duedate).toLocaleDateString('sv-SE') == new Date(due.duedate).toLocaleDateString('sv-SE')) {
-                                    details += `
-                                        <div class="flex flex-col gap-5">
-                                            <div class="flex flex-row gap-5">
-                                                <div class="flex flex-col flex-1">
-                                                    <span class="flex items-center font-bold">${this_due.title}</span>
-                                                    <span class="flex items-center font-bold text-zinc-400">Assigned by ${courses.response.enrollments.enrollment.find(name => name.course.id.includes(this_due.courseid)).course.title}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    `;
-                                }
-                            })
-                            
-                            $("#calendar-contents").html(`
-                                <div class="flex flex-col justify-between container mx-auto rounded-xl">
-                                    <span class="font-bold text-2xl border-b-[2px] border-zinc-700 pb-3">${new Date(due.duedate).toLocaleDateString('en-US', { month: 'long', day: "numeric" })}</span>
-                                    <div class="pt-3 flex flex-col gap-5">
-                                        ${details}
-                                    </div>
-                                </div>
-                            `)
                         }
                     }
                 })
 
+                // add the data to the cell groups
+                $.each(calendar.response.calendar.duedates.item, (i, due) => {
+                    cell_group.find(name => name.duedate.includes(due.duedate)).items.push({
+                        due_title: due.title,
+                        courseid: due.courseid,
+                        title: courses.response.enrollments.enrollment.find(name => name.course.id.includes(due.courseid)).course.title,
+                        is_completed: false,
+                    })
+                    
+                    try {
+                        if (due.grade != undefined) {
+                            cell_group.find(name => name.duedate.includes(due.duedate)).items.find(name => name.due_title.includes(due.title)).is_completed = true;
+                        }
+                    } catch (e) {}
+    
+                });
+
+                // determine if the date has an assignement that isn't completed
+                $.each(cell_group, (i, cell) => {
+                    if (cell.items.find(completed => completed.is_completed == false))
+                        cell.has_non_completed = true;
+                })
+
+                async function html(cell, e) {
+                    let content = "";
+
+                    await $.each(cell_group.find(date => date.duedate.includes($(e).attr("id"))).items, (i, data) => {
+                        content += `
+                            <div class="flex flex-col gap-5">
+                                <div class="flex flex-row gap-5">
+                                    <div class="rounded-lg flex-2 h-fit ${data.is_completed ? hlp.theme("bg", "700") : "bg-yellow-500"} p-6 float-left"></div>
+                                    <div class="flex flex-col flex-1">
+                                        <span class="flex items-center font-bold">${data.title}</span>
+                                        <span class="flex items-center font-bold text-zinc-400">Assigned by ${courses.response.enrollments.enrollment.find(name => name.course.id.includes(data.courseid)).course.title}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    })
+
+                    $("#contents").html(`
+                        <div class="flex flex-col justify-between container mx-auto rounded-xl">
+                            <span selected-date="${new Date(cell.duedate).toLocaleDateString('sv-SE')}" class="font-bold text-2xl border-b-[2px] border-zinc-700 pb-3">${new Date(cell.duedate).toLocaleDateString('en-US', { month: 'long', day: "numeric" })}</span>
+                            <div class="pt-3 flex flex-col gap-5">
+                                ${content}
+                            </div>
+                        </div>
+                    `)
+                }
+                
+                // finally list each item, select the current day, and show the work from it.
+                await $.each(cell_group, (i, cell) => {                    
+                    if ($(`#calendar #${new Date(cell.duedate).toLocaleDateString('sv-SE')}`).length) {
+                        // determine if a day has non completed work
+                        hlp.prevent_errors(async function () {
+                            if (!cell.has_non_completed) {
+                                await $(`#calendar #${new Date(cell.duedate).toLocaleDateString('sv-SE')} > span`).addClass(`${hlp.theme("bg", "700")} text-white rounded-xl`);
+                            } else {
+                                await $(`#calendar #${new Date(cell.duedate).toLocaleDateString('sv-SE')} > span`).addClass(`bg-yellow-500 text-white rounded-xl`);
+                            }
+                        })
+                        
+                        $(`#calendar #${new Date(cell.duedate).toLocaleDateString('sv-SE')}`).off().on("click", async function () {
+                            html(cell, this)
+                        })
+                    }
+
+                    if (go_to_today) {
+                        if ($(`#calendar #${new Date().toLocaleDateString("sv-SE")}`).attr("id") === $(`#calendar #${new Date(cell.duedate).toLocaleDateString('sv-SE')}`).attr("id")) {
+                            html(cell, $(`#calendar #${new Date().toLocaleDateString("sv-SE")}`))
+                        }
+                    }
+                });
+
+                // sets the color states of each cell
+                if ($(`#calendar #${new Date().toLocaleDateString('sv-SE')} > span`).hasClass(hlp.theme("bg", "700")))
+                    $(`#calendar #${new Date().toLocaleDateString('sv-SE')} > span`).addClass(`${hlp.theme("bg", "300")} border-[4px] ${hlp.theme("border", "700")} text-white rounded-xl`);
+                else if ($(`#calendar #${new Date().toLocaleDateString('sv-SE')} > span`).hasClass("bg-yellow-500"))
+                    $(`#calendar #${new Date().toLocaleDateString('sv-SE')} > span`).addClass(`${hlp.theme("bg", "300")}  border-[4px] border-yellow-500 text-white rounded-xl`);
+                
+                // This handles if the current day you click has nothing
                 await $.each($("#calendar div[id]"), (i, days) => {
                     if (!$(days).find("span").hasClass(hlp.theme("bg", "700"))) {
                         let dates = new Date($(days).attr("id"));
                         dates.setDate(dates.getDate() + 1);
                         dates = dates.toLocaleDateString('en-US', { month: 'long', day: "numeric" });
-                        if ($(`#calendar #${new Date().toLocaleDateString("sv-SE")}`).attr("id") == $(`#calendar #${new Date(dates).toLocaleDateString('sv-SE')}`).attr("id")) {
-                            $("#calendar-contents").html(`
+
+                        if ($(`#calendar #${new Date().toLocaleDateString("sv-SE")}`).attr("id") === $(`#calendar #${new Date(dates).toLocaleDateString('sv-SE')}`).attr("id")) {
+                            $("#contents").html(`
                                 <div class="flex flex-col justify-between container mx-auto rounded-xl">
                                     <span class="font-bold text-2xl border-b-[2px] border-zinc-700 pb-3">${dates}</span>
                                     <div class="pt-3 flex flex-col gap-5">
@@ -284,14 +323,13 @@ export async function run() {
                                 </div>
                             `)
                         }
-                            
 
-                        $(days).find("span").off().on("click", function () {
+                        $(days).find("span").off().on("mousedown", function () {
                             let date = new Date($(this).parent().attr("id"));
                             date.setDate(date.getDate() + 1);
                             date = date.toLocaleDateString('en-US', { month: 'long', day: "numeric" });
 
-                            $("#calendar-contents").html(`
+                            $("#contents").html(`
                                 <div class="flex flex-col justify-between container mx-auto rounded-xl">
                                     <span class="font-bold text-2xl border-b-[2px] border-zinc-700 pb-3">${date}</span>
                                     <div class="pt-3 flex flex-col gap-5">
@@ -301,32 +339,30 @@ export async function run() {
                             `)
                         })
                     }
-                })
-
-                if ($(`#calendar #${new Date().toLocaleDateString('sv-SE')} > span`).hasClass(hlp.theme("bg", "700")))
-                    $(`#calendar #${new Date().toLocaleDateString('sv-SE')} > span`).addClass(`border-[4px] ${hlp.theme("border", "700")} text-white rounded-xl`)
-
-                $(`#calendar #${new Date().toLocaleDateString('sv-SE')} > span`).addClass(`${hlp.theme("bg", "300")} text-white rounded-xl`)
+                });
             }
 
-            $("#calendar-contents").empty();
-            await content();
+            await content(true);
+
+            $(`#calendar #${new Date().toLocaleDateString('sv-SE')} > span`).addClass(`${hlp.theme("bg", "300")} text-white rounded-xl`);
             
             let current_date = new Date();
-            $("#forward").off().on("click", async function () {
-                $("#calendar-contents").empty();
+            $("#forward").off().on("mousedown", async function () {
+                $("#calendar").empty();
                 current_date.setMonth(current_date.getMonth() + 1);
-                $("#calendar-date").html(current_date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }))
-                await calendar(current_date.getFullYear(), current_date.getMonth());
-                await content();
+                $("#date").html(current_date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }))
+
+                await set_calendar(current_date.getFullYear(), current_date.getMonth());
+                await content(false);
             })
     
-            $("#back").off().on("click", async function () {
-                $("#calendar-contents").empty();
+            $("#back").off().on("mousedown", async function () {
+                $("#calendar").empty();
                 current_date.setMonth(current_date.getMonth() - 1);
-                $("#calendar-date").html(current_date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }))
-                await calendar(current_date.getFullYear(), current_date.getMonth());
-                await content();
+                $("#date").html(current_date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }))
+                
+                await set_calendar(current_date.getFullYear(), current_date.getMonth());
+                await content(false);
             })
         }
 
