@@ -73,7 +73,9 @@ export async function run() {
                     break;
                 }
 
-
+                // TODO: getcommandtokeninfo
+                // https://api.agilixbuzz.com/cmd/getcommandtokeninfo?_token=&code=
+                // listuserenrollments for name and such
                 case "enroll": {
                     if ($("#enroll-input").val() == "") {
                         $("#enroll-input").addClass("shake border border-red-300").one("animationend webkitAnimationEnd", function() {
