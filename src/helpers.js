@@ -409,7 +409,9 @@ export function theme(type, value) {
  */
 export async function animate_nav() {
     try {
+        $(window).off("scroll")
         if ($("#top #scrolled-title").length) {
+            $("#top div:has(.-ml-2)").removeClass("shadow shadow-black")
             if ($(window).scrollTop() > $("#top").offset().top + $("#top").outerHeight() - 40 || $(document).scrollTop() < $("#top").offset().top - $(window).height()) {
                 if (window.scrollY == 0) {
                     $("#top #scrolled-title").parent().removeClass("shadow shadow-black");
@@ -453,16 +455,16 @@ export async function animate_nav() {
         } else {
             // TODO: clicking from one page scrolled down makes this keep the border.
             if ($(window).scrollTop() > 10) {
-                $("#top>div").addClass("shadow shadow-black")
+                $("#top div:has(.-ml-2)").addClass("shadow shadow-black")
             } else {
-                $("#top>div").removeClass("shadow shadow-black")
+                $("#top div:has(.-ml-2)").removeClass("shadow shadow-black")
             }
     
             $(window).off().scroll(function() {
                 if ($(this).scrollTop() > 10) {
-                    $("#top>div").addClass("shadow shadow-black")
+                    $("#top div:has(.-ml-2)").addClass("shadow shadow-black")
                 } else {
-                    $("#top>div").removeClass("shadow shadow-black")
+                    $("#top div:has(.-ml-2)").removeClass("shadow shadow-black")
                 }
             })
         }
