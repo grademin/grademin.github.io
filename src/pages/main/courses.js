@@ -386,7 +386,6 @@ export async function run() {
                     dataType: "json",
                     contentType: "application/json; charset=utf-8"
                 });
-                work.response.enrollment.grades.items.item.sort((first, last) => first.firstactivitydate + last.firstactivitydate);
             } catch (e) {}
 
 
@@ -398,8 +397,8 @@ export async function run() {
                 worklist = `
                     ${(() => {
                         let html = [];
-                        $.each(work.response.enrollment.grades.items.item, (i, item) => {
-                            const statuses = {Excluded: 0x80, Released: 0x100, ExtraCredit: 0x200,
+                        $.each(work.response.enrollment.grades.items.item.reverse(), (i, item) => {
+                            const statuses = {Completed: 0x01, Excluded: 0x80, Released: 0x100, ExtraCredit: 0x200,
                                 NeedsGrading: 0x400, PasswordVerified: 0x800, SkipMasteryRestriction: 0x1000, PostDueDateZero: 0x2000,
                                 ScoredByTeacher: 0x4000, HasNotes: 0x8000, AutoUnscoredZero: 0x10000};
           
@@ -410,110 +409,129 @@ export async function run() {
                                 }
                             }
                             
-                            if (flags.find(scored => scored == statuses.ScoredByTeacher) && !flags.find(excluded => excluded == statuses.Excluded)) {
-                                try {
-                                    objective = item.objectivescores.objectivescore;                    
-                                } catch (e) {}
-                                
-                                new_a = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Agency")).guid));
-                                new_c = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Collaboration")).guid));
-                                new_k = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Knowledge & Thinking")).guid));
-                                new_o = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Oral Communication")).guid));
-                                new_w = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Written Communication")).guid));
+                            if (item.type != "Folder") {
+                                if (flags.find(scored => scored == statuses.ScoredByTeacher) && !flags.find(excluded => excluded == statuses.Excluded)) {
+                                    try {
+                                        objective = item.objectivescores.objectivescore;                    
+                                    } catch (e) {}
+                                    
+                                    new_a = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Agency")).guid));
+                                    new_c = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Collaboration")).guid));
+                                    new_k = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Knowledge & Thinking")).guid));
+                                    new_o = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Oral Communication")).guid));
+                                    new_w = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Written Communication")).guid));
 
-                                if (new_a != undefined || new_c != undefined || new_k != undefined || new_o != undefined || new_w != undefined) {
-                                    html.push(`
-                                        <div class="flex flex-col gap-2">
-                                            <div class="relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
-                                                <div class="flex flex-row justify-center items-center gap-5 w-full">
-                                                    <div class="flex flex-col w-full">
-                                                        <h1 class="text-[22px] font-bold">${item.title}</h1>
+                                    if (new_a != undefined || new_c != undefined || new_k != undefined || new_o != undefined || new_w != undefined) {
+                                        html.push(`
+                                            <div class="flex flex-col gap-2">
+                                                <div class="relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
+                                                    <div class="flex flex-row justify-center items-center gap-5 w-full">
+                                                        <div class="flex flex-col w-full">
+                                                            <h1 class="text-[22px] font-bold">${item.title}</h1>
+                                                        </div>
                                                     </div>
                                                 </div>
+                                                <div class="flex flex-row gap-2 flex-wrap container mx-auto">
+                                                    ${new_a != undefined ? `
+                                                    <div id="agency" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
+                                                        <span class="font-bold pointer-events-none">${hlp.decode_score(new_a)}</span>
+                                                        <div class="rounded-lg bg-yellow-500 p-3 pointer-events-none"></div>
+                                                    </div>
+                                                    ` : ""}
+                                                    ${new_c != undefined ? `
+                                                    <div id="collaboration" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
+                                                        <span class="font-bold pointer-events-none">${hlp.decode_score(new_c)}</span>    
+                                                        <div class="rounded-lg bg-violet-500 p-3 pointer-events-none"></div>
+                                                    </div>
+                                                    ` : ""}
+                                                    ${new_k != undefined ? `
+                                                    <div id="knowlege" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
+                                                        <span class="font-bold pointer-events-none">${hlp.decode_score(new_k)}</span>    
+                                                        <div class="rounded-lg bg-blue-500 p-3 pointer-events-none"></div> 
+                                                    </div>
+                                                    ` : ""}
+                                                    ${new_o != undefined ? `
+                                                    <div id="oral" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
+                                                        <span class="font-bold pointer-events-none">${hlp.decode_score(new_o)}</span>
+                                                        <div class="rounded-lg bg-green-500 p-3 pointer-events-none"></div>
+                                                    </div>
+                                                    ` : ""}
+                                                    ${new_w != undefined ? `
+                                                    <div id="written" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
+                                                        <span class="font-bold pointer-events-none">${hlp.decode_score(new_w)}</span>
+                                                        <div class="rounded-lg bg-cyan-500 p-3 pointer-events-none"></div>
+                                                    </div>
+                                                    ` : ""}
+                                                </div>
                                             </div>
-                                            <div class="flex flex-row gap-2 flex-wrap container mx-auto">
-                                                ${new_a != undefined ? `
-                                                <div id="agency" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
-                                                    <span class="font-bold pointer-events-none">${hlp.decode_score(new_a)}</span>
-                                                    <div class="rounded-lg bg-yellow-500 p-3 pointer-events-none"></div>
-                                                </div>
-                                                ` : ""}
-                                                ${new_c != undefined ? `
-                                                <div id="collaboration" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
-                                                    <span class="font-bold pointer-events-none">${hlp.decode_score(new_c)}</span>    
-                                                    <div class="rounded-lg bg-violet-500 p-3 pointer-events-none"></div>
-                                                </div>
-                                                ` : ""}
-                                                ${new_k != undefined ? `
-                                                <div id="knowlege" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
-                                                    <span class="font-bold pointer-events-none">${hlp.decode_score(new_k)}</span>    
-                                                    <div class="rounded-lg bg-blue-500 p-3 pointer-events-none"></div> 
-                                                </div>
-                                                ` : ""}
-                                                ${new_o != undefined ? `
-                                                <div id="oral" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
-                                                    <span class="font-bold pointer-events-none">${hlp.decode_score(new_o)}</span>
-                                                    <div class="rounded-lg bg-green-500 p-3 pointer-events-none"></div>
-                                                </div>
-                                                ` : ""}
-                                                ${new_w != undefined ? `
-                                                <div id="written" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
-                                                    <span class="font-bold pointer-events-none">${hlp.decode_score(new_w)}</span>
-                                                    <div class="rounded-lg bg-cyan-500 p-3 pointer-events-none"></div>
-                                                </div>
-                                                ` : ""}
-                                            </div>
-                                        </div>
-                                    `);
-                                } else {
-                                    html.push(`
-                                        <div class="flex flex-col gap-2">
-                                            <div class="relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
-                                                <div class="flex flex-row justify-center items-center gap-5 w-full">
-                                                    <div class="flex flex-col w-full">
-                                                        <h1 class="text-[22px] font-bold">${item.title}</h1>
+                                        `);
+                                    } else {
+                                        html.push(`
+                                            <div class="flex flex-col gap-2">
+                                                <div class="relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
+                                                    <div class="flex flex-row justify-center items-center gap-5 w-full">
+                                                        <div class="flex flex-col w-full">
+                                                            <h1 class="text-[22px] font-bold">${item.title}</h1>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="flex flex-row gap-2 flex-wrap container mx-auto">
-                                                ${(() => {
-                                                    if (item.objectivescore != undefined) {
-                                                        for (let objective of item.objectivescores.objectivescore) {
+                                                <div class="flex flex-row gap-2 flex-wrap container mx-auto">
+                                                    ${(() => {
+                                                        if (item.objectivescore != undefined) {
+                                                            for (let objective of item.objectivescores.objectivescore) {
+                                                                return `
+                                                                    <div class="relative shadow-lg w-min flex flex-row gap-5 bg-${hlp.score_to_color(hlp.decode_score(objective))}-500 text-white justify-between rounded-xl py-2 px-3">
+                                                                        <span class="font-bold">${hlp.decode_score(objective)}</span>
+                                                                    </div>
+                                                                `;
+                                                            }
+                                                        } else {
                                                             return `
-                                                                <div class="relative shadow-lg w-min flex flex-row gap-5 bg-${hlp.score_to_color(hlp.decode_score(objective))}-500 text-white justify-between rounded-xl py-2 px-3">
-                                                                    <span class="font-bold">${hlp.decode_score(objective)}</span>
+                                                                <div class="relative shadow-lg w-min flex flex-row gap-5 bg-${hlp.score_to_color(hlp.decode_score(item))}-500 text-white justify-between rounded-xl py-2 px-3">
+                                                                    <span class="font-bold">${hlp.decode_score(item)}</span>
                                                                 </div>
                                                             `;
                                                         }
-                                                    } else {
-                                                        return `
-                                                            <div class="relative shadow-lg w-min flex flex-row gap-5 bg-${hlp.score_to_color(hlp.decode_score(item))}-500 text-white justify-between rounded-xl py-2 px-3">
-                                                                <span class="font-bold">${hlp.decode_score(item)}</span>
-                                                            </div>
-                                                        `;
-                                                    }
-                                                })()}
+                                                    })()}
+                                                </div>
+                                            </div>
+                                        `);
+                                    }
+                                } else if (flags.find(excluded => excluded == statuses.Excluded) && !flags.find(self => self == statuses.Completed)) {
+                                    html.push(`
+                                        <div class="flex flex-col gap-2">
+                                            <div class="relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
+                                                <div class="flex flex-row justify-center items-center gap-5 w-full">
+                                                    <div class="flex flex-col w-full">
+                                                        <h1 class="text-[22px] font-bold">${item.title}</h1>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flex flex-row gap-2 container mx-auto">
+                                                <div class="relative w-min flex flex-row gap-5 ${hlp.theme("theme-card")} justify-between ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
+                                                    <span class="font-bold">Excused</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `);
+                                } else if (flags.find(self => self == statuses.Completed)) {
+                                    html.push(`
+                                        <div class="flex flex-col gap-2">
+                                            <div class="relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
+                                                <div class="flex flex-row justify-center items-center gap-5 w-full">
+                                                    <div class="flex flex-col w-full">
+                                                        <h1 class="text-[22px] font-bold">${item.title}</h1>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flex flex-row gap-2 container mx-auto">
+                                                <div class="relative w-max nowrap flex flex-row gap-5 ${hlp.theme("theme-card")} justify-between ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
+                                                    <span class="font-bold">Not Graded</span>
+                                                </div>
                                             </div>
                                         </div>
                                     `);
                                 }
-                            } else if (flags.find(excluded => excluded == statuses.Excluded)) {
-                                html.push(`
-                                    <div class="flex flex-col gap-2">
-                                        <div class="relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
-                                            <div class="flex flex-row justify-center items-center gap-5 w-full">
-                                                <div class="flex flex-col w-full">
-                                                    <h1 class="text-[22px] font-bold">${item.title}</h1>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="flex flex-row gap-2 container mx-auto">
-                                            <div class="relative w-min flex flex-row gap-5 ${hlp.theme("theme-card")} justify-between ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
-                                                <span class="font-bold">Excused</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                `);
                             }
                         });
                         
