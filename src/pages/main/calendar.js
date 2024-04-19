@@ -65,11 +65,11 @@ export async function run() {
                         </div>
                         <div class="flex flex-row gap-5">
                             <div class="rounded-lg flex-2 ${hlp.theme("bg", "700")} p-4 float-left"></div>
-                            <span class="flex flex-1 items-center font-bold">Assignements Exist</span>
+                            <span class="flex flex-1 items-center font-bold">Assignments Completed</span>
                         </div>
                         <div class="flex flex-row gap-5">
                             <div class="rounded-lg flex-2 bg-yellow-500 p-4 float-left"></div>
-                            <span class="flex flex-1 items-center font-bold">Assignements Due</span>
+                            <span class="flex flex-1 items-center font-bold">Assignments Due</span>
                         </div>
                     </div>
                 </div>
@@ -246,7 +246,7 @@ export async function run() {
     
                 });
 
-                // determine if the date has an assignement that isn't completed
+                // determine if the date has an assignment that isn't completed
                 $.each(cell_group, (i, cell) => {
                     if (cell.items.find(completed => completed.is_completed == false))
                         cell.has_non_completed = true;
@@ -256,12 +256,13 @@ export async function run() {
                     let content = "";
 
                     await $.each(cell_group.find(date => date.duedate.includes($(e).attr("id"))).items, (i, data) => {
+                        console.log(data)
                         content += `
                             <div class="flex flex-col gap-5">
                                 <div class="flex flex-row gap-5">
                                     <div class="rounded-lg flex-2 h-fit ${data.is_completed ? hlp.theme("bg", "700") : "bg-yellow-500"} p-6 float-left"></div>
                                     <div class="flex flex-col flex-1">
-                                        <span class="flex items-center font-bold">${data.title}</span>
+                                        <span class="flex items-center font-bold">${data.due_title}</span>
                                         <span class="flex items-center font-bold text-zinc-400">Assigned by ${courses.response.enrollments.enrollment.find(name => name.course.id.includes(data.courseid)).course.title}</span>
                                     </div>
                                 </div>
@@ -305,9 +306,9 @@ export async function run() {
 
                 // sets the color states of each cell
                 if ($(`#calendar #${new Date().toLocaleDateString('sv-SE')} > span`).hasClass(hlp.theme("bg", "700")))
-                    $(`#calendar #${new Date().toLocaleDateString('sv-SE')} > span`).addClass(`${hlp.theme("bg", "300")} border-[4px] ${hlp.theme("border", "700")} text-white rounded-xl`);
+                    $(`#calendar #${new Date().toLocaleDateString('sv-SE')} > span`).removeClass("bg-yellow-500").addClass(`${hlp.theme("bg", "300")} border-[4px] ${hlp.theme("border", "700")} text-white rounded-xl`);
                 else if ($(`#calendar #${new Date().toLocaleDateString('sv-SE')} > span`).hasClass("bg-yellow-500"))
-                    $(`#calendar #${new Date().toLocaleDateString('sv-SE')} > span`).addClass(`${hlp.theme("bg", "300")}  border-[4px] border-yellow-500 text-white rounded-xl`);
+                    $(`#calendar #${new Date().toLocaleDateString('sv-SE')} > span`).removeClass("bg-yellow-500").addClass(`${hlp.theme("bg", "300")}  border-[4px] border-yellow-500 text-white rounded-xl`);
                 
                 // This handles if the current day you click has nothing
                 await $.each($("#calendar div[id]"), (i, days) => {
@@ -371,6 +372,7 @@ export async function run() {
             })
         }
 
+        hlp.animate_nav();
         await call();
     })
 }

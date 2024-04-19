@@ -152,8 +152,24 @@ export async function run() {
 
         async function main() {
             let viewed = hlp.get("activities");
-            if (viewed  != "") {
-                viewed.start = new Date().toLocaleDateString('en-US');
+            if (viewed != "") {
+                let config = await $.ajax({
+                    url: hlp.api(`/cmd/getresource?_token=${hlp.session.token}&entityid=${hlp.session.id}&path=Assets/BuzzTheme.json`),
+                    method: "GET",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                })
+
+                config.ActivityStreamLastRead = new Date().toLocaleString('en-US');
+
+                await $.ajax({
+                    url: hlp.api(`/cmd/putresource?_token=${hlp.session.token}&entityid=${hlp.session.id}&path=Assets/BuzzTheme.json`),
+                    method: "POST",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    data: hlp.string(config)
+                })
+
                 viewed.data.$unviewed = 0;
                 hlp.set("activities", viewed); 
             }
@@ -290,7 +306,7 @@ export async function run() {
                                                     </div>
                                                 </div>
                                                 <div class="flex flex-row gap-2 container mx-auto">
-                                                    <div class="relative w-min flex flex-row gap-5 ${hlp.theme("theme-card")} justify-between ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
+                                                    <div class="relative shadow-lg w-min flex flex-row gap-5 ${hlp.theme("theme-card")} justify-between ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
                                                         <span class="font-bold">Excused</span>
                                                     </div>
                                                 </div>
@@ -374,7 +390,7 @@ export async function run() {
                                                     ${(() => {
                                                         for (let objective of activity.data.newgrade.objectivescores.objectivescore) {
                                                             return `
-                                                            <div class="relative w-min flex flex-row gap-5 bg-${hlp.score_to_color(hlp.decode_score(objective))}-500 text-white justify-between rounded-xl py-2 px-3">
+                                                            <div class="relative shadow-lg w-min flex flex-row gap-5 bg-${hlp.score_to_color(hlp.decode_score(objective))}-500 text-white justify-between rounded-xl py-2 px-3">
                                                                 <span class="font-bold">${hlp.decode_score(objective)}</span>
                                                             </div>
                                                             `
@@ -396,7 +412,7 @@ export async function run() {
                                                 </div>
                                             </div>
                                             <div class="flex flex-row gap-2 container mx-auto">
-                                                <div class="relative w-min flex flex-row gap-5 bg-${hlp.score_to_color(hlp.decode_score(activity.data.newgrade))}-500 text-white justify-between rounded-xl py-2 px-3">
+                                                <div class="relative shadow-lg w-min flex flex-row gap-5 bg-${hlp.score_to_color(hlp.decode_score(activity.data.newgrade))}-500 text-white justify-between rounded-xl py-2 px-3">
                                                     <span class="font-bold">${hlp.decode_score(activity.data.newgrade)}</span>
                                                 </div>
                                             </div>
@@ -445,7 +461,7 @@ export async function run() {
                                         <div class="flex flex-row justify-center items-center gap-5 pointer-events-none w-full">
                                             <div class="flex flex-col w-full">
                                                 <h1 class="text-[18px] sm:text-[22px] w-[10ch] xl-sm:w-[23ch] x-sm:w-[30ch] sm:w-full truncate font-bold">${activity.data.item.title}</h1>
-                                                <span class="font-bold text-[15px] text-zinc-400">A retry has been allowed for this assignement</span>
+                                                <span class="font-bold text-[15px] text-zinc-400">A retry has been allowed for this assignment</span>
                                             </div>
                                         </div>
                                     </div>
@@ -458,6 +474,7 @@ export async function run() {
             }
         }
 
+        hlp.animate_nav();
         await main();
     });
 };

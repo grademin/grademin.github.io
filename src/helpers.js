@@ -1,7 +1,7 @@
 /**
  * Proview Version
  */
-export const version = "1.2.2";
+export const version = "1.2.8";
 
 /**
  * A simple function to make api links stand out.
@@ -207,18 +207,30 @@ export function theme(type, value) {
                 case "orange": {
                     if (value == 600)
                         return `bg-${theme_color}-300`;
+                    else if (value == 300)
+                        return `bg-${theme_color}-700`
+                    else if (value == 200)
+                        return `bg-${theme_color}-900`
                     else
                         return `bg-${theme_color}-400`;
                 }
                 case "violet": {
                     if (value == 600)
                         return `bg-${theme_color}-500`;
+                    else if (value == 300)
+                        return `bg-${theme_color}-900`
+                    else if (value == 200)
+                        return `bg-${theme_color}-900`
                     else
                         return `bg-${theme_color}-600`;
                 }
                 case "rose": {
                     if (value == 600)
                         return `bg-${theme_color}-600`;
+                    else if (value == 300)
+                        return `bg-${theme_color}-900`
+                    else if (value == 200)
+                        return `bg-${theme_color}-900`
                     else
                         return `bg-${theme_color}-700`;
                 }
@@ -228,12 +240,20 @@ export function theme(type, value) {
                 case "fuchsia": {
                     if (value == 600)
                         return `bg-${theme_color}-500`;
+                    else if (value == 300)
+                        return `bg-${theme_color}-900`
+                    else if (value == 200)
+                        return `bg-${theme_color}-900`
                     else
                         return `bg-${theme_color}-600`;
                 }
                 case "teal": {
                     if (value == 600)
                         return `bg-${theme_color}-300`;
+                    else if (value == 300)
+                        return `bg-${theme_color}-700`
+                    else if (value == 200)
+                        return `bg-${theme_color}-900`
                     else
                         return `bg-${theme_color}-400`;
                 }
@@ -389,41 +409,62 @@ export function theme(type, value) {
  */
 export async function animate_nav() {
     try {
-        if ($(window).scrollTop() > $("#top").offset().top + $("#top").outerHeight() - 40 || $(document).scrollTop() < $("#top").offset().top - $(window).height()) {
-            if (window.scrollY == 0)
-                $("#top #scrolled-title span").fadeOut(0);
-            else
-                $("#top #scrolled-title span").fadeIn(0);
-        } else {
-            $("#top #scrolled-title span").fadeOut(0);
-        }
-        
-        // Manages when we scroll
-        let in_load = false;
-        window.addEventListener('scroll', function() {
-            if (window.scrollY == 0) {
+        if ($("#top #scrolled-title").length) {
+            if ($(window).scrollTop() > $("#top").offset().top + $("#top").outerHeight() - 40 || $(document).scrollTop() < $("#top").offset().top - $(window).height()) {
+                if (window.scrollY == 0) {
+                    $("#top #scrolled-title").parent().removeClass("shadow shadow-black");
+                    $("#top #scrolled-title span").fadeOut(0);
+                } else {
+                    $("#top #scrolled-title").parent().addClass("shadow shadow-black");
+                    $("#top #scrolled-title span").fadeIn(0);
+                }
+            } else {
                 $("#top #scrolled-title").parent().removeClass("shadow shadow-black");
-                $("#top #scrolled-title span").fadeOut(100);
+                $("#top #scrolled-title span").fadeOut(0);
+            }
+            
+            // Manages when we scroll
+            let in_load = false;
+            $(window).off()
+            window.addEventListener('scroll', function() {
+                if (window.scrollY == 0) {
+                    $("#top #scrolled-title").parent().removeClass("shadow shadow-black");
+                    $("#top #scrolled-title span").fadeOut(100);
+                }
+        
+                if (!in_load) {
+                    try {
+                        if (window.scrollY > $("#top").offset().top + $("#top").outerHeight() - 62 || window.scrollY < $("#top").offset().top - window.innerHeight) {
+                            in_load = true;
+                            $("#top #scrolled-title").parent().addClass("shadow shadow-black");
+                            $("#top #scrolled-title span").fadeIn(100, () => {
+                                in_load = false;
+                            });
+                        } else {
+                            in_load = true;
+                            $("#top #scrolled-title").parent().removeClass("shadow shadow-black");
+                            $("#top #scrolled-title span").fadeOut(100, () => {
+                                in_load = false;
+                            });
+                        }
+                    } catch (e) {}
+                }
+            });
+        } else {
+            if ($(window).scrollTop() > 10) {
+                $("#top>div").addClass("shadow shadow-black")
+            } else {
+                $("#top>div").removeClass("shadow shadow-black")
             }
     
-            if (!in_load) {
-                try {
-                    if (window.scrollY > $("#top").offset().top + $("#top").outerHeight() - 62 || window.scrollY < $("#top").offset().top - window.innerHeight) {
-                        in_load = true;
-                        $("#top #scrolled-title").parent().addClass("shadow shadow-black");
-                        $("#top #scrolled-title span").fadeIn(100, () => {
-                            in_load = false;
-                        });
-                    } else {
-                        in_load = true;
-                        $("#top #scrolled-title").parent().removeClass("shadow shadow-black");
-                        $("#top #scrolled-title span").fadeOut(100, () => {
-                            in_load = false;
-                        });
-                    }
-                } catch (e) {}
-            }
-        });
+            $(window).off().scroll(function() {
+                if ($(this).scrollTop() > 10) {
+                    $("#top>div").addClass("shadow shadow-black")
+                } else {
+                    $("#top>div").removeClass("shadow shadow-black")
+                }
+            })
+        }
     } catch (e) {}
 }
 
@@ -456,7 +497,7 @@ export function format(string) {
     string = string.replace(/<\/strong>/g, "")
     string = string.replace(/id="isPasted"/g, "");
     string = string.replace(/dir="ltr"/g, "");
-    string = string.replace(/<span/g, `<span class="w-full" style="word-wrap: break-word; word-break: break-word;"`)
+    string = string.replace(/<span/g, `<span class="w-full" style="word-wrap: break-word; word-break: break-word; white-space: wrap;"`)
     string = string.replace(/<img/g, "<img class=\"rounded-xl py-2\"")
     string = string.replace(/href/g, "goto")
     string = string.replace(/<a/g, `<a class="${theme("text", "700")} hover:${theme("text", "600")} cursor-pointer transition"`)

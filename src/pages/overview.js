@@ -314,9 +314,15 @@ export async function run() {
 
                     activities.response.activities.activity.sort((a, b) => new Date(b.date) - new Date(a.date));
                             
+                    let config = $.ajax({
+                        url: hlp.api(`/cmd/getresource?_token=${hlp.session.token}&entityid=${hlp.session.id}&path=Assets/BuzzTheme.json`),
+                        method: "GET",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                    })
+
                     if (hlp.get("activities") == "") {
                         hlp.set("activities", {
-                            start: new Date().toLocaleDateString('en-US'),
                             data: {
                                 items: [],
                                 $unviewed: 0
@@ -327,7 +333,7 @@ export async function run() {
                     let items = hlp.get("activities");
                     let unviewed = 0;
                     await $.each(activities.response.activities.activity, (i, activity) => {
-                        if (new Date(activity.date) >= new Date(hlp.get("activities").start)) {
+                        if (new Date(activity.date) >= new Date(config.ActivityStreamLastRead)) {
                             if (!items.data.items.find(name => name.item.includes(activity.data.item.title))) {
                                 unviewed++
                                 items.data.$unviewed = unviewed

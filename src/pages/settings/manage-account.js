@@ -127,5 +127,7 @@ export async function run() {
                 }
             }
         });
+
+        hlp.animate_nav();
     });
 }

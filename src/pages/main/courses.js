@@ -85,6 +85,57 @@ export async function run() {
                 }
 
 
+                case "agency":
+                case "collaboration":
+                case "knowlege":
+                case "oral":
+                case "written": {
+                    $("body").addClass("overflow-hidden");
+                    $("#overlays").append(`
+                        <div id="overlay" class="fixed inset-0 z-50 bg-gray-900 bg-opacity-50 flex justify-center items-center animation-fadein">
+                            <div class="container mx-auto px-4 flex justify-center items-center pointer-events-none animation-popin">
+                                <div class="${hlp.theme("theme-card")} rounded-xl max-w-lg px-5 py-5 pointer-events-auto">
+                                    <div class="flex justify-center items-center mb-4">
+                                        <h2 class="text-2xl font-bold ${hlp.theme("theme-text")} text-center">Color Legend</h2>
+                                    </div>
+                                    <div class="flex flex-col gap-5">
+                                        <div class="flex flex-row gap-5">
+                                            <div class="rounded-lg flex-2 bg-yellow-500 p-4 float-left"></div>
+                                            <span class="flex flex-1 items-center font-bold">Agency</span>
+                                        </div>
+                                        <div class="flex flex-row gap-5">
+                                            <div class="rounded-lg flex-2 bg-violet-500 p-4 float-left"></div>
+                                            <span class="flex flex-1 items-center font-bold">Collaboration</span>
+                                        </div>
+                                        <div class="flex flex-row gap-5">
+                                            <div class="rounded-lg flex-2 bg-blue-500 p-4 float-left"></div>
+                                            <span class="flex flex-1 items-center font-bold">Knowlege & Thinking</span>
+                                        </div>
+                                        <div class="flex flex-row gap-5">
+                                            <div class="rounded-lg flex-2 bg-green-500 p-4 float-left"></div>
+                                            <span class="flex flex-1 items-center font-bold">Oral Communication</span>
+                                        </div>
+                                        <div class="flex flex-row gap-5">
+                                            <div class="rounded-lg flex-2 bg-cyan-500 p-4 float-left"></div>
+                                            <span class="flex flex-1 items-center font-bold">Written Communication</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `).on("click", function (event) {
+                        switch ($(event.target).attr("id")) {
+                            case "overlay": {
+                                $("#overlay").fadeOut(400, function () {
+                                    $("#overlays").empty();
+                                });
+                                $("body").removeClass("overflow-hidden");
+                            }
+                        }
+                    })
+                    break;
+                }
+
 
                 case "overview": {
                     history.pushState({}, "", `?page=overview`);
@@ -226,6 +277,7 @@ export async function run() {
             let settings = [];
             let objectives = [];
             let agendas = [];
+            let work = [];
 
             try {
                 landing = hlp.format(await $.ajax({
@@ -327,6 +379,149 @@ export async function run() {
             if (agenda.includes("errorId") || agenda == "")
                 agenda = `<span class="flex justify-center items-center">No agenda for today</span>`;
 
+            try {
+                work = await $.ajax({
+                    url: hlp.api(`/cmd/getenrollmentgradebook2?_token=${hlp.session.token}&itemid=**&enrollmentid=${new URLSearchParams(window.location.search).get("eid")}`),
+                    method: "GET",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8"
+                });
+                work.response.enrollment.grades.items.item.sort((first, last) => first.firstactivitydate + last.firstactivitydate);
+            } catch (e) {}
+
+
+            let worklist = "";
+            let new_a = undefined, new_c = undefined, new_k = undefined, new_o = undefined, new_w = undefined;
+            if (work.length == 0) {
+                worklist = ``;
+            } else {
+                worklist = `
+                    ${(() => {
+                        let html = [];
+                        $.each(work.response.enrollment.grades.items.item, (i, item) => {
+                            const statuses = {Excluded: 0x80, Released: 0x100, ExtraCredit: 0x200,
+                                NeedsGrading: 0x400, PasswordVerified: 0x800, SkipMasteryRestriction: 0x1000, PostDueDateZero: 0x2000,
+                                ScoredByTeacher: 0x4000, HasNotes: 0x8000, AutoUnscoredZero: 0x10000};
+          
+                            const flags = [];
+                            for (const key in statuses) {
+                                if (item.status & statuses[key]) {
+                                    flags.push(statuses[key]);
+                                }
+                            }
+                            
+                            if (flags.find(scored => scored == statuses.ScoredByTeacher) && !flags.find(excluded => excluded == statuses.Excluded)) {
+                                try {
+                                    objective = item.objectivescores.objectivescore;                    
+                                } catch (e) {}
+                                
+                                new_a = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Agency")).guid));
+                                new_c = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Collaboration")).guid));
+                                new_k = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Knowledge & Thinking")).guid));
+                                new_o = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Oral Communication")).guid));
+                                new_w = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Written Communication")).guid));
+
+                                if (new_a != undefined || new_c != undefined || new_k != undefined || new_o != undefined || new_w != undefined) {
+                                    html.push(`
+                                        <div class="flex flex-col gap-2">
+                                            <div class="relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
+                                                <div class="flex flex-row justify-center items-center gap-5 w-full">
+                                                    <div class="flex flex-col w-full">
+                                                        <h1 class="text-[22px] font-bold">${item.title}</h1>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flex flex-row gap-2 flex-wrap container mx-auto">
+                                                ${new_a != undefined ? `
+                                                <div id="agency" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
+                                                    <span class="font-bold pointer-events-none">${hlp.decode_score(a)}</span>
+                                                    <div class="rounded-lg bg-yellow-500 p-3 pointer-events-none"></div>
+                                                </div>
+                                                ` : ""}
+                                                ${new_c != undefined ? `
+                                                <div id="collaboration" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
+                                                    <span class="font-bold pointer-events-none">${hlp.decode_score(c)}</span>    
+                                                    <div class="rounded-lg bg-violet-500 p-3 pointer-events-none"></div>
+                                                </div>
+                                                ` : ""}
+                                                ${new_k != undefined ? `
+                                                <div id="knowlege" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
+                                                    <span class="font-bold pointer-events-none">${hlp.decode_score(k)}</span>    
+                                                    <div class="rounded-lg bg-blue-500 p-3 pointer-events-none"></div> 
+                                                </div>
+                                                ` : ""}
+                                                ${new_o != undefined ? `
+                                                <div id="oral" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
+                                                    <span class="font-bold pointer-events-none">${hlp.decode_score(o)}</span>
+                                                    <div class="rounded-lg bg-green-500 p-3 pointer-events-none"></div>
+                                                </div>
+                                                ` : ""}
+                                                ${new_w != undefined ? `
+                                                <div id="written" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
+                                                    <span class="font-bold pointer-events-none">${hlp.decode_score(w)}</span>
+                                                    <div class="rounded-lg bg-cyan-500 p-3 pointer-events-none"></div>
+                                                </div>
+                                                ` : ""}
+                                            </div>
+                                        </div>
+                                    `);
+                                } else {
+                                    html.push(`
+                                        <div class="flex flex-col gap-2">
+                                            <div class="relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
+                                                <div class="flex flex-row justify-center items-center gap-5 w-full">
+                                                    <div class="flex flex-col w-full">
+                                                        <h1 class="text-[22px] font-bold">${item.title}</h1>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="flex flex-row gap-2 flex-wrap container mx-auto">
+                                                ${(() => {
+                                                    if (item.objectivescore != undefined) {
+                                                        for (let objective of item.objectivescores.objectivescore) {
+                                                            return `
+                                                                <div class="relative shadow-lg w-min flex flex-row gap-5 bg-${hlp.score_to_color(hlp.decode_score(objective))}-500 text-white justify-between rounded-xl py-2 px-3">
+                                                                    <span class="font-bold">${hlp.decode_score(objective)}</span>
+                                                                </div>
+                                                            `;
+                                                        }
+                                                    } else {
+                                                        return `
+                                                            <div class="relative shadow-lg w-min flex flex-row gap-5 bg-${hlp.score_to_color(hlp.decode_score(item))}-500 text-white justify-between rounded-xl py-2 px-3">
+                                                                <span class="font-bold">${hlp.decode_score(item)}</span>
+                                                            </div>
+                                                        `;
+                                                    }
+                                                })()}
+                                            </div>
+                                        </div>
+                                    `);
+                                }
+                            } else if (flags.find(excluded => excluded == statuses.Excluded)) {
+                                html.push(`
+                                    <div class="flex flex-col gap-2">
+                                        <div class="relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
+                                            <div class="flex flex-row justify-center items-center gap-5 w-full">
+                                                <div class="flex flex-col w-full">
+                                                    <h1 class="text-[22px] font-bold">${item.title}</h1>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex flex-row gap-2 container mx-auto">
+                                            <div class="relative w-min flex flex-row gap-5 ${hlp.theme("theme-card")} justify-between ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
+                                                <span class="font-bold">Excused</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `);
+                            }
+                        });
+                        
+                        return html.join('');
+                    })()}
+                `;
+            }
+
             $("#course").remove();
             await $("#courses").parent().append(`
                 <div id="course" class="flex flex-col gap-5">
@@ -344,7 +539,7 @@ export async function run() {
                                     <span class="font-bold text-zinc-400 text-sm">Overall</span>
                                 </div>
                             </div>
-                            ${objective.length != 0 ? `
+                            ${objective.length != 0 && (a != undefined || c != undefined) ? `
                             <div class="flex flex-col gap-5">
                                 ${a != undefined ? `
                                 <div class="relative flex-1 ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
@@ -371,7 +566,7 @@ export async function run() {
                             </div>
                             ` : ""}
                         </div>
-                        ${objective.length != 0 ? `
+                        ${objective.length != 0 && (k != undefined || o != undefined || w != undefined) ? `
                         <div class="flex flex-row flex-wrap gap-5">
                             ${k != undefined ? `
                             <div class="relative flex-1 ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
@@ -436,8 +631,39 @@ export async function run() {
                     <div id="agenda" class="flex flex-col justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
                         ${agenda.replace(/\[~]/g, `https://api.agilixbuzz.com/Resz/${hlp.session.token}/${new URLSearchParams(window.location.search).get("eid")}/Assets`)}
                     </div>
+                    ${worklist != "" ? `
+                    <div class="block w-full rounded-xl gap-5 shadow-lg ${hlp.theme("theme-card")} flex flex-row items-center">
+                        <span class="text-3xl material-symbols-rounded ${hlp.theme("theme-text")} flex justify-center pl-3">
+                            search
+                        </span>
+                        <input id="search" class="${hlp.theme("caret", "700")} bg-transparent pr-3 py-3 w-full font-bold focus:outline-none sm:text-sm">
+                    </div>
+                    ` : ""}
+                    <div id="worklist" class="flex flex-col gap-5">
+                        ${worklist}
+                    </div>
                 </div>
             `).find("#courses").hide();
+
+            if (worklist != "") {
+                $('#search').on('input', function() {
+                    var search = $(this).val();
+                    $('#worklist div h1').each(function() {
+                        if (search.length === 0) {
+                            $(this).html($(this).text()).show();
+                            $(this).parent().parent().parent().parent().show()
+                        } else {            
+                            if ($(this).text().match(new RegExp(search, "gi"))) {
+                                var highlightedText = $(this).text().replace(new RegExp(search, "gi"), `<span class="${hlp.theme("text", "700")}">$&</span>`);
+                                $(this).html(highlightedText).show();
+                                $(this).parent().parent().parent().parent().show()
+                            } else {
+                                $(this).parent().parent().parent().parent().hide();
+                            }
+                        }
+                    });
+                });
+            }
 
             let current_date = new Date();
 
@@ -520,7 +746,8 @@ export async function run() {
                 window.open($(this).attr("goto"), "_blank")
             })
         }
-        
+
+        hlp.animate_nav();
         await main();
     })
 }
