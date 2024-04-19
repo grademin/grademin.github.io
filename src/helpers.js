@@ -451,6 +451,7 @@ export async function animate_nav() {
                 }
             });
         } else {
+            // TODO: clicking from one page scrolled down makes this keep the border.
             if ($(window).scrollTop() > 10) {
                 $("#top>div").addClass("shadow shadow-black")
             } else {
