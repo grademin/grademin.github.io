@@ -434,31 +434,31 @@ export async function run() {
                                             <div class="flex flex-row gap-2 flex-wrap container mx-auto">
                                                 ${new_a != undefined ? `
                                                 <div id="agency" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
-                                                    <span class="font-bold pointer-events-none">${hlp.decode_score(a)}</span>
+                                                    <span class="font-bold pointer-events-none">${hlp.decode_score(new_a)}</span>
                                                     <div class="rounded-lg bg-yellow-500 p-3 pointer-events-none"></div>
                                                 </div>
                                                 ` : ""}
                                                 ${new_c != undefined ? `
                                                 <div id="collaboration" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
-                                                    <span class="font-bold pointer-events-none">${hlp.decode_score(c)}</span>    
+                                                    <span class="font-bold pointer-events-none">${hlp.decode_score(new_c)}</span>    
                                                     <div class="rounded-lg bg-violet-500 p-3 pointer-events-none"></div>
                                                 </div>
                                                 ` : ""}
                                                 ${new_k != undefined ? `
                                                 <div id="knowlege" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
-                                                    <span class="font-bold pointer-events-none">${hlp.decode_score(k)}</span>    
+                                                    <span class="font-bold pointer-events-none">${hlp.decode_score(new_k)}</span>    
                                                     <div class="rounded-lg bg-blue-500 p-3 pointer-events-none"></div> 
                                                 </div>
                                                 ` : ""}
                                                 ${new_o != undefined ? `
                                                 <div id="oral" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
-                                                    <span class="font-bold pointer-events-none">${hlp.decode_score(o)}</span>
+                                                    <span class="font-bold pointer-events-none">${hlp.decode_score(new_o)}</span>
                                                     <div class="rounded-lg bg-green-500 p-3 pointer-events-none"></div>
                                                 </div>
                                                 ` : ""}
                                                 ${new_w != undefined ? `
                                                 <div id="written" class="relative w-min flex flex-1 xs-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
-                                                    <span class="font-bold pointer-events-none">${hlp.decode_score(w)}</span>
+                                                    <span class="font-bold pointer-events-none">${hlp.decode_score(new_w)}</span>
                                                     <div class="rounded-lg bg-cyan-500 p-3 pointer-events-none"></div>
                                                 </div>
                                                 ` : ""}
