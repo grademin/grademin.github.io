@@ -6,6 +6,7 @@ export async function run() {
 
     // TODO: add better container classes other than x-sm and stuf, so text does ... better. Also fix 
     // the score box getting longer and bigger if the score is 100
+    // TODO: add order courses to fix some of these problems.
 
     await hlp.load(async function () {
         await $("#root").html(`
@@ -205,16 +206,18 @@ export async function run() {
             } else {
                 try {
                     $.each(courses.response.enrollments.enrollment, function (i, course) {
-                        all_courses.push({
-                            order: courses_order[course.id].order,
-                            id: course.id,
-                            enrollmentid: course.enrollmentmetrics.enrollmentid,
-                            courseid: course.courseid,
-                            title: course.course.title.trim(),
-                            start: new Date(course.course.startdate).toLocaleDateString(undefined, {month: "long", year: "numeric", day: "numeric" }),
-                            end: new Date(course.course.enddate).toLocaleDateString(undefined, {month: "long", year: "numeric", day: "numeric"}),
-                            score: hlp.decode_score(course.enrollmentmetrics, course.enrollmentmetrics)
-                        })
+                        try {
+                            all_courses.push({
+                                order: courses_order[course.id].order,
+                                id: course.id,
+                                enrollmentid: course.enrollmentmetrics.enrollmentid,
+                                courseid: course.courseid,
+                                title: course.course.title.trim(),
+                                start: new Date(course.course.startdate).toLocaleDateString(undefined, {month: "long", year: "numeric", day: "numeric" }),
+                                end: new Date(course.course.enddate).toLocaleDateString(undefined, {month: "long", year: "numeric", day: "numeric"}),
+                                score: hlp.decode_score(course.enrollmentmetrics, course.enrollmentmetrics)
+                            })
+                        } catch (e) {}
                     })
                     all_courses = all_courses.sort((first, last) => first.order - last.order);
                 } catch (e) {}

@@ -73,18 +73,117 @@ export async function run() {
                     break;
                 }
 
-                // TODO: getcommandtokeninfo
-                // https://api.agilixbuzz.com/cmd/getcommandtokeninfo?_token=&code=
-                // listuserenrollments for name and such
                 case "enroll": {
                     if ($("#enroll-input").val() == "") {
                         $("#enroll-input").addClass("shake border border-red-300").one("animationend webkitAnimationEnd", function() {
                             $(this).removeClass("shake border border-red-300");
                         });
                     } else {
-                        $("#enroll-input").addClass("shake border border-red-300").one("animationend webkitAnimationEnd", function() {
-                            $(this).removeClass("shake border border-red-300");
-                        });
+                        let check_enroll = [];
+                        let courses = [];
+
+                        try {
+                            check_enroll = await $.ajax({
+                                url: hlp.api(`/cmd/getcommandtokeninfo?_token=${hlp.session.token}&code=${$("#enroll-input").val()}`),
+                                method: "GET",
+                                dataType: "json",
+                                contentType: "application/json; charset=utf-8"
+                            })
+                        } catch (e) {}
+
+                        try {
+                            courses = await $.ajax({
+                                url: hlp.api(`/cmd/listuserenrollments?_token=${hlp.session.token}&privileges=1&entityid=${hlp.parse(check_enroll.response.commandtokens.commandtoken[0].description).id}&userid=${hlp.session.id}`),
+                                method: "GET",
+                                dataType: "json",
+                                contentType: "application/json; charset=utf-8"
+                            })
+                        } catch (e) {}
+
+                        if (check_enroll.length == 0 || courses.length == 0)
+                            break;
+
+                        try {
+                            if (check_enroll.response.commandtokens.response[0].code == "BadRequest") {
+                                $("#enroll-input").addClass("shake border border-red-300").one("animationend webkitAnimationEnd", function() {
+                                    $(this).removeClass("shake border border-red-300");
+                                });
+                                break;
+                            }
+
+                        } catch (e) {}
+                        try {
+                            if (hlp.string(check_enroll.response.commandtokens) == "{}") {
+                                $("#enroll-input").addClass("shake border border-red-300").one("animationend webkitAnimationEnd", function() {
+                                    $(this).removeClass("shake border border-red-300");
+                                });
+                                break;
+                            }
+                        } catch (e) {}
+
+                        $("body").addClass("overflow-hidden");
+                        await $("#overlays").append(`
+                            <div id="overlay" class="fixed inset-0 bg-gray-900 z-50 bg-opacity-50 flex justify-center items-center animation-fadein">
+                                <div class="container mx-auto px-4 flex justify-center items-center pointer-events-none animation-popin">
+                                    <div class="${hlp.theme("theme-card")} ${hlp.theme("theme-text")} rounded-xl max-w-lg px-5 py-5 pointer-events-auto w-[25rem]">
+                                        <div class="flex justify-center items-center mb-4">
+                                            <h2 class="text-2xl font-bold text-center">${hlp.parse(check_enroll.response.commandtokens.commandtoken[0].description).title}</h2>
+                                        </div>
+                                        <div>
+                                            ${(() => {
+                                                if (courses.response.enrollments.enrollment[0].status != 1) 
+                                                    return `
+                                                        <span class="flex justify-center items-center mb-4">Do you want to register to this course?</span>
+                                                        <div class="flex flex-row gap-5">
+                                                            <button id="register" class="w-full mt-2 flex-1 px-4 py-2 ${hlp.theme("bg", "600")} text-white transition font-semibold rounded-xl hover:${hlp.theme("bg", "500")} focus:outline-none focus:ring-2 focus:${hlp.theme("ring", "700")} focus:ring-opacity-50">Yes</button>
+                                                            <button id="cancel" class="w-full mt-2 flex-1 px-4 py-2 bg-red-600 text-white transition font-semibold rounded-xl hover:bg-red-500 focus:outline-none focus:ring-2 focus:${hlp.theme("ring", "700")} focus:ring-opacity-50">No</button>
+                                                        </div>
+                                                    `
+                                                else
+                                                    return `
+                                                        <span class="flex justify-center items-center mb-4">You are already enrolled in this course</span>
+                                                        <div class="flex flex-row gap-5">
+                                                            <button id="cancel" class="w-full mt-2 flex-1 px-4 py-2 bg-red-600 text-white transition font-semibold rounded-xl hover:bg-red-500 focus:outline-none focus:ring-2 focus:${hlp.theme("ring", "700")} focus:ring-opacity-50">Close</button>
+                                                        </div>
+                                                    `
+                                            })()}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        `).off().on("click", async function (e) {
+                            switch ($(e.target).attr("id")) {
+                                case "overlay": {
+                                    $("#overlay").fadeOut(400, function () {
+                                        $("#overlays").empty();
+                                    });
+                                    $("body").removeClass("overflow-hidden");
+                                    break;
+                                }
+                                case "register": {
+                                    $("#overlays").empty();
+                                    $("body").removeClass("overflow-hidden");
+
+                                    // TODO:
+                                    /*
+                                    await $.ajax({
+                                        url: hlp.api(`/cmd/redeemcommandtoken?_token=${hlp.session.token}&code=${$("#enroll-input").val()}`),
+                                        method: "GET",
+                                        dataType: "json",
+                                        contentType: "application/json; charset=utf-8",
+                                        success: function () {
+                                            console.log(this)
+                                        }
+                                    })*/
+
+                                    break;
+                                }
+                                case "cancel": {
+                                    $("#overlays").empty();
+                                    $("body").removeClass("overflow-hidden");
+                                }
+                            }
+                        })
                     }
                     break;
                 }

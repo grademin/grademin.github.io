@@ -314,7 +314,7 @@ export async function run() {
 
                     activities.response.activities.activity.sort((a, b) => new Date(b.date) - new Date(a.date));
                             
-                    let config = $.ajax({
+                    let config = await $.ajax({
                         url: hlp.api(`/cmd/getresource?_token=${hlp.session.token}&entityid=${hlp.session.id}&path=Assets/BuzzTheme.json`),
                         method: "GET",
                         dataType: "json",

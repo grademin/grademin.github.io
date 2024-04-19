@@ -113,16 +113,27 @@ export async function run() {
             });
 
             let course_list = [];
-            $.each(courses.response.enrollments.enrollment, function (i, course) {
-                course_list.push({
-                    order: order[course.id].order,
-                    id: course.id,
-                    courseid: course.courseid,
-                    title: course.course.title.trim(),
+            if (order.length == 0) {
+                $.each(courses.response.enrollments.enrollment, function (i, course) {
+                    course_list.push({
+                        id: course.id,
+                        courseid: course.courseid,
+                        title: course.course.title.trim(),
+                    })
                 })
-            })
-
-            course_list = course_list.sort((first, last) => first.order - last.order);
+            } else {
+                try {
+                    $.each(courses.response.enrollments.enrollment, function (i, course) {
+                        course_list.push({
+                            order: order[course.id].order,
+                            id: course.id,
+                            courseid: course.courseid,
+                            title: course.course.title.trim(),
+                        })
+                    })
+                    course_list = course_list.sort((first, last) => first.order - last.order);
+                } catch (e) {}
+            }
             $("#hide-courses").empty();
             $.each(course_list, function (i, course) {
                 $("#hide-courses").append(`
