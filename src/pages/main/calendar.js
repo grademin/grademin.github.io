@@ -316,15 +316,17 @@ export async function run() {
                         dates.setDate(dates.getDate() + 1);
                         dates = dates.toLocaleDateString('en-US', { month: 'long', day: "numeric" });
 
-                        if ($(`#calendar #${new Date().toLocaleDateString("sv-SE")}`).attr("id") === $(`#calendar #${new Date(dates).toLocaleDateString('sv-SE')}`).attr("id")) {
-                            $("#contents").html(`
-                                <div class="flex flex-col justify-between container mx-auto rounded-xl">
-                                    <span class="font-bold text-2xl border-b-[2px] border-zinc-700 pb-3">${dates}</span>
-                                    <div class="pt-3 flex flex-col gap-5">
-                                        There is nothing for this day
+                        if (go_to_today) {
+                            if ($(`#calendar #${new Date().toLocaleDateString("sv-SE")}`).attr("id") === $(`#calendar #${new Date(dates).toLocaleDateString('sv-SE')}`).attr("id")) {
+                                $("#contents").html(`
+                                    <div class="flex flex-col justify-between container mx-auto rounded-xl">
+                                        <span class="font-bold text-2xl border-b-[2px] border-zinc-700 pb-3">${dates}</span>
+                                        <div class="pt-3 flex flex-col gap-5">
+                                            There is nothing for this day
+                                        </div>
                                     </div>
-                                </div>
-                            `)
+                                `)
+                            }
                         }
 
                         $(days).find("span").off().on("click", function () {

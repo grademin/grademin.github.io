@@ -493,28 +493,6 @@ export async function run() {
                     break;
                 }
 
-                case "hide-excused": {
-                    // TODO: doesn't work
-                    let options = await $.ajax({
-                        url: hlp.api(`/cmd/getresource?_token=${hlp.session.token}&entityid=${hlp.session.id}&path=Assets/BuzzTheme.json`),
-                        method: "GET",
-                        dataType: "json",
-                        contentType: "application/json; charset=utf-8",
-                    })
-
-                    options.showExcused = hlp.get("settings").find(hide => hide.setting.includes("hide-excused")).$value;
-
-                    await $.ajax({
-                        url: hlp.api(`/cmd/putresource?_token=${hlp.session.token}&entityid=${hlp.session.id}&path=Assets/BuzzTheme.json`),
-                        method: "POST",
-                        dataType: "json",
-                        contentType: "application/json; charset=utf-8",
-                        data: hlp.string(options),
-                    })
-                    break;
-                }
-
-
                 case "calendar": {
                     site.runtime("calendar");
                     break;
@@ -566,7 +544,7 @@ export async function run() {
                 hlp.set("settings", settings);
             }
         });
-        
+
         hlp.animate_nav();
     })
 }

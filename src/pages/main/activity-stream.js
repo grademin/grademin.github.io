@@ -228,7 +228,6 @@ export async function run() {
                 window.onscroll = async function() {
                     if ((window.innerHeight + window.scrollY) + 50 >= document.documentElement.scrollHeight) {
                         hlp.prevent_errors(async function () {
-                            console.log(pagnateKey)
                             next_activities = await $.ajax({
                                 url: hlp.api(`/cmd/getuseractivitystream?_token=${hlp.session.token}&userid=${hlp.session.id}&types=${codes}&startkey=${encodeURIComponent(pagnateKey)}`),
                                 method: "GET",
@@ -247,6 +246,18 @@ export async function run() {
 
                 function content(json) {
                     $.each(json, (i, activity) => {
+                        // Wish I knew a bitwise before I did everything I did...
+                        const statuses = {Excluded: 0x80, Released: 0x100, ExtraCredit: 0x200,
+                                          NeedsGrading: 0x400, PasswordVerified: 0x800, SkipMasteryRestriction: 0x1000, PostDueDateZero: 0x2000,
+                                          ScoredByTeacher: 0x4000, HasNotes: 0x8000, AutoUnscoredZero: 0x10000};
+                        
+                        const flags = [];
+                        for (const key in statuses) {
+                            if (activity.data.newgrade.status & statuses[key]) {
+                                flags.push(statuses[key]);
+                            }
+                        }
+
                         switch (activity.type) {
                             case 100: {
                                 // You submitted something
@@ -265,8 +276,9 @@ export async function run() {
                             case 201:
                             case 200: {
                                 // User has been excused
-                                if (activity.data.item.gradeflags == 16) {
-                                    if (activity.data.newgrade.objectivescores == undefined) {
+                                try {
+                                    let settings = hlp.get("settings");
+                                    if (flags.find(excluded => excluded == statuses.Excluded) && !settings.find(name => name.setting.includes("hide-excused")).$value) {
                                         $("#activity-stream").append(`
                                             <div class="flex flex-col gap-2">
                                                 <div class="relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
@@ -281,15 +293,12 @@ export async function run() {
                                                     <div class="relative w-min flex flex-row gap-5 ${hlp.theme("theme-card")} justify-between ${hlp.theme("theme-card")} rounded-xl py-2 px-3">
                                                         <span class="font-bold">Excused</span>
                                                     </div>
-                                                    <div class="relative w-min flex flex-row gap-5 bg-${hlp.score_to_color(hlp.decode_score(activity.data.newgrade))}-500 text-white justify-between rounded-xl py-2 px-3">
-                                                        <span class="font-bold">${hlp.decode_score(activity.data.newgrade)}</span>
-                                                    </div>
                                                 </div>
                                             </div>
                                         `)
                                         return;
                                     }
-                                }
+                                } catch (e) {}
 
                                 // Grade Posted
                                 if (activity.data.newgrade.objectivescores != undefined) {
@@ -351,7 +360,6 @@ export async function run() {
                                             </div>
                                         `)
                                     } else {
-                                        // TODO: This can have learning objectives (different from normal objectives)
                                         $("#activity-stream").append(`
                                             <div class="flex flex-col gap-2">
                                                 <div class="relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
@@ -388,7 +396,7 @@ export async function run() {
                                                 </div>
                                             </div>
                                             <div class="flex flex-row gap-2 container mx-auto">
-                                                <div class="relative w-min flex flex-row gap-5 bg-${hlp.score_to_color(hlp.decode_score(activity.data.newgrade))}-500 justify-between rounded-xl py-2 px-3">
+                                                <div class="relative w-min flex flex-row gap-5 bg-${hlp.score_to_color(hlp.decode_score(activity.data.newgrade))}-500 text-white justify-between rounded-xl py-2 px-3">
                                                     <span class="font-bold">${hlp.decode_score(activity.data.newgrade)}</span>
                                                 </div>
                                             </div>
@@ -444,7 +452,6 @@ export async function run() {
                                 `)
                                 break;
                             }
-                            // TODO: find excused items: 0x2 in data.item.gradeflags
                         }
                     })
                 }
