@@ -494,7 +494,7 @@ export function format(string) {
 
     // Others
     string = string.replace(/style\s*=\s*["'][^"']*["']/gi, "")
-    string = string.replace(/<u.*>/g, "")
+    string = string.replace(/<u>/g, "")
     string = string.replace(/<strong>/g, "")
     string = string.replace(/<\strong>/g, "")
     string = string.replace(/id="isPasted"/g, "");
