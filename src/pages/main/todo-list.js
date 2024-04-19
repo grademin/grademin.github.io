@@ -101,8 +101,7 @@ export async function run() {
                     contentType: "application/json; charset=utf-8"
                 })
             } catch (e) {}
-
-            if (duesoon.response.items.length == 0 || duesoon.response.items.length == undefined) {
+            if (hlp.string(duesoon.response.items) == "{}") {
                 $("#todo-list").empty();
                 $("#todo-list").append(`
                     <div class="flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl cursor-pointer py-3 px-3">
