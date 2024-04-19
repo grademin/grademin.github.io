@@ -102,7 +102,7 @@ export async function run() {
                 })
             } catch (e) {}
 
-            if (duesoon.length == 0) {
+            if (duesoon.response.items.length == 0 || duesoon.response.items.length == undefined) {
                 $("#todo-list").empty();
                 $("#todo-list").append(`
                     <div class="flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl cursor-pointer py-3 px-3">

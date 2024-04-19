@@ -198,7 +198,7 @@ export async function run() {
                 pagnateKey = activities.response.activities.endkey;
             } catch (e) {}
             
-            if (activities.length == 0) {
+            if (activities.response.activities.length == 0 || activities.response.activities == undefined) {
                 $("#activity-stream").empty();
                 $("#activity-stream").append(`
                     <div class="flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl cursor-pointer py-3 px-3">

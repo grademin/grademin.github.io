@@ -137,7 +137,7 @@ export async function run() {
 
         async function call() {
             $("#calendar").empty();
-            $("#content").empty();
+            $("#contents").empty();
 
             async function set_calendar(year, month) {
                 let first_day = new Date(year, month, 1).getDay();
@@ -255,29 +255,42 @@ export async function run() {
                 async function html(cell, e) {
                     let content = "";
 
-                    await $.each(cell_group.find(date => date.duedate.includes($(e).attr("id"))).items, (i, data) => {
-                        console.log(data)
-                        content += `
-                            <div class="flex flex-col gap-5">
-                                <div class="flex flex-row gap-5">
-                                    <div class="rounded-lg flex-2 h-fit ${data.is_completed ? hlp.theme("bg", "700") : "bg-yellow-500"} p-6 float-left"></div>
-                                    <div class="flex flex-col flex-1">
-                                        <span class="flex items-center font-bold">${data.due_title}</span>
-                                        <span class="flex items-center font-bold text-zinc-400">Assigned by ${courses.response.enrollments.enrollment.find(name => name.course.id.includes(data.courseid)).course.title}</span>
+                    try {
+                        await $.each(cell_group.find(date => date.duedate.includes($(e).attr("id"))).items, (i, data) => {
+                            content += `
+                                <div class="flex flex-col gap-5">
+                                    <div class="flex flex-row gap-5">
+                                        <div class="rounded-lg flex-2 h-fit ${data.is_completed ? hlp.theme("bg", "700") : "bg-yellow-500"} p-6 float-left"></div>
+                                        <div class="flex flex-col flex-1">
+                                            <span class="flex items-center font-bold">${data.due_title}</span>
+                                            <span class="flex items-center font-bold text-zinc-400">Assigned by ${courses.response.enrollments.enrollment.find(name => name.course.id.includes(data.courseid)).course.title}</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        `;
-                    })
+                            `;
+                        })
+                    } catch (e) {} 
 
-                    $("#contents").html(`
-                        <div class="flex flex-col justify-between container mx-auto rounded-xl">
-                            <span selected-date="${new Date(cell.duedate).toLocaleDateString('sv-SE')}" class="font-bold text-2xl border-b-[2px] border-zinc-700 pb-3">${new Date(cell.duedate).toLocaleDateString('en-US', { month: 'long', day: "numeric" })}</span>
-                            <div class="pt-3 flex flex-col gap-5">
-                                ${content}
+                    if (content != "") {
+                        $("#contents").html(`
+                            <div class="flex flex-col justify-between container mx-auto rounded-xl">
+                                <span selected-date="${new Date(cell.duedate).toLocaleDateString('sv-SE')}" class="font-bold text-2xl border-b-[2px] border-zinc-700 pb-3">${new Date(cell.duedate).toLocaleDateString('en-US', { month: 'long', day: "numeric" })}</span>
+                                <div class="pt-3 flex flex-col gap-5">
+                                    ${content}
+                                </div>
                             </div>
-                        </div>
-                    `)
+                        `)
+                    } else {
+                        $("#contents").html(`
+                            <div class="flex flex-col justify-between container mx-auto rounded-xl">
+                                <span class="font-bold text-2xl border-b-[2px] border-zinc-700 pb-3">${dates}</span>
+                                <div class="pt-3 flex flex-col gap-5">
+                                    There is nothing for this day
+                                </div>
+                            </div>
+                        `)
+                    }
+                    
                 }
                 
                 // finally list each item, select the current day, and show the work from it.
@@ -309,19 +322,21 @@ export async function run() {
                     $(`#calendar #${new Date().toLocaleDateString('sv-SE')} > span`).removeClass("bg-yellow-500").addClass(`${hlp.theme("bg", "300")} border-[4px] ${hlp.theme("border", "700")} text-white rounded-xl`);
                 else if ($(`#calendar #${new Date().toLocaleDateString('sv-SE')} > span`).hasClass("bg-yellow-500"))
                     $(`#calendar #${new Date().toLocaleDateString('sv-SE')} > span`).removeClass("bg-yellow-500").addClass(`${hlp.theme("bg", "300")}  border-[4px] border-yellow-500 text-white rounded-xl`);
+                else
+                    $(`#calendar #${new Date().toLocaleDateString('sv-SE')} > span`).removeClass("bg-yellow-500").addClass(`${hlp.theme("bg", "300")} text-white rounded-xl`);
                 
                 // This handles if the current day you click has nothing
-                await $.each($("#calendar div[id]"), (i, days) => {
+                await $.each($("#calendar div[id]"), (i, days) => {                    
                     if (!$(days).find("span").hasClass(hlp.theme("bg", "700")) && !$(days).find("span").hasClass("bg-yellow-500")) {
-                        let dates = new Date($(days).attr("id"));
-                        dates.setDate(dates.getDate() + 1);
-                        dates = dates.toLocaleDateString('en-US', { month: 'long', day: "numeric" });
-
+                        let date = new Date($(days).attr("id"));
+                        date.setDate(date.getDate() + 1);
+                        
                         if (go_to_today) {
-                            if ($(`#calendar #${new Date().toLocaleDateString("sv-SE")}`).attr("id") === $(`#calendar #${new Date(dates).toLocaleDateString('sv-SE')}`).attr("id")) {
+                            if ($(`#calendar #${new Date().toLocaleDateString("sv-SE")}`).attr("id") === $(`#calendar #${new Date(date).toLocaleDateString('sv-SE')}`).attr("id")) {
+                                date = date.toLocaleDateString('en-US', { month: 'long', day: "numeric" });
                                 $("#contents").html(`
                                     <div class="flex flex-col justify-between container mx-auto rounded-xl">
-                                        <span class="font-bold text-2xl border-b-[2px] border-zinc-700 pb-3">${dates}</span>
+                                        <span class="font-bold text-2xl border-b-[2px] border-zinc-700 pb-3">${date}</span>
                                         <div class="pt-3 flex flex-col gap-5">
                                             There is nothing for this day
                                         </div>

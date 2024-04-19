@@ -119,7 +119,7 @@ export async function run() {
                 });
             } catch (e) {}
 
-            if (communications == 0) {
+            if (communications.response.announcements == 0 || communications.response.announcements == undefined) {
                 $("#communication").empty();
                 $("#communication").append(`
                     <div class="flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl cursor-pointer py-3 px-3">

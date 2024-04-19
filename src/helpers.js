@@ -1,7 +1,7 @@
 /**
  * Proview Version
  */
-export const version = "1.3.2";
+export const version = "1.3.4";
 
 /**
  * A simple function to make api links stand out.
@@ -411,7 +411,7 @@ export async function animate_nav() {
     try {
         $(window).off("scroll")
         if ($("#top #scrolled-title").length) {
-            $("#top div:has(.-ml-2)").removeClass("shadow shadow-black")
+            $("#top>div").removeClass("shadow shadow-black")
             if ($(window).scrollTop() > $("#top").offset().top + $("#top").outerHeight() - 40 || $(document).scrollTop() < $("#top").offset().top - $(window).height()) {
                 if (window.scrollY == 0) {
                     $("#top #scrolled-title").parent().removeClass("shadow shadow-black");
@@ -453,18 +453,17 @@ export async function animate_nav() {
                 }
             });
         } else {
-            // TODO: clicking from one page scrolled down makes this keep the border.
             if ($(window).scrollTop() > 10) {
-                $("#top div:has(.-ml-2)").addClass("shadow shadow-black")
+                $("#top>div").addClass("shadow shadow-black")
             } else {
-                $("#top div:has(.-ml-2)").removeClass("shadow shadow-black")
+                $("#top>div").removeClass("shadow shadow-black")
             }
     
             $(window).off().scroll(function() {
                 if ($(this).scrollTop() > 10) {
-                    $("#top div:has(.-ml-2)").addClass("shadow shadow-black")
+                    $("#top>div").addClass("shadow shadow-black")
                 } else {
-                    $("#top div:has(.-ml-2)").removeClass("shadow shadow-black")
+                    $("#top>div").removeClass("shadow shadow-black")
                 }
             })
         }
@@ -495,9 +494,9 @@ export function format(string) {
 
     // Others
     string = string.replace(/style\s*=\s*["'][^"']*["']/gi, "")
-    string = string.replace(/<u>/g, "")
+    string = string.replace(/<u.*>/g, "")
     string = string.replace(/<strong>/g, "")
-    string = string.replace(/<\/strong>/g, "")
+    string = string.replace(/<\strong>/g, "")
     string = string.replace(/id="isPasted"/g, "");
     string = string.replace(/dir="ltr"/g, "");
     string = string.replace(/<span/g, `<span class="w-full" style="word-wrap: break-word; word-break: break-word; white-space: wrap;"`)

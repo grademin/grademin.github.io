@@ -243,7 +243,7 @@ export async function run() {
                             <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
                                 <div class="flex justify-center items-center bg-${hlp.score_to_color(course.score)}-500 px-9 py-6 rounded-2xl">
                                     <span class="text-1xl font-bold text-white w-0 flex justify-center whitespace-nowrap">
-                                        ${isNaN(course.score) ? `<span class="text-black w-max">N/A</span>` : `${course.score}`}
+                                        ${isNaN(course.score) ? `<span class="${hlp.theme("theme-text")} w-max">N/A</span>` : `${course.score}`}
                                     </span>
                                 </div>
                                 <div class="flex flex-col">
@@ -544,7 +544,7 @@ export async function run() {
             await $("#courses").parent().append(`
                 <div id="course" class="flex flex-col gap-5">
                     <div class="flex flex-col gap-5">
-                        <div class="flex flex-row ${a == undefined ? c == undefined ? "flex-col" : "flex-col" : ""} gap-5">
+                        <div class="flex ${a == undefined || c == undefined ? "flex-col" : "flex-row"} gap-5">
                             <div class="relative flex-1 flex flex-col justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
                                 <div class="flex justify-center items-center h-full">
                                     <svg width="136" height="136" viewBox="0 0 136 136">
