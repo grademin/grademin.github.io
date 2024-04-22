@@ -3,6 +3,7 @@ export async function run() {
           site = await import("../../site.js");
 
     // TODO: clean
+    // TODO: maybe don't use this? I mean this app is suppose to JUST view grades and agendas, soooo.
 
     await hlp.load(async function () {
         await $("#root").html(`
