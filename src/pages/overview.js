@@ -30,7 +30,7 @@ export async function run() {
                     </div>
                     <div class="flex justify-between items-end cursor-pointer">
                         <div id="settings" class="rounded-full transition ${hlp.theme("bg", "600")} ${hlp.get("pfp", false).length == 0 ? "" : `bg-[url('${hlp.get("pfp", false)}')] bg-cover`} border-[6px] hover:${hlp.theme("border", "400")} active:${hlp.theme("border", "600")} ${hlp.theme("border", "500")} h-[4.5rem] w-[4.5rem] sm:h-[6rem] sm:w-[6rem] flex items-center justify-center text-2xl font-bold uppercase">
-                            ${hlp.get("pfp", false).length == 0 ? hlp.session.firstname.charAt(0).toUpperCase() : ""}
+                            <span class="text-[20px] sm:text-[30px]">${hlp.get("pfp", false).length == 0 ? hlp.session.firstname.charAt(0).toUpperCase() : ""}</span>
                         </div>
                     </div>
                 </div>
@@ -251,7 +251,7 @@ export async function run() {
 
         try {
             let settings = hlp.get("settings");
-            if (settings.find(name => name.setting.includes("chip-indicators")).$value) {
+            if (settings.find(option => option.setting.includes("chip-indicators")).$value) {
                 // Announcement "viewed" count
                 try {
                     let communications = await $.ajax({
@@ -301,7 +301,7 @@ export async function run() {
                     let codes = "200|201|301|400|401|500|501|601|803";
                     try {
                         let settings = hlp.get("settings");
-                        if (settings.find(name => name.setting.includes("include-self")).$value)
+                        if (settings.find(option => option.setting.includes("include-self")).$value)
                             codes = "100|200|201|300|301|400|401|500|501|600|601|803";
                     } catch (e) {}
 

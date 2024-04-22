@@ -183,7 +183,7 @@ export async function run() {
 
             try {
                 let settings = hlp.get("settings");
-                if (settings.find(name => name.setting.includes("include-self")).$value)
+                if (settings.find(option => option.setting.includes("include-self")).$value)
                     codes = "100|200|201|300|301|400|401|500|501|600|601|803";
             } catch (e) {}
 
