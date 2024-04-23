@@ -66,11 +66,6 @@ export async function run() {
                             Since you install this from the web, it keeps <b>"web features"</b>, or basically, it looks like an app but doesn't function at all like one, so it allows for screen rotations and what not. The screen rotations are pretty useful in some cases, so it's really up to you if you want to use it.
                         </p>
                         <br>
-                        <h1 class="text-3xl font-black">What is "Hide Details From LTI"?</h1>
-                        <p>
-                            This is a tool for Echo, providing seamless and secure access for students and teachers to the learning tools they regularly use. This uses your <b>email</b> and <b>name</b>, so if you would prefer to not have those included then just turn it off.
-                        </p>
-                        <br>
                         <h1 class="text-3xl font-black">What is "Visual Chip Indicators"?</h1>
                         <p>
                             These are those little colored circles at the corner of your <b>Courses, Todos, and Activity Stream</b>. If you don't want that then you can easily turn it off with this setting.
