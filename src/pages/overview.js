@@ -285,12 +285,21 @@ export async function run() {
                         contentType: "application/json; charset=utf-8",
                     })
 
+                    let hid = 0;
+                    $.each(due.response.items.item, function (i, due) {
+                        try {
+                            let hidden = hlp.get("hidden");
+                            if (hidden.find(option => option.course.includes(due.entity.id)).$hidden)
+                                hid++
+                        } catch (e) {}
+                    })
+
                     due.response.items.item.sort((a, b) => new Date(b.duedate) - new Date(a.duedate));
 
                     if (due.response.items.item.length != 0) {
                         await $("#todo-list").append(`
                             <div class="absolute ${hlp.theme("theme-shadow")} text-white inline-flex right-0 top-0 h-8 w-8 -m-2 rounded-full ${hlp.theme("bg", "700")} justify-center items-center">
-                                <span>${due.response.items.item.length}</span>
+                                <span>${due.response.items.item.length - hid}</span>
                             </div> 
                         `)
                     }

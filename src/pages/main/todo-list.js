@@ -112,6 +112,12 @@ export async function run() {
 
                 $("#todo-list").empty();
                 $.each(duesoon.response.items.item, (i, due) => {
+                    try {
+                        let hidden = hlp.get("hidden");
+                        if (hidden.find(option => option.course.includes(due.entity.id)).$hidden)
+                            return;
+                    } catch (e) {}
+
                     $("#todo-list").append(`
                         <div class="relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
                             <div class="flex flex-row justify-center items-center gap-5 pointer-events-none w-full">
