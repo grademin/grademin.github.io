@@ -312,6 +312,9 @@ export async function run() {
                 score = Math.round((course_details.response.enrollment.enrollmentmetrics.achieved / course_details.response.enrollment.enrollmentmetrics.possible) * 100)
             }
 
+            if (isNaN(score))
+                score = "0";
+
 
             try {
                 settings = await $.ajax({
