@@ -471,15 +471,6 @@ export async function animate_nav() {
 }
 
 /**
- * Sets the url for history back affects.
- * @param {string} title
- * @param {string} url
- */
-export async function url(title, url) {
-    history.pushState({}, title, url);
-}
-
-/**
  * Formats text
  * @param {string} string
  */

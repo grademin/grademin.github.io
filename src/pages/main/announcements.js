@@ -60,7 +60,9 @@ export async function run() {
         `).on("click", async function (event) {
             switch ($(event.target).attr("id")) {
                 case "semi-back": {
-                    history.pushState({}, "", `?page=announcements`);
+                    let pages = hlp.get("page")
+                    pages.params = []
+                    hlp.set("page", pages)
                     $("#opened").remove();
                     $("#communication").show();
                     $("#reload").removeClass("invisible");
@@ -69,7 +71,6 @@ export async function run() {
                 }
 
                 case "go-back": {
-                    history.pushState({}, "", `?page=overview`);
                     await site.runtime("overview");
                     break;
                 }
@@ -89,13 +90,11 @@ export async function run() {
                 }
 
                 case "overview": {
-                    history.pushState({}, "", `?page=overview`);
                     await site.runtime("overview");
                     break;
                 }
 
                 case "settings": {
-                    history.pushState({}, "", `?page=settings`);
                     await site.runtime("settings");
                     break;
                 }
@@ -129,12 +128,13 @@ export async function run() {
             } else {
                 // Sort them by latest
                 communications.response.announcements.announcement.sort((a, b) => new Date(b.startdate) - new Date(a.startdate));
+                
 
-                if (new URLSearchParams(window.location.search).get("path") != null) {
+                if (hlp.get("page").params.find(name => name.param == "path") != undefined) {
                     $("#communication").hide();
 
                     const comminfo = await $.ajax({
-                        url: hlp.api(`/cmd/getannouncementinfo?_token=${hlp.session.token}&packagetype=data&entityid=${hlp.session.domainid}&path=${new URLSearchParams(window.location.search).get("path")}`),
+                        url: hlp.api(`/cmd/getannouncementinfo?_token=${hlp.session.token}&packagetype=data&entityid=${hlp.session.domainid}&path=${hlp.get("page").params[0].value}`),
                         method: "GET",
                         dataType: "json",
                         contentType: "application/json; charset=utf-8"
@@ -218,7 +218,15 @@ export async function run() {
                         </div>
                     `).children().off().on("click", async function (event) {
                         hlp.load(async function () {
-                            history.pushState({}, "", `?page=${new URLSearchParams(window.location.search).get("page")}&path=${$(event.target).attr("path")}`);
+                            let pages = hlp.get("page")
+                            if (pages.params.length != 0) {
+                                pages.params = []
+                                pages.params.push({param: "path", value: $(event.target).attr("path")})
+                            } else {
+                                pages.params.push({param: "path", value: $(event.target).attr("path")})
+                            }
+                            hlp.set("page", pages)
+
 
                             const comminfo = await $.ajax({
                                 url: hlp.api(`/cmd/getannouncementinfo?_token=${hlp.session.token}&packagetype=data&entityid=${hlp.session.domainid}&path=${$(event.target).attr("path")}`),

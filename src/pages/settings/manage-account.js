@@ -70,7 +70,6 @@ export async function run() {
         `).on("click", async function (event) {
             switch ($(event.target).attr("id")) {
                 case "go-back": {
-                    history.pushState({}, "", `?page=settings`);
                     await site.runtime("settings");
                     break;
                 }

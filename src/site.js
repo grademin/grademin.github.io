@@ -3,14 +3,9 @@ export async function runtime(page) {
 
     document.title = page.includes("-") ? page.split("-")[0].charAt(0).toUpperCase() + page.split("-")[0].slice(1) + " " + page.split("-")[1].charAt(0).toUpperCase() + page.split("-")[1].slice(1) : page.charAt(0).toUpperCase() + page.slice(1);
 
-    let params = "";
-    new URLSearchParams(window.location.search).forEach(function (key, param) {
-        if (param != "page")
-            params += `&${param}=${key}`
-    })
-
-    history.pushState({}, "", `?page=${page}${params}`);
-    hlp.set("page", new URLSearchParams(window.location.search).get("page"), false);
+    let pages = hlp.get("page")
+    pages.page = page;
+    hlp.set("page", pages)
     
     $("#root").off("click");
 

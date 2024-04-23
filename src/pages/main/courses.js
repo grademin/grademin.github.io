@@ -63,13 +63,14 @@ export async function run() {
         `).on("click", async function (e) {
             switch ($(e.target).attr("id")) {
                 case "go-back": {
-                    history.pushState({}, "", `?page=overview`);
                     await site.runtime("overview");
                     break;
                 }
 
                 case "half-back": {
-                    history.pushState({}, "", `?page=courses`);
+                    let pages = hlp.get("page")
+                    pages.params = []
+                    hlp.set("page", pages)
                     $("#course").remove();
                     $("#courses").show();
                     $("#reload").removeClass("invisible");
@@ -139,25 +140,21 @@ export async function run() {
 
 
                 case "overview": {
-                    history.pushState({}, "", `?page=overview`);
                     await site.runtime("overview");
                     break;
                 }
 
                 case "calendar": {
-                    history.pushState({}, "", `?page=calendar`);
                     await site.runtime("calendar");
                     break;
                 }
 
                 case "grades": {
-                    history.pushState({}, "", `?page=grades`);
                     await site.runtime("grades");
                     break;
                 }
 
                 case "settings": {
-                    history.pushState({}, "", `?page=settings`);
                     await site.runtime("settings");
                     break;
                 }
@@ -230,8 +227,8 @@ export async function run() {
                     </div>
                 `)
             } else {
-                if (new URLSearchParams(window.location.search).get("eid") || new URLSearchParams(window.location.search).get("courseid")) {
-                    await content(new URLSearchParams(window.location.search).get("eid"), new URLSearchParams(window.location.search).get("courseid"))
+                if (hlp.get("page").params.length != 0) {
+                    await content(hlp.get("page").params[1].value, hlp.get("page").params[0].value)
                 }
 
                 $.each(all_courses, (i, course) => {
@@ -270,8 +267,11 @@ export async function run() {
         }
 
         async function content(eid, courseid) {
-            if (new URLSearchParams(window.location.search).get("eid") == null || new URLSearchParams(window.location.search).get("courseid") == null)
-                history.pushState({}, "", `?page=${new URLSearchParams(window.location.search).get("page")}&eid=${eid}&courseid=${courseid}`);
+            let pages = hlp.get("page")
+            if (pages.params.length == 0) {
+                pages.params.push({param: "courseid", value: courseid}, {param: "eid", value: eid});
+            }
+            hlp.set("page", pages)
 
             $("#go-back").attr("id", "half-back");
 
@@ -285,12 +285,12 @@ export async function run() {
             try {
                 landing = hlp.format(await $.ajax({
                     url: hlp.api(`/cmd/getresource?_token=${hlp.session.token}&entityid=${(()=>{
-                        return new URLSearchParams(window.location.search).get("courseid") == null ? courseid : new URLSearchParams(window.location.search).get("courseid");
+                        return hlp.get("page").params[0].value == null ? courseid : hlp.get("page").params[0].value;
                     })()}&path=Templates/Data/Course/landing-page.html`),
                     method: "GET",
                     dataType: "html",
                     contentType: "application/json; charset=utf-8"
-                })).replace(/\[~]/g, `https://api.agilixbuzz.com/Resz/${hlp.session.token}/${new URLSearchParams(window.location.search).get("eid")}/Assets`);
+                })).replace(/\[~]/g, `https://api.agilixbuzz.com/Resz/${hlp.session.token}/${hlp.get("page").params[1].value}/Assets`);
             } catch (e) {}
 
             if (landing.length == 0 || landing.includes("errorId"))
@@ -299,7 +299,7 @@ export async function run() {
             try {
                 course_details = await $.ajax({
                     url: hlp.api(`/cmd?cmd=getenrollment3&_token=${hlp.session.token}&enrollmentid=${(()=>{
-                        return new URLSearchParams(window.location.search).get("eid") == null ? eid : new URLSearchParams(window.location.search).get("eid");
+                        return hlp.get("page").params[1].value == null ? eid : hlp.get("page").params[1].value;
                     })()}&privileges=1&select=data,course,course.data,course.teachers,metrics`),
                     method: "GET",
                     dataType: "json",
@@ -363,7 +363,7 @@ export async function run() {
             try {
                 agendas = await $.ajax({
                     url: hlp.api(`/cmd/gestresourcelist2?_token=${hlp.session.token}&class=EVNT&path=AGND/*&entityid=${(()=>{
-                        return new URLSearchParams(window.location.search).get("courseid") == null ? courseid : new URLSearchParams(window.location.search).get("courseid");
+                        return hlp.get("page").params[0].value == null ? courseid : hlp.get("page").params[0].value;
                     })()}`),
                     method: "GET",
                     dataType: "json",
@@ -375,7 +375,7 @@ export async function run() {
             let agenda = ""
             try {
                 agenda = hlp.format(await $.ajax({
-                    url: hlp.api(`/cmd/getresource?_token=${hlp.session.token}&class=EVNT&entityid=${new URLSearchParams(window.location.search).get("courseid")}&path=AGND/${new Date().toLocaleDateString('sv-SE')}`),
+                    url: hlp.api(`/cmd/getresource?_token=${hlp.session.token}&class=EVNT&entityid=${hlp.get("page").params[0].value}&path=AGND/${new Date().toLocaleDateString('sv-SE')}`),
                     method: "GET",
                     dataType: "html",
                     contentType: "application/json; charset=utf-8"
@@ -387,7 +387,7 @@ export async function run() {
 
             try {
                 work = await $.ajax({
-                    url: hlp.api(`/cmd/getenrollmentgradebook2?_token=${hlp.session.token}&itemid=**&enrollmentid=${new URLSearchParams(window.location.search).get("eid")}`),
+                    url: hlp.api(`/cmd/getenrollmentgradebook2?_token=${hlp.session.token}&itemid=**&enrollmentid=${hlp.get("page").params[1].value}`),
                     method: "GET",
                     dataType: "json",
                     contentType: "application/json; charset=utf-8"

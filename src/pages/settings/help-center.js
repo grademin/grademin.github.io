@@ -115,7 +115,6 @@ export async function run() {
             switch ($(e.target).attr("id")) {
                 case "go-back": {
                     $("#overlays").empty();
-                    history.pushState({}, "", `?page=settings`);
                     await site.runtime("settings");
                     break;
                 }

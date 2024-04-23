@@ -63,7 +63,6 @@ export async function run() {
                 ///////// MAIN CONTROLS
 
                 case "go-back": {
-                    history.pushState({}, "", `?page=settings`);
                     await site.runtime("settings");
                     break;
                 }

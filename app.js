@@ -112,11 +112,17 @@
      */
     {
         if (hlp.get("page", false) == "" && hlp.session.exists) {
-            hlp.set("page", "overview", false);
+            hlp.set("page", {
+                page: "overview",
+                params: []
+            });
         }
 
         if (hlp.get("page", false) == "" || (hlp.get("page", false) != "" && !hlp.session.exists)) {
-            hlp.set("page", "login", false);
+            hlp.set("page", {
+                page: "login",
+                params: []
+            });
         }
         
         if (hlp.get("settings") == "") {
@@ -138,9 +144,6 @@
 
     // If the user "attempts" to change the page url to something it is not, then stop and don't 
     // follow the url parameters.
-    if (hlp.get("page", false) == new URLSearchParams(window.location.search).get("page")) {
-        await site.runtime(new URLSearchParams(window.location.search).get("page"))
-    } else {
-        await site.runtime(hlp.get("page", false))
-    }
+
+    await site.runtime(hlp.get("page").page)
 })();

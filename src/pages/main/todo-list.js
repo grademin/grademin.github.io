@@ -59,7 +59,6 @@ export async function run() {
         `).on("click", async function (event) {
             switch ($(event.target).attr("id")) {
                 case "go-back": {
-                    history.pushState({}, "", `?page=overview`);
                     await site.runtime("overview");
                     break;
                 }

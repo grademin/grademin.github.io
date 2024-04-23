@@ -1,5 +1,3 @@
-import { set } from "../../helpers.js";
-
 export async function run() {
     const hlp = await import("../../helpers.js");
     const site = await import("../../site.js");
@@ -107,7 +105,6 @@ export async function run() {
         `).on("click", async function (e) {
             switch ($(e.target).attr("id")) {
                 case "go-back": {
-                    history.pushState({}, "", `?page=overview`);
                     await site.runtime("overview");
                     break;
                 }
@@ -122,13 +119,11 @@ export async function run() {
 
 
                 case "overview": {
-                    history.pushState({}, "", `?page=overview`);
                     await site.runtime("overview");
                     break;
                 }
 
                 case "settings": {
-                    history.pushState({}, "", `?page=settings`);
                     await site.runtime("settings");
                     break;
                 }
