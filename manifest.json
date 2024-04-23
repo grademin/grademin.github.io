@@ -3,15 +3,30 @@
     "name": "Proview",
     "icons": [
         {
-            "src": "logo-full.png",
-            "sizes": "72x72 96x96 128x128 256x256",
+            "src": "logo-transparent.png",
+            "sizes": "72x72",
+            "type": "image/png"
+        },
+        {
+            "src": "logo-transparent.png",
+            "sizes": "96x96",
+            "type": "image/png"
+        },
+        {
+            "src": "logo-transparent.png",
+            "sizes": "128x128",
+            "type": "image/png"
+        },
+        {
+            "src": "logo-transparent.png",
+            "sizes": "256x256",
             "type": "image/png"
         }
     ],
     "start_url": "/proview/",
-    "background_color": "rgb(29, 78, 216)",
-    "theme_color": "rgb(0, 0, 0)",
+    "scope": "/proview/",
     "display": "fullscreen",
-    "scope": "/proview/"
+    "background_color": "rgb(29, 78, 216)",
+    "theme_color": "rgb(0, 0, 0)"
 }
   
