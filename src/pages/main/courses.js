@@ -140,21 +140,33 @@ export async function run() {
 
 
                 case "overview": {
+                    let pages = hlp.get("page")
+                    pages.params = []
+                    hlp.set("page", pages)
                     await site.runtime("overview");
                     break;
                 }
 
                 case "calendar": {
+                    let pages = hlp.get("page")
+                    pages.params = []
+                    hlp.set("page", pages)
                     await site.runtime("calendar");
                     break;
                 }
 
                 case "grades": {
+                    let pages = hlp.get("page")
+                    pages.params = []
+                    hlp.set("page", pages)
                     await site.runtime("grades");
                     break;
                 }
 
                 case "settings": {
+                    let pages = hlp.get("page")
+                    pages.params = []
+                    hlp.set("page", pages)
                     await site.runtime("settings");
                     break;
                 }

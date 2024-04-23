@@ -159,7 +159,7 @@ export function theme(type, value) {
         }
         case "theme-card": {
             if (theme == "light") {
-                return `bg-zinc-100 shadow-lg`;
+                return `bg-zinc-200 shadow-xl`;
             } else {
                 return `bg-zinc-800`;
             }
@@ -213,6 +213,16 @@ export function theme(type, value) {
                         return `bg-${theme_color}-900`
                     else
                         return `bg-${theme_color}-400`;
+                }
+                case "brown": {
+                    if (value == 600)
+                        return `bg-orange-700`;
+                    else if (value == 300)
+                        return `bg-orange-700`
+                    else if (value == 200)
+                        return `bg-orange-200`
+                    else
+                        return `bg-orange-900`;
                 }
                 case "violet": {
                     if (value == 600)
@@ -284,6 +294,16 @@ export function theme(type, value) {
                     else
                         return `border-${theme_color}-${value}`;
                 }
+                case "brown": {
+                    if (value == 700)
+                        return `border-orange-900`;
+                    else if (value == 400)
+                        return `border-orange-600`;
+                    else if (value == 500)
+                        return `border-orange-800`;
+                    else
+                        return `border-orange-${value}`;
+                }
                 case "violet": {
                     if (value == 700)
                         return `border-${theme_color}-600`;
@@ -342,6 +362,12 @@ export function theme(type, value) {
                     else
                         return `text-${theme_color}-400`;
                 }
+                case "brown": {
+                    if (value == 600)
+                        return `text-orange-800`;
+                    else
+                        return `text-orange-900`;
+                }
                 case "violet": {
                     if (value == 600)
                         return `text-${theme_color}-700`;
@@ -378,6 +404,9 @@ export function theme(type, value) {
                 case "orange": {                    
                     return `caret-${theme_color}-400`;
                 }
+                case "brown": {
+                    return `caret-orange-900`;
+                }
                 case "violet": {
                     return `caret-${theme_color}-600`;
                 }
@@ -395,10 +424,22 @@ export function theme(type, value) {
             }
         }
         case "ring": {
-            return `ring-${theme_color}-${value}`;
+            switch (theme_color) {
+                case "brown": {
+                    return `ring-orange-900`;
+                }
+                default:
+                    return `ring-${theme_color}-${value}`;
+            }
         }
         case "stroke": {
-            return `stroke-${theme_color}-${value}`;
+            switch (theme_color) {
+                case "brown": {
+                    return `stroke-orange-900`;
+                }
+                default:
+                    return `stroke-${theme_color}-${value}`;
+            }
         }
     }
 }

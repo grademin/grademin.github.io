@@ -188,7 +188,7 @@ export async function run() {
             if (courses.length != 0) {
                 $.each(courses.response.enrollments.enrollment, (i, course) => {
                     try {
-                        if (hidden.find(name => name.course.includes(course.id)).$value)
+                        if (hidden.find(name => name.course.includes(course.courseid)).$hidden)
                             return;
                     } catch (e) {}
 
@@ -196,8 +196,10 @@ export async function run() {
                         courseids += `${course.id},`
                     else 
                         courseids += `${course.id}`;
+
+                    console.log(courseids)
                 });
-            } 
+            }
 
             await hlp.prevent_errors(async function () {
                 calendar = await $.ajax({

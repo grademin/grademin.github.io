@@ -4,8 +4,6 @@ export async function run() {
     const hlp = await import("../helpers.js");
     const site = await import("../site.js");
 
-    // TODO: add enroll course to this
-
     await hlp.load(async function () {
         await $("#root").html(`
             <div id="top" class="${hlp.theme("bg", "700")} text-white">
@@ -88,27 +86,7 @@ export async function run() {
                                 </span>
                             </div>
                         </div>
-                    </div>
-                    <!---->
-                    <div class="flex flex-col container mx-auto ${hlp.theme("theme-card")} rounded-xl px-3">
-                        <div id="enroll" class="flex flex-row justify-between container mx-auto cursor-pointer py-3">
-                            <div class="flex flex-row justify-center items-center gap-4 pointer-events-none leading-none">
-                                <div class="flex justify-center items-center ${hlp.theme("bg", "700")} px-2 py-1 rounded-2xl">
-                                    <span class="text-3xl material-symbols-rounded text-white">
-                                        post_add
-                                    </span>
-                                </div>
-                                <div class="flex flex-col items-center">
-                                    <h1 class="text-[20px] font-bold">Enroll In A Course</h1>
-                                </div>
-                            </div>
-                            <div class="flex justify-center items-center">
-                                <span class="material-symbols-rounded">
-                                    arrow_forward_ios
-                                </span>
-                            </div>
-                        </div>
-                    </div>
+                    </div> 
                     <!---->
                     <div class="flex flex-col container mx-auto ${hlp.theme("theme-card")} rounded-xl px-3">
                         <div id="chip-indicators" class="flex flex-row justify-between container mx-auto cursor-pointer py-3 border-b-[2px] border-zinc-700">
@@ -166,29 +144,6 @@ export async function run() {
                             </div>
                             <div class="flex justify-center items-center">
                                 <input option="hide-excused" type="checkbox" class="hidden">
-                                <label class="flex items-center cursor-pointer">
-                                    <div class="w-[3.7rem] h-[33px] ${hlp.theme("theme-toggle")} rounded-full p-1">
-                                        <div class="bg-white w-[25px] h-[25px] rounded-full shadow-md transform translate-x-0"></div>
-                                    </div>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <!---->
-                    <div class="flex flex-col container mx-auto ${hlp.theme("theme-card")} rounded-xl px-3">
-                        <div id="hide-lti-details" class="flex flex-row justify-between container mx-auto cursor-pointer py-3">
-                            <div class="flex flex-row justify-center items-center gap-4 pointer-events-none">
-                                <div class="flex justify-center items-center ${hlp.theme("bg", "700")} px-2 py-1 rounded-2xl">
-                                    <span class="text-3xl material-symbols-rounded text-white">
-                                        privacy_tip
-                                    </span>
-                                </div>
-                                <div class="flex flex-col items-center">
-                                    <h1 class="text-[20px] font-bold">Hide Details From LTI</h1>
-                                </div>
-                            </div>
-                            <div class="flex justify-center items-center">
-                                <input option="hide-lti-details" type="checkbox" class="hidden">
                                 <label class="flex items-center cursor-pointer">
                                     <div class="w-[3.7rem] h-[33px] ${hlp.theme("theme-toggle")} rounded-full p-1">
                                         <div class="bg-white w-[25px] h-[25px] rounded-full shadow-md transform translate-x-0"></div>
@@ -339,11 +294,6 @@ export async function run() {
                     break;
                 }
 
-                case "enroll": {
-                    site.runtime("enroll");
-                    break;
-                }
-
                 case "hide-courses": {
                     site.runtime("hide-courses");
                     break;
@@ -469,29 +419,7 @@ export async function run() {
                     break;
                 }
 
-
-
-                case "hide-lti-details": {
-                    // TODO: i'd assume this also doesn't work
-                    await $.ajax({
-                        url: hlp.api(`/cmd/updateusers?_token=${hlp.session.token}`),
-                        method: "POST",
-                        dataType: "json",
-                        contentType: "application/json; charset=utf-8",
-                        data: hlp.string({"requests": {
-                            "user": [{
-                                "userid": hlp.session.id,
-                                "data": {
-                                    "blti": {
-                                        "hideemail": hlp.get("settings").find(hide => hide.setting.includes("hide-lti-details")).$value,
-                                        "hidefullname": hlp.get("settings").find(hide => hide.setting.includes("hide-lti-details")).$value
-                                    }
-                                }
-                            }]
-                        }})
-                    })
-                    break;
-                }
+                
 
                 case "calendar": {
                     site.runtime("calendar");
