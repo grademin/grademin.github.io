@@ -47,7 +47,7 @@ export async function run() {
                                 </span>
                             </div>
                             <div class="flex flex-col items-center">
-                                <h1 class="text-[20px] font-bold">Gpa Calculator</h1>
+                                <h1 class="text-[20px] font-bold">GPA Calculator</h1>
                             </div>
                         </div>
                         <div class="flex justify-center items-center">
@@ -60,6 +60,82 @@ export async function run() {
                 <!---->
                 <!---->
                 <!--TODO:-->
+                <div class="flex flex-col container mx-auto ${hlp.theme("theme-card")} rounded-xl px-3">
+                    <div class="flex flex-row justify-between container mx-auto cursor-pointer py-3">
+                        <div class="flex flex-row justify-center items-center gap-4 pointer-events-none leading-none">
+                            <div class="flex flex-col items-center">
+                                <h1 class="text-[20px] font-bold">GPA</h1>
+                            </div>
+                        </div>
+                        <div class="flex justify-center items-center">
+                            0.00
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col container mx-auto ${hlp.theme("theme-card")} rounded-xl px-3">
+                    <div class="flex flex-row justify-between container mx-auto cursor-pointer py-3">
+                        <div class="flex flex-row justify-center items-center gap-4 pointer-events-none leading-none">
+                            <div class="flex flex-col items-center">
+                                <h1 class="text-[20px] font-bold">Weighted GPA</h1>
+                            </div>
+                        </div>
+                        <div class="flex justify-center items-center">
+                            0.00
+                        </div>
+                    </div>
+                </div>
+                <!--TODO:-->
+                <div class="flex flex-row gap-5">
+                    <div class="relative flex-1 ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
+                        <div class="flex flex-col gap-2">
+                            <span class="font-bold">Agency</span>
+                            <div class="flex flex-row gap-10 sm:gap-20 justify-between items-center">
+                                <span class="font-bold">0</span>
+                                <div class="rounded-xl bg-yellow-500 p-4"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative flex-1 ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
+                        <div class="flex flex-col gap-2">
+                            <span class="font-bold">Collaboration</span>
+                            <div class="flex flex-row gap-10 sm:gap-20 justify-between items-center">
+                                <span class="font-bold">0</span>
+                                <div class="rounded-xl bg-violet-500 p-4"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-row gap-5">
+                    <div class="relative flex-1 ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
+                        <div class="flex flex-col gap-2">
+                            <span class="font-bold">K & T</span>
+                            <div class="flex flex-row gap-5 sm:gap-20 justify-between items-center">
+                                <span class="font-bold">0</span>
+                                <div class="rounded-xl bg-blue-500 p-4"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative flex-1 ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
+                        <div class="flex flex-col gap-2">
+                            <span class="font-bold">Comms</span>
+                            <div class="flex flex-row gap-5 sm:gap-20 justify-between items-center">
+                                <span class="font-bold">0</span>
+                                <div class="rounded-xl bg-green-500 p-4"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-row">
+                    <div class="relative flex-grow ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
+                        <div class="flex flex-col gap-2">
+                            <span class="font-bold">Written</span>
+                            <div class="flex flex-row gap-5 sm:gap-20 justify-between items-center">
+                                <span class="font-bold">0</span>
+                                <div class="rounded-xl bg-cyan-500 p-4"></div>
+                            </div>
+                        </div>
+                    </div>
+                <div>
             </div>
             <!---->
             <!---->
