@@ -6,7 +6,7 @@ export async function run() {
         await $("#root").html(`
             <div id="top" class="${hlp.theme("bg", "700")} text-white">
                 <div class="fixed left-0 right-0 top-0 z-20 flex flex-row ${hlp.theme("bg", "700")}">
-                    <div id="scrolled-title" showreload class="flex justify-center items-center container mx-auto py-2 px-4 h-[60px]">
+                    <div id="scrolled-title-reload" showreload class="flex justify-center items-center container mx-auto py-2 px-4 h-[60px]">
                         <div class="invisible -ml-2 cursor-pointer py-3 px-6 rounded-full active:bg-white active:bg-opacity-20 active:shadow-lg">
                             <span class="w-0 -ml-[1px] font-black pointer-events-none text-1xl material-symbols-rounded flex justify-center items-center">
                                 arrow_back_ios_new
@@ -96,7 +96,7 @@ export async function run() {
                                 calendar_month
                             </span>
                         </a>
-                        <a id="grades" class="cursor-pointer flex justify-center items-center py-3 w-full">
+                        <a class="cursor-pointer flex justify-center items-center py-3 w-full">
                             <span class="text-[30px] font-black pointer-events-none material-symbols-rounded">
                                 insert_chart
                             </span>
@@ -117,7 +117,6 @@ export async function run() {
                     });
                     break;
                 }
-
 
 
                 case "grades": {
