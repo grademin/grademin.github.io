@@ -57,6 +57,12 @@ export async function runtime(page) {
             break;
         }
 
+        case "contact": {
+            const contact = await import("/proview/src/pages/main/contact.js");
+            await contact.run();
+            break;
+        }
+
         case "todo-list": {
             const todo_list = await import("/proview/src/pages/main/todo-list.js")
             await todo_list.run();

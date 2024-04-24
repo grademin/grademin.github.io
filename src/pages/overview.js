@@ -128,7 +128,7 @@ export async function run() {
                         </span>
                     </div>
                 </div>
-                <div id="email" class="relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl cursor-pointer py-3 px-3">
+                <div id="contact" class="relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl cursor-pointer py-3 px-3">
                     <div class="flex flex-row justify-center items-center gap-5 pointer-events-none">
                         <div class="flex justify-center items-center ${hlp.theme("bg", "700")} px-4 py-3 rounded-2xl">
                             <span class="text-3xl material-symbols-rounded text-white flex justify-center">
@@ -197,7 +197,8 @@ export async function run() {
                     break;
                 }
 
-                case "email": {
+                case "contact": {
+                    await site.runtime("contact");
                     break;
                 }
 
