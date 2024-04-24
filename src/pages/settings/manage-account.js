@@ -28,7 +28,7 @@ export async function run() {
             <div class="flex flex-col gap-5 pt-[2rem] mt-[46px] mb-[1.7rem] container mx-auto py-10 px-4">
                 <div class="flex flex-col gap-5 container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
                     <div class="flex flex-row gap-5">
-                        <div class="relative text-white rounded-full border-[6px] ${hlp.theme("border", "500")} ${hlp.theme("bg", "600")} ${hlp.get("pfp", false).length == 0 ? "" : `bg-[url('${hlp.get("pfp", false)}')] bg-cover`} h-20 w-20 flex items-center justify-center text-2xl sm:text-2xl font-bold uppercase">
+                        <div class="relative text-white rounded-full border-[6px] ${hlp.theme("border", "500")} ${hlp.theme("bg", "600")} ${hlp.get("pfp", false).length == 0 ? "" : `bg-[url('${hlp.get("pfp", false)}')] bg-cover bg-no-repeat bg-center`} h-20 w-20 flex items-center justify-center text-2xl sm:text-2xl font-bold uppercase">
                             <span class="z-1">${hlp.get("pfp", false).length == 0 ? hlp.session.firstname.charAt(0).toUpperCase() : ""}</span>
                         </div>
                         <div class="flex flex-col justify-center">

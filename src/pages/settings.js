@@ -34,7 +34,7 @@ export async function run() {
                 <div id="settings" class="flex flex-col gap-5">
                     <div class="flex flex-col justify-center items-center container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
                         <div class="flex justify-between items-center">
-                            <div class="relative text-white rounded-full border-[6px] ${hlp.theme("border", "500")} ${hlp.theme("bg", "600")} ${hlp.get("pfp", false).length == 0 ? "" : `bg-[url('${hlp.get("pfp", false)}')] bg-cover`} h-20 w-20 flex items-center justify-center text-2xl sm:text-2xl font-bold uppercase">
+                            <div class="relative text-white rounded-full border-[6px] ${hlp.theme("border", "500")} ${hlp.theme("bg", "600")} ${hlp.get("pfp", false).length == 0 ? "" : `bg-[url('${hlp.get("pfp", false)}')] bg-cover bg-no-repeat bg-center`} h-20 w-20 flex items-center justify-center text-2xl sm:text-2xl font-bold uppercase">
                                 <span class="z-1">${hlp.get("pfp", false).length == 0 ? hlp.session.firstname.charAt(0).toUpperCase() : ""}</span>
                             </div>
                         </div>
@@ -45,7 +45,7 @@ export async function run() {
                             </div>
                             <div class="flex-1">
                                 <button id="change-pfp" class="w-full px-4 py-3 ${hlp.theme("bg", "700")} text-white transition font-semibold rounded-xl hover:${hlp.theme("bg", "500")} focus:outline-none focus:ring-2 focus:${hlp.theme("ring", "700")} focus:ring-opacity-50">Change Picture</button>
-                                <input id="change-pfp-data" type="file" class="hidden">
+                                <input id="change-pfp-data" type="file" accept=".png, .jpg, .jpeg" class="hidden">
                             </div>
                         </div>
                     </div>
@@ -355,7 +355,6 @@ export async function run() {
                                 break;
                             }
                             case "submit-name": {
-                                // TODO: login will reset this, make it so login ignores if this is active
                                 if ($("#name").val().split(" ").length == 2 && $("#name").val().length != 0) {
                                     if ($("#name").val() != `${hlp.session.firstname} ${hlp.session.lastname}`) {
                                         let remembered = hlp.get("remembered");
@@ -374,9 +373,8 @@ export async function run() {
 
                                         site.runtime("settings");
                                     } else {
-                                        $("#name").addClass("shake border border-red-300").one("animationend webkitAnimationEnd", function() {
-                                            $(this).removeClass("shake border border-red-300");
-                                        });
+                                        $("#overlays").empty();
+                                        $("body").removeClass("overflow-hidden");
                                     }
                                 } else {
                                     $("#name").addClass("shake border border-red-300").one("animationend webkitAnimationEnd", function() {

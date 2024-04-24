@@ -29,7 +29,7 @@ export async function run() {
                         <div class="text-[18px] sm:text-[22px] font-bold">${new Date().toLocaleString("default", { month: "long" })} ${new Date().getDate()}, ${new Date().getFullYear()}</div>    
                     </div>
                     <div class="flex justify-between items-end cursor-pointer">
-                        <div id="settings" class="rounded-full transition ${hlp.theme("bg", "600")} ${hlp.get("pfp", false).length == 0 ? "" : `bg-[url('${hlp.get("pfp", false)}')] bg-cover`} border-[6px] hover:${hlp.theme("border", "400")} active:${hlp.theme("border", "600")} ${hlp.theme("border", "500")} h-[4.5rem] w-[4.5rem] sm:h-[6rem] sm:w-[6rem] flex items-center justify-center text-2xl font-bold uppercase">
+                        <div id="settings" class="rounded-full transition ${hlp.theme("bg", "600")} ${hlp.get("pfp", false).length == 0 ? "" : `bg-[url('${hlp.get("pfp", false)}')] bg-cover bg-no-repeat bg-center`} border-[6px] hover:${hlp.theme("border", "400")} active:${hlp.theme("border", "600")} ${hlp.theme("border", "500")} h-[4.5rem] w-[4.5rem] sm:h-[6rem] sm:w-[6rem] flex items-center justify-center text-2xl font-bold uppercase">
                             <span class="text-[20px] sm:text-[30px]">${hlp.get("pfp", false).length == 0 ? hlp.session.firstname.charAt(0).toUpperCase() : ""}</span>
                         </div>
                     </div>

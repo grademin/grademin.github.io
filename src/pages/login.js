@@ -11,7 +11,7 @@ export async function run() {
         <div class="mb-5 block w-full px-5 py-4 border-4 ${hlp.theme("border", "700")} rounded-xl shadow-sm focus:outline-none sm:text-sm">
             <div class="flex flex-row gap-5 items-center">
                 <div class="flex justify-between items-center">
-                    <div class="rounded-full border-[6px] ${hlp.theme("border", "500")} ${hlp.theme("bg", "600")} ${hlp.get("pfp", false).length == 0 ? "" : `bg-[url('${hlp.get("pfp", false)}')] bg-cover`} h-16 w-16 flex items-center justify-center text-2xl sm:text-2xl font-bold uppercase">
+                    <div class="rounded-full border-[6px] ${hlp.theme("border", "500")} ${hlp.theme("bg", "600")} ${hlp.get("pfp", false).length == 0 ? "" : `bg-[url('${hlp.get("pfp", false)}')] bg-cover bg-no-repeat bg-center`} h-16 w-16 flex items-center justify-center text-2xl sm:text-2xl font-bold uppercase">
                         ${hlp.get("pfp", false).length == 0 ? hlp.get("remembered", true).firstname.charAt(0).toUpperCase() : ""}
                     </div>                    
                 </div>

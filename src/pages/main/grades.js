@@ -96,7 +96,7 @@ export async function run() {
                     await site.runtime("calendar");
                     break;
                 }
-                
+
                 case "overview": {
                     await site.runtime("overview");
                     break;
