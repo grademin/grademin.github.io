@@ -2,6 +2,13 @@ export async function run() {
     const hlp = await import("../../helpers.js");
     const site = await import("../../site.js");
 
+    // TODO: get gpa calculator details using gradeways way of grades, also have checkmarks to determine if a class is AP
+    // then, once the gpa calculator has calculated at least once, uses that gpa in the grades main page.
+    //
+    // after that, show the average objectives compiled from all classes (excluding hidden)
+    //
+    // after that, show the class grades of each class again, since its a grades page.
+
     await hlp.load(async function () {
         await $("#root").html(`
             <div id="top" class="${hlp.theme("bg", "700")} text-white">
