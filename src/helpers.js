@@ -556,6 +556,7 @@ export async function animate_nav() {
 /**
  * Formats text
  * @param {string} string
+ * TODO: fix long strings with no space breaking out of page
  */
 export function format(string) {
     if (string == "" || string == null || string == undefined)
