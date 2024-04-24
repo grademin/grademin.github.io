@@ -451,7 +451,7 @@ export function theme(type, value) {
 export async function animate_nav() {
     try {
         $(window).off("scroll")
-        if ($("#top #scrolled-title").length) {
+        if ($("#top #scrolled-title").length && $("#top #scrolled-title").attr("showreload") == undefined) {
             $("#top>div").removeClass("shadow shadow-black")
             if ($(window).scrollTop() > $("#top").offset().top + $("#top").outerHeight() - 40 || $(document).scrollTop() < $("#top").offset().top - $(window).height()) {
                 if (window.scrollY == 0) {
@@ -487,6 +487,49 @@ export async function animate_nav() {
                             in_load = true;
                             $("#top #scrolled-title").parent().removeClass("shadow shadow-black");
                             $("#top #scrolled-title span").fadeOut(100, () => {
+                                in_load = false;
+                            });
+                        }
+                    } catch (e) {}
+                }
+            });
+        } else if ($("#top #scrolled-title").attr("showreload") != undefined) {
+            $(window).off("scroll")
+            $("#top>div").removeClass("shadow shadow-black")
+            if ($(window).scrollTop() > $("#top").offset().top + $("#top").outerHeight() - 40 || $(document).scrollTop() < $("#top").offset().top - $(window).height()) {
+                if (window.scrollY == 0) {
+                    $("#top #scrolled-title").parent().removeClass("shadow shadow-black");
+                    $("#top #scrolled-title span .inner").fadeOut(0);
+                } else {
+                    $("#top #scrolled-title").parent().addClass("shadow shadow-black");
+                    $("#top #scrolled-title span .inner").fadeIn(0);
+                }
+            } else {
+                $("#top #scrolled-title").parent().removeClass("shadow shadow-black");
+                $("#top #scrolled-title span .inner").fadeOut(0);
+            }
+            
+            // Manages when we scroll
+            let in_load = false;
+            $(window).off()
+            window.addEventListener('scroll', function() {
+                if (window.scrollY == 0) {
+                    $("#top #scrolled-title").parent().removeClass("shadow shadow-black");
+                    $("#top #scrolled-title span .inner").fadeOut(100);
+                }
+        
+                if (!in_load) {
+                    try {
+                        if (window.scrollY > $("#top").offset().top + $("#top").outerHeight() - 62 || window.scrollY < $("#top").offset().top - window.innerHeight) {
+                            in_load = true;
+                            $("#top #scrolled-title").parent().addClass("shadow shadow-black");
+                            $("#top #scrolled-title span .inner").fadeIn(100, () => {
+                                in_load = false;
+                            });
+                        } else {
+                            in_load = true;
+                            $("#top #scrolled-title").parent().removeClass("shadow shadow-black");
+                            $("#top #scrolled-title span .inner").fadeOut(100, () => {
                                 in_load = false;
                             });
                         }

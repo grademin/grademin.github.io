@@ -47,9 +47,9 @@ export async function run() {
                                 calendar_month
                             </span>
                         </a>
-                        <a class="cursor-pointer flex justify-center items-center py-3 w-full">
+                        <a id="grades" class="cursor-pointer flex justify-center items-center py-3 w-full">
                             <span class="text-[30px] font-black pointer-events-none material-symbols-rounded">
-                                description
+                                insert_chart
                             </span>
                         </a>
                         <a id="settings" class="cursor-pointer flex justify-center items-center py-3 w-full">
@@ -131,6 +131,12 @@ export async function run() {
                 case "calendar": {
                     window.onscroll = null;
                     await site.runtime("calendar");
+                    break;
+                }
+
+                case "grades": {
+                    window.onscroll = null;
+                    await site.runtime("grades");
                     break;
                 }
 
@@ -290,6 +296,12 @@ export async function run() {
                             }
                             case 201:
                             case 200: {
+                                try {
+                                    let hidden = hlp.get("hidden");
+                                    if (hidden.find(option => option.course.includes(activity.data.course.id)).$hidden)
+                                        return;
+                                } catch (e) {}
+
                                 // User has been excused
                                 try {
                                     let settings = hlp.get("settings");
@@ -454,6 +466,12 @@ export async function run() {
                                 break;
                             }
                             case 803: {
+                                try {
+                                    let hidden = hlp.get("hidden");
+                                    if (hidden.find(option => option.course.includes(activity.data.course.id)).$hidden)
+                                        return;
+                                } catch (e) {}
+
                                 // An assignment was allowed a retry
                                 $("#activity-stream").append(`
                                     <div class="relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
@@ -469,6 +487,14 @@ export async function run() {
                             }
                         }
                     })
+
+                    if ($("#activity-stream div").length == 0) {
+                        $("#activity-stream").append(`
+                            <div class="flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl cursor-pointer py-3 px-3">
+                                <span class="text-center w-full">You have no activities</span>
+                            </div>
+                        `)
+                    }
                 }
             }
         }

@@ -162,9 +162,9 @@ export async function run() {
                                 calendar_month
                             </span>
                         </a>
-                        <a class="cursor-pointer flex justify-center items-center py-3 w-full">
+                        <a id="grades" class="cursor-pointer flex justify-center items-center py-3 w-full">
                             <span class="text-[30px] font-black pointer-events-none material-symbols-rounded">
-                                description
+                                insert_chart
                             </span>
                         </a>
                         <a id="settings" class="cursor-pointer flex justify-center items-center py-3 w-full">
@@ -203,6 +203,11 @@ export async function run() {
 
 
                 
+                case "grades": {
+                    await site.runtime("grades");
+                    break;
+                }
+
                 case "calendar": {
                     await site.runtime("calendar");
                     break;

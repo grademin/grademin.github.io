@@ -19,6 +19,13 @@ export async function runtime(page) {
             await login.run()
             break;
         }
+
+        case "grades": {
+            const grades = await import("/proview/src/pages/main/grades.js");
+            await grades.run();
+            break;
+        }
+
         case "overview": {
             const overview = await import("/proview/src/pages/overview.js");
             await overview.run();

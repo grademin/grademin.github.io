@@ -47,9 +47,9 @@ export async function run() {
                                 calendar_month
                             </span>
                         </a>
-                        <a class="cursor-pointer flex justify-center items-center py-3 w-full">
+                        <a id="grades" class="cursor-pointer flex justify-center items-center py-3 w-full">
                             <span class="text-[30px] font-black pointer-events-none material-symbols-rounded">
-                                description
+                                insert_chart
                             </span>
                         </a>
                         <a id="settings" class="cursor-pointer flex justify-center items-center py-3 w-full">
@@ -137,7 +137,15 @@ export async function run() {
                     })
                     break;
                 }
+                
 
+                case "grades": {
+                    let pages = hlp.get("page")
+                    pages.params = []
+                    hlp.set("page", pages)
+                    await site.runtime("grades");
+                    break;
+                }
 
                 case "overview": {
                     let pages = hlp.get("page")
@@ -275,6 +283,14 @@ export async function run() {
                         })
                     })
                 })
+
+                if ($("#courses div").length == 0) {
+                    $("#courses").append(`
+                        <div class="flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl cursor-pointer py-3 px-3">
+                            <span class="text-center w-full">You have no courses to view</span>
+                        </div>
+                    `)
+                }
             }
         }
 

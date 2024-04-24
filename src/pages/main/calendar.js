@@ -6,13 +6,15 @@ export async function run() {
         await $("#root").html(`
             <div id="top" class="${hlp.theme("bg", "700")} text-white">
                 <div class="fixed left-0 right-0 top-0 z-20 flex flex-row ${hlp.theme("bg", "700")}">
-                    <div class="flex justify-center items-center container mx-auto py-2 px-4">
-                        <div id="go-back" class="-ml-2 cursor-pointer py-3 px-6 rounded-full active:bg-white active:bg-opacity-20 active:shadow-lg">
+                    <div id="scrolled-title" showreload class="flex justify-center items-center container mx-auto py-2 px-4 h-[60px]">
+                        <div class="invisible -ml-2 cursor-pointer py-3 px-6 rounded-full active:bg-white active:bg-opacity-20 active:shadow-lg">
                             <span class="w-0 -ml-[1px] font-black pointer-events-none text-1xl material-symbols-rounded flex justify-center items-center">
                                 arrow_back_ios_new
                             </span>
                         </div>
-                        <span class="flex-grow font-bold text-center text-[22px]">Calendar</span>
+                        <span class="flex-grow font-bold text-center text-[22px]">
+                            <span class="inner">Calendar</span>
+                        </span>
                         <div id="reload" class="-mr-2 cursor-pointer py-3 px-6 rounded-full active:bg-white active:bg-opacity-20 active:shadow-lg">
                             <span class="w-0 font-black pointer-events-none text-1xl material-symbols-rounded flex justify-center items-center">
                                 refresh
@@ -20,10 +22,15 @@ export async function run() {
                         </div>
                     </div>
                 </div>
+                <div class="relative overflow-hidden flex flex-row gap-10 justify-between container mx-auto pt-16 pb-5 px-4">
+                    <div class="flex flex-col flex-grow justify-center">
+                        <h1 class="text-5xl sm:text-7xl font-bold pb-0 -m-[2px] mb-0">Calendar</h1>
+                    </div>
+                </div>
             </div>
             <!---->
             <!---->
-            <div class="flex flex-col gap-5 pt-[2rem] mt-[46px] mb-[1.7rem] container mx-auto py-10 px-4">
+            <div class="flex flex-col gap-5 pt-[1.1rem] mb-[1.8rem] container mx-auto py-10 px-4">
                 <div class="container mx-auto ${hlp.theme("theme-card")} rounded-xl px-3 py-3">
                     <div class="flex flex-col gap-5">
                         <div class="flex flex-row w-full gap-5 justify-center items-center mx-auto">
@@ -89,9 +96,9 @@ export async function run() {
                                 calendar_month
                             </span>
                         </a>
-                        <a class="cursor-pointer flex justify-center items-center py-3 w-full">
+                        <a id="grades" class="cursor-pointer flex justify-center items-center py-3 w-full">
                             <span class="text-[30px] font-black pointer-events-none material-symbols-rounded">
-                                description
+                                insert_chart
                             </span>
                         </a>
                         <a id="settings" class="cursor-pointer flex justify-center items-center py-3 w-full">
@@ -104,11 +111,6 @@ export async function run() {
             </div>
         `).on("click", async function (e) {
             switch ($(e.target).attr("id")) {
-                case "go-back": {
-                    await site.runtime("overview");
-                    break;
-                }
-
                 case "reload": {
                     hlp.load(async function () {
                         await call();
@@ -117,6 +119,11 @@ export async function run() {
                 }
 
 
+
+                case "grades": {
+                    await site.runtime("grades");
+                    break;
+                }
 
                 case "overview": {
                     await site.runtime("overview");
@@ -184,20 +191,12 @@ export async function run() {
             });
             
             let courseids = "";
-            let hidden = hlp.get("hidden");
             if (courses.length != 0) {
                 $.each(courses.response.enrollments.enrollment, (i, course) => {
-                    try {
-                        if (hidden.find(name => name.course.includes(course.courseid)).$hidden)
-                            return;
-                    } catch (e) {}
-
                     if (i < courses.response.enrollments.enrollment.length - 1)
                         courseids += `${course.id},`
                     else 
                         courseids += `${course.id}`;
-
-                    console.log(courseids)
                 });
             }
 
@@ -291,7 +290,15 @@ export async function run() {
                 }
                 
                 // finally list each item, select the current day, and show the work from it.
-                await $.each(cell_group, (i, cell) => {                    
+                await $.each(cell_group, (i, cell) => {
+                    try {
+                        for (let item of cell.items) {
+                            let hidden = hlp.get("hidden");
+                            if (hidden.find(option => option.course.includes(item.courseid)).$hidden)
+                                return;
+                        }
+                    } catch (e) {}
+                    
                     if ($(`#calendar #${new Date(cell.duedate).toLocaleDateString('sv-SE')}`).length) {
                         // determine if a day has non completed work
                         hlp.prevent_errors(async function () {
@@ -323,7 +330,7 @@ export async function run() {
                     $(`#calendar #${new Date().toLocaleDateString('sv-SE')} > span`).removeClass("bg-yellow-500").addClass(`${hlp.theme("bg", "300")} text-white rounded-xl`);
                 
                 // This handles if the current day you click has nothing
-                await $.each($("#calendar div[id]"), (i, days) => {                    
+                await $.each($("#calendar div[id]"), (i, days) => {                 
                     if (!$(days).find("span").hasClass(hlp.theme("bg", "700")) && !$(days).find("span").hasClass("bg-yellow-500")) {
                         let date = new Date($(days).attr("id"));
                         date.setDate(date.getDate() + 1);

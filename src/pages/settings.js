@@ -45,6 +45,7 @@ export async function run() {
                             </div>
                             <div class="flex-1">
                                 <button id="change-pfp" class="w-full px-4 py-3 ${hlp.theme("bg", "700")} text-white transition font-semibold rounded-xl hover:${hlp.theme("bg", "500")} focus:outline-none focus:ring-2 focus:${hlp.theme("ring", "700")} focus:ring-opacity-50">Change Picture</button>
+                                <input id="change-pfp-data" type="file" class="hidden">
                             </div>
                         </div>
                     </div>
@@ -253,9 +254,9 @@ export async function run() {
                                 calendar_month
                             </span>
                         </a>
-                        <a class="cursor-pointer flex justify-center items-center py-3 w-full">
+                        <a id="grades" class="cursor-pointer flex justify-center items-center py-3 w-full">
                             <span class="text-[30px] font-black pointer-events-none material-symbols-rounded">
-                                description
+                                insert_chart
                             </span>
                         </a>
                         <a id="settings" class="cursor-pointer flex justify-center items-center py-3 w-full">
@@ -311,47 +312,17 @@ export async function run() {
 
 
 
-                case "change-pfp": {
-                    $("body").addClass("overflow-hidden");
-                    await $("#overlays").append(`
-                        <div id="overlay" class="fixed inset-0 bg-gray-900 z-50 bg-opacity-50 flex justify-center items-center animation-fadein">
-                            <div class="container mx-auto px-4 flex justify-center items-center pointer-events-none animation-popin">
-                                <div class="${hlp.theme("theme-card")} ${hlp.theme("theme-text")} rounded-xl max-w-lg px-5 py-5 pointer-events-auto w-[25rem]">
-                                    <div class="flex justify-center items-center mb-4">
-                                        <h2 class="text-2xl font-bold   text-center">Change Profile Picture</h2>
-                                    </div>
-                                    <div>
-                                        <input placeholder="New Profile Picture" id="pfp" value="${hlp.get("pfp", false).length == 0 ? "" : hlp.get("pfp", false)}" class="${hlp.theme("caret", "700")} font-bold ${hlp.theme("theme-input")} mt-1 block w-full px-5 py-4 rounded-xl shadow-sm focus:outline-none sm:text-sm">
-                                        <button id="submit-pfp" class="w-full mt-2 px-4 py-2 ${hlp.theme("bg", "600")} text-white transition font-semibold rounded-xl hover:${hlp.theme("bg", "500")} focus:outline-none focus:ring-2 focus:${hlp.theme("ring", "700")} focus:ring-opacity-50">Done</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `).off().on("click", async function (e) {
-                        switch ($(e.target).attr("id")) {
-                            case "overlay": {
-                                $("#overlay").fadeOut(400, function () {
-                                    $("#overlays").empty();
-                                });
-                                $("body").removeClass("overflow-hidden");
-                                break;
-                            }
-                            case "submit-pfp": {
-                                if ($("#pfp").val() == hlp.get("pfp", false)) {
-                                    $("#pfp").addClass("shake border border-red-300").one("animationend webkitAnimationEnd", function() {
-                                        $(this).removeClass("shake border border-red-300");
-                                    });
-                                } else {
-                                    hlp.set("pfp", $("#pfp").val(), false);
-
-                                    $("#overlays").empty();
-                                    $("body").removeClass("overflow-hidden");
-
-                                    site.runtime("settings");
-                                }
-                                break;
-                            }
-                        }
+                case "change-pfp": {    
+                    $("#change-pfp-data").trigger("click").change(function () {
+                        const file = this.files[0];
+                        const reader = new FileReader();
+                    
+                        reader.onload = function(e) {
+                            hlp.set("pfp", e.target.result, false);
+                            site.runtime("settings")
+                        };
+                    
+                        reader.readAsDataURL(file);
                     })
                     break;
                 }
@@ -423,6 +394,11 @@ export async function run() {
 
                 case "calendar": {
                     site.runtime("calendar");
+                    break;
+                }
+
+                case "grades": {
+                    await site.runtime("grades");
                     break;
                 }
 
