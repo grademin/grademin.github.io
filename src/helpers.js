@@ -1,7 +1,7 @@
 /**
  * Proview Version
  */
-export const version = "1.6.6";
+export const version = "1.6.7";
 
 /**
  * A simple function to make api links stand out.
