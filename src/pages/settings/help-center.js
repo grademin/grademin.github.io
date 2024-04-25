@@ -71,6 +71,11 @@ export async function run() {
                             These are those little colored circles at the corner of your <b>Courses, Todos, and Activity Stream</b>. If you don't want that then you can easily turn it off with this setting.
                         </p>
                         <br>
+                        <h1 class="text-3xl font-black">Do I have to constantly update my GPA?</h1>
+                        <p>
+                            No, the whole reason for the calculator is to get the credits of your course, and if its an AP class. Once you have gotten the GPA setup, it will always check your grades and update the GPA scores accordingly.
+                        </p>
+                        <br>
                         <h1 class="text-3xl font-black">What do these colors represent?</h1>
                         <p>
                             Assuming you question the following colors <i>(Blue, Orange, Cyan, Purple, Teal, and Green)</i>, these represent your objectives. Objectives are what any school under the <b>New Tech Network</b> follow for grading. To learn a lot more about how that grading works please refer to <a goto="https://newtechnetwork.org/what-we-do/learning-outcomes/" class="text-blue-700 hover:text-blue-600 cursor-pointer transition">this documentation</a> to get the full explanation.
