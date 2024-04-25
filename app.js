@@ -142,8 +142,5 @@
         }
     }
 
-    // If the user "attempts" to change the page url to something it is not, then stop and don't 
-    // follow the url parameters.
-
     await site.runtime(hlp.get("page").page)
 })();
