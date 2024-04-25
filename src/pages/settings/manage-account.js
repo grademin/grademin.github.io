@@ -89,9 +89,10 @@ export async function run() {
                             success: async function () {
                                 hlp.remove("session");
                                 hlp.remove("remembered");
-                                hlp.remove("pfp", "");
-                                hlp.remove("hidden", []);
-                                hlp.remove("activities", []);
+                                hlp.set("pfp", "");
+                                hlp.remove("gpa")
+                                hlp.set("hidden", []);
+                                hlp.set("activities", []);
 
                                 hlp.set("theme_settings", {"sync":true,"theme":"dark","theme_color":"blue"});
                                 hlp.set("settings", [{"setting":"include-self","$value":true},{"setting":"hide-lti-details","$value":false},{"setting":"chip-indicators","$value":true},{"setting":"hide-excused","$value":false},{"setting":"self-activities","$value":false}]);
