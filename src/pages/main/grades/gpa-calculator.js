@@ -281,7 +281,7 @@ export async function run() {
                                 </div>
                                 <div class="flex flex-row gap-2 my-3">
                                     <div class="relative inline-block text-left">
-                                        <button id="dropdown-button" type="button" class="flex flex-row gap-5 justify-center items-center w-full rounded-xl border border-zinc-700 shadow-sm px-3 py-1 font-bold ${hlp.theme("theme-text")}">
+                                        <button id="dropdown-button" type="button" class="flex flex-row gap-5 ${hlp.theme("theme-card")} justify-center items-center w-full rounded-xl shadow-lg px-3 py-1 font-bold ${hlp.theme("theme-text")}">
                                             <span id="value" class="pointer-events-none">Full</span>
                                             <span class="text-1xl pointer-events-none material-symbols-rounded flex justify-center">
                                                 keyboard_arrow_down
@@ -289,15 +289,15 @@ export async function run() {
                                         </button>
                                         <div id="dropdown-menu" class="hidden z-[110]">
                                             <div id="dropdown-overlay" class="fixed z-[100] left-0 right-0 top-0 bottom-0"></div>
-                                            <div class="z-[100] overflow-hidden origin-top-right absolute right-0 mt-2 w-40 rounded-xl shadow-xl ${hlp.theme("theme-card")} ring-1 ring-black ring-opacity-5 focus:outline-none" role="none">
-                                                <a id="half" class="${hlp.theme("theme-text")} block px-4 py-2 text-sm hover:${hlp.theme("theme-input")} cursor-pointer" role="menuitem">Half Semester</a>
-                                                <a id="full" class="${hlp.theme("theme-text")} block px-4 py-2 text-sm hover:${hlp.theme("theme-input")} cursor-pointer" role="menuitem">Full Semester</a>
+                                            <div class="z-[100] overflow-hidden origin-top-right absolute left-0 mt-2 w-40 rounded-xl shadow-xl ${hlp.theme("theme-card")}">
+                                                <a id="half" class="${hlp.theme("theme-text")} block px-4 py-2 text-sm cursor-pointer" role="menuitem">Half Semester</a>
+                                                <a id="full" class="${hlp.theme("theme-text")} block px-4 py-2 text-sm cursor-pointer" role="menuitem">Full Semester</a>
                                             </div>
                                         </div>
                                         <input id="credits" courseid="${course.id}" eid="${course.enrollmentid}" grade="${isNaN(course.score) ? `0` : `${course.score}`}" semester="full" class="hidden credits">
                                     </div>
                                     <div class="relative inline-block text-left">
-                                        <button id="dropdown-button" type="button" class="flex flex-row gap-5 justify-center items-center w-full rounded-xl border border-zinc-700 shadow-sm px-3 py-1 font-bold ${hlp.theme("theme-text")}">
+                                        <button id="dropdown-button" type="button" class="flex flex-row gap-5 ${hlp.theme("theme-card")} justify-center items-center w-full rounded-xl shadow-lg px-3 py-1 font-bold ${hlp.theme("theme-text")}">
                                             <span id="value" class="pointer-events-none">Regular</span>
                                             <span class="text-1xl pointer-events-none material-symbols-rounded flex justify-center">
                                                 keyboard_arrow_down
@@ -305,9 +305,9 @@ export async function run() {
                                         </button>
                                         <div id="dropdown-menu" class="hidden z-[110]">
                                             <div id="dropdown-overlay" class="fixed z-[100] left-0 right-0 top-0 bottom-0"></div>
-                                            <div class="z-[100] overflow-hidden origin-top-right absolute right-0 mt-2 w-40 rounded-xl shadow-xl ${hlp.theme("theme-card")} ring-1 ring-black ring-opacity-5 focus:outline-none" role="none">
-                                                <a id="regular" class="${hlp.theme("theme-text")} block px-4 py-2 text-sm hover:${hlp.theme("theme-input")} cursor-pointer" role="menuitem">Regular</a>
-                                                <a id="ap" class="${hlp.theme("theme-text")} block px-4 py-2 text-sm hover:${hlp.theme("theme-input")} cursor-pointer" role="menuitem">AP</a>
+                                            <div class="z-[100] overflow-hidden origin-top-right absolute right-0 mt-2 w-40 rounded-xl shadow-xl ${hlp.theme("theme-card")}">
+                                                <a id="regular" class="${hlp.theme("theme-text")} block px-4 py-2 text-sm cursor-pointer" role="menuitem">Regular</a>
+                                                <a id="ap" class="${hlp.theme("theme-text")} block px-4 py-2 text-sm cursor-pointer" role="menuitem">AP</a>
                                             </div>
                                         </div>
                                         <input id="is_ap" courseid="${course.id}" eid="${course.enrollmentid}" type="regular" grade="${isNaN(course.score) ? `0` : `${course.score}`}" class="hidden is_ap">
@@ -334,7 +334,7 @@ export async function run() {
                                 </div>
                                 <div class="flex flex-row gap-2 my-3">
                                     <div class="relative inline-block text-left">
-                                        <button id="dropdown-button" type="button" class="flex flex-row gap-5 justify-center items-center w-full rounded-xl border border-zinc-700 shadow-sm px-3 py-1 font-bold ${hlp.theme("theme-text")}">
+                                        <button id="dropdown-button" type="button" class="flex flex-row gap-5 ${hlp.theme("theme-card")} justify-center items-center w-full rounded-xl shadow-lg px-3 py-1 font-bold ${hlp.theme("theme-text")}">
                                             <span id="value" class="pointer-events-none">${hlp.get("gpa").courses.find(item => item.courseid == course.enrollmentid).credit == 1 ? "Full" : "Half"}</span>
                                             <span class="text-1xl pointer-events-none material-symbols-rounded flex justify-center">
                                                 keyboard_arrow_down
@@ -342,15 +342,15 @@ export async function run() {
                                         </button>
                                         <div id="dropdown-menu" class="hidden z-[110]">
                                             <div id="dropdown-overlay" class="fixed z-[100] left-0 right-0 top-0 bottom-0"></div>
-                                            <div class="z-[100] overflow-hidden origin-top-right absolute right-0 mt-2 w-40 rounded-xl shadow-xl ${hlp.theme("theme-card")} ring-1 ring-black ring-opacity-5 focus:outline-none" role="none">
-                                                <a id="half" class="${hlp.theme("theme-text")} block px-4 py-2 text-sm hover:${hlp.theme("theme-input")} cursor-pointer" role="menuitem">Half Semester</a>
-                                                <a id="full" class="${hlp.theme("theme-text")} block px-4 py-2 text-sm hover:${hlp.theme("theme-input")} cursor-pointer" role="menuitem">Full Semester</a>
+                                            <div class="z-[100] overflow-hidden origin-top-right absolute left-0 mt-2 w-40 rounded-xl shadow-xl ${hlp.theme("theme-card")}">
+                                                <a id="half" class="${hlp.theme("theme-text")} block px-4 py-2 text-sm cursor-pointer" role="menuitem">Half Semester</a>
+                                                <a id="full" class="${hlp.theme("theme-text")} block px-4 py-2 text-sm cursor-pointer" role="menuitem">Full Semester</a>
                                             </div>
                                         </div>
                                         <input id="credits" courseid="${course.id}" eid="${course.enrollmentid}" grade="${isNaN(course.score) ? `0` : `${course.score}`}" semester="${hlp.get("gpa").courses.find(item => item.courseid == course.enrollmentid).credit == 1 ? "full" : "half"}" class="hidden credits">
                                     </div>
                                     <div class="relative inline-block text-left">
-                                        <button id="dropdown-button" type="button" class="flex flex-row gap-5 justify-center items-center w-full rounded-xl border border-zinc-700 shadow-sm px-3 py-1 font-bold ${hlp.theme("theme-text")}">
+                                        <button id="dropdown-button" type="button" class="flex flex-row gap-5 justify-center ${hlp.theme("theme-card")} items-center w-full rounded-xl shadow-lg px-3 py-1 font-bold ${hlp.theme("theme-text")}">
                                             <span id="value" class="pointer-events-none">${hlp.get("gpa").courses.find(item => item.courseid == course.enrollmentid).is_ap == true ? "AP" : "Regular"}</span>
                                             <span class="text-1xl pointer-events-none material-symbols-rounded flex justify-center">
                                                 keyboard_arrow_down
@@ -358,9 +358,9 @@ export async function run() {
                                         </button>
                                         <div id="dropdown-menu" class="hidden z-[110]">
                                             <div id="dropdown-overlay" class="fixed z-[100] left-0 right-0 top-0 bottom-0"></div>
-                                            <div class="z-[100] overflow-hidden origin-top-right absolute right-0 mt-2 w-40 rounded-xl shadow-xl ${hlp.theme("theme-card")} ring-1 ring-black ring-opacity-5 focus:outline-none" role="none">
-                                                <a id="regular" class="${hlp.theme("theme-text")} block px-4 py-2 text-sm hover:${hlp.theme("theme-input")} cursor-pointer" role="menuitem">Regular</a>
-                                                <a id="ap" class="${hlp.theme("theme-text")} block px-4 py-2 text-sm hover:${hlp.theme("theme-input")} cursor-pointer" role="menuitem">AP</a>
+                                            <div class="z-[100] overflow-hidden origin-top-right absolute right-0 mt-2 w-40 rounded-xl shadow-xl ${hlp.theme("theme-card")}">
+                                                <a id="regular" class="${hlp.theme("theme-text")} block px-4 py-2 text-sm cursor-pointer" role="menuitem">Regular</a>
+                                                <a id="ap" class="${hlp.theme("theme-text")} block px-4 py-2 text-sm cursor-pointer" role="menuitem">AP</a>
                                             </div>
                                         </div>
                                         <input id="is_ap" courseid="${course.id}" eid="${course.enrollmentid}" type="${hlp.get("gpa").courses.find(item => item.courseid == course.enrollmentid).is_ap == true ? "ap" : "regular"}" grade="${isNaN(course.score) ? `0` : `${course.score}`}" class="hidden is_ap">

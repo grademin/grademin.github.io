@@ -52,46 +52,10 @@ export async function run() {
                 </div>
                 <!---->
                 <!---->
-                ${(() => {
-                    if (hlp.get("gpa") != "" && (hlp.get("gpa").regular != null || hlp.get("gpa").weighted != null)) {
-                        return `
-                            <div id="gpas">
-                                <div class="flex flex-col container mx-auto ${hlp.theme("theme-card")} rounded-xl px-3">
-                                    ${hlp.get("gpa").regular != null ? `
-                                    <div class="flex flex-row justify-between container mx-auto py-3 ${hlp.get("gpa").weighted != null ? "border-b-[2px] border-zinc-700" : ""}">
-                                        <div class="flex flex-row justify-center items-center gap-4 pointer-events-none leading-none">
-                                            <div class="flex flex-col items-center">
-                                                <h1 class="text-[20px] font-bold">GPA</h1>
-                                            </div>
-                                        </div>
-                                        <div class="flex justify-center items-center">
-                                            <div class="rounded-lg px-3 text-white font-bold py-1 bg-green-500">
-                                                ${hlp.get("gpa").regular}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    ` : ""}
-                                    ${hlp.get("gpa").weighted != null ? `
-                                    <div class="flex flex-row justify-between container mx-auto py-3">
-                                        <div class="flex flex-row justify-center items-center gap-4 pointer-events-none leading-none">
-                                            <div class="flex flex-col items-center">
-                                                <h1 class="text-[20px] font-bold">GPA Weighted</h1>
-                                            </div>
-                                        </div>
-                                        <div class="flex justify-center items-center">
-                                            <div class="rounded-lg px-3 text-white font-bold py-1 bg-green-500">
-                                                ${hlp.get("gpa").weighted}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    ` : ""}
-                                </div>
-                            </div>
-                        `
-                    } else {
-                        return ""
-                    }
-                })()}
+                ${hlp.get("gpa") != "" ? `
+                <div id="gpas">
+                </div>
+                ` : ""}
                 <!---->
                 <div id="averages" class="flex flex-col gap-5">
                 </div>
@@ -302,7 +266,7 @@ export async function run() {
             if (final_overall.length != 0) {
                 $("#averages").append(`
                     ${(final_overall.find(type => type.type == "Agency") != undefined || final_overall.find(type => type.type == "Collaboration" != undefined) ? `
-                    <div class="flex flex-row gap-5">
+                    <div class="flex flex-col gap-5 xs-sm:flex-row">
                         ${final_overall.find(type => type.type == "Agency") != undefined ? `
                         <div class="relative flex-1 flex flex-col justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
                             <div class="flex justify-center items-center h-full">
@@ -332,7 +296,7 @@ export async function run() {
                         </div>
                         ` : ""}
                     </div>
-                    <div class="flex flex-row gap-5">
+                    <div class="flex flex-col gap-5 xs-sm:flex-row">
                         ${final_overall.find(type => type.type == "Knowledge & Thinking") != undefined ? `
                         <div class="relative flex-1 flex flex-col justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
                             <div class="flex justify-center items-center h-full">
@@ -391,7 +355,8 @@ export async function run() {
                             title: course.course.title.trim(),
                             start: new Date(course.course.startdate).toLocaleDateString(undefined, {month: "long", year: "numeric", day: "numeric" }),
                             end: new Date(course.course.enddate).toLocaleDateString(undefined, {month: "long", year: "numeric", day: "numeric"}),
-                            score: hlp.decode_score(course.enrollmentmetrics, course.enrollmentmetrics)
+                            score: hlp.decode_score(course.enrollmentmetrics, course.enrollmentmetrics),
+                            metrics: course.enrollmentmetrics
                         })
                     })
                 } catch (e) {}
@@ -407,7 +372,8 @@ export async function run() {
                                 title: course.course.title.trim(),
                                 start: new Date(course.course.startdate).toLocaleDateString(undefined, {month: "long", year: "numeric", day: "numeric" }),
                                 end: new Date(course.course.enddate).toLocaleDateString(undefined, {month: "long", year: "numeric", day: "numeric"}),
-                                score: hlp.decode_score(course.enrollmentmetrics, course.enrollmentmetrics)
+                                score: hlp.decode_score(course.enrollmentmetrics, course.enrollmentmetrics),
+                                metrics: course.enrollmentmetrics
                             })
                         } catch (e) {}
                     })
@@ -416,6 +382,8 @@ export async function run() {
             }
 
             if (all_courses.length != 0) {
+                let is_not_ap = 0
+                let is_an_ap = 0
                 $.each(all_courses, (i, course) => {
                     try {
                         let hidden = hlp.get("hidden");
@@ -423,20 +391,125 @@ export async function run() {
                             return;
                     } catch (e) {}
 
+                    if (hlp.get("gpa").courses.find(name => name.enrollmentid == course.enrollmentid).grade != course.grade) {
+                        let grade = hlp.get("gpa")
+                        grade.courses.find(name => name.enrollmentid == course.enrollmentid).grade = course.score
+
+                        if (!grade.courses.find(name => name.enrollmentid == course.enrollmentid).is_ap)
+                            is_not_ap++
+                        else
+                            is_an_ap++
+
+                        hlp.set("gpa", grade)
+                    }
+
+                    function convert_to_gpa(grade) {
+                        if (grade >= 90) return 4.0;
+                        if (grade >= 80) return 3.0;
+                        if (grade >= 70) return 2.0;
+                        if (grade >= 60) return 1.0;
+                        return 0.0;
+                    }
+                
+                    function calculate_regular_gpa(courses) {
+                        var totalCredits = 0;
+                        var totalQualityPoints = 0;
+                
+                        $.each(courses, function(index, course) {
+                            var gpa = convert_to_gpa(course.grade);
+                            totalCredits += course.credit;
+                            totalQualityPoints += course.credit * gpa;
+                        });
+                
+                        return totalQualityPoints / totalCredits;
+                    }
+                
+                    
+                    function calculate_weighted_gpa(courses) {
+                        var totalCredits = 0;
+                        var totalWeightedQualityPoints = 0;
+                
+                        $.each(courses, function(index, course) {
+                            var gpa = convert_to_gpa(course.grade);
+                            if (course.is_ap && (gpa === 4.0 || gpa === 3.0)) {
+                                gpa += 0.5;
+                            }
+
+                            totalCredits += course.credit;
+                            totalWeightedQualityPoints += course.credit * gpa;
+                        });
+                
+                        return totalWeightedQualityPoints / totalCredits;
+                    }
+                
+                    var regular = calculate_regular_gpa(hlp.get("gpa").courses);
+                    var weighted = calculate_weighted_gpa(hlp.get("gpa").courses);
+
+                    hlp.set("gpa", {
+                        regular: is_an_ap != hlp.get("gpa").courses.length ? regular.toFixed(4) : null,
+                        weighted: is_not_ap != hlp.get("gpa").courses.length ? weighted.toFixed(4) : null,
+                        courses: hlp.get("gpa").courses
+                    })
+
+
+                    let new_a = undefined, new_c = undefined, new_k = undefined, new_o = undefined, new_w = undefined;
+
+                    objective = [];
+                    try {
+                        objective = course.metrics.objectivescores.objectivescore;                    
+                    } catch (e) {}
+
+                    new_a = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Agency")).guid));
+                    new_c = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Collaboration")).guid));
+                    new_k = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Knowledge & Thinking")).guid));
+                    new_o = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Oral Communication")).guid));
+                    new_w = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Written Communication")).guid));
+
                     $("#courses").append(`
-                        <div class="flex flex-col container mx-auto ${hlp.theme("theme-card")} rounded-xl px-3">
-                            <div class="flex flex-row justify-between container mx-auto py-3">
-                                <div class="flex flex-row justify-center items-center gap-4 pointer-events-none leading-none">
-                                    <div class="flex flex-col items-center">
-                                        <h1 class="text-[20px] w-[5ch] xl-sm:w-[17ch] x-sm:w-[28ch] sm:w-[30ch] md:w-[40ch] lg:w-full truncate font-bold">${course.title}</h1>
+                        <div class="flex flex-col gap-2">
+                            <div class="flex flex-col container mx-auto ${hlp.theme("theme-card")} rounded-xl px-3">
+                                <div class="flex flex-row justify-between container mx-auto py-3">
+                                    <div class="flex flex-row justify-center items-center gap-4 pointer-events-none leading-none">
+                                        <div class="flex flex-col items-center">
+                                            <h1 class="text-[20px] w-[5ch] xl-sm:w-[17ch] x-sm:w-[28ch] sm:w-[30ch] md:w-[40ch] lg:w-full truncate font-bold">${course.title}</h1>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="flex justify-center items-center">
-                                    <div class="rounded-lg px-3 py-1 text-white font-bold bg-${hlp.score_to_color(course.score)}-500">
-                                        ${isNaN(course.score) ? `<span class="${hlp.theme("theme-text")} w-max">N/A</span>` : `${course.score}`}
+                                    <div class="flex justify-center items-center">
+                                        <div class="rounded-lg px-3 py-1 text-white font-bold bg-${hlp.score_to_color(course.score)}-500">
+                                            ${isNaN(course.score) ? `<span class="${hlp.theme("theme-text")} w-max">N/A</span>` : `${course.score}`}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            ${objective.length != 0 && (new_a != undefined || new_c != undefined || new_k != undefined || new_o != undefined || new_w != undefined) ? `
+                            <div class="flex flex-row gap-2">
+                                ${new_a != undefined ? ` 
+                                <div class="rounded-lg px-3 py-1 text-white flex justify-center items-center font-bold bg-yellow-500">
+                                    ${hlp.decode_score(new_a)}
+                                </div>
+                                ` : ""}
+                                ${new_c != undefined ? `
+                                <div class="rounded-lg px-3 py-1 text-white flex justify-center items-center font-bold bg-violet-500">
+                                    ${hlp.decode_score(new_c)}
+                                </div>
+                                ` : ""}
+                                ${new_k != undefined ? `
+                                <div class="rounded-lg px-3 py-1 text-white flex justify-center items-center font-bold bg-blue-500">
+                                    ${hlp.decode_score(new_k)}
+                                </div>
+                                ` : ""}
+                                ${new_o != undefined ? `
+                                <div class="rounded-lg px-3 py-1 text-white flex justify-center items-center font-bold bg-green-500">
+                                    ${hlp.decode_score(new_o)}
+                                </div>
+                                ` : ""}
+                                ${new_w != undefined ? `
+                                <div class="rounded-lg px-3 py-1 text-white flex justify-center items-center font-bold bg-cyan-500">
+                                    ${hlp.decode_score(new_w)}
+                                </div>
+                                ` : ""}
+                            </div>
+                            ` : ""}
                         </div>
                     `)
                 });
@@ -448,6 +521,43 @@ export async function run() {
                         </div>
                     `)
                 }
+
+                if (hlp.get("gpa") != "" && (hlp.get("gpa").regular != null || hlp.get("gpa").weighted != null)) {
+                    $("#gpas").html(`
+                        <div class="flex flex-col container mx-auto ${hlp.theme("theme-card")} rounded-xl px-3">
+                                ${hlp.get("gpa").regular != null ? `
+                                <div class="flex flex-row justify-between container mx-auto py-3 ${hlp.get("gpa").weighted != null ? "border-b-[2px] border-zinc-700" : ""}">
+                                    <div class="flex flex-row justify-center items-center gap-4 pointer-events-none leading-none">
+                                        <div class="flex flex-col items-center">
+                                            <h1 class="text-[20px] font-bold">GPA</h1>
+                                        </div>
+                                    </div>
+                                    <div class="flex justify-center items-center">
+                                        <div class="rounded-lg px-3 text-white font-bold py-1 bg-green-500">
+                                            ${hlp.get("gpa").regular}
+                                        </div>
+                                    </div>
+                                </div>
+                                ` : ""}
+                                ${hlp.get("gpa").weighted != null ? `
+                                <div class="flex flex-row justify-between container mx-auto py-3">
+                                    <div class="flex flex-row justify-center items-center gap-4 pointer-events-none leading-none">
+                                        <div class="flex flex-col items-center">
+                                            <h1 class="text-[20px] font-bold">GPA Weighted</h1>
+                                        </div>
+                                    </div>
+                                    <div class="flex justify-center items-center">
+                                        <div class="rounded-lg px-3 text-white font-bold py-1 bg-green-500">
+                                            ${hlp.get("gpa").weighted}
+                                        </div>
+                                    </div>
+                                </div>
+                                ` : ""}
+                            </div>
+                        </div>
+                    `)
+                }
+
             }
         }
 

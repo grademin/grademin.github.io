@@ -159,7 +159,7 @@ export function theme(type, value) {
         }
         case "theme-card": {
             if (theme == "light") {
-                return `bg-zinc-100 shadow-xl`;
+                return `bg-white shadow-xl`;
             } else {
                 return `bg-zinc-800`;
             }
@@ -180,7 +180,7 @@ export function theme(type, value) {
         }
         case "theme-bg": {
             if (theme == "light") {
-                return `bg-white`;
+                return `bg-zinc-100`;
             } else {
                 return `bg-black`;
             }
