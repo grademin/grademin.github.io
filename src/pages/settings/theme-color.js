@@ -315,6 +315,26 @@ export async function run() {
                         </div>
                     </div>
                     <div class="relative overflow-hidden flex flex-col container mx-auto rounded-xl cursor-pointer">
+                        <div id="theme-pink" class="flex flex-col">
+                            <div class="bg-pink-600 w-full py-2 px-3 pointer-events-none">
+                                <span class="font-bold text-white">Hot Pink</span>
+                            </div>
+                            <div class="flex flex-row gap-5 pointer-events-none px-3 py-3" style="background-image: -webkit-linear-gradient(-30deg, rgb(228, 228, 231) 50%, rgb(15, 15, 15) 50%);">
+                                <div class="flex flex-1 gap-1 flex-col justify-between">
+                                    <div class="bg-zinc-700 p-1 w-[80%] rounded-full"></div>
+                                    <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
+                                </div>
+                                <div class="flex items-center invisible">
+                                    <div flex-2 class="rounded-full px-3 py-1 ${hlp.theme("bg", "700")}">
+                                        <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
+                                            check
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative overflow-hidden flex flex-col container mx-auto rounded-xl cursor-pointer">
                         <div id="theme-teal" class="flex flex-col">
                             <div class="bg-teal-400 w-full py-2 px-3 pointer-events-none">
                                 <span class="font-bold text-white">Turquoise</span>
@@ -678,6 +698,48 @@ export async function run() {
                             <div id="theme-fuchsia-dark" class="flex flex-col flex-1">
                                 <div class="bg-fuchsia-600 w-full py-2 px-3 rounded-t-xl pointer-events-none">
                                     <span class="font-bold text-white">Magenta Dark</span>
+                                </div>
+                                <div class="flex flex-row gap-5 px-3 py-3 rounded-b-xl pointer-events-none" style="background: rgb(15, 15, 15);">
+                                    <div class="flex flex-1 gap-1 flex-col justify-between">
+                                        <div class="bg-zinc-700 p-1 w-[80%] rounded-full"></div>
+                                        <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
+                                    </div>
+                                    <div class="flex items-center invisible">
+                                        <div flex-2 class="rounded-full px-3 py-1 ${hlp.theme("bg", "700")}">
+                                            <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
+                                                check
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-row gap-5">
+                        <div class="relative overflow-hidden container mx-auto cursor-pointer">
+                            <div id="theme-pink-light" class="flex flex-col flex-1">
+                                <div class="bg-pink-600 w-full py-2 px-3 rounded-t-xl pointer-events-none">
+                                    <span class="font-bold text-white">Hot Pink Light</span>
+                                </div>
+                                <div class="flex flex-row gap-5 px-3 py-3 rounded-b-xl pointer-events-none" style="background: rgb(228, 228, 231);">
+                                    <div class="flex flex-1 gap-1 flex-col justify-between">
+                                        <div class="bg-zinc-700 p-1 w-[80%] rounded-full"></div>
+                                        <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
+                                    </div>
+                                    <div class="flex items-center invisible">
+                                        <div flex-2 class="rounded-full px-3 py-1 ${hlp.theme("bg", "700")}">
+                                            <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
+                                                check
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative overflow-hidden container mx-auto cursor-pointer">
+                            <div id="theme-pink-dark" class="flex flex-col flex-1">
+                                <div class="bg-pink-600 w-full py-2 px-3 rounded-t-xl pointer-events-none">
+                                    <span class="font-bold text-white">Hot Pink Dark</span>
                                 </div>
                                 <div class="flex flex-row gap-5 px-3 py-3 rounded-b-xl pointer-events-none" style="background: rgb(15, 15, 15);">
                                     <div class="flex flex-1 gap-1 flex-col justify-between">

@@ -1,7 +1,10 @@
 export async function runtime(page) {
     const hlp = await import("/proview/src/helpers.js");
 
-    document.title = page.includes("-") ? page.split("-")[0].charAt(0).toUpperCase() + page.split("-")[0].slice(1) + " " + page.split("-")[1].charAt(0).toUpperCase() + page.split("-")[1].slice(1) : page.charAt(0).toUpperCase() + page.slice(1);
+    if (page.includes("-") ? page.split("-")[0].charAt(0).toUpperCase() + page.split("-")[0].slice(1) + " " + page.split("-")[1].charAt(0).toUpperCase() + page.split("-")[1].slice(1) : page.charAt(0).toUpperCase() + page.slice(1) === "Gpa Calculator")
+        document.title = "GPA Calculator"
+    else
+        document.title = page.includes("-") ? page.split("-")[0].charAt(0).toUpperCase() + page.split("-")[0].slice(1) + " " + page.split("-")[1].charAt(0).toUpperCase() + page.split("-")[1].slice(1) : page.charAt(0).toUpperCase() + page.slice(1);
 
     let pages = hlp.get("page")
     pages.page = page;
@@ -72,6 +75,14 @@ export async function runtime(page) {
         case "activity-stream": {
             const stream = await import("/proview/src/pages/main/activity-stream.js");
             await stream.run();
+            break;
+        }
+
+        ////////////////////////////////////////////////////////////
+
+        case "gpa-calculator": {
+            const gpa_calculator = await import("/proview/src/pages/main/grades/gpa-calculator.js");
+            await gpa_calculator.run();
             break;
         }
 

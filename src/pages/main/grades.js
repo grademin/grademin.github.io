@@ -2,13 +2,6 @@ export async function run() {
     const hlp = await import("../../helpers.js");
     const site = await import("../../site.js");
 
-    // TODO: get gpa calculator details using gradeways way of grades, also have checkmarks to determine if a class is AP
-    // then, once the gpa calculator has calculated at least once, uses that gpa in the grades main page.
-    //
-    // after that, show the average objectives compiled from all classes (excluding hidden)
-    //
-    // after that, show the class grades of each class again, since its a grades page.
-
     await hlp.load(async function () {
         await $("#root").html(`
             <div id="top" class="${hlp.theme("bg", "700")} text-white">
@@ -59,36 +52,46 @@ export async function run() {
                 </div>
                 <!---->
                 <!---->
-                <!-- TODO:
-                <div id="gpas">
-                    <div class="flex flex-col container mx-auto ${hlp.theme("theme-card")} rounded-xl px-3">
-                        <div class="flex flex-row justify-between container mx-auto py-3 border-b-[2px] border-zinc-700">
-                            <div class="flex flex-row justify-center items-center gap-4 pointer-events-none leading-none">
-                                <div class="flex flex-col items-center">
-                                    <h1 class="text-[20px] font-bold">GPA</h1>
+                ${(() => {
+                    if (hlp.get("gpa") != "" && (hlp.get("gpa").regular != null || hlp.get("gpa").weighted != null)) {
+                        return `
+                            <div id="gpas">
+                                <div class="flex flex-col container mx-auto ${hlp.theme("theme-card")} rounded-xl px-3">
+                                    ${hlp.get("gpa").regular != null ? `
+                                    <div class="flex flex-row justify-between container mx-auto py-3 ${hlp.get("gpa").weighted != null ? "border-b-[2px] border-zinc-700" : ""}">
+                                        <div class="flex flex-row justify-center items-center gap-4 pointer-events-none leading-none">
+                                            <div class="flex flex-col items-center">
+                                                <h1 class="text-[20px] font-bold">GPA</h1>
+                                            </div>
+                                        </div>
+                                        <div class="flex justify-center items-center">
+                                            <div class="rounded-lg px-3 text-white font-bold py-1 bg-green-500">
+                                                ${hlp.get("gpa").regular}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    ` : ""}
+                                    ${hlp.get("gpa").weighted != null ? `
+                                    <div class="flex flex-row justify-between container mx-auto py-3">
+                                        <div class="flex flex-row justify-center items-center gap-4 pointer-events-none leading-none">
+                                            <div class="flex flex-col items-center">
+                                                <h1 class="text-[20px] font-bold">GPA Weighted</h1>
+                                            </div>
+                                        </div>
+                                        <div class="flex justify-center items-center">
+                                            <div class="rounded-lg px-3 text-white font-bold py-1 bg-green-500">
+                                                ${hlp.get("gpa").weighted}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    ` : ""}
                                 </div>
                             </div>
-                            <div class="flex justify-center items-center">
-                                <div class="rounded-lg px-3 font-bold py-1 bg-green-500">
-                                    3.18
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex flex-row justify-between container mx-auto py-3">
-                            <div class="flex flex-row justify-center items-center gap-4 pointer-events-none leading-none">
-                                <div class="flex flex-col items-center">
-                                    <h1 class="text-[20px] font-bold">GPA Weighted</h1>
-                                </div>
-                            </div>
-                            <div class="flex justify-center items-center">
-                                <div class="rounded-lg px-3 font-bold py-1 bg-green-500">
-                                    3.24
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                -->
+                        `
+                    } else {
+                        return ""
+                    }
+                })()}
                 <!---->
                 <div id="averages" class="flex flex-col gap-5">
                 </div>
@@ -132,6 +135,11 @@ export async function run() {
                     break;
                 }
 
+                case "gpa-calculator": {
+                    await site.runtime("gpa-calculator");
+                    break;
+                }
+
 
                 case "calendar": {
                     await site.runtime("calendar");
@@ -151,6 +159,9 @@ export async function run() {
         });
 
         async function call() {
+            $("#averages").empty();
+            $("#courses").empty();
+
             let settings = [];
             let objectives = [];
             let courses_order = [];
@@ -288,7 +299,6 @@ export async function run() {
                 })
             });
 
-            console.log(final_overall)
             if (final_overall.length != 0) {
                 $("#averages").append(`
                     ${(final_overall.find(type => type.type == "Agency") != undefined || final_overall.find(type => type.type == "Collaboration" != undefined) ? `
@@ -422,7 +432,7 @@ export async function run() {
                                     </div>
                                 </div>
                                 <div class="flex justify-center items-center">
-                                    <div class="rounded-lg px-3 py-1 font-bold bg-${hlp.score_to_color(course.score)}-500">
+                                    <div class="rounded-lg px-3 py-1 text-white font-bold bg-${hlp.score_to_color(course.score)}-500">
                                         ${isNaN(course.score) ? `<span class="${hlp.theme("theme-text")} w-max">N/A</span>` : `${course.score}`}
                                     </div>
                                 </div>
@@ -431,6 +441,13 @@ export async function run() {
                     `)
                 });
 
+                if ($("#courses div").length == 0) {
+                    $("#courses").append(`
+                        <div class="flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl cursor-pointer py-3 px-3">
+                            <span class="text-center w-full">You have no courses available</span>
+                        </div>
+                    `)
+                }
             }
         }
 

@@ -1,7 +1,7 @@
 /**
  * Proview Version
  */
-export const version = "1.5.4";
+export const version = "1.6.3";
 
 /**
  * A simple function to make api links stand out.
@@ -257,6 +257,16 @@ export function theme(type, value) {
                     else
                         return `bg-${theme_color}-600`;
                 }
+                case "pink": {
+                    if (value == 600)
+                        return `bg-${theme_color}-500`;
+                    else if (value == 300)
+                        return `bg-${theme_color}-900`
+                    else if (value == 200)
+                        return `bg-${theme_color}-900`
+                    else
+                        return `bg-${theme_color}-600`;
+                }
                 case "teal": {
                     if (value == 600)
                         return `bg-${theme_color}-300`;
@@ -334,6 +344,16 @@ export function theme(type, value) {
                     else
                         return `border-${theme_color}-${value}`;
                 }
+                case "pink": {
+                    if (value == 700)
+                        return `border-${theme_color}-600`;
+                    else if (value == 400)
+                        return `border-${theme_color}-300`;
+                    else if (value == 500)
+                        return `border-${theme_color}-400`;
+                    else
+                        return `border-${theme_color}-${value}`;
+                }
                 case "teal": {
                     if (value == 700)
                         return `border-${theme_color}-400`;
@@ -386,6 +406,12 @@ export function theme(type, value) {
                     else
                         return `text-${theme_color}-600`;
                 }
+                case "pink": {
+                    if (value == 600)
+                        return `text-${theme_color}-700`;
+                    else
+                        return `text-${theme_color}-600`;
+                }
                 case "teal": {
                     if (value == 600)
                         return `text-${theme_color}-500`;
@@ -414,6 +440,9 @@ export function theme(type, value) {
                     return `caret-${theme_color}-700`;
                 }
                 case "fuchsia": {
+                    return `caret-${theme_color}-600`;
+                }
+                case "pink": {
                     return `caret-${theme_color}-600`;
                 }
                 case "teal": {
@@ -594,6 +623,25 @@ export function score_to_color(int) {
         color = "yellow";
     }
     else if (int < 60)
+        color = "red";
+
+    return color;
+}
+
+/** 
+ * Returns a color from a gpa score
+ * @param {int} int
+ */
+export function gpa_score_to_color(int) {
+    let color;
+    if (isNaN(int))
+        color = "";
+    else if (int >= 3.0)
+        color = "green";
+    else if (int < 3.0 && int > 2.0) {
+        color = "yellow";
+    }
+    else if (int < 2.0)
         color = "red";
 
     return color;
