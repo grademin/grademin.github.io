@@ -261,8 +261,12 @@ export async function run() {
                             return;
                     } catch (e) {}
 
+                    let force_use_gpa = false
+                    if (hlp.get("gpa").courses.find(item => item.courseid == course.enrollmentid) != undefined)
+                        force_use_gpa = true
+
                     let html = ``;
-                    if (hlp.get("gpa") == "" || hlp.get("gpa").courses.length == 0) {
+                    if (hlp.get("gpa") == "" || hlp.get("gpa").courses.length == 0 || hlp.get("gpa").courses.length != all_courses.length) {
                         html = `
                             <div class="flex flex-col">
                                 <div class="flex flex-row container mx-auto ${hlp.theme("theme-card")} rounded-xl px-3">

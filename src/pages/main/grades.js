@@ -391,67 +391,69 @@ export async function run() {
                             return;
                     } catch (e) {}
 
-                    if (hlp.get("gpa") != "") {
-                        if (hlp.get("gpa").courses.find(name => name.enrollmentid == course.enrollmentid).grade != course.grade) {
-                            let grade = hlp.get("gpa")
-                            grade.courses.find(name => name.enrollmentid == course.enrollmentid).grade = course.score
+                    try {
+                        if (hlp.get("gpa") != "") {
+                            if (hlp.get("gpa").courses.find(name => name.enrollmentid == course.enrollmentid).grade != course.grade) {
+                                let grade = hlp.get("gpa")
+                                grade.courses.find(name => name.enrollmentid == course.enrollmentid).grade = course.score
 
-                            if (!grade.courses.find(name => name.enrollmentid == course.enrollmentid).is_ap)
-                                is_not_ap++
-                            else
-                                is_an_ap++
+                                if (!grade.courses.find(name => name.enrollmentid == course.enrollmentid).is_ap)
+                                    is_not_ap++
+                                else
+                                    is_an_ap++
 
-                            hlp.set("gpa", grade)
-                        }
+                                hlp.set("gpa", grade)
+                            }
 
-                        function convert_to_gpa(grade) {
-                            if (grade >= 90) return 4.0;
-                            if (grade >= 80) return 3.0;
-                            if (grade >= 70) return 2.0;
-                            if (grade >= 60) return 1.0;
-                            return 0.0;
-                        }
-                    
-                        function calculate_regular_gpa(courses) {
-                            var totalCredits = 0;
-                            var totalQualityPoints = 0;
-                    
-                            $.each(courses, function(index, course) {
-                                var gpa = convert_to_gpa(course.grade);
-                                totalCredits += course.credit;
-                                totalQualityPoints += course.credit * gpa;
-                            });
-                    
-                            return totalQualityPoints / totalCredits;
-                        }
-                    
+                            function convert_to_gpa(grade) {
+                                if (grade >= 90) return 4.0;
+                                if (grade >= 80) return 3.0;
+                                if (grade >= 70) return 2.0;
+                                if (grade >= 60) return 1.0;
+                                return 0.0;
+                            }
                         
-                        function calculate_weighted_gpa(courses) {
-                            var totalCredits = 0;
-                            var totalWeightedQualityPoints = 0;
-                    
-                            $.each(courses, function(index, course) {
-                                var gpa = convert_to_gpa(course.grade);
-                                if (course.is_ap && (gpa === 4.0 || gpa === 3.0)) {
-                                    gpa += 0.5;
-                                }
+                            function calculate_regular_gpa(courses) {
+                                var totalCredits = 0;
+                                var totalQualityPoints = 0;
+                        
+                                $.each(courses, function(index, course) {
+                                    var gpa = convert_to_gpa(course.grade);
+                                    totalCredits += course.credit;
+                                    totalQualityPoints += course.credit * gpa;
+                                });
+                        
+                                return totalQualityPoints / totalCredits;
+                            }
+                        
+                            
+                            function calculate_weighted_gpa(courses) {
+                                var totalCredits = 0;
+                                var totalWeightedQualityPoints = 0;
+                        
+                                $.each(courses, function(index, course) {
+                                    var gpa = convert_to_gpa(course.grade);
+                                    if (course.is_ap && (gpa === 4.0 || gpa === 3.0)) {
+                                        gpa += 0.5;
+                                    }
 
-                                totalCredits += course.credit;
-                                totalWeightedQualityPoints += course.credit * gpa;
-                            });
-                    
-                            return totalWeightedQualityPoints / totalCredits;
+                                    totalCredits += course.credit;
+                                    totalWeightedQualityPoints += course.credit * gpa;
+                                });
+                        
+                                return totalWeightedQualityPoints / totalCredits;
+                            }
+                        
+                            var regular = calculate_regular_gpa(hlp.get("gpa").courses);
+                            var weighted = calculate_weighted_gpa(hlp.get("gpa").courses);
+
+                            hlp.set("gpa", {
+                                regular: is_an_ap != hlp.get("gpa").courses.length ? regular.toFixed(4) : null,
+                                weighted: is_not_ap != hlp.get("gpa").courses.length ? weighted.toFixed(4) : null,
+                                courses: hlp.get("gpa").courses
+                            })
                         }
-                    
-                        var regular = calculate_regular_gpa(hlp.get("gpa").courses);
-                        var weighted = calculate_weighted_gpa(hlp.get("gpa").courses);
-
-                        hlp.set("gpa", {
-                            regular: is_an_ap != hlp.get("gpa").courses.length ? regular.toFixed(4) : null,
-                            weighted: is_not_ap != hlp.get("gpa").courses.length ? weighted.toFixed(4) : null,
-                            courses: hlp.get("gpa").courses
-                        })
-                    }
+                    } catch (e) {}
 
 
                     let new_a = undefined, new_c = undefined, new_k = undefined, new_o = undefined, new_w = undefined;
