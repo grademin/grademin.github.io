@@ -1,7 +1,7 @@
 /**
  * Proview Version
  */
-export const version = "1.6.5";
+export const version = "1.6.6";
 
 /**
  * A simple function to make api links stand out.
@@ -126,7 +126,34 @@ export async function load(main) {
         set("overlay_active", "true", false);
     }
 
-    await main();
+    // ah, how i never think of this?
+    try {
+        await main();
+    } catch (e) {
+        console.error(e)
+        $("body").addClass("overflow-hidden");
+        $("#overlays").append(`
+            <div id="overlay" class="fixed inset-0 z-50 bg-gray-900 bg-opacity-50 flex justify-end items-end animation-fadein">
+                <div class="container mx-auto px-4 flex justify-center mb-5 items-center pointer-events-none animation-popin">
+                    <div class="${theme("theme-card")} border border-red-500 rounded-xl max-w-lg px-5 py-4 pointer-events-auto">
+                        <div class="flex flex-row gap-5 items-center">
+                            <span class="text-1xl flex-2 material-symbols-rounded ${theme("theme-text")} flex justify-center">
+                                info
+                            </span>
+                            <span class="flex-1 ${theme("theme-text")} font-bold">${e}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `)
+
+        setTimeout(function () {
+            $("#overlay").fadeOut(400, function () {
+                $("#overlays").empty();
+            });
+            $("body").removeClass("overflow-hidden");
+        }, 5000)
+    }
 
     await $("#overlays #loader").fadeOut(400, function () {
         $(this).remove();
