@@ -1,100 +1,84 @@
 /**
- * Proview Version
+ * Proview version.
  */
-export const version = "1.7.3";
+export const version = "1.7.4";
 
 /**
- * A simple function to make api links stand out.
+ * Adds "https://api.agilixbuzz.com" to the front of the string.
  * 
- * NOTE: The string must start with "/".
- * @param path {string}
+ * NOTE: The string MUST START with "/".
+ * @param {string} path
  * @returns {string}
  */
-export const api = (path) => { 
-    return `https://api.agilixbuzz.com${path}`
-};
-
-/**
- * Shortens getItem from localStorage.
- * @param {string} name
- * @param {boolean} parse
- */
-export function get(name, parse = true) {
-    if (localStorage.getItem(name) != undefined)
-        return parse ? JSON.parse(localStorage.getItem(name)) : localStorage.getItem(name);
-    else
-        return "";
-};
-
-/**
- * Shortens setItem from localStorage.
- * @param {string} name
- * @param {string|array} data
- * @param {boolean} stringify
- */
-export function set(name, data, stringify = true) {
-    return stringify ? localStorage.setItem(name, JSON.stringify(data)) : localStorage.setItem(name, data);
+export const api = (path) => {
+    return `https://api.agilixbuzz.com${path}`;
 }
 
 /**
- * Shortens removeItem from localStorage.
- * @param {string} name
- */
-export function remove(name) {
-    localStorage.removeItem(name);
-}
-
-/** 
- * Shortens JSON.parse().
- * @param {array} data
- */
-export function parse(data) {
-    return JSON.parse(data);
-}
-
-/** 
- * Shortens JSON.stringify(). 
- * @param {array} data
- */
-export function string(data) {
-    return JSON.stringify(data);
-}
-
-/**
- * Checks if an image is valid and can appear on a web page.
- * @param {string} url
- * @param {function} callback
- */
-export async function image_valid(url, callback) {
-    let image = new Image();
-    image.onload = async () => {await callback(url, true)};
-    image.onerror = async () => {await callback(url, false)};
-    image.src = url;
-};
-
-/**
- * Checks if a url redirects to another url
+ * Smarter version of `localStorage.getItem` that automatically determines
+ * if the localStorage item is an Array|Object or a String, or if it doesn't exist.
  * 
- * NOTE: CORS will make this not work sometimes. If this happens it will error and provide the original url.
- * @param {string} url
- * @param {function} callback
+ * @param {string} key
+ * @returns {Array|{}|string}
  */
-export async function url_redirects(url, callback) {
-    await fetch(url, {
-        method: "get",
-        redirect: "follow", // This instructs fetch to follow redirects
-    })
-    .then(response => {
-        callback(response.url, response.ok);
-    })
-    .catch(error => {
-        callback(url, false);
-    });
-};
+export function get(key) {
+    if (localStorage.getItem(key) == undefined) {
+        return undefined;
+    }
+
+    try {
+        if (Array.isArray(JSON.parse(localStorage.getItem(key))) || typeof JSON.parse(localStorage.getItem(key)) === "object") {
+            return JSON.parse(localStorage.getItem(key));
+        } 
+    } catch (e) {
+        return localStorage.getItem(key);
+    }
+}
 
 /**
- * Shortens the need to use localStorage for commonly used objects.
- * @example hlp.session.token;
+ * Smarter version of `localStorage.setItem` that automatically determines
+ * if the data is an Array|Object or a String.
+ * 
+ * @param {string} key
+ * @param {Array|{}|string} data
+ */
+export function set(key, data) {
+    if (Array.isArray(data) || typeof data === 'object') {
+        localStorage.setItem(key, JSON.stringify(data));
+    } else {
+        localStorage.setItem(key, data);
+    }
+}
+
+/**
+ * Shortened version of `localStorage.remove`.
+ * 
+ * @param {string} key
+ */
+export function remove(key) {
+    localStorage.removeItem(key);
+}
+
+/**
+ * Shortened version of `JSON.parse`.
+ * 
+ * @param {Array|{}} key
+ */
+export function parse(key) {
+    return JSON.parse(key);
+}
+
+/**
+ * Shortened version of `JSON.stringify`.
+ * 
+ * @param {Array|{}} key 
+ */
+export function stringify(key) {
+    return JSON.stringify(key);
+}
+
+/**
+ * This shortens the need for `hlp.get("session")`.
  */
 export const session = {
     get exists() {return get("session") ? true : false},
@@ -106,32 +90,191 @@ export const session = {
     get firstname() {return get("session") ? get("session").user.firstname : undefined},
     get lastname() {return get("session") ? get("session").user.lastname : undefined},
     get fullname() {return get("session") ? get('session').user.fullname : undefined}
-};
+}
 
 /**
- * Wraps a overlay loader over the code to show that things are happening.
+ * This shortens the need for `hlp.get("theme")`.
+ */
+export const theme = {
+    get exists() {return get("theme") ? true : false},
+    get sync() {return get("theme") ? get("theme").sync : undefined},
+    get theme() {return get("theme") ? get("theme").theme : undefined},
+    get color() {return get("theme") ? get("theme").color : undefined}
+}
+
+/**
+ * This shortens the need for `hlp.get("settings")`.
+ */
+export const settings = {
+    get exists() {return get("settings") ? true : false},
+    get include_self() {
+        if (get("settings")) {
+            try {
+                return get('settings').find(option => option.option == "include-self").$value;
+            } catch (e) {return undefined;}
+        } else {
+            return undefined;
+        }
+    },
+    get chip_indicators() {
+        if (get("settings")) {
+            try {
+                return get('settings').find(option => option.option == "chip-indicators").$value;
+            } catch (e) {return undefined;}
+        } else {
+            return undefined;
+        }
+    },
+    get hide_excused() {
+        if (get("settings")) {
+            try {
+                return get('settings').find(option => option.option == "hide-excused").$value;
+            } catch (e) {return undefined;}
+        } else {
+            return undefined;
+        }
+    },
+    get self_activities() {
+        if (get("settings")) {
+            try {
+                return get('settings').find(option => option.option == "self-activities").$value;
+            } catch (e) {return undefined;}
+        } else {
+            return undefined;
+        }
+    }
+}
+
+/**
+ * This shortens the need for `hlp.get("hidden")`.
+ * 
+ * @param {int} courseid
+ */
+export const hidden = (courseid) => {
+    try {
+        if (get("hidden").find(option => option.courseid == courseid).$value)
+            return true;
+        else
+            return false;
+    } catch (e) {
+        return false;
+    }
+}
+
+/**
+ * This shortens the need for `hlp.get("page")`.
+ * 
+ * NOTE: When using `getparams`, if the params array is empty it will return NULL instead of undefined!
+ */
+export const page = {
+    get exists() {return get("page") ? true : false},
+    get getpage() {return get("page") ? get("page").page : undefined},
+    get getparams() {
+        try {
+            if (get("page").params.length != 0)
+                return get("page").params;
+            else
+                return null;
+        } catch (e) {
+            return undefined;
+        }
+    }
+}
+
+/**
+ * This shortens the need for `hlp.get("pfp")`.
+ */
+export const pfp = {
+    get exists() {return get("pfp") ? true : false},
+    get getpfp() {
+        if (get("pfp") != undefined) {
+            if (get("pfp") != "")
+                return get("pfp");
+            else
+                return "";
+        } else {
+            return undefined;
+        }
+    }
+}
+
+/**
+ * This shortens the need for `hlp.get("activities")`.
+ */
+export const activities = {
+    get exists() {return get("activities") ? true : false},
+    get viewedall() {
+        if (get("activities") != undefined) {
+            if (get("activities").data.$unviewed == 0)
+                return true;
+            else
+                return false;
+        } else {
+            return undefined;
+        }
+    },
+    get views() {
+        if (get("activities") != undefined) {
+            return get("activities").data.$unviewed;
+        } else {
+            return undefined;
+        }   
+    }
+}
+
+/**
+ * This shortens the need for `hlp.get("gpa")`.
+ */
+export const gpa = {
+    get exists() {return get("gpa") ? true : false},
+    get regular() {
+        if (get("gpa") != undefined) {
+            return get("gpa").regular;
+        } else {
+            return undefined;
+        }
+    },
+    get weighted() {
+        if (get("gpa") != undefined) {
+            return get("gpa").weighted;
+        } else {
+            return undefined;
+        }
+    },
+    get courses() {
+        if (get("gpa") != undefined) {
+            return get("gpa").courses;
+        } else {
+            return undefined;
+        }
+    }
+}
+
+/**
+ * Wraps an overlay over an async section of code, this allows the website to load things
+ * behind that overlay making it a clean seamless transition to each page.
+ * 
+ * NOTE: `main` is enclosed in a try ... catch function, this means any code in the root of `main`
+ * will be catched and shown as an error popup.
  * @param {function} main
- * @returns {void}
  */
 export async function load(main) {
-    if (get("overlay_active", false) == "true" && $("#overlays").is(":empty"))
-        remove("overlay_active");    
+    if (get("overlays") != undefined && $("#overlays").is(":empty"))
+        remove("overlays");
 
-    if (get("overlay_active", false) != "true") {
+    if (get("overlays") == undefined) {
         await $("#overlays").append(`
-            <div id="loader" class="fixed inset-0 flex items-center justify-center ${theme("bg", "700")} z-50">
+            <div id="loader" class="fixed inset-0 flex items-center justify-center    z-50">
                 <div class="loader"></div>
             </div>
-        `);
-        set("overlay_active", "true", false);
+        `)
+        set("overlays", "");
     }
 
-    // ah, how i never think of this?
     try {
         await main();
     } catch (e) {
-        console.error(e)
-        $("body").addClass("overflow-hidden");
+        console.log(e);
         $("#overlays").append(`
             <div id="overlay" class="fixed inset-0 z-50 bg-gray-900 bg-opacity-50 flex justify-end items-end animation-fadein">
                 <div class="container mx-auto px-4 flex justify-center mb-5 items-center pointer-events-none animation-popin">
@@ -157,89 +300,88 @@ export async function load(main) {
 
     await $("#overlays #loader").fadeOut(400, function () {
         $(this).remove();
-        remove("overlay_active");
+        remove("overlays");
     })
 }
 
 /**
- * Handles themeing within the website
- * @param {int} type 
+ * Manages what theme the user is currently using.
+ * 
+ * @param {string} type
+ * @param {int} value
  */
-export function theme(type, value) {
-    let theme = get("theme_settings").theme;
-    let theme_color = get("theme_settings").theme_color;
-
+export function theming(type, value) {
     switch (type) {
         case "theme-shadow": {
-            if (theme == "light") {
-                return `shadow-lg`;
+            if (theme.theme == "light") {
+                return "shadow-xl";
             } else {
-                return ``;
+                return "";
             }
         }
         case "theme-input": {
-            if (theme == "light") {
-                return `bg-zinc-200`;
+            if (theme.theme == "light") {
+                return "bg-zinc-200";
             } else {
-                return `bg-zinc-700`;
+                return "bg-zinc-700";
             }
         }
         case "theme-card": {
-            if (theme == "light") {
-                return `bg-white shadow-xl`;
+            if (theme.theme == "light") {
+                return "text-white shadow-xl";
             } else {
-                return `bg-zinc-800`;
+                return "bg-zinc-800";
             }
         }
         case "theme-toggle": {
-            if (theme == "light") {
-                return `bg-black`;
+            if (theme.theme == "light") {
+                return "bg-black";
             } else {
-                return `bg-zinc-600`;
+                return "bg-zinc-600";
             }
         }
         case "theme-text": {
-            if (theme == "light") {
-                return `text-black`;
+            if (theme.theme == "light") {
+                return "text-black";
             } else {
-                return `text-white`;
+                return "text-white";
             }
         }
         case "theme-bg": {
-            if (theme == "light") {
-                return `bg-zinc-100`;
+            if (theme.theme == "light") {
+                return "bg-zinc-100";
             } else {
-                return `bg-black`;
+                return "bg-black";
             }
         }
         case "theme-stroke": {
-            if (theme == "light") {
-                return `stroke-zinc-200`;
+            if (theme.theme == "light") {
+                return "stroke-zinc-200";
             } else {
-                return `stroke-zinc-700`;
+                return "stroke-zinc-700";
             }
         }
         case "bg": {
-            switch (theme_color) {
+            switch (theme.color) {
                 case "green": {
                     if (value == 600)
-                        return `bg-${theme_color}-400`
+                        return `bg-${theme.color}-400`
                     else if (value == 300)
-                        return `bg-${theme_color}-700`
+                        return `bg-${theme.color}-700`
                     else if (value == 200)
-                        return `bg-${theme_color}-900`
+                        return `bg-${theme.color}-900`
                     else
-                        return `bg-${theme_color}-500`;
+                        return `bg-${theme.color}-500`;
                 }
                 case "orange": {
                     if (value == 600)
-                        return `bg-${theme_color}-300`;
+                        return `bg-${theme.color}-300`;
                     else if (value == 300)
-                        return `bg-${theme_color}-700`
+                        return `bg-${theme.color}-700`
                     else if (value == 200)
-                        return `bg-${theme_color}-900`
+                        return `bg-${theme.color}-900`
                     else
-                        return `bg-${theme_color}-400`;
+                        return `bg-${theme.color}-400`;
                 }
                 case "brown": {
                     if (value == 600)
@@ -253,83 +395,80 @@ export function theme(type, value) {
                 }
                 case "violet": {
                     if (value == 600)
-                        return `bg-${theme_color}-500`;
+                        return `bg-${theme.color}-500`;
                     else if (value == 300)
-                        return `bg-${theme_color}-900`
+                        return `bg-${theme.color}-900`
                     else if (value == 200)
-                        return `bg-${theme_color}-900`
+                        return `bg-${theme.color}-900`
                     else
-                        return `bg-${theme_color}-600`;
+                        return `bg-${theme.color}-600`;
                 }
                 case "rose": {
                     if (value == 600)
-                        return `bg-${theme_color}-600`;
+                        return `bg-${theme.color}-600`;
                     else if (value == 300)
-                        return `bg-${theme_color}-900`
+                        return `bg-${theme.color}-900`
                     else if (value == 200)
-                        return `bg-${theme_color}-900`
+                        return `bg-${theme.color}-900`
                     else
-                        return `bg-${theme_color}-700`;
+                        return `bg-${theme.color}-700`;
                 }
-                /*case "indigo": {
-                    //return `bg-${theme_color}-700`;
-                }*/
                 case "fuchsia": {
                     if (value == 600)
-                        return `bg-${theme_color}-500`;
+                        return `bg-${theme.color}-500`;
                     else if (value == 300)
-                        return `bg-${theme_color}-900`
+                        return `bg-${theme.color}-900`
                     else if (value == 200)
-                        return `bg-${theme_color}-900`
+                        return `bg-${theme.color}-900`
                     else
-                        return `bg-${theme_color}-600`;
+                        return `bg-${theme.color}-600`;
                 }
                 case "pink": {
                     if (value == 600)
-                        return `bg-${theme_color}-500`;
+                        return `bg-${theme.color}-500`;
                     else if (value == 300)
-                        return `bg-${theme_color}-900`
+                        return `bg-${theme.color}-900`
                     else if (value == 200)
-                        return `bg-${theme_color}-900`
+                        return `bg-${theme.color}-900`
                     else
-                        return `bg-${theme_color}-600`;
+                        return `bg-${theme.color}-600`;
                 }
                 case "teal": {
                     if (value == 600)
-                        return `bg-${theme_color}-300`;
+                        return `bg-${theme.color}-300`;
                     else if (value == 300)
-                        return `bg-${theme_color}-700`
+                        return `bg-${theme.color}-700`
                     else if (value == 200)
-                        return `bg-${theme_color}-900`
+                        return `bg-${theme.color}-900`
                     else
-                        return `bg-${theme_color}-400`;
+                        return `bg-${theme.color}-400`;
                 }
                 default:
-                    return `bg-${theme_color}-${value}`;
+                    return `bg-${theme.color}-${value}`;
             }
         }
         case "border": {
             // TODO: Active states
-            switch (theme_color) {
+            switch (theme.color) {
                 case "green": {
                     if (value == 700)
-                        return `border-${theme_color}-400`; // BOX BORDER
+                        return `border-${theme.color}-400`; // BOX BORDER
                     else if (value == 400)
-                        return `border-${theme_color}-700`; // HOVER BORDER
+                        return `border-${theme.color}-700`; // HOVER BORDER
                     else if (value == 500)
-                        return `border-${theme_color}-600`; // BORDER
+                        return `border-${theme.color}-600`; // BORDER
                     else
-                        return `border-${theme_color}-${value}`;
+                        return `border-${theme.color}-${value}`;
                 }
                 case "orange": {
                     if (value == 700)
-                        return `border-${theme_color}-400`;
+                        return `border-${theme.color}-400`;
                     else if (value == 400)
-                        return `border-${theme_color}-600`;
+                        return `border-${theme.color}-600`;
                     else if (value == 500)
-                        return `border-${theme_color}-500`;
+                        return `border-${theme.color}-500`;
                     else
-                        return `border-${theme_color}-${value}`;
+                        return `border-${theme.color}-${value}`;
                 }
                 case "brown": {
                     if (value == 700)
@@ -343,71 +482,71 @@ export function theme(type, value) {
                 }
                 case "violet": {
                     if (value == 700)
-                        return `border-${theme_color}-600`;
+                        return `border-${theme.color}-600`;
                     else if (value == 400)
-                        return `border-${theme_color}-400`;
+                        return `border-${theme.color}-400`;
                     else if (value == 500)
-                        return `border-${theme_color}-700`;
+                        return `border-${theme.color}-700`;
                     else
-                        return `border-${theme_color}-${value}`;
+                        return `border-${theme.color}-${value}`;
                 }
                 case "rose": {
                     if (value == 700)
-                        return `border-${theme_color}-700`;
+                        return `border-${theme.color}-700`;
                     else if (value == 400)
-                        return `border-${theme_color}-400`;
+                        return `border-${theme.color}-400`;
                     else if (value == 500)
-                        return `border-${theme_color}-500`;
+                        return `border-${theme.color}-500`;
                     else
-                        return `border-${theme_color}-${value}`;
+                        return `border-${theme.color}-${value}`;
                 }
                 case "fuchsia": {
                     if (value == 700)
-                        return `border-${theme_color}-600`;
+                        return `border-${theme.color}-600`;
                     else if (value == 400)
-                        return `border-${theme_color}-700`;
+                        return `border-${theme.color}-700`;
                     else if (value == 500)
-                        return `border-${theme_color}-400`;
+                        return `border-${theme.color}-400`;
                     else
-                        return `border-${theme_color}-${value}`;
+                        return `border-${theme.color}-${value}`;
                 }
                 case "pink": {
                     if (value == 700)
-                        return `border-${theme_color}-600`;
+                        return `border-${theme.color}-600`;
                     else if (value == 400)
-                        return `border-${theme_color}-300`;
+                        return `border-${theme.color}-300`;
                     else if (value == 500)
-                        return `border-${theme_color}-400`;
+                        return `border-${theme.color}-400`;
                     else
-                        return `border-${theme_color}-${value}`;
+                        return `border-${theme.color}-${value}`;
                 }
                 case "teal": {
                     if (value == 700)
-                        return `border-${theme_color}-400`;
+                        return `border-${theme.color}-400`;
                     else if (value == 400)
-                        return `border-${theme_color}-600`;
+                        return `border-${theme.color}-600`;
                     else if (value == 500)
-                        return `border-${theme_color}-500`;
+                        return `border-${theme.color}-500`;
                     else
-                        return `border-${theme_color}-${value}`;
+                        return `border-${theme.color}-${value}`;
                 }
                 default:
-                    return `border-${theme_color}-${value}`;
+                    return `border-${theme.color}-${value}`;
             }
         }
         case "text": {
-            switch (theme_color) {
+            switch (theme.color) {
                 case "green": {
                     if (value == 600)
-                        return `text-${theme_color}-600`;
+                        return `text-${theme.color}-600`;
                     else
-                        return `text-${theme_color}-500`;
+                        return `text-${theme.color}-500`;
                 }
                 case "orange": {
                     if (value == 600)
-                        return `text-${theme_color}-500`;
+                        return `text-${theme.color}-500`;
                     else
-                        return `text-${theme_color}-400`;
+                        return `text-${theme.color}-400`;
                 }
                 case "brown": {
                     if (value == 600)
@@ -417,203 +556,95 @@ export function theme(type, value) {
                 }
                 case "violet": {
                     if (value == 600)
-                        return `text-${theme_color}-700`;
+                        return `text-${theme.color}-700`;
                     else
-                        return `text-${theme_color}-600`;
+                        return `text-${theme.color}-600`;
                 }
                 case "rose": {
                     if (value == 600)
-                        return `text-${theme_color}-800`;
+                        return `text-${theme.color}-800`;
                     else
-                        return `text-${theme_color}-700`;
+                        return `text-${theme.color}-700`;
                 }
                 case "fuchsia": {
                     if (value == 600)
-                        return `text-${theme_color}-700`;
+                        return `text-${theme.color}-700`;
                     else
-                        return `text-${theme_color}-600`;
+                        return `text-${theme.color}-600`;
                 }
                 case "pink": {
                     if (value == 600)
-                        return `text-${theme_color}-700`;
+                        return `text-${theme.color}-700`;
                     else
-                        return `text-${theme_color}-600`;
+                        return `text-${theme.color}-600`;
                 }
                 case "teal": {
                     if (value == 600)
-                        return `text-${theme_color}-500`;
+                        return `text-${theme.color}-500`;
                     else
-                        return `text-${theme_color}-400`;
+                        return `text-${theme.color}-400`;
                 }
                 default:
-                    return `text-${theme_color}-${value}`;       
+                    return `text-${theme.color}-${value}`;       
             }
         }
         case "caret": {
-            switch (theme_color) {
+            switch (theme.color) {
                 case "green": {
-                    return `caret-${theme_color}-500`;
+                    return `caret-${theme.color}-500`;
                 }
                 case "orange": {                    
-                    return `caret-${theme_color}-400`;
+                    return `caret-${theme.color}-400`;
                 }
                 case "brown": {
                     return `caret-orange-900`;
                 }
                 case "violet": {
-                    return `caret-${theme_color}-600`;
+                    return `caret-${theme.color}-600`;
                 }
                 case "rose": {
-                    return `caret-${theme_color}-700`;
+                    return `caret-${theme.color}-700`;
                 }
                 case "fuchsia": {
-                    return `caret-${theme_color}-600`;
+                    return `caret-${theme.color}-600`;
                 }
                 case "pink": {
-                    return `caret-${theme_color}-600`;
+                    return `caret-${theme.color}-600`;
                 }
                 case "teal": {
-                    return `caret-${theme_color}-400`;
+                    return `caret-${theme.color}-400`;
                 }
                 default:
-                    return `caret-${theme_color}-${value}`;       
+                    return `caret-${theme.color}-${value}`;       
             }
         }
         case "ring": {
-            switch (theme_color) {
+            switch (theme.color) {
                 case "brown": {
                     return `ring-orange-900`;
                 }
                 default:
-                    return `ring-${theme_color}-${value}`;
+                    return `ring-${theme.color}-${value}`;
             }
         }
         case "stroke": {
-            switch (theme_color) {
+            switch (theme.color) {
                 case "brown": {
                     return `stroke-orange-900`;
                 }
                 default:
-                    return `stroke-${theme_color}-${value}`;
+                    return `stroke-${theme.color}-${value}`;
             }
         }
     }
 }
 
-/** 
- * Animates the top bars.
- * @returns {void}
- */
-export async function animate_nav() {
-    try {
-        $(window).off("scroll")
-        if ($("#top #scrolled-title").length && !$("#top #scrolled-title-reload").length) {
-            $("#top>div").removeClass("shadow shadow-black")
-            if ($(window).scrollTop() > $("#top").offset().top + $("#top").outerHeight() - 40 || $(document).scrollTop() < $("#top").offset().top - $(window).height()) {
-                if (window.scrollY == 0) {
-                    $("#top #scrolled-title").parent().removeClass("shadow shadow-black");
-                    $("#top #scrolled-title span").fadeOut(0);
-                } else {
-                    $("#top #scrolled-title").parent().addClass("shadow shadow-black");
-                    $("#top #scrolled-title span").fadeIn(0);
-                }
-            } else {
-                $("#top #scrolled-title").parent().removeClass("shadow shadow-black");
-                $("#top #scrolled-title span").fadeOut(0);
-            }
-            
-            // Manages when we scroll
-            let in_load = false;
-            $(window).off("scroll")
-            window.addEventListener('scroll', function() {
-                if (window.scrollY == 0) {
-                    $("#top #scrolled-title").parent().removeClass("shadow shadow-black");
-                    $("#top #scrolled-title span").fadeOut(100);
-                }
-        
-                if (!in_load) {
-                    try {
-                        if (window.scrollY > $("#top").offset().top + $("#top").outerHeight() - 62 || window.scrollY < $("#top").offset().top - window.innerHeight) {
-                            in_load = true;
-                            $("#top #scrolled-title").parent().addClass("shadow shadow-black");
-                            $("#top #scrolled-title span").fadeIn(100, () => {
-                                in_load = false;
-                            });
-                        } else {
-                            in_load = true;
-                            $("#top #scrolled-title").parent().removeClass("shadow shadow-black");
-                            $("#top #scrolled-title span").fadeOut(100, () => {
-                                in_load = false;
-                            });
-                        }
-                    } catch (e) {}
-                }
-            });
-        } else if ($("#top #scrolled-title-reload").length) {
-            $("#top>div").removeClass("shadow shadow-black")
-            if ($(window).scrollTop() > $("#top").offset().top + $("#top").outerHeight() - 40 || $(document).scrollTop() < $("#top").offset().top - $(window).height()) {
-                if (window.scrollY == 0) {
-                    $("#top #scrolled-title-reload").parent().removeClass("shadow shadow-black");
-                    $("#top #scrolled-title-reload span .inner").fadeOut(0);
-                } else {
-                    $("#top #scrolled-title-reload").parent().addClass("shadow shadow-black");
-                    $("#top #scrolled-title-reload span .inner").fadeIn(0);
-                }
-            } else {
-                $("#top #scrolled-title-reload").parent().removeClass("shadow shadow-black");
-                $("#top #scrolled-title-reload span .inner").fadeOut(0);
-            }
-            
-            // Manages when we scroll
-            let in_load = false;
-            $(window).off("scroll")
-            window.addEventListener('scroll', function() {
-                if (window.scrollY == 0) {
-                    $("#top #scrolled-title-reload").parent().removeClass("shadow shadow-black");
-                    $("#top #scrolled-title-reload span .inner").fadeOut(100);
-                }
-        
-                if (!in_load) {
-                    try {
-                        if (window.scrollY > $("#top").offset().top + $("#top").outerHeight() - 62 || window.scrollY < $("#top").offset().top - window.innerHeight) {
-                            in_load = true;
-                            $("#top #scrolled-title-reload").parent().addClass("shadow shadow-black");
-                            $("#top #scrolled-title-reload span .inner").fadeIn(100, () => {
-                                in_load = false;
-                            });
-                        } else {
-                            in_load = true;
-                            $("#top #scrolled-title-reload").parent().removeClass("shadow shadow-black");
-                            $("#top #scrolled-title-reload span .inner").fadeOut(100, () => {
-                                in_load = false;
-                            });
-                        }
-                    } catch (e) {}
-                }
-            });
-        } else {
-            if ($(window).scrollTop() > 10) {
-                $("#top>div").addClass("shadow shadow-black")
-            } else {
-                $("#top>div").removeClass("shadow shadow-black")
-            }
-    
-            $(window).off().scroll(function() {
-                if ($(this).scrollTop() > 10) {
-                    $("#top>div").addClass("shadow shadow-black")
-                } else {
-                    $("#top>div").removeClass("shadow shadow-black")
-                }
-            })
-        }
-    } catch (e) {}
-}
-
 /**
- * Formats text
- * @param {string} string
+ * Formats and cleans a string.
+ * 
+ * @param {string} text
  */
-export function format(string) {
+export function format(text) {
     if (string == "" || string == null || string == undefined)
         string = "";
 
@@ -636,93 +667,21 @@ export function format(string) {
     return string.trim();
 }
 
-/** 
- * Returns a color from a score
+/**
+ * Converts a score to a color.
+ * 
  * @param {int} int
  */
 export function score_to_color(int) {
-    let color;
-    if (isNaN(int))
-        color = "";
-    else if (int >= 80)
-        color = "green";
-    else if (int < 80 && int > 60) {
-        color = "yellow";
-    }
-    else if (int < 60)
-        color = "red";
 
-    return color;
 }
 
-/** 
- * Returns a color from a gpa score
+/**
+ * Converts a gpa score to a color.
+ * 
  * @param {int} int
  */
 export function gpa_score_to_color(int) {
-    let color;
-    if (isNaN(int))
-        color = "";
-    else if (int >= 3.0)
-        color = "green";
-    else if (int < 3.0 && int > 2.0) {
-        color = "yellow";
-    }
-    else if (int < 2.0)
-        color = "red";
 
-    return color;
 }
 
-
-/**
- * Returns a single number from `achieved` and `possible` json outputs
- * 
- * NOTE: This MUST have json paths directly to `.achieved` and `.possible` or else it won't work!
- * @param {JSON} json
- */
-export function decode_score(json) {
-    if (json == undefined)
-        return;
-
-    return Math.round((json.achieved / json.possible) * 100)
-}
-
-/**
- * Prevents errors from code, if an error occurs (and the bool "showerror" is true) then 
- * it provides an overlay for the error.
- * @param {function} main
- * @param {boolean} showerror
- */
-export async function prevent_errors(main, showerror) {
-    try {
-        await main();
-    } catch (e) {
-        if (showerror) {
-            $("body").addClass("overflow-hidden");
-            $("#overlays").append(`
-                <div id="error" class="fixed inset-0 z-50 bg-gray-900 bg-opacity-50 flex justify-center items-center animation-fadein">
-                    <div class="container mx-auto px-4 flex justify-center items-center pointer-events-none animation-popin">
-                        <div class="${theme("theme-card")} ${theme("theme-text")} rounded-xl max-w-lg px-5 py-5 pointer-events-auto">
-                            <div class="flex justify-center items-center mb-4">
-                                <h2 class="text-2xl font-bold text-center">Error Occured</h2>
-                            </div>
-                            <div>
-                                <p>${e}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `).on("click", function (event) {
-                switch ($(event.target).attr("id")) {
-                    case "overlay": {
-                        $("#error").fadeOut(400, function () {
-                            $("#overlays").empty();
-                        });
-                        $("body").removeClass("overflow-hidden");
-                    }
-                }
-            })
-        }
-    }
-}

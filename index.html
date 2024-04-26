@@ -2,23 +2,31 @@
 <html lang="en" class="overscroll-none select-none">
     <head>
         <meta charset="utf-8">
-        <meta name="title" content="Proview">
-        <meta name="description" content="Unlike Echo, this platform is designed for students; it is intended for use on phones or computers and primarily serves as a place to view grades and check agendas.">
-        <meta name="keywords" content="echo,agilix,grades,school,grade viewer,agenda">
-        <meta name="robots" content="index, follow">
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <meta name="language" content="English">
-        <meta name="author" content="Wo-r">
         <title>Proview</title>
         <link rel="icon" href="src/logo/logo.png">
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <!---->
+        <meta name="title" content="Proview">
+        <meta name="description" content="Unlike Echo, this platform is designed for students; it is intended for use on phones or computers and primarily serves as a place to view grades and check agendas.">
+        <meta name="keywords" content="echo, agilix, grades, school, grade viewer, agenda, agendas">
+        <meta name="robots" content="index, follow">
+        <meta name="language" content="English">
+        <meta name="author" content="Wo-r">
+        <!---->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,700,1,200">
+        <!---->
         <link rel="manifest" href="manifest.json">
         <script src="src/thirdparty/tailwind.js"></script>
-        <style is="loader">
+        <style>
+            body {
+                font-family: "Nunito";
+            }
+            
+            /* loader */
             .loader,
             .loader-static {
                 display: inline-block;
@@ -41,8 +49,8 @@
                     transform: rotate(360deg);
                 }
             }
-        </style>
-        <style is="shake">
+
+            /* error shake */
             @keyframes shake {
                 0% { transform: translateX(0); }
                 25% { transform: translateX(-8px); }
@@ -55,8 +63,8 @@
                 animation: shake 0.5s ease-in-out;
                 animation-duration: 800ms;
             }
-        </style>
-        <style is="app-loader">
+
+            /* app loader */
             .app-loading {
                 position: absolute;
                 top: calc(50% - 32px);
@@ -64,14 +72,15 @@
             }
         </style>
     </head>
-    <body class="overscroll-none font-['Nunito']">
+    <body class="overscroll-none nunito">
         <div id="root">
             <div id="pre-loader" class="fixed inset-0 flex items-center justify-center z-50">
                 <div class="loader-static"></div>
             </div>
         </div>
+        <!---->
         <div id="overlays"></div>
     </body>
     <script src="src/thirdparty/jquery.js"></script>
-    <script type="module" src="app.js" defer></script>
+    <script type="module" src="app.js"></script>
 </html>
