@@ -673,7 +673,18 @@ export function format(text) {
  * @param {int} int
  */
 export function score_to_color(int) {
+    let color;
+    if (isNaN(int))
+        color = "";
+    else if (int >= 80)
+        color = "green";
+    else if (int < 80 && int > 60) {
+        color = "yellow";
+    }
+    else if (int < 60)
+        color = "red";
 
+    return color;
 }
 
 /**
@@ -682,6 +693,82 @@ export function score_to_color(int) {
  * @param {int} int
  */
 export function gpa_score_to_color(int) {
+    let color;
+    if (isNaN(int))
+        color = "";
+    else if (int >= 3.0)
+        color = "green";
+    else if (int < 3.0 && int > 2.0) {
+        color = "yellow";
+    }
+    else if (int < 2.0)
+        color = "red";
 
+    return color;
 }
 
+/**
+ * Returns a single number from `achieved` and `possible` json objects.
+ * 
+ * NOTE: This MUST HAVE json paths directly to `achieved` and `possible` or else it won't work!
+ * @param {JSON} json
+ */
+export async function decode_score(json) {
+    if (json == undefined)
+        return;
+
+    return Math.round((json.achieved / json.possible) * 100)
+}
+
+/**
+ * Returns a single number from `courses`
+ * 
+ * @parm {JSON} courses
+ */
+export function decode_gpa_score(courses) {
+    let credit = 0;
+    let total_regular = 0;
+    let total_weighted = 0;
+    let regular = 0.0;
+    let weighted = 0.0;
+
+    $.each(courses, (i, course) => {
+        let gpa = 0.0;
+
+        if (course.grade >= 90) {
+            gpa = 4.0;
+        } else if (course.grade >= 80) {
+            gpa = 3.0;
+        } else if (course.grade >= 70) {
+            gpa = 2.0;
+        } else if (course.grade >= 60) {
+            gpa = 1.0
+        }
+
+        if (course.is_ap) {
+            if (gpa === 4.0 || gpa === 3.0) {
+                gpa += 0.5;
+            }
+
+            credit += course.credit;
+            total_weighted += course.credit * gpa;
+        } else {
+            credit += course.credit;
+            total_regular += course.credit * gpa;
+        }
+    })
+
+    regular = total_regular / credit;
+    weighted = total_weighted / credit;
+
+    return [regular, weighted];
+}
+
+/**
+ * Prevents errors from the occuring, preventing the page from breaking
+ * @param {function} main
+ * @param {boolean} showerror
+ */
+export async function prevent_error(main, showerror) {
+    
+}
