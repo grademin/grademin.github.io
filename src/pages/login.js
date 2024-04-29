@@ -9,8 +9,8 @@ export async function run() {
             <div class="mb-5 block w-full px-5 py-4 border-4 ${hlp.gettheme("border", "700")} rounded-xl shadow-sm focus:outline-none sm:text-sm">
                 <div class="flex flex-row gap-5 items-center">
                     <div class="flex justify-between items-center">
-                        <div class="rounded-full border-[6px] ${hlp.gettheme("border", "500")} ${hlp.gettheme("bg", "600")} ${hlp.get("pfp").length == 0 ? "" : `bg-[url('${hlp.get("pfp")}')] bg-cover bg-no-repeat bg-center`} h-16 w-16 flex items-center justify-center text-2xl sm:text-2xl font-bold uppercase">
-                            ${hlp.get("pfp").length == 0 ? hlp.get("saved").firstname.charAt(0).toUpperCase() : ""}
+                        <div class="rounded-full border-[6px] ${hlp.gettheme("border", "500")} ${hlp.gettheme("bg", "600")} ${!hlp.get("pfp").includes("data:") ? "" : `bg-[url('${hlp.get("pfp")}')] bg-cover bg-no-repeat bg-center`} h-16 w-16 flex items-center justify-center text-2xl sm:text-2xl font-bold uppercase">
+                            ${!hlp.get("pfp").includes("data:") ? hlp.get("saved").firstname.charAt(0).toUpperCase() : ""}
                         </div>                    
                     </div>
                     <div class="flex flex-col">

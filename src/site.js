@@ -58,6 +58,11 @@ export async function runtime(page) {
                     await settings.run();
                     break;
                 }
+                case "error": {
+                    const error = await import("/proview/src/pages/error.js");
+                    await error.run();
+                    break;
+                }
                 
                 /**
                  * Overview section
@@ -121,6 +126,9 @@ export async function runtime(page) {
                     break;
                 }
             }
-        }, true);
+        }, true, function (e) {
+            hlp.remove("session");
+            runtime("login");
+        });
     }
 }

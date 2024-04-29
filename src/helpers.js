@@ -280,8 +280,12 @@ export async function load(main) {
 
     try {
         await main();
+
+        // Animate navigation.
+        await animate_nav();
     } catch (e) {
         console.log(e);
+        $("body").addClass("overflow-hidden");
         $("#overlays").append(`
             <div id="error" class="fixed inset-0 z-50 bg-gray-900 bg-opacity-50 flex justify-end items-end animation-fadein">
                 <div class="container mx-auto px-4 flex justify-center mb-5 items-center pointer-events-none animation-popin">
@@ -324,6 +328,13 @@ export function gettheme(type, value) {
                 return "shadow-xl";
             } else {
                 return "";
+            }
+        }
+        case "theme-fill": {
+            if (theme.theme == "light") {
+                return "fill-black";
+            } else {
+                return "fill-white";
             }
         }
         case "theme-input": {
@@ -643,6 +654,15 @@ export function gettheme(type, value) {
                     return `stroke-${theme.color}-${value}`;
             }
         }
+        case "fill": {
+            switch (theme.color) {
+                case "brown": {
+                    return `fill-orange-900`;
+                }
+                default:
+                    return `fill-${theme.color}-${value}`;
+            }
+        }
     }
 }
 
@@ -772,16 +792,125 @@ export function decode_gpa_score(courses) {
 }
 
 /**
+ * Animates the navbars automatically.
+ */
+export async function animate_nav() {
+    try {
+        $(window).off("scroll")
+        if ($("#top #scrolled-title").length && !$("#top #scrolled-title-reload").length) {
+            $("#top>div").removeClass("shadow shadow-black")
+            if ($(window).scrollTop() > $("#top").offset().top + $("#top").outerHeight() - 40 || $(document).scrollTop() < $("#top").offset().top - $(window).height()) {
+                if (window.scrollY == 0) {
+                    $("#top #scrolled-title").parent().removeClass("shadow shadow-black");
+                    $("#top #scrolled-title span").fadeOut(0);
+                } else {
+                    $("#top #scrolled-title").parent().addClass("shadow shadow-black");
+                    $("#top #scrolled-title span").fadeIn(0);
+                }
+            } else {
+                $("#top #scrolled-title").parent().removeClass("shadow shadow-black");
+                $("#top #scrolled-title span").fadeOut(0);
+            }
+            
+            // Manages when we scroll
+            let in_load = false;
+            $(window).off("scroll")
+            window.addEventListener('scroll', function() {
+                if (window.scrollY == 0) {
+                    $("#top #scrolled-title").parent().removeClass("shadow shadow-black");
+                    $("#top #scrolled-title span").fadeOut(100);
+                }
+        
+                if (!in_load) {
+                    try {
+                        if (window.scrollY > $("#top").offset().top + $("#top").outerHeight() - 62 || window.scrollY < $("#top").offset().top - window.innerHeight) {
+                            in_load = true;
+                            $("#top #scrolled-title").parent().addClass("shadow shadow-black");
+                            $("#top #scrolled-title span").fadeIn(100, () => {
+                                in_load = false;
+                            });
+                        } else {
+                            in_load = true;
+                            $("#top #scrolled-title").parent().removeClass("shadow shadow-black");
+                            $("#top #scrolled-title span").fadeOut(100, () => {
+                                in_load = false;
+                            });
+                        }
+                    } catch (e) {}
+                }
+            });
+        } else if ($("#top #scrolled-title-reload").length) {
+            $("#top>div").removeClass("shadow shadow-black")
+            if ($(window).scrollTop() > $("#top").offset().top + $("#top").outerHeight() - 40 || $(document).scrollTop() < $("#top").offset().top - $(window).height()) {
+                if (window.scrollY == 0) {
+                    $("#top #scrolled-title-reload").parent().removeClass("shadow shadow-black");
+                    $("#top #scrolled-title-reload span .inner").fadeOut(0);
+                } else {
+                    $("#top #scrolled-title-reload").parent().addClass("shadow shadow-black");
+                    $("#top #scrolled-title-reload span .inner").fadeIn(0);
+                }
+            } else {
+                $("#top #scrolled-title-reload").parent().removeClass("shadow shadow-black");
+                $("#top #scrolled-title-reload span .inner").fadeOut(0);
+            }
+            
+            // Manages when we scroll
+            let in_load = false;
+            $(window).off("scroll")
+            window.addEventListener('scroll', function() {
+                if (window.scrollY == 0) {
+                    $("#top #scrolled-title-reload").parent().removeClass("shadow shadow-black");
+                    $("#top #scrolled-title-reload span .inner").fadeOut(100);
+                }
+        
+                if (!in_load) {
+                    try {
+                        if (window.scrollY > $("#top").offset().top + $("#top").outerHeight() - 62 || window.scrollY < $("#top").offset().top - window.innerHeight) {
+                            in_load = true;
+                            $("#top #scrolled-title-reload").parent().addClass("shadow shadow-black");
+                            $("#top #scrolled-title-reload span .inner").fadeIn(100, () => {
+                                in_load = false;
+                            });
+                        } else {
+                            in_load = true;
+                            $("#top #scrolled-title-reload").parent().removeClass("shadow shadow-black");
+                            $("#top #scrolled-title-reload span .inner").fadeOut(100, () => {
+                                in_load = false;
+                            });
+                        }
+                    } catch (e) {}
+                }
+            });
+        } else {
+            if ($(window).scrollTop() > 10) {
+                $("#top>div").addClass("shadow shadow-black")
+            } else {
+                $("#top>div").removeClass("shadow shadow-black")
+            }
+    
+            $(window).off().scroll(function() {
+                if ($(this).scrollTop() > 10) {
+                    $("#top>div").addClass("shadow shadow-black")
+                } else {
+                    $("#top>div").removeClass("shadow shadow-black")
+                }
+            })
+        }
+    } catch (e) {}
+}
+
+/**
  * Prevents errors from the occuring, preventing the page from breaking
  * @param {function} main
  * @param {boolean} showerror
  */
-export async function prevent_errors(main, showerror, additonal_code) {
+export async function prevent_errors(main, showerror, additonal_code, custom_message = "") {
     try {
         await main();
     } catch (e) {
         if (showerror) {
             console.log(e);
+            $("body").addClass("overflow-hidden");
             $("#overlays").append(`
                 <div id="error" class="fixed inset-0 z-50 bg-gray-900 bg-opacity-50 flex justify-end items-end animation-fadein">
                     <div class="container mx-auto px-4 flex justify-center mb-5 items-center pointer-events-none animation-popin">
@@ -790,7 +919,7 @@ export async function prevent_errors(main, showerror, additonal_code) {
                                 <span class="text-1xl flex-2 material-symbols-rounded ${gettheme("theme-text")} flex justify-center">
                                     info
                                 </span>
-                                <span class="flex-1 ${gettheme("theme-text")} font-bold">${e}</span>
+                                <span class="flex-1 ${gettheme("theme-text")} font-bold">${custom_message != "" ? custom_message : e}</span>
                             </div>
                         </div>
                     </div>
