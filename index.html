@@ -70,9 +70,23 @@
                 top: calc(50% - 32px);
                 left: calc(50% - 32px);
             }
+
+            /* slide-in animation */
+            @keyframes slidein {
+                from {
+                    transform: translateY(100%);
+                }
+                to {
+                    transform: translateY(0);
+                }
+            }
+
+            .animation-slidein {
+                animation: slidein 0.5s forwards;
+            }
         </style>
     </head>
-    <body class="overscroll-none nunito">
+    <body class="bg-blue-700 overscroll-none nunito">
         <div id="root">
             <div id="pre-loader" class="fixed inset-0 flex items-center justify-center z-50">
                 <div class="loader-static"></div>

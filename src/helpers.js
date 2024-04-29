@@ -60,6 +60,13 @@ export function remove(key) {
 }
 
 /**
+ * Shortened version fo `localStorage.clear`.
+ */
+export function removeall() {
+    localStorage.clear();
+}
+
+/**
  * Shortened version of `JSON.parse`.
  * 
  * @param {Array|{}} key
@@ -264,7 +271,7 @@ export async function load(main) {
 
     if (get("overlays") == undefined) {
         await $("#overlays").append(`
-            <div id="loader" class="fixed inset-0 flex items-center justify-center    z-50">
+            <div id="loader" class="fixed ${gettheme("bg", "700")} inset-0 flex items-center justify-center z-50">
                 <div class="loader"></div>
             </div>
         `)
@@ -276,14 +283,14 @@ export async function load(main) {
     } catch (e) {
         console.log(e);
         $("#overlays").append(`
-            <div id="overlay" class="fixed inset-0 z-50 bg-gray-900 bg-opacity-50 flex justify-end items-end animation-fadein">
+            <div id="error" class="fixed inset-0 z-50 bg-gray-900 bg-opacity-50 flex justify-end items-end animation-fadein">
                 <div class="container mx-auto px-4 flex justify-center mb-5 items-center pointer-events-none animation-popin">
-                    <div class="${theme("theme-card")} border border-red-500 rounded-xl max-w-lg px-5 py-4 pointer-events-auto">
+                    <div class="${gettheme("theme-card")} border border-red-500 rounded-xl max-w-lg px-5 py-4 pointer-events-auto animation-slidein">
                         <div class="flex flex-row gap-5 items-center">
-                            <span class="text-1xl flex-2 material-symbols-rounded ${theme("theme-text")} flex justify-center">
+                            <span class="text-1xl flex-2 material-symbols-rounded ${gettheme("theme-text")} flex justify-center">
                                 info
                             </span>
-                            <span class="flex-1 ${theme("theme-text")} font-bold">${e}</span>
+                            <span class="flex-1 ${gettheme("theme-text")} font-bold">${e}</span>
                         </div>
                     </div>
                 </div>
@@ -291,7 +298,7 @@ export async function load(main) {
         `)
 
         setTimeout(function () {
-            $("#overlay").fadeOut(400, function () {
+            $("#error").fadeOut(400, function () {
                 $("#overlays").empty();
             });
             $("body").removeClass("overflow-hidden");
@@ -310,7 +317,7 @@ export async function load(main) {
  * @param {string} type
  * @param {int} value
  */
-export function theming(type, value) {
+export function gettheme(type, value) {
     switch (type) {
         case "theme-shadow": {
             if (theme.theme == "light") {
@@ -769,6 +776,37 @@ export function decode_gpa_score(courses) {
  * @param {function} main
  * @param {boolean} showerror
  */
-export async function prevent_error(main, showerror) {
-    
+export async function prevent_errors(main, showerror, additonal_code) {
+    try {
+        await main();
+    } catch (e) {
+        if (showerror) {
+            console.log(e);
+            $("#overlays").append(`
+                <div id="error" class="fixed inset-0 z-50 bg-gray-900 bg-opacity-50 flex justify-end items-end animation-fadein">
+                    <div class="container mx-auto px-4 flex justify-center mb-5 items-center pointer-events-none animation-popin">
+                        <div class="${gettheme("theme-card")} border border-red-500 rounded-xl max-w-lg px-5 py-4 pointer-events-auto animation-slidein">
+                            <div class="flex flex-row gap-5 items-center">
+                                <span class="text-1xl flex-2 material-symbols-rounded ${gettheme("theme-text")} flex justify-center">
+                                    info
+                                </span>
+                                <span class="flex-1 ${gettheme("theme-text")} font-bold">${e}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `)
+
+            setTimeout(function () {
+                $("#error").fadeOut(400, function () {
+                    $("#overlays").empty();
+                });
+                $("body").removeClass("overflow-hidden");
+            }, 5000)
+        }
+
+        if (additonal_code != undefined) {
+            await additonal_code(e);
+        }
+    }
 }
