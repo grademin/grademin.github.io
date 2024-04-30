@@ -10,7 +10,7 @@ export async function run() {
                 <div class="flex flex-row gap-5 items-center">
                     <div class="flex justify-between items-center">
                         <div class="rounded-full border-[6px] ${hlp.gettheme("border", "500")} ${hlp.gettheme("bg", "600")} ${!hlp.get("pfp").includes("data:") ? "" : `bg-[url('${hlp.get("pfp")}')] bg-cover bg-no-repeat bg-center`} h-16 w-16 flex items-center justify-center text-2xl sm:text-2xl font-bold uppercase">
-                            ${!hlp.get("pfp").includes("data:") ? hlp.get("saved").firstname.charAt(0).toUpperCase() : ""}
+                            ${!hlp.get("pfp").includes("data:") ? hlp.get("saved").fullname.charAt(0).toUpperCase() : ""}
                         </div>                    
                     </div>
                     <div class="flex flex-col">
@@ -89,7 +89,7 @@ export async function run() {
                     if (hlp.get("saved") == undefined) {
                         login3.response.user.fullname = `${login3.response.user.firstname.charAt(0).toUpperCase() + login3.response.user.firstname.slice(1)} ${login3.response.user.lastname.charAt(0).toUpperCase() + login3.response.user.lastname.slice(1)}`;
                         
-                        // This localStorage item adds details so when you logout you can easily log back in
+                        // This localStorage item adds details so when you logout you can easily log back in.
                         hlp.set("saved", {
                             "username": login3.response.user.username,
                             "userspace": login3.response.user.userspace,

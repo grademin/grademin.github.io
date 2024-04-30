@@ -283,6 +283,13 @@ export async function load(main) {
 
         // Animate navigation.
         await animate_nav();
+
+        // Add listener for goto links
+        $("[goto]").on("click", function (e) {
+            if ($(this).attr("goto").includes("https://")) {
+                window.open($(this).attr("goto"), "_blank")
+            }
+        })
     } catch (e) {
         console.log(e);
         $("body").addClass("overflow-hidden");

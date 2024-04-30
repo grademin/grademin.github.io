@@ -126,9 +126,9 @@ export async function runtime(page) {
                     break;
                 }
             }
-        }, true, function (e) {
+        }, true, async function (e) {
             hlp.remove("session");
-            runtime("login");
-        });
+            await runtime("login");
+        }, `A path could not be found to "${page}".`);
     }
 }
