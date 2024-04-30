@@ -92,22 +92,18 @@ export async function runtime(page) {
                     await stream.run();
                     break;
                 }
-        
-                /**
-                 * Grades section
-                 */
-                case "gpa-calculator": {
-                    const gpa_calculator = await import("/proview/src/pages/grades/gpa-calculator.js");
-                    await gpa_calculator.run();
-                    break;
-                }
-        
+                
                 /**
                  * Settings section
                  */
                 case "theme-color": {
                     const theme_color = await import("/proview/src/pages/settings/theme-color.js");
                     await theme_color.run();
+                    break;
+                }
+                case "gpa-config": {
+                    const gpa_config = await import("/proview/src/pages/settings/gpa-config.js");
+                    await gpa_config.run();
                     break;
                 }
                 case "hide-courses": {

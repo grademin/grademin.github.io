@@ -285,7 +285,7 @@ export async function load(main) {
         await animate_nav();
 
         // Add listener for goto links
-        $("[goto]").on("click", function (e) {
+        $("[goto]").off().on("click", function (e) {
             if ($(this).attr("goto").includes("https://")) {
                 window.open($(this).attr("goto"), "_blank")
             }
