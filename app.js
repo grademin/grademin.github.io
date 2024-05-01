@@ -4,8 +4,8 @@
 (async function () {
     "use strict";
 
-    const hlp = await import("/proview/src/helpers.js");
-    const site = await import("/proview/src/site.js");
+    const hlp = await import("/src/helpers.js");
+    const site = await import("/src/site.js");
 
     /**
      * Set the site theme to match the currently set user theme.

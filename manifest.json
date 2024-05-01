@@ -1,6 +1,6 @@
 {
-    "short_name": "Proview",
-    "name": "Proview",
+    "short_name": "Grademin",
+    "name": "Grademin",
     "icons": [
         {
             "src": "logo-transparent.png",
@@ -23,8 +23,8 @@
             "type": "image/png"
         }
     ],
-    "start_url": "/proview/",
-    "scope": "/proview/",
+    "start_url": "/",
+    "scope": "/",
     "display": "fullscreen",
     "background_color": "rgb(29, 78, 216)",
     "theme_color": "rgb(0, 0, 0)"

@@ -4,7 +4,7 @@
  * @param {string} page 
  */
 export async function runtime(page) {
-    const hlp = await import("/proview/src/helpers.js");
+    const hlp = await import("/src/helpers.js");
 
     // Set the current title of the page.
     let title = page.includes("-") ? page.split("-")[0].charAt(0).toUpperCase() + page.split("-")[0].slice(1) + " " + page.split("-")[1].charAt(0).toUpperCase() + page.split("-")[1].slice(1) : page.charAt(0).toUpperCase() + page.slice(1);
@@ -34,32 +34,32 @@ export async function runtime(page) {
                  * Main pages section
                  */
                 case "login": {
-                    const login = await import("/proview/src/pages/login.js");
+                    const login = await import("/src/pages/login.js");
                     await login.run()
                     break;
                 }
                 case "overview": {
-                    const overview = await import("/proview/src/pages/overview.js");
+                    const overview = await import("/src/pages/overview.js");
                     await overview.run();
                     break;
                 }
                 case "calendar": {
-                    const calendar = await import("/proview/src/pages/calendar.js");
+                    const calendar = await import("/src/pages/calendar.js");
                     await calendar.run();
                     break;
                 }
                 case "grades": {
-                    const grades = await import("/proview/src/pages/grades.js");
+                    const grades = await import("/src/pages/grades.js");
                     await grades.run();
                     break;
                 }
                 case "settings": {
-                    const settings = await import("/proview/src/pages/settings.js");
+                    const settings = await import("/src/pages/settings.js");
                     await settings.run();
                     break;
                 }
                 case "error": {
-                    const error = await import("/proview/src/pages/error.js");
+                    const error = await import("/src/pages/error.js");
                     await error.run();
                     break;
                 }
@@ -68,27 +68,27 @@ export async function runtime(page) {
                  * Overview section
                  */
                 case "courses": {
-                    const courses = await import("/proview/src/pages/overview/courses.js");
+                    const courses = await import("/src/pages/overview/courses.js");
                     await courses.run();
                     break;
                 }
                 case "announcements": {
-                    const announcements = await import("/proview/src/pages/overview/announcements.js");
+                    const announcements = await import("/src/pages/overview/announcements.js");
                     await announcements.run();
                     break;
                 }
                 case "contact": {
-                    const contact = await import("/proview/src/pages/overview/contact.js");
+                    const contact = await import("/src/pages/overview/contact.js");
                     await contact.run();
                     break;
                 }
                 case "todo-list": {
-                    const todo_list = await import("/proview/src/pages/overview/todo-list.js")
+                    const todo_list = await import("/src/pages/overview/todo-list.js")
                     await todo_list.run();
                     break;
                 }
                 case "activity-stream": {
-                    const stream = await import("/proview/src/pages/overview/activity-stream.js");
+                    const stream = await import("/src/pages/overview/activity-stream.js");
                     await stream.run();
                     break;
                 }
@@ -97,27 +97,27 @@ export async function runtime(page) {
                  * Settings section
                  */
                 case "theme-color": {
-                    const theme_color = await import("/proview/src/pages/settings/theme-color.js");
+                    const theme_color = await import("/src/pages/settings/theme-color.js");
                     await theme_color.run();
                     break;
                 }
                 case "gpa-config": {
-                    const gpa_config = await import("/proview/src/pages/settings/gpa-config.js");
+                    const gpa_config = await import("/src/pages/settings/gpa-config.js");
                     await gpa_config.run();
                     break;
                 }
                 case "hide-courses": {
-                    const hide_courses = await import("/proview/src/pages/settings/hide-courses.js");
+                    const hide_courses = await import("/src/pages/settings/hide-courses.js");
                     await hide_courses.run();
                     break;
                 }
                 case "help-center": {
-                    const help_center = await import("/proview/src/pages/settings/help-center.js");
+                    const help_center = await import("/src/pages/settings/help-center.js");
                     await help_center.run();
                     break;
                 }
                 case "manage-account": {
-                    const manage_account = await import("/proview/src/pages/settings/manage-account.js");
+                    const manage_account = await import("/src/pages/settings/manage-account.js");
                     await manage_account.run();
                     break;
                 }
