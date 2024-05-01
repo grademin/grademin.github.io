@@ -231,7 +231,7 @@ export async function run() {
                                         <h2 class="text-2xl font-bold text-center">About Proview</h2>
                                     </div>
                                     <div>
-                                        <p>This website was created to show that <b>Echo Viewer</b> by <b>Agilix, Inc</b> could have been better. This websites design is based off <b>GradeWay</b> by <b>Srujan Mupparapu</b>, this website is not meant to infringe or plagarize his work, If it does (specifically to Srujan) please send an issue <a class="${hlp.theme("text", "700")} hover:${hlp.theme("text", "600")} cursor-pointer transition" goto="https://github.com/wo-r-professional/proview/issues">here</a> and I will abide to whatever you ask.</p>
+                                        <p>This website was created to show that <b>Echo Viewer</b> by <b>Agilix, Inc</b> could have been better. This websites design is based off <b>GradeWay</b> by <b>Srujan Mupparapu</b>, this website is not meant to infringe or plagarize his work, If it does (specifically to Srujan) please send an issue <a class="${hlp.theme("text", "700")} hover:${hlp.theme("text", "600")} cursor-pointer transition" goto="https://github.com/wo-r-professional/issues">here</a> and I will abide to whatever you ask.</p>
                                     </div>
                                 </div>
                             </div>

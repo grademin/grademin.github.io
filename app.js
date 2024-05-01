@@ -4,9 +4,9 @@
 (async function () {
     "use strict";
 
-    const sw = await import("/proview/src/service.js");
-    const hlp = await import("/proview/src/helpers.js");
-    const site = await import("/proview/src/site.js");
+    const sw = await import("/src/service.js");
+    const hlp = await import("/src/helpers.js");
+    const site = await import("/src/site.js");
 
     /**
      * Handles themes automatically. (should run first since color is something the user sees first)

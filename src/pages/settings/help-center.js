@@ -109,7 +109,7 @@ export async function run() {
                         <br>
                         <h1 class="text-3xl font-black">Other questions or concerns?</h1>
                         <p>
-                            Please respond via <a goto="https://github.com/wo-r-professional/proview/issues" class="text-blue-700 hover:text-blue-600 cursor-pointer transition">github issues</a>, as its the quickest way for me to respond.
+                            Please respond via <a goto="https://github.com/wo-r-professional/issues" class="text-blue-700 hover:text-blue-600 cursor-pointer transition">github issues</a>, as its the quickest way for me to respond.
                         </p>
                     </div>
                 </div>
