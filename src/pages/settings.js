@@ -200,44 +200,6 @@ export async function run() {
                     </div>
                 </div>
                 <!---->
-                <div class="flex flex-col container mx-auto ${hlp.gettheme("theme-card")} rounded-xl px-3">
-                    <div goto="https://github.com/wo-r-professional/Grademin" class="flex flex-row justify-between container mx-auto cursor-pointer py-3 border-b-[2px] border-zinc-700">
-                        <div class="flex flex-row justify-center items-center gap-4 pointer-events-none">
-                            <div class="flex w-[45px] justify-center items-center ${hlp.gettheme("bg", "700")} px-[8px] py-[8px] rounded-2xl">
-                                <svg class="w-full h-full flex justify-center items-center" viewBox="-14 -1000 1000 1000">
-                                    <path class="fill-white" d="m438-469-48-48q-16-17-37.5-16.5T315-517q-16 16-16 37.5t16 37.5l75 74q20 21 48 21t48-21l160-159q16-16 16-38t-16-38q-16-15-37.5-15T571-602L438-469ZM294-53l-55-95-105-24q-26-6-41.5-26.5T80-245l11-108-72-83Q2-455 2-480t17-44l72-83-11-108q-3-26 12.5-46.5T134-788l105-24 55-95q13-22 37.5-29.5T380-935l100 43 100-43q24-9 48.5-1.5T666-907l55 95 105 24q26 6 41.5 26.5T880-715l-11 108 72 83q17 19 17 44t-17 44l-72 83 11 108q3 26-12.5 46.5T826-172l-105 24-55 95q-13 22-37.5 29.5T580-25L480-68 380-25q-24 9-48.5 1.5T294-53Z"/>
-                                </svg>
-                            </div>
-                            <div class="flex flex-col items-center">
-                                <h1 class="text-[20px] font-bold">Grademin</h1>
-                            </div>
-                        </div>
-                        <div class="flex w-8 justify-center items-center pointer-events-none">
-                            <svg class="w-full h-full flex -rotate-45 justify-center items-center" viewBox="-14 -1000 1000 1000">
-                                <path class="${hlp.gettheme("theme-fill")}" d="M278-236q-102.11 0-173.06-70.92Q34-377.84 34-479.92T104.94-653q70.95-71 173.06-71h82q29 0 48.5 20t19.5 48q0 28-19.5 48T360-588h-82q-46 0-77 31.5T170-480q0 45 31 76.5t77 31.5h82q29 0 48.5 20t19.5 48q0 28-19.5 48T360-236h-82Zm66-191q-22.4 0-37.7-15.3Q291-457.6 291-480q0-23.4 14.8-38.2Q320.6-533 344-533h272q22.4 0 37.7 14.8Q669-503.4 669-480q0 22.4-14.8 37.7Q639.4-427 616-427H344Zm256 191q-29 0-48.5-20T532-304q0-28 19.5-48t48.5-20h82q46 0 77-31.5t31-76.5q0-45-31-76.5T682-588h-82q-29 0-48.5-20T532-656q0-28 19.5-48t48.5-20h82q102.11 0 173.05 70.92 70.95 70.92 70.95 173T855.05-307Q784.11-236 682-236h-82Z"/>
-                            </svg>
-                        </div>
-                    </div>
-                    <!---->
-                    <div goto="https://github.com/wo-r-professional/echo-plus" class="flex flex-row justify-between container mx-auto cursor-pointer py-3">
-                        <div class="flex flex-row justify-center items-center gap-4 pointer-events-none">
-                            <div class="flex w-[45px] justify-center items-center ${hlp.gettheme("bg", "700")} px-[8px] py-[8px] rounded-2xl">
-                                <svg class="w-full h-full flex justify-center items-center" viewBox="-14 -1000 1000 1000">
-                                    <path class="fill-white" d="M480-34q-92.85 0-173.7-34.93-80.85-34.92-141.65-95.72-60.8-60.8-95.72-141.65Q34-387.15 34-480t34.93-173.7q34.92-80.85 95.72-141.65 60.8-60.8 141.65-95.73Q387.15-926 480-926q38 0 75.5 6t73.5 18q25 9 33 35.87 8 26.87-7 50.13-16 24-44 32.5t-57 1.5q-18-4-36.49-6-18.48-2-37.51-2-129 0-219.5 90.5T170-480q0 129 90.5 219.5T480-170q10.18 0 19.12-.5 8.94-.5 17.88-.5 30-4 57 7.5t39 38.4q11 26.1-.5 51.6T575-43q-24 4-47.33 6.5Q504.33-34 480-34Zm252-218h-52q-27.6 0-47.8-20.2Q612-292.4 612-320q0-27.6 20.2-47.8Q652.4-388 680-388h52v-52q0-27.6 20.2-47.8Q772.4-508 800-508q27.6 0 47.8 20.2Q868-467.6 868-440v52h52q27.6 0 47.8 20.2Q988-347.6 988-320q0 27.6-20.2 47.8Q947.6-252 920-252h-52v52q0 27.6-20.2 47.8Q827.6-132 800-132q-27.6 0-47.8-20.2Q732-172.4 732-200v-52ZM421-449l369-370q18.8-18 45.4-18 26.6 0 45.6 18.5t19 45.1q0 26.6-19 45.4L469-317q-20 21-48 21t-48-21L273-417q-19-18-19-44.5t19-45q19-18.5 45.6-18.5t45.4 19l57 57Z"/>
-                                </svg>
-                            </div>
-                            <div class="flex flex-col items-center">
-                                <h1 class="text-[20px] font-bold">Echo Plus</h1>
-                            </div>
-                        </div>
-                        <div class="flex w-8 justify-center items-center pointer-events-none">
-                            <svg class="w-full h-full flex -rotate-45 justify-center items-center" viewBox="-14 -1000 1000 1000">
-                                <path class="${hlp.gettheme("theme-fill")}" d="M278-236q-102.11 0-173.06-70.92Q34-377.84 34-479.92T104.94-653q70.95-71 173.06-71h82q29 0 48.5 20t19.5 48q0 28-19.5 48T360-588h-82q-46 0-77 31.5T170-480q0 45 31 76.5t77 31.5h82q29 0 48.5 20t19.5 48q0 28-19.5 48T360-236h-82Zm66-191q-22.4 0-37.7-15.3Q291-457.6 291-480q0-23.4 14.8-38.2Q320.6-533 344-533h272q22.4 0 37.7 14.8Q669-503.4 669-480q0 22.4-14.8 37.7Q639.4-427 616-427H344Zm256 191q-29 0-48.5-20T532-304q0-28 19.5-48t48.5-20h82q46 0 77-31.5t31-76.5q0-45-31-76.5T682-588h-82q-29 0-48.5-20T532-656q0-28 19.5-48t48.5-20h82q102.11 0 173.05 70.92 70.95 70.92 70.95 173T855.05-307Q784.11-236 682-236h-82Z"/>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-                <!---->
                 <button id="logout" class="w-full px-4 ${hlp.gettheme("theme-shadow")} hover:bg-red-500 py-3 bg-red-600 text-white transition font-semibold rounded-xl">Logout</button>
                 <!---->
                 <div class="flex flex-col justify-center items-center align-center">

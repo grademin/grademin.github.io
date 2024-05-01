@@ -36,7 +36,7 @@ export async function run() {
                         </div>
                         <div class="flex flex-col">
                             <h1 class="text-[22px] font-bold">What is Grademin?</h1>
-                            <span class="font-bold text-[15px] text-zinc-400">About this site and it's purpose</span>
+                            <span class="font-bold text-[15px] text-zinc-400">About this app and it's purpose</span>
                         </div>
                     </div>
                     <div class="flex w-6 justify-center items-center pointer-events-none">
@@ -227,7 +227,7 @@ export async function run() {
                                         <h2 class="text-2xl font-bold text-center">About Grademin</h2>
                                     </div>
                                     <div>
-                                        <p>This website was created to show that <b>Echo Viewer</b> by <b>Agilix, Inc</b> could have been better. This websites design is based off <b>GradeWay</b> by <b>Srujan Mupparapu</b>, this website is not meant to infringe or plagarize his work, If it does (specifically to Srujan) please send an email <a class="${hlp.gettheme("text", "700")} hover:${hlp.gettheme("text", "600")} cursor-pointer transition" goto="mailto:grademin.official@gmail.com">here</a> and I will abide to whatever you ask.</p>
+                                        <p>This app was created to show that <b>Echo Viewer</b> could have been designed better. Since it's not gonna stick around for long where I go to school, I've decided to make it's design based off <b>GradeWay</b> by <b>Srujan Mupparapu</b>. This app is not attempting to copy GradeWay in it's entirety, only design. If something is conflicting with this, please email me <a class="${hlp.gettheme("text", "700")} hover:${hlp.gettheme("text", "600")} cursor-pointer transition" goto="mailto:grademin.official@gmail.com">here</a> and I will happily reply back.</p>
                                     </div>
                                 </div>
                             </div>
