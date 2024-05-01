@@ -193,7 +193,7 @@ export async function run() {
                     </div>
                     <!---->
                     <div class="flex flex-col container mx-auto ${hlp.theme("theme-card")} rounded-xl px-3">
-                        <div goto="https://github.com/wo-r-professional/proview" class="flex flex-row justify-between container mx-auto cursor-pointer py-3 border-b-[2px] border-zinc-700">
+                        <div goto="https://github.com/wo-r-professional/Grademin" class="flex flex-row justify-between container mx-auto cursor-pointer py-3 border-b-[2px] border-zinc-700">
                             <div class="flex flex-row justify-center items-center gap-4 pointer-events-none">
                                 <div class="flex justify-center items-center ${hlp.theme("bg", "700")} px-2 py-1 rounded-2xl">
                                     <span class="text-3xl material-symbols-rounded text-white">
@@ -201,7 +201,7 @@ export async function run() {
                                     </span>
                                 </div>
                                 <div class="flex flex-col items-center">
-                                    <h1 class="text-[20px] font-bold">Proview</h1>
+                                    <h1 class="text-[20px] font-bold">Grademin</h1>
                                 </div>
                             </div>
                             <div class="flex justify-center items-center">
@@ -233,7 +233,7 @@ export async function run() {
                     <button id="logout" class="w-full px-4 ${hlp.theme("theme-shadow")} py-3 bg-red-600 text-white transition font-semibold rounded-xl hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-red-700 focus:ring-opacity-50">Logout</button>
                     <!---->
                     <div class="flex flex-col justify-center items-center align-center">
-                        <span class="text-sm font-bold">Proview v${hlp.version}</span>
+                        <span class="text-sm font-bold">Grademin v${hlp.version}</span>
                         <span class="text-sm font-bold">&copy; ${new Date().getFullYear()} Wo-r, Design from <a class="${hlp.theme("text", "700")} hover:${hlp.theme("text", "600")} cursor-pointer transition" goto="https://gradeway.github.io/">Srujan Mupparapu</a></span>
                         <span class="text-xs font-bold text-zinc-400">Created for the betterment of Echo</span>
                     </div>    

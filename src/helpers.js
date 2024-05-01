@@ -1,5 +1,5 @@
 /**
- * Proview Version
+ * Grademin Version
  */
 export const version = "1.7.3";
 

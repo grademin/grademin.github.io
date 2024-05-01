@@ -1,12 +1,12 @@
 <div align=center>
   <img src="/src/logo/logo.png" width="300rem">
-  <h1>Proview</h1>
+  <h1>Grademin</h1>
   <p>Designed for students and serves as a place to view grades and check agendas</p>
-  <a href="https://github.com/wo-r-professional/blob/main/license.md"><img src="https://img.shields.io/github/license/wo-r-professional/proview?style=social&label=License"></a>
-  <a href="https://github.com/wo-r-professional/commits/main/"><img src="https://img.shields.io/github/last-commit/wo-r-professional/proview?style=social&label=Last Commit"></a>
+  <a href="https://github.com/wo-r-professional/blob/main/license.md"><img src="https://img.shields.io/github/license/wo-r-professional/Grademin?style=social&label=License"></a>
+  <a href="https://github.com/wo-r-professional/commits/main/"><img src="https://img.shields.io/github/last-commit/wo-r-professional/Grademin?style=social&label=Last Commit"></a>
   <a href="https://github.com/wo-r-professional/actions/workflows/pages/pages-build-deployment"><img src="https://img.shields.io/github/deployments/wo-r-professional/github-pages?style=social&label=Github Pages"></a>
   <br>
-  <a href="/"><img src="https://img.shields.io/website?url=https%3A%2F%2Fwo-r-professional.github.io%2Fproview%2F%3Fpage%3Dsettings&up_message=running&down_message=stopped&style=social&label=Proview Website"></a>
+  <a href="/"><img src="https://img.shields.io/website?url=https%3A%2F%2Fwo-r-professional.github.io%2Fproview%2F%3Fpage%3Dsettings&up_message=running&down_message=stopped&style=social&label=Grademin Website"></a>
   <br>
   <br>
   <div style="display: flex;"> 

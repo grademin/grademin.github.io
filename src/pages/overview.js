@@ -46,7 +46,7 @@ export async function run() {
                             </span>
                         </div>
                         <div class="flex flex-col">
-                            <h1 class="text-[22px] font-bold">What is Proview?</h1>
+                            <h1 class="text-[22px] font-bold">What is Grademin?</h1>
                             <span class="font-bold text-[15px] text-zinc-400">About this site and it's purpose</span>
                         </div>
                     </div>
@@ -228,7 +228,7 @@ export async function run() {
                             <div class="container mx-auto px-4 flex justify-center items-center pointer-events-none animation-popin">
                                 <div class="${hlp.theme("theme-card")} ${hlp.theme("theme-text")} rounded-xl max-w-lg px-5 py-5 pointer-events-auto">
                                     <div class="flex justify-center items-center mb-4">
-                                        <h2 class="text-2xl font-bold text-center">About Proview</h2>
+                                        <h2 class="text-2xl font-bold text-center">About Grademin</h2>
                                     </div>
                                     <div>
                                         <p>This website was created to show that <b>Echo Viewer</b> by <b>Agilix, Inc</b> could have been better. This websites design is based off <b>GradeWay</b> by <b>Srujan Mupparapu</b>, this website is not meant to infringe or plagarize his work, If it does (specifically to Srujan) please send an issue <a class="${hlp.theme("text", "700")} hover:${hlp.theme("text", "600")} cursor-pointer transition" goto="https://github.com/wo-r-professional/issues">here</a> and I will abide to whatever you ask.</p>
