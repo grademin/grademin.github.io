@@ -30,7 +30,7 @@ export async function run() {
         <div class="relative h-[75svh] h-[75vh] flex justify-center">
             <div class="pt-20 rounded-lg container mx-auto px-4">
                 <div class="flex flex-col mb-10">
-                    <h2 class="text-7xl -m-1 tracking-tight leading-wider font-black ${hlp.theme("text", "700")}">Grademin</h2>
+                    <h2 class="text-7xl -m-1 tracking-tight leading-wider font-black ${hlp.theme("text", "700")}">Gradpass</h2>
                     <span class="text-2xl tracking-wide font-bold">Log In</span>
                 </div>
                 <div class="flex flex-col justify-between h-[65vh] h-[65svh]">

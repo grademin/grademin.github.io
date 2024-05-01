@@ -1,5 +1,5 @@
 /**
- * Grademin Version
+ * Gradpass Version
  */
 export const version = "1.7.3";
 
