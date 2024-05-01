@@ -26,7 +26,7 @@ export async function run() {
         <div class="relative h-[75svh] h-[75vh] flex justify-center">
             <div class="pt-20 rounded-lg container mx-auto px-4">
                 <div class="flex flex-col mb-10">
-                    <h2 class="text-7xl -m-1 tracking-tight leading-wider font-black ${hlp.gettheme("text", "700")}">Grademin</h2>
+                    <h2 class="text-7xl -m-1 tracking-tight leading-wider font-black ${hlp.gettheme("text", "700")}">Gradpass</h2>
                     <span class="text-2xl tracking-wide font-bold">Log In</span>
                 </div>
                 <form action="" class="flex flex-col justify-between h-full">
@@ -101,7 +101,7 @@ export async function run() {
                     } else {
                         login3.response.user.firstname = hlp.get("saved").firstname;
                         login3.response.user.lastname = hlp.get("saved").lastname;
-                        login3.response.user.fullname = `${hlp.get("saved").firstname.charAt(0).toUpperCase() + hlp.get("saved").firstname.slice(1)} ${hlp.get("saved").lastname.charAt(0).toUpperCase() + hlp.get("saved").lastname.slice(1)}`;
+                        login3.response.user.fullname = hlp.get("saved").fullname;
                     
                         hlp.set("session", login3.response);
                     }

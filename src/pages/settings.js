@@ -203,7 +203,7 @@ export async function run() {
                 <button id="logout" class="w-full px-4 ${hlp.gettheme("theme-shadow")} hover:bg-red-500 py-3 bg-red-600 text-white transition font-semibold rounded-xl">Logout</button>
                 <!---->
                 <div class="flex flex-col justify-center items-center align-center">
-                    <span class="text-sm font-bold">Grademin v${hlp.version}</span>
+                    <span class="text-sm font-bold">Gradpass v${hlp.version}</span>
                     <span class="text-sm font-bold">&copy; ${new Date().getFullYear()} Wo-r, Design from <a class="${hlp.gettheme("text", "700")} hover:${hlp.gettheme("text", "600")} cursor-pointer transition" goto="https://gradeway.github.io/">Srujan Mupparapu</a></span>
                     <span class="text-xs font-bold text-zinc-400">Created for the betterment of Echo</span>
                 </div>  

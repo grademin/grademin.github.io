@@ -19,7 +19,7 @@ export async function run() {
                     </div>
                     <div class="flex justify-between items-end cursor-pointer">
                         <div id="settings" class="rounded-full transition ${hlp.gettheme("bg", "600")} ${!hlp.get("pfp").includes("data:") ? "" : `bg-[url('${hlp.get("pfp")}')] bg-cover bg-no-repeat bg-center`} border-[6px] hover:${hlp.gettheme("border", "400")} ${hlp.gettheme("border", "500")} h-[4.5rem] w-[4.5rem] sm:h-[6rem] sm:w-[6rem] flex items-center justify-center text-2xl font-bold uppercase">
-                            <span class="text-[20px] sm:text-[30px]">${!hlp.get("pfp").includes("data:") ? hlp.session.fullname.charAt(0).toUpperCase() : ""}</span>
+                            <span class="text-[20px] pointer-events-none sm:text-[30px]">${!hlp.get("pfp").includes("data:") ? hlp.session.fullname.charAt(0).toUpperCase() : ""}</span>
                         </div>
                     </div>
                 </div>
@@ -35,7 +35,7 @@ export async function run() {
                             </svg>
                         </div>
                         <div class="flex flex-col">
-                            <h1 class="text-[22px] font-bold">What is Grademin?</h1>
+                            <h1 class="text-[22px] font-bold">What is Gradpass?</h1>
                             <span class="font-bold text-[15px] text-zinc-400">About this app and it's purpose</span>
                         </div>
                     </div>
@@ -224,10 +224,10 @@ export async function run() {
                             <div class="container mx-auto px-4 flex justify-center items-center pointer-events-none animation-popin">
                                 <div class="${hlp.gettheme("theme-card")} ${hlp.gettheme("theme-text")} rounded-xl max-w-lg px-5 py-5 pointer-events-auto">
                                     <div class="flex justify-center items-center mb-4">
-                                        <h2 class="text-2xl font-bold text-center">About Grademin</h2>
+                                        <h2 class="text-2xl font-bold text-center">About Gradpass</h2>
                                     </div>
                                     <div>
-                                        <p>This app was created to show that <b>Echo Viewer</b> could have been designed better. Since it's not gonna stick around for long where I go to school, I've decided to make it's design based off <b>GradeWay</b> by <b>Srujan Mupparapu</b>. This app is not attempting to copy GradeWay in it's entirety, only design. If something is conflicting with this, please email me <a class="${hlp.gettheme("text", "700")} hover:${hlp.gettheme("text", "600")} cursor-pointer transition" goto="mailto:grademin.official@gmail.com">here</a> and I will happily reply back.</p>
+                                        <p>This app was created to show that <b>Echo Viewer</b> could have been designed better. Since it's not gonna stick around for long where I go to school, I've decided to make it's design based off <b>GradeWay</b> by <b>Srujan Mupparapu</b>. This app is not attempting to copy GradeWay in it's entirety, only design. If something is conflicting with this, please email me <a class="${hlp.gettheme("text", "700")} hover:${hlp.gettheme("text", "600")} cursor-pointer transition" goto="mailto:Gradpass.official@gmail.com">here</a> and I will happily reply back.</p>
                                     </div>
                                 </div>
                             </div>
