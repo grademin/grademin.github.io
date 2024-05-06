@@ -371,5 +371,46 @@ export async function run() {
                 }
             }
         })
+
+
+        // Set options to there current set values.
+        let settings = hlp.get("settings");
+        await $.each(settings, (i, option) => {
+            if (option.$value) {
+                $(`input[option="${option.option}"]`).prop("checked", option.$value);
+                $(`input[option="${option.option}"]`).parent().find("label div div").removeClass("translate-x-0").addClass("translate-x-full").parent().removeClass(`${hlp.gettheme("theme-toggle")}`).addClass(`${hlp.gettheme("bg", "700")}`);
+            }
+        })
+
+        // Manage when a user clicks on an option.
+        await $("#root div[id]:has(input[option])").click(async function () {
+            // Determine if the actual value of the input is checked or not.
+            if ($(this).find("input").prop("checked")) {
+                $(this).find("input").prop("checked", "");
+            } else {
+                $(this).find("input").prop("checked", "true");
+            }
+
+            // Visually show if it is checked or not.
+            if ($(this).find("input").prop("checked")) {
+                $(this).find("label div div").removeClass("translate-x-0").addClass("translate-x-full duration-300 ease-in-out").parent().removeClass(`${hlp.gettheme("theme-toggle")}`).addClass(`${hlp.gettheme("bg", "700")}`);
+            } else {
+                $(this).find("label div div").removeClass("translate-x-full").addClass("translate-x-0 duration-300 ease-in-out").parent().removeClass(`${hlp.gettheme("bg", "700")}`).addClass(`${hlp.gettheme("theme-toggle")}`);
+            }
+
+            // Set the current option of the value, allowing seemless setting changes.
+            if (!hlp.stringify(settings).includes($(this).find("input").attr("option"))) {
+                // If for some reason a new feature is added.
+                settings.push({
+                    option: $(this).find("input").attr("option"),
+                    $value:  $(this).find("input").prop("checked")
+                });
+                hlp.set("settings", settings);
+            } else {
+                // Option already exists.
+                settings.find(name => name.option.includes($(this).find("input").attr("option"))).$value = $(this).find("input").prop("checked");
+                hlp.set("settings", settings);
+            }
+        })
     })
 }

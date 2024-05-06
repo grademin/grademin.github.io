@@ -66,6 +66,7 @@ export async function run() {
                 if (district.includes("//"))
                     district = district.replace(/^https?:\/\//, "").split(".")[0];
                 
+                // Get login api
                 let login3 = await $.ajax({
                     url: hlp.api("/cmd"),
                     method: "POST",
@@ -79,6 +80,7 @@ export async function run() {
                     }}),
                 });
 
+                // Determine if login api is OK
                 if (login3.response.code != "OK") {
                     await $("#district, #username, #password").addClass("shake").addClass("border-red-300");
                 } else {

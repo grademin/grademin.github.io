@@ -298,9 +298,9 @@ export async function load(main) {
                 <div class="container mx-auto px-4 flex justify-center mb-5 items-center pointer-events-none animation-popin">
                     <div class="${gettheme("theme-card")} border border-red-500 rounded-xl max-w-lg px-5 py-4 pointer-events-auto animation-slidein">
                         <div class="flex flex-row gap-5 items-center">
-                            <span class="text-1xl flex-2 material-symbols-rounded ${gettheme("theme-text")} flex justify-center">
-                                info
-                            </span>
+                            <svg class="w-6 h-full flex justify-center items-center" viewBox="-14 -1000 1000 1000">
+                                <path class="${gettheme("theme-fill")}" d="M480.28-259q25.1 0 42.41-17.51Q540-294.02 540-319v-141q0-24.98-17.39-42.49T480.42-520q-24.79 0-42.61 17.51Q420-484.98 420-460v141q0 24.98 17.59 42.49Q455.19-259 480.28-259Zm-.46-327q27.68 0 45.93-18.07Q544-622.15 544-649.82q0-27.68-18.07-45.93Q507.85-714 480.18-714q-27.68 0-45.93 18.07Q416-677.85 416-650.18q0 27.68 18.07 45.93Q452.15-586 479.82-586ZM480-34q-92.64 0-174.47-34.6-81.82-34.61-142.07-94.86T68.6-305.53Q34-387.36 34-480q0-92.9 34.66-174.45 34.67-81.55 95.18-141.94 60.51-60.39 142.07-95Q387.48-926 480-926q92.89 0 174.48 34.59 81.59 34.6 141.96 94.97 60.37 60.37 94.97 141.99Q926-572.83 926-479.92q0 92.92-34.61 174.25-34.61 81.32-95 141.83Q736-103.33 654.45-68.66 572.9-34 480-34Z"/>
+                            </svg>
                             <span class="flex-1 ${gettheme("theme-text")} font-bold">${e}</span>
                         </div>
                     </div>
@@ -923,9 +923,9 @@ export async function prevent_errors(main, showerror, additonal_code, custom_mes
                     <div class="container mx-auto px-4 flex justify-center mb-5 items-center pointer-events-none animation-popin">
                         <div class="${gettheme("theme-card")} border border-red-500 rounded-xl max-w-lg px-5 py-4 pointer-events-auto animation-slidein">
                             <div class="flex flex-row gap-5 items-center">
-                                <span class="text-1xl flex-2 material-symbols-rounded ${gettheme("theme-text")} flex justify-center">
-                                    info
-                                </span>
+                                <svg class="w-6 h-full flex justify-center items-center" viewBox="-14 -1000 1000 1000">
+                                    <path class="${gettheme("theme-fill")}" d="M480.28-259q25.1 0 42.41-17.51Q540-294.02 540-319v-141q0-24.98-17.39-42.49T480.42-520q-24.79 0-42.61 17.51Q420-484.98 420-460v141q0 24.98 17.59 42.49Q455.19-259 480.28-259Zm-.46-327q27.68 0 45.93-18.07Q544-622.15 544-649.82q0-27.68-18.07-45.93Q507.85-714 480.18-714q-27.68 0-45.93 18.07Q416-677.85 416-650.18q0 27.68 18.07 45.93Q452.15-586 479.82-586ZM480-34q-92.64 0-174.47-34.6-81.82-34.61-142.07-94.86T68.6-305.53Q34-387.36 34-480q0-92.9 34.66-174.45 34.67-81.55 95.18-141.94 60.51-60.39 142.07-95Q387.48-926 480-926q92.89 0 174.48 34.59 81.59 34.6 141.96 94.97 60.37 60.37 94.97 141.99Q926-572.83 926-479.92q0 92.92-34.61 174.25-34.61 81.32-95 141.83Q736-103.33 654.45-68.66 572.9-34 480-34Z"/>
+                                </svg>
                                 <span class="flex-1 ${gettheme("theme-text")} font-bold">${custom_message != "" ? custom_message : e}</span>
                             </div>
                         </div>

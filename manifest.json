@@ -3,22 +3,22 @@
     "name": "Gradpass",
     "icons": [
         {
-            "src": "logo-transparent.png",
+            "src": "src/logo/logo.png",
             "sizes": "72x72",
             "type": "image/png"
         },
         {
-            "src": "logo-transparent.png",
+            "src": "src/logo/logo.png",
             "sizes": "96x96",
             "type": "image/png"
         },
         {
-            "src": "logo-transparent.png",
+            "src": "src/logo/logo.png",
             "sizes": "128x128",
             "type": "image/png"
         },
         {
-            "src": "logo-transparent.png",
+            "src": "src/logo/logo.png",
             "sizes": "256x256",
             "type": "image/png"
         }
