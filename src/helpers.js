@@ -286,7 +286,7 @@ export async function load(main) {
 
         // Add listener for goto links
         $("[goto]").off().on("click", function (e) {
-            if ($(this).attr("goto").includes("https://")) {
+            if ($(this).attr("goto").includes("https://") || $(this).attr("goto").includes("mailto:")) {
                 window.open($(this).attr("goto"), "_blank")
             }
         })

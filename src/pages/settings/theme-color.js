@@ -175,10 +175,11 @@ export async function run() {
                                     <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
                                 </div>
                                 <div class="flex items-center invisible">
-                                    <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
-                                        <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
-                                            check
-                                        </span>
+                                    <div flex-2 class="rounded-full z-20 relative overflow-hidden">
+                                        <div class="bg-white rounded-full absolute inset-2" style="z-index: -1;"></div>
+                                        <svg class="w-8 h-full z-20 flex justify-center items-center" viewBox="-14 -1000 1000 1000">    
+                                            <path class="${hlp.gettheme("fill", "700")}" d="m421-449-57-57q-18.8-19-45.4-19-26.6 0-45.6 18.5T254.5-461q.5 27 19.5 45l99 99q20.18 21 48.09 21Q449-296 469-317l213-212q19-18.8 19-44.9 0-26.1-18.84-45.1t-45.5-19Q610-638 591-619L421-449Zm59 415q-92.64 0-174.47-34.6-81.82-34.61-142.07-94.86T68.6-305.53Q34-387.36 34-480q0-92.9 34.66-174.45 34.67-81.55 95.18-141.94 60.51-60.39 142.07-95Q387.48-926 480-926q92.89 0 174.48 34.59 81.59 34.6 141.96 94.97 60.37 60.37 94.97 141.99Q926-572.83 926-479.92q0 92.92-34.61 174.25-34.61 81.32-95 141.83Q736-103.33 654.45-68.66 572.9-34 480-34Z"/>
+                                        </svg>
                                     </div>
                                 </div>
                             </div>
@@ -195,10 +196,11 @@ export async function run() {
                                     <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
                                 </div>
                                 <div class="flex items-center invisible">
-                                    <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
-                                        <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
-                                            check
-                                        </span>
+                                    <div flex-2 class="rounded-full z-20 relative overflow-hidden">
+                                        <div class="bg-white rounded-full absolute inset-2" style="z-index: -1;"></div>
+                                        <svg class="w-8 h-full z-20 flex justify-center items-center" viewBox="-14 -1000 1000 1000">    
+                                            <path class="${hlp.gettheme("fill", "700")}" d="m421-449-57-57q-18.8-19-45.4-19-26.6 0-45.6 18.5T254.5-461q.5 27 19.5 45l99 99q20.18 21 48.09 21Q449-296 469-317l213-212q19-18.8 19-44.9 0-26.1-18.84-45.1t-45.5-19Q610-638 591-619L421-449Zm59 415q-92.64 0-174.47-34.6-81.82-34.61-142.07-94.86T68.6-305.53Q34-387.36 34-480q0-92.9 34.66-174.45 34.67-81.55 95.18-141.94 60.51-60.39 142.07-95Q387.48-926 480-926q92.89 0 174.48 34.59 81.59 34.6 141.96 94.97 60.37 60.37 94.97 141.99Q926-572.83 926-479.92q0 92.92-34.61 174.25-34.61 81.32-95 141.83Q736-103.33 654.45-68.66 572.9-34 480-34Z"/>
+                                        </svg>
                                     </div>
                                 </div>
                             </div>
@@ -215,10 +217,11 @@ export async function run() {
                                     <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
                                 </div>
                                 <div class="flex items-center invisible">
-                                    <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
-                                        <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
-                                            check
-                                        </span>
+                                    <div flex-2 class="rounded-full z-20 relative overflow-hidden">
+                                        <div class="bg-white rounded-full absolute inset-2" style="z-index: -1;"></div>
+                                        <svg class="w-8 h-full z-20 flex justify-center items-center" viewBox="-14 -1000 1000 1000">    
+                                            <path class="${hlp.gettheme("fill", "700")}" d="m421-449-57-57q-18.8-19-45.4-19-26.6 0-45.6 18.5T254.5-461q.5 27 19.5 45l99 99q20.18 21 48.09 21Q449-296 469-317l213-212q19-18.8 19-44.9 0-26.1-18.84-45.1t-45.5-19Q610-638 591-619L421-449Zm59 415q-92.64 0-174.47-34.6-81.82-34.61-142.07-94.86T68.6-305.53Q34-387.36 34-480q0-92.9 34.66-174.45 34.67-81.55 95.18-141.94 60.51-60.39 142.07-95Q387.48-926 480-926q92.89 0 174.48 34.59 81.59 34.6 141.96 94.97 60.37 60.37 94.97 141.99Q926-572.83 926-479.92q0 92.92-34.61 174.25-34.61 81.32-95 141.83Q736-103.33 654.45-68.66 572.9-34 480-34Z"/>
+                                        </svg>
                                     </div>
                                 </div>
                             </div>
@@ -235,10 +238,11 @@ export async function run() {
                                     <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
                                 </div>
                                 <div class="flex items-center invisible">
-                                    <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
-                                        <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
-                                            check
-                                        </span>
+                                    <div flex-2 class="rounded-full z-20 relative overflow-hidden">
+                                        <div class="bg-white rounded-full absolute inset-2" style="z-index: -1;"></div>
+                                        <svg class="w-8 h-full z-20 flex justify-center items-center" viewBox="-14 -1000 1000 1000">    
+                                            <path class="${hlp.gettheme("fill", "700")}" d="m421-449-57-57q-18.8-19-45.4-19-26.6 0-45.6 18.5T254.5-461q.5 27 19.5 45l99 99q20.18 21 48.09 21Q449-296 469-317l213-212q19-18.8 19-44.9 0-26.1-18.84-45.1t-45.5-19Q610-638 591-619L421-449Zm59 415q-92.64 0-174.47-34.6-81.82-34.61-142.07-94.86T68.6-305.53Q34-387.36 34-480q0-92.9 34.66-174.45 34.67-81.55 95.18-141.94 60.51-60.39 142.07-95Q387.48-926 480-926q92.89 0 174.48 34.59 81.59 34.6 141.96 94.97 60.37 60.37 94.97 141.99Q926-572.83 926-479.92q0 92.92-34.61 174.25-34.61 81.32-95 141.83Q736-103.33 654.45-68.66 572.9-34 480-34Z"/>
+                                        </svg>
                                     </div>
                                 </div>
                             </div>
@@ -255,10 +259,11 @@ export async function run() {
                                     <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
                                 </div>
                                 <div class="flex items-center invisible">
-                                    <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
-                                        <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
-                                            check
-                                        </span>
+                                    <div flex-2 class="rounded-full z-20 relative overflow-hidden">
+                                        <div class="bg-white rounded-full absolute inset-2" style="z-index: -1;"></div>
+                                        <svg class="w-8 h-full z-20 flex justify-center items-center" viewBox="-14 -1000 1000 1000">    
+                                            <path class="${hlp.gettheme("fill", "700")}" d="m421-449-57-57q-18.8-19-45.4-19-26.6 0-45.6 18.5T254.5-461q.5 27 19.5 45l99 99q20.18 21 48.09 21Q449-296 469-317l213-212q19-18.8 19-44.9 0-26.1-18.84-45.1t-45.5-19Q610-638 591-619L421-449Zm59 415q-92.64 0-174.47-34.6-81.82-34.61-142.07-94.86T68.6-305.53Q34-387.36 34-480q0-92.9 34.66-174.45 34.67-81.55 95.18-141.94 60.51-60.39 142.07-95Q387.48-926 480-926q92.89 0 174.48 34.59 81.59 34.6 141.96 94.97 60.37 60.37 94.97 141.99Q926-572.83 926-479.92q0 92.92-34.61 174.25-34.61 81.32-95 141.83Q736-103.33 654.45-68.66 572.9-34 480-34Z"/>
+                                        </svg>
                                     </div>
                                 </div>
                             </div>
@@ -275,10 +280,11 @@ export async function run() {
                                     <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
                                 </div>
                                 <div class="flex items-center invisible">
-                                    <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
-                                        <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
-                                            check
-                                        </span>
+                                    <div flex-2 class="rounded-full z-20 relative overflow-hidden">
+                                        <div class="bg-white rounded-full absolute inset-2" style="z-index: -1;"></div>
+                                        <svg class="w-8 h-full z-20 flex justify-center items-center" viewBox="-14 -1000 1000 1000">    
+                                            <path class="${hlp.gettheme("fill", "700")}" d="m421-449-57-57q-18.8-19-45.4-19-26.6 0-45.6 18.5T254.5-461q.5 27 19.5 45l99 99q20.18 21 48.09 21Q449-296 469-317l213-212q19-18.8 19-44.9 0-26.1-18.84-45.1t-45.5-19Q610-638 591-619L421-449Zm59 415q-92.64 0-174.47-34.6-81.82-34.61-142.07-94.86T68.6-305.53Q34-387.36 34-480q0-92.9 34.66-174.45 34.67-81.55 95.18-141.94 60.51-60.39 142.07-95Q387.48-926 480-926q92.89 0 174.48 34.59 81.59 34.6 141.96 94.97 60.37 60.37 94.97 141.99Q926-572.83 926-479.92q0 92.92-34.61 174.25-34.61 81.32-95 141.83Q736-103.33 654.45-68.66 572.9-34 480-34Z"/>
+                                        </svg>
                                     </div>
                                 </div>
                             </div>
@@ -295,10 +301,11 @@ export async function run() {
                                     <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
                                 </div>
                                 <div class="flex items-center invisible">
-                                    <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
-                                        <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
-                                            check
-                                        </span>
+                                    <div flex-2 class="rounded-full z-20 relative overflow-hidden">
+                                        <div class="bg-white rounded-full absolute inset-2" style="z-index: -1;"></div>
+                                        <svg class="w-8 h-full z-20 flex justify-center items-center" viewBox="-14 -1000 1000 1000">    
+                                            <path class="${hlp.gettheme("fill", "700")}" d="m421-449-57-57q-18.8-19-45.4-19-26.6 0-45.6 18.5T254.5-461q.5 27 19.5 45l99 99q20.18 21 48.09 21Q449-296 469-317l213-212q19-18.8 19-44.9 0-26.1-18.84-45.1t-45.5-19Q610-638 591-619L421-449Zm59 415q-92.64 0-174.47-34.6-81.82-34.61-142.07-94.86T68.6-305.53Q34-387.36 34-480q0-92.9 34.66-174.45 34.67-81.55 95.18-141.94 60.51-60.39 142.07-95Q387.48-926 480-926q92.89 0 174.48 34.59 81.59 34.6 141.96 94.97 60.37 60.37 94.97 141.99Q926-572.83 926-479.92q0 92.92-34.61 174.25-34.61 81.32-95 141.83Q736-103.33 654.45-68.66 572.9-34 480-34Z"/>
+                                        </svg>
                                     </div>
                                 </div>
                             </div>
@@ -315,10 +322,11 @@ export async function run() {
                                     <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
                                 </div>
                                 <div class="flex items-center invisible">
-                                    <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
-                                        <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
-                                            check
-                                        </span>
+                                    <div flex-2 class="rounded-full z-20 relative overflow-hidden">
+                                        <div class="bg-white rounded-full absolute inset-2" style="z-index: -1;"></div>
+                                        <svg class="w-8 h-full z-20 flex justify-center items-center" viewBox="-14 -1000 1000 1000">    
+                                            <path class="${hlp.gettheme("fill", "700")}" d="m421-449-57-57q-18.8-19-45.4-19-26.6 0-45.6 18.5T254.5-461q.5 27 19.5 45l99 99q20.18 21 48.09 21Q449-296 469-317l213-212q19-18.8 19-44.9 0-26.1-18.84-45.1t-45.5-19Q610-638 591-619L421-449Zm59 415q-92.64 0-174.47-34.6-81.82-34.61-142.07-94.86T68.6-305.53Q34-387.36 34-480q0-92.9 34.66-174.45 34.67-81.55 95.18-141.94 60.51-60.39 142.07-95Q387.48-926 480-926q92.89 0 174.48 34.59 81.59 34.6 141.96 94.97 60.37 60.37 94.97 141.99Q926-572.83 926-479.92q0 92.92-34.61 174.25-34.61 81.32-95 141.83Q736-103.33 654.45-68.66 572.9-34 480-34Z"/>
+                                        </svg>
                                     </div>
                                 </div>
                             </div>
@@ -335,10 +343,11 @@ export async function run() {
                                     <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
                                 </div>
                                 <div class="flex items-center invisible">
-                                    <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
-                                        <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
-                                            check
-                                        </span>
+                                    <div flex-2 class="rounded-full z-20 relative overflow-hidden">
+                                        <div class="bg-white rounded-full absolute inset-2" style="z-index: -1;"></div>
+                                        <svg class="w-8 h-full z-20 flex justify-center items-center" viewBox="-14 -1000 1000 1000">    
+                                            <path class="${hlp.gettheme("fill", "700")}" d="m421-449-57-57q-18.8-19-45.4-19-26.6 0-45.6 18.5T254.5-461q.5 27 19.5 45l99 99q20.18 21 48.09 21Q449-296 469-317l213-212q19-18.8 19-44.9 0-26.1-18.84-45.1t-45.5-19Q610-638 591-619L421-449Zm59 415q-92.64 0-174.47-34.6-81.82-34.61-142.07-94.86T68.6-305.53Q34-387.36 34-480q0-92.9 34.66-174.45 34.67-81.55 95.18-141.94 60.51-60.39 142.07-95Q387.48-926 480-926q92.89 0 174.48 34.59 81.59 34.6 141.96 94.97 60.37 60.37 94.97 141.99Q926-572.83 926-479.92q0 92.92-34.61 174.25-34.61 81.32-95 141.83Q736-103.33 654.45-68.66 572.9-34 480-34Z"/>
+                                        </svg>
                                     </div>
                                 </div>
                             </div>
@@ -355,10 +364,11 @@ export async function run() {
                                     <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
                                 </div>
                                 <div class="flex items-center invisible">
-                                    <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
-                                        <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
-                                            check
-                                        </span>
+                                    <div flex-2 class="rounded-full z-20 relative overflow-hidden">
+                                        <div class="bg-white rounded-full absolute inset-2" style="z-index: -1;"></div>
+                                        <svg class="w-8 h-full z-20 flex justify-center items-center" viewBox="-14 -1000 1000 1000">    
+                                            <path class="${hlp.gettheme("fill", "700")}" d="m421-449-57-57q-18.8-19-45.4-19-26.6 0-45.6 18.5T254.5-461q.5 27 19.5 45l99 99q20.18 21 48.09 21Q449-296 469-317l213-212q19-18.8 19-44.9 0-26.1-18.84-45.1t-45.5-19Q610-638 591-619L421-449Zm59 415q-92.64 0-174.47-34.6-81.82-34.61-142.07-94.86T68.6-305.53Q34-387.36 34-480q0-92.9 34.66-174.45 34.67-81.55 95.18-141.94 60.51-60.39 142.07-95Q387.48-926 480-926q92.89 0 174.48 34.59 81.59 34.6 141.96 94.97 60.37 60.37 94.97 141.99Q926-572.83 926-479.92q0 92.92-34.61 174.25-34.61 81.32-95 141.83Q736-103.33 654.45-68.66 572.9-34 480-34Z"/>
+                                        </svg>
                                     </div>
                                 </div>
                             </div>
@@ -379,11 +389,12 @@ export async function run() {
                                         <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
                                     </div>
                                     <div class="flex items-center invisible">
-                                        <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
-                                            <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
-                                                check
-                                            </span>
-                                        </div>
+                                        <div flex-2 class="rounded-full z-20 relative overflow-hidden">
+                                        <div class="bg-white rounded-full absolute inset-2" style="z-index: -1;"></div>
+                                        <svg class="w-8 h-full z-20 flex justify-center items-center" viewBox="-14 -1000 1000 1000">    
+                                            <path class="${hlp.gettheme("fill", "700")}" d="m421-449-57-57q-18.8-19-45.4-19-26.6 0-45.6 18.5T254.5-461q.5 27 19.5 45l99 99q20.18 21 48.09 21Q449-296 469-317l213-212q19-18.8 19-44.9 0-26.1-18.84-45.1t-45.5-19Q610-638 591-619L421-449Zm59 415q-92.64 0-174.47-34.6-81.82-34.61-142.07-94.86T68.6-305.53Q34-387.36 34-480q0-92.9 34.66-174.45 34.67-81.55 95.18-141.94 60.51-60.39 142.07-95Q387.48-926 480-926q92.89 0 174.48 34.59 81.59 34.6 141.96 94.97 60.37 60.37 94.97 141.99Q926-572.83 926-479.92q0 92.92-34.61 174.25-34.61 81.32-95 141.83Q736-103.33 654.45-68.66 572.9-34 480-34Z"/>
+                                        </svg>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -399,11 +410,12 @@ export async function run() {
                                         <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
                                     </div>
                                     <div class="flex items-center invisible">
-                                        <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
-                                            <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
-                                                check
-                                            </span>
-                                        </div>
+                                        <div flex-2 class="rounded-full z-20 relative overflow-hidden">
+                                        <div class="bg-white rounded-full absolute inset-2" style="z-index: -1;"></div>
+                                        <svg class="w-8 h-full z-20 flex justify-center items-center" viewBox="-14 -1000 1000 1000">    
+                                            <path class="${hlp.gettheme("fill", "700")}" d="m421-449-57-57q-18.8-19-45.4-19-26.6 0-45.6 18.5T254.5-461q.5 27 19.5 45l99 99q20.18 21 48.09 21Q449-296 469-317l213-212q19-18.8 19-44.9 0-26.1-18.84-45.1t-45.5-19Q610-638 591-619L421-449Zm59 415q-92.64 0-174.47-34.6-81.82-34.61-142.07-94.86T68.6-305.53Q34-387.36 34-480q0-92.9 34.66-174.45 34.67-81.55 95.18-141.94 60.51-60.39 142.07-95Q387.48-926 480-926q92.89 0 174.48 34.59 81.59 34.6 141.96 94.97 60.37 60.37 94.97 141.99Q926-572.83 926-479.92q0 92.92-34.61 174.25-34.61 81.32-95 141.83Q736-103.33 654.45-68.66 572.9-34 480-34Z"/>
+                                        </svg>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -421,11 +433,12 @@ export async function run() {
                                         <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
                                     </div>
                                     <div class="flex items-center invisible">
-                                        <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
-                                            <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
-                                                check
-                                            </span>
-                                        </div>
+                                        <div flex-2 class="rounded-full z-20 relative overflow-hidden">
+                                        <div class="bg-white rounded-full absolute inset-2" style="z-index: -1;"></div>
+                                        <svg class="w-8 h-full z-20 flex justify-center items-center" viewBox="-14 -1000 1000 1000">    
+                                            <path class="${hlp.gettheme("fill", "700")}" d="m421-449-57-57q-18.8-19-45.4-19-26.6 0-45.6 18.5T254.5-461q.5 27 19.5 45l99 99q20.18 21 48.09 21Q449-296 469-317l213-212q19-18.8 19-44.9 0-26.1-18.84-45.1t-45.5-19Q610-638 591-619L421-449Zm59 415q-92.64 0-174.47-34.6-81.82-34.61-142.07-94.86T68.6-305.53Q34-387.36 34-480q0-92.9 34.66-174.45 34.67-81.55 95.18-141.94 60.51-60.39 142.07-95Q387.48-926 480-926q92.89 0 174.48 34.59 81.59 34.6 141.96 94.97 60.37 60.37 94.97 141.99Q926-572.83 926-479.92q0 92.92-34.61 174.25-34.61 81.32-95 141.83Q736-103.33 654.45-68.66 572.9-34 480-34Z"/>
+                                        </svg>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -441,11 +454,12 @@ export async function run() {
                                         <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
                                     </div>
                                     <div class="flex items-center invisible">
-                                        <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
-                                            <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
-                                                check
-                                            </span>
-                                        </div>
+                                        <div flex-2 class="rounded-full z-20 relative overflow-hidden">
+                                        <div class="bg-white rounded-full absolute inset-2" style="z-index: -1;"></div>
+                                        <svg class="w-8 h-full z-20 flex justify-center items-center" viewBox="-14 -1000 1000 1000">    
+                                            <path class="${hlp.gettheme("fill", "700")}" d="m421-449-57-57q-18.8-19-45.4-19-26.6 0-45.6 18.5T254.5-461q.5 27 19.5 45l99 99q20.18 21 48.09 21Q449-296 469-317l213-212q19-18.8 19-44.9 0-26.1-18.84-45.1t-45.5-19Q610-638 591-619L421-449Zm59 415q-92.64 0-174.47-34.6-81.82-34.61-142.07-94.86T68.6-305.53Q34-387.36 34-480q0-92.9 34.66-174.45 34.67-81.55 95.18-141.94 60.51-60.39 142.07-95Q387.48-926 480-926q92.89 0 174.48 34.59 81.59 34.6 141.96 94.97 60.37 60.37 94.97 141.99Q926-572.83 926-479.92q0 92.92-34.61 174.25-34.61 81.32-95 141.83Q736-103.33 654.45-68.66 572.9-34 480-34Z"/>
+                                        </svg>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -463,11 +477,12 @@ export async function run() {
                                         <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
                                     </div>
                                     <div class="flex items-center invisible">
-                                        <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
-                                            <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
-                                                check
-                                            </span>
-                                        </div>
+                                        <div flex-2 class="rounded-full z-20 relative overflow-hidden">
+                                        <div class="bg-white rounded-full absolute inset-2" style="z-index: -1;"></div>
+                                        <svg class="w-8 h-full z-20 flex justify-center items-center" viewBox="-14 -1000 1000 1000">    
+                                            <path class="${hlp.gettheme("fill", "700")}" d="m421-449-57-57q-18.8-19-45.4-19-26.6 0-45.6 18.5T254.5-461q.5 27 19.5 45l99 99q20.18 21 48.09 21Q449-296 469-317l213-212q19-18.8 19-44.9 0-26.1-18.84-45.1t-45.5-19Q610-638 591-619L421-449Zm59 415q-92.64 0-174.47-34.6-81.82-34.61-142.07-94.86T68.6-305.53Q34-387.36 34-480q0-92.9 34.66-174.45 34.67-81.55 95.18-141.94 60.51-60.39 142.07-95Q387.48-926 480-926q92.89 0 174.48 34.59 81.59 34.6 141.96 94.97 60.37 60.37 94.97 141.99Q926-572.83 926-479.92q0 92.92-34.61 174.25-34.61 81.32-95 141.83Q736-103.33 654.45-68.66 572.9-34 480-34Z"/>
+                                        </svg>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -483,11 +498,12 @@ export async function run() {
                                         <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
                                     </div>
                                     <div class="flex items-center invisible">
-                                        <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
-                                            <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
-                                                check
-                                            </span>
-                                        </div>
+                                        <div flex-2 class="rounded-full z-20 relative overflow-hidden">
+                                        <div class="bg-white rounded-full absolute inset-2" style="z-index: -1;"></div>
+                                        <svg class="w-8 h-full z-20 flex justify-center items-center" viewBox="-14 -1000 1000 1000">    
+                                            <path class="${hlp.gettheme("fill", "700")}" d="m421-449-57-57q-18.8-19-45.4-19-26.6 0-45.6 18.5T254.5-461q.5 27 19.5 45l99 99q20.18 21 48.09 21Q449-296 469-317l213-212q19-18.8 19-44.9 0-26.1-18.84-45.1t-45.5-19Q610-638 591-619L421-449Zm59 415q-92.64 0-174.47-34.6-81.82-34.61-142.07-94.86T68.6-305.53Q34-387.36 34-480q0-92.9 34.66-174.45 34.67-81.55 95.18-141.94 60.51-60.39 142.07-95Q387.48-926 480-926q92.89 0 174.48 34.59 81.59 34.6 141.96 94.97 60.37 60.37 94.97 141.99Q926-572.83 926-479.92q0 92.92-34.61 174.25-34.61 81.32-95 141.83Q736-103.33 654.45-68.66 572.9-34 480-34Z"/>
+                                        </svg>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -505,11 +521,12 @@ export async function run() {
                                         <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
                                     </div>
                                     <div class="flex items-center invisible">
-                                        <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
-                                            <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
-                                                check
-                                            </span>
-                                        </div>
+                                        <div flex-2 class="rounded-full z-20 relative overflow-hidden">
+                                        <div class="bg-white rounded-full absolute inset-2" style="z-index: -1;"></div>
+                                        <svg class="w-8 h-full z-20 flex justify-center items-center" viewBox="-14 -1000 1000 1000">    
+                                            <path class="${hlp.gettheme("fill", "700")}" d="m421-449-57-57q-18.8-19-45.4-19-26.6 0-45.6 18.5T254.5-461q.5 27 19.5 45l99 99q20.18 21 48.09 21Q449-296 469-317l213-212q19-18.8 19-44.9 0-26.1-18.84-45.1t-45.5-19Q610-638 591-619L421-449Zm59 415q-92.64 0-174.47-34.6-81.82-34.61-142.07-94.86T68.6-305.53Q34-387.36 34-480q0-92.9 34.66-174.45 34.67-81.55 95.18-141.94 60.51-60.39 142.07-95Q387.48-926 480-926q92.89 0 174.48 34.59 81.59 34.6 141.96 94.97 60.37 60.37 94.97 141.99Q926-572.83 926-479.92q0 92.92-34.61 174.25-34.61 81.32-95 141.83Q736-103.33 654.45-68.66 572.9-34 480-34Z"/>
+                                        </svg>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -525,11 +542,12 @@ export async function run() {
                                         <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
                                     </div>
                                     <div class="flex items-center invisible">
-                                        <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
-                                            <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
-                                                check
-                                            </span>
-                                        </div>
+                                        <div flex-2 class="rounded-full z-20 relative overflow-hidden">
+                                        <div class="bg-white rounded-full absolute inset-2" style="z-index: -1;"></div>
+                                        <svg class="w-8 h-full z-20 flex justify-center items-center" viewBox="-14 -1000 1000 1000">    
+                                            <path class="${hlp.gettheme("fill", "700")}" d="m421-449-57-57q-18.8-19-45.4-19-26.6 0-45.6 18.5T254.5-461q.5 27 19.5 45l99 99q20.18 21 48.09 21Q449-296 469-317l213-212q19-18.8 19-44.9 0-26.1-18.84-45.1t-45.5-19Q610-638 591-619L421-449Zm59 415q-92.64 0-174.47-34.6-81.82-34.61-142.07-94.86T68.6-305.53Q34-387.36 34-480q0-92.9 34.66-174.45 34.67-81.55 95.18-141.94 60.51-60.39 142.07-95Q387.48-926 480-926q92.89 0 174.48 34.59 81.59 34.6 141.96 94.97 60.37 60.37 94.97 141.99Q926-572.83 926-479.92q0 92.92-34.61 174.25-34.61 81.32-95 141.83Q736-103.33 654.45-68.66 572.9-34 480-34Z"/>
+                                        </svg>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -547,11 +565,12 @@ export async function run() {
                                         <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
                                     </div>
                                     <div class="flex items-center invisible">
-                                        <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
-                                            <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
-                                                check
-                                            </span>
-                                        </div>
+                                        <div flex-2 class="rounded-full z-20 relative overflow-hidden">
+                                        <div class="bg-white rounded-full absolute inset-2" style="z-index: -1;"></div>
+                                        <svg class="w-8 h-full z-20 flex justify-center items-center" viewBox="-14 -1000 1000 1000">    
+                                            <path class="${hlp.gettheme("fill", "700")}" d="m421-449-57-57q-18.8-19-45.4-19-26.6 0-45.6 18.5T254.5-461q.5 27 19.5 45l99 99q20.18 21 48.09 21Q449-296 469-317l213-212q19-18.8 19-44.9 0-26.1-18.84-45.1t-45.5-19Q610-638 591-619L421-449Zm59 415q-92.64 0-174.47-34.6-81.82-34.61-142.07-94.86T68.6-305.53Q34-387.36 34-480q0-92.9 34.66-174.45 34.67-81.55 95.18-141.94 60.51-60.39 142.07-95Q387.48-926 480-926q92.89 0 174.48 34.59 81.59 34.6 141.96 94.97 60.37 60.37 94.97 141.99Q926-572.83 926-479.92q0 92.92-34.61 174.25-34.61 81.32-95 141.83Q736-103.33 654.45-68.66 572.9-34 480-34Z"/>
+                                        </svg>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -567,11 +586,12 @@ export async function run() {
                                         <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
                                     </div>
                                     <div class="flex items-center invisible">
-                                        <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
-                                            <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
-                                                check
-                                            </span>
-                                        </div>
+                                        <div flex-2 class="rounded-full z-20 relative overflow-hidden">
+                                        <div class="bg-white rounded-full absolute inset-2" style="z-index: -1;"></div>
+                                        <svg class="w-8 h-full z-20 flex justify-center items-center" viewBox="-14 -1000 1000 1000">    
+                                            <path class="${hlp.gettheme("fill", "700")}" d="m421-449-57-57q-18.8-19-45.4-19-26.6 0-45.6 18.5T254.5-461q.5 27 19.5 45l99 99q20.18 21 48.09 21Q449-296 469-317l213-212q19-18.8 19-44.9 0-26.1-18.84-45.1t-45.5-19Q610-638 591-619L421-449Zm59 415q-92.64 0-174.47-34.6-81.82-34.61-142.07-94.86T68.6-305.53Q34-387.36 34-480q0-92.9 34.66-174.45 34.67-81.55 95.18-141.94 60.51-60.39 142.07-95Q387.48-926 480-926q92.89 0 174.48 34.59 81.59 34.6 141.96 94.97 60.37 60.37 94.97 141.99Q926-572.83 926-479.92q0 92.92-34.61 174.25-34.61 81.32-95 141.83Q736-103.33 654.45-68.66 572.9-34 480-34Z"/>
+                                        </svg>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -589,11 +609,12 @@ export async function run() {
                                         <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
                                     </div>
                                     <div class="flex items-center invisible">
-                                        <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
-                                            <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
-                                                check
-                                            </span>
-                                        </div>
+                                        <div flex-2 class="rounded-full z-20 relative overflow-hidden">
+                                        <div class="bg-white rounded-full absolute inset-2" style="z-index: -1;"></div>
+                                        <svg class="w-8 h-full z-20 flex justify-center items-center" viewBox="-14 -1000 1000 1000">    
+                                            <path class="${hlp.gettheme("fill", "700")}" d="m421-449-57-57q-18.8-19-45.4-19-26.6 0-45.6 18.5T254.5-461q.5 27 19.5 45l99 99q20.18 21 48.09 21Q449-296 469-317l213-212q19-18.8 19-44.9 0-26.1-18.84-45.1t-45.5-19Q610-638 591-619L421-449Zm59 415q-92.64 0-174.47-34.6-81.82-34.61-142.07-94.86T68.6-305.53Q34-387.36 34-480q0-92.9 34.66-174.45 34.67-81.55 95.18-141.94 60.51-60.39 142.07-95Q387.48-926 480-926q92.89 0 174.48 34.59 81.59 34.6 141.96 94.97 60.37 60.37 94.97 141.99Q926-572.83 926-479.92q0 92.92-34.61 174.25-34.61 81.32-95 141.83Q736-103.33 654.45-68.66 572.9-34 480-34Z"/>
+                                        </svg>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -609,11 +630,12 @@ export async function run() {
                                         <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
                                     </div>
                                     <div class="flex items-center invisible">
-                                        <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
-                                            <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
-                                                check
-                                            </span>
-                                        </div>
+                                        <div flex-2 class="rounded-full z-20 relative overflow-hidden">
+                                        <div class="bg-white rounded-full absolute inset-2" style="z-index: -1;"></div>
+                                        <svg class="w-8 h-full z-20 flex justify-center items-center" viewBox="-14 -1000 1000 1000">    
+                                            <path class="${hlp.gettheme("fill", "700")}" d="m421-449-57-57q-18.8-19-45.4-19-26.6 0-45.6 18.5T254.5-461q.5 27 19.5 45l99 99q20.18 21 48.09 21Q449-296 469-317l213-212q19-18.8 19-44.9 0-26.1-18.84-45.1t-45.5-19Q610-638 591-619L421-449Zm59 415q-92.64 0-174.47-34.6-81.82-34.61-142.07-94.86T68.6-305.53Q34-387.36 34-480q0-92.9 34.66-174.45 34.67-81.55 95.18-141.94 60.51-60.39 142.07-95Q387.48-926 480-926q92.89 0 174.48 34.59 81.59 34.6 141.96 94.97 60.37 60.37 94.97 141.99Q926-572.83 926-479.92q0 92.92-34.61 174.25-34.61 81.32-95 141.83Q736-103.33 654.45-68.66 572.9-34 480-34Z"/>
+                                        </svg>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -631,11 +653,12 @@ export async function run() {
                                         <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
                                     </div>
                                     <div class="flex items-center invisible">
-                                        <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
-                                            <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
-                                                check
-                                            </span>
-                                        </div>
+                                        <div flex-2 class="rounded-full z-20 relative overflow-hidden">
+                                        <div class="bg-white rounded-full absolute inset-2" style="z-index: -1;"></div>
+                                        <svg class="w-8 h-full z-20 flex justify-center items-center" viewBox="-14 -1000 1000 1000">    
+                                            <path class="${hlp.gettheme("fill", "700")}" d="m421-449-57-57q-18.8-19-45.4-19-26.6 0-45.6 18.5T254.5-461q.5 27 19.5 45l99 99q20.18 21 48.09 21Q449-296 469-317l213-212q19-18.8 19-44.9 0-26.1-18.84-45.1t-45.5-19Q610-638 591-619L421-449Zm59 415q-92.64 0-174.47-34.6-81.82-34.61-142.07-94.86T68.6-305.53Q34-387.36 34-480q0-92.9 34.66-174.45 34.67-81.55 95.18-141.94 60.51-60.39 142.07-95Q387.48-926 480-926q92.89 0 174.48 34.59 81.59 34.6 141.96 94.97 60.37 60.37 94.97 141.99Q926-572.83 926-479.92q0 92.92-34.61 174.25-34.61 81.32-95 141.83Q736-103.33 654.45-68.66 572.9-34 480-34Z"/>
+                                        </svg>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -651,11 +674,12 @@ export async function run() {
                                         <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
                                     </div>
                                     <div class="flex items-center invisible">
-                                        <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
-                                            <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
-                                                check
-                                            </span>
-                                        </div>
+                                        <div flex-2 class="rounded-full z-20 relative overflow-hidden">
+                                        <div class="bg-white rounded-full absolute inset-2" style="z-index: -1;"></div>
+                                        <svg class="w-8 h-full z-20 flex justify-center items-center" viewBox="-14 -1000 1000 1000">    
+                                            <path class="${hlp.gettheme("fill", "700")}" d="m421-449-57-57q-18.8-19-45.4-19-26.6 0-45.6 18.5T254.5-461q.5 27 19.5 45l99 99q20.18 21 48.09 21Q449-296 469-317l213-212q19-18.8 19-44.9 0-26.1-18.84-45.1t-45.5-19Q610-638 591-619L421-449Zm59 415q-92.64 0-174.47-34.6-81.82-34.61-142.07-94.86T68.6-305.53Q34-387.36 34-480q0-92.9 34.66-174.45 34.67-81.55 95.18-141.94 60.51-60.39 142.07-95Q387.48-926 480-926q92.89 0 174.48 34.59 81.59 34.6 141.96 94.97 60.37 60.37 94.97 141.99Q926-572.83 926-479.92q0 92.92-34.61 174.25-34.61 81.32-95 141.83Q736-103.33 654.45-68.66 572.9-34 480-34Z"/>
+                                        </svg>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -673,11 +697,12 @@ export async function run() {
                                         <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
                                     </div>
                                     <div class="flex items-center invisible">
-                                        <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
-                                            <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
-                                                check
-                                            </span>
-                                        </div>
+                                        <div flex-2 class="rounded-full z-20 relative overflow-hidden">
+                                        <div class="bg-white rounded-full absolute inset-2" style="z-index: -1;"></div>
+                                        <svg class="w-8 h-full z-20 flex justify-center items-center" viewBox="-14 -1000 1000 1000">    
+                                            <path class="${hlp.gettheme("fill", "700")}" d="m421-449-57-57q-18.8-19-45.4-19-26.6 0-45.6 18.5T254.5-461q.5 27 19.5 45l99 99q20.18 21 48.09 21Q449-296 469-317l213-212q19-18.8 19-44.9 0-26.1-18.84-45.1t-45.5-19Q610-638 591-619L421-449Zm59 415q-92.64 0-174.47-34.6-81.82-34.61-142.07-94.86T68.6-305.53Q34-387.36 34-480q0-92.9 34.66-174.45 34.67-81.55 95.18-141.94 60.51-60.39 142.07-95Q387.48-926 480-926q92.89 0 174.48 34.59 81.59 34.6 141.96 94.97 60.37 60.37 94.97 141.99Q926-572.83 926-479.92q0 92.92-34.61 174.25-34.61 81.32-95 141.83Q736-103.33 654.45-68.66 572.9-34 480-34Z"/>
+                                        </svg>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -693,11 +718,12 @@ export async function run() {
                                         <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
                                     </div>
                                     <div class="flex items-center invisible">
-                                        <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
-                                            <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
-                                                check
-                                            </span>
-                                        </div>
+                                        <div flex-2 class="rounded-full z-20 relative overflow-hidden">
+                                        <div class="bg-white rounded-full absolute inset-2" style="z-index: -1;"></div>
+                                        <svg class="w-8 h-full z-20 flex justify-center items-center" viewBox="-14 -1000 1000 1000">    
+                                            <path class="${hlp.gettheme("fill", "700")}" d="m421-449-57-57q-18.8-19-45.4-19-26.6 0-45.6 18.5T254.5-461q.5 27 19.5 45l99 99q20.18 21 48.09 21Q449-296 469-317l213-212q19-18.8 19-44.9 0-26.1-18.84-45.1t-45.5-19Q610-638 591-619L421-449Zm59 415q-92.64 0-174.47-34.6-81.82-34.61-142.07-94.86T68.6-305.53Q34-387.36 34-480q0-92.9 34.66-174.45 34.67-81.55 95.18-141.94 60.51-60.39 142.07-95Q387.48-926 480-926q92.89 0 174.48 34.59 81.59 34.6 141.96 94.97 60.37 60.37 94.97 141.99Q926-572.83 926-479.92q0 92.92-34.61 174.25-34.61 81.32-95 141.83Q736-103.33 654.45-68.66 572.9-34 480-34Z"/>
+                                        </svg>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -715,11 +741,12 @@ export async function run() {
                                         <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
                                     </div>
                                     <div class="flex items-center invisible">
-                                        <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
-                                            <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
-                                                check
-                                            </span>
-                                        </div>
+                                        <div flex-2 class="rounded-full z-20 relative overflow-hidden">
+                                        <div class="bg-white rounded-full absolute inset-2" style="z-index: -1;"></div>
+                                        <svg class="w-8 h-full z-20 flex justify-center items-center" viewBox="-14 -1000 1000 1000">    
+                                            <path class="${hlp.gettheme("fill", "700")}" d="m421-449-57-57q-18.8-19-45.4-19-26.6 0-45.6 18.5T254.5-461q.5 27 19.5 45l99 99q20.18 21 48.09 21Q449-296 469-317l213-212q19-18.8 19-44.9 0-26.1-18.84-45.1t-45.5-19Q610-638 591-619L421-449Zm59 415q-92.64 0-174.47-34.6-81.82-34.61-142.07-94.86T68.6-305.53Q34-387.36 34-480q0-92.9 34.66-174.45 34.67-81.55 95.18-141.94 60.51-60.39 142.07-95Q387.48-926 480-926q92.89 0 174.48 34.59 81.59 34.6 141.96 94.97 60.37 60.37 94.97 141.99Q926-572.83 926-479.92q0 92.92-34.61 174.25-34.61 81.32-95 141.83Q736-103.33 654.45-68.66 572.9-34 480-34Z"/>
+                                        </svg>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -735,11 +762,12 @@ export async function run() {
                                         <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
                                     </div>
                                     <div class="flex items-center invisible">
-                                        <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
-                                            <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
-                                                check
-                                            </span>
-                                        </div>
+                                        <div flex-2 class="rounded-full z-20 relative overflow-hidden">
+                                        <div class="bg-white rounded-full absolute inset-2" style="z-index: -1;"></div>
+                                        <svg class="w-8 h-full z-20 flex justify-center items-center" viewBox="-14 -1000 1000 1000">    
+                                            <path class="${hlp.gettheme("fill", "700")}" d="m421-449-57-57q-18.8-19-45.4-19-26.6 0-45.6 18.5T254.5-461q.5 27 19.5 45l99 99q20.18 21 48.09 21Q449-296 469-317l213-212q19-18.8 19-44.9 0-26.1-18.84-45.1t-45.5-19Q610-638 591-619L421-449Zm59 415q-92.64 0-174.47-34.6-81.82-34.61-142.07-94.86T68.6-305.53Q34-387.36 34-480q0-92.9 34.66-174.45 34.67-81.55 95.18-141.94 60.51-60.39 142.07-95Q387.48-926 480-926q92.89 0 174.48 34.59 81.59 34.6 141.96 94.97 60.37 60.37 94.97 141.99Q926-572.83 926-479.92q0 92.92-34.61 174.25-34.61 81.32-95 141.83Q736-103.33 654.45-68.66 572.9-34 480-34Z"/>
+                                        </svg>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -757,11 +785,12 @@ export async function run() {
                                         <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
                                     </div>
                                     <div class="flex items-center invisible">
-                                        <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
-                                            <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
-                                                check
-                                            </span>
-                                        </div>
+                                        <div flex-2 class="rounded-full z-20 relative overflow-hidden">
+                                        <div class="bg-white rounded-full absolute inset-2" style="z-index: -1;"></div>
+                                        <svg class="w-8 h-full z-20 flex justify-center items-center" viewBox="-14 -1000 1000 1000">    
+                                            <path class="${hlp.gettheme("fill", "700")}" d="m421-449-57-57q-18.8-19-45.4-19-26.6 0-45.6 18.5T254.5-461q.5 27 19.5 45l99 99q20.18 21 48.09 21Q449-296 469-317l213-212q19-18.8 19-44.9 0-26.1-18.84-45.1t-45.5-19Q610-638 591-619L421-449Zm59 415q-92.64 0-174.47-34.6-81.82-34.61-142.07-94.86T68.6-305.53Q34-387.36 34-480q0-92.9 34.66-174.45 34.67-81.55 95.18-141.94 60.51-60.39 142.07-95Q387.48-926 480-926q92.89 0 174.48 34.59 81.59 34.6 141.96 94.97 60.37 60.37 94.97 141.99Q926-572.83 926-479.92q0 92.92-34.61 174.25-34.61 81.32-95 141.83Q736-103.33 654.45-68.66 572.9-34 480-34Z"/>
+                                        </svg>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
@@ -777,11 +806,12 @@ export async function run() {
                                         <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
                                     </div>
                                     <div class="flex items-center invisible">
-                                        <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
-                                            <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
-                                                check
-                                            </span>
-                                        </div>
+                                        <div flex-2 class="rounded-full z-20 relative overflow-hidden">
+                                        <div class="bg-white rounded-full absolute inset-2" style="z-index: -1;"></div>
+                                        <svg class="w-8 h-full z-20 flex justify-center items-center" viewBox="-14 -1000 1000 1000">    
+                                            <path class="${hlp.gettheme("fill", "700")}" d="m421-449-57-57q-18.8-19-45.4-19-26.6 0-45.6 18.5T254.5-461q.5 27 19.5 45l99 99q20.18 21 48.09 21Q449-296 469-317l213-212q19-18.8 19-44.9 0-26.1-18.84-45.1t-45.5-19Q610-638 591-619L421-449Zm59 415q-92.64 0-174.47-34.6-81.82-34.61-142.07-94.86T68.6-305.53Q34-387.36 34-480q0-92.9 34.66-174.45 34.67-81.55 95.18-141.94 60.51-60.39 142.07-95Q387.48-926 480-926q92.89 0 174.48 34.59 81.59 34.6 141.96 94.97 60.37 60.37 94.97 141.99Q926-572.83 926-479.92q0 92.92-34.61 174.25-34.61 81.32-95 141.83Q736-103.33 654.45-68.66 572.9-34 480-34Z"/>
+                                        </svg>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
