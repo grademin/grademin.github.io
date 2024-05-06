@@ -227,7 +227,7 @@ export async function run() {
                                         <h2 class="text-2xl font-bold text-center">About Gradpass</h2>
                                     </div>
                                     <div>
-                                        <p>This app was created to show that <b>Echo Viewer</b> could have been designed better. Since it's not gonna stick around for long where I go to school, I've decided to make it's design based off <b>GradeWay</b> by <b>Srujan Mupparapu</b>. This app is not attempting to copy GradeWay in it's entirety, only design. If something is conflicting with this, please email me <a class="${hlp.gettheme("text", "700")} hover:${hlp.gettheme("text", "600")} cursor-pointer transition" goto="mailto:Gradpass.official@gmail.com">here</a> and I will happily reply back.</p>
+                                        <p>This app was created to show that <b>Echo Viewer</b> could have been designed better. Since it's not gonna stick around for long where I go to school, I've decided to make it's design based off <b>GradeWay</b> by <b>Srujan Mupparapu</b>. This app is not attempting to copy GradeWay in it's entirety, only design. If something is conflicting with this, please email me <a class="${hlp.gettheme("text", "700")} hover:${hlp.gettheme("text", "600")} cursor-pointer transition" goto="mailto:gradpass.official@gmail.com">here</a> and I will happily reply back.</p>
                                     </div>
                                 </div>
                             </div>

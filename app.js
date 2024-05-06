@@ -94,7 +94,7 @@
             hlp.set("settings", [
                 {
                     option: "include-self",
-                    $value: false
+                    $value: true
                 },
                 {
                     option: "chip-indicators",

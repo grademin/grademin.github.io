@@ -8,14 +8,14 @@ export async function run() {
                 <div class="fixed left-0 right-0 top-0 z-20 flex flex-row ${hlp.gettheme("bg", "700")}">
                     <div class="flex justify-center items-center container mx-auto py-2 px-4">
                         <div id="go-back" class="-ml-4 flex-2 cursor-pointer py-3 pl-4 pr-2 rounded-full">
-                            <svg class="w-[25px]" viewBox="-14 -1000 1000 1000">
-                                <path class="${hlp.gettheme("theme-fill")} w-0" d="m213-480 278 277q22 23 22.5 55T491-94q-22 22-54.5 22T381-94L90-384q-20-21-30-45.5T50-480q0-27 10-51.5T90-576l291-292q23-22 55.5-22t54.5 22q22 22 22 55t-22 55L213-480Z"/>
+                            <svg class="w-[25px] pointer-events-none" viewBox="-14 -1000 1000 1000">
+                                <path class="fill-white w-0" d="m213-480 278 277q22 23 22.5 55T491-94q-22 22-54.5 22T381-94L90-384q-20-21-30-45.5T50-480q0-27 10-51.5T90-576l291-292q23-22 55.5-22t54.5 22q22 22 22 55t-22 55L213-480Z"/>
                             </svg>
                         </div>
                         <span class="flex-grow font-bold text-center text-[22px]">Theme Color</span>
                         <div class="invisible flex-2 cursor-pointer py-3 pl-4 pr-2 rounded-full">
-                            <svg class="w-[25px]" viewBox="-14 -1000 1000 1000">
-                                <path class="${hlp.gettheme("theme-fill")} w-0" d="M476.28-113Q324-113 216.5-220 109-327 109-479t107.5-260Q324-847 476-847q78.29 0 148.15 31.5Q694-784 745-726v-68q0-22 14.8-37.5t37.7-15.5q22.9 0 38.2 15.5Q851-816 851-794v229q0 27.6-20.2 47.8Q810.6-497 783-497H552q-21.57 0-36.79-15.58Q500-528.16 500-550.28q0-21.69 15.5-36.71Q531-602 553-602h117q-33-50-83.9-78.5Q535.2-709 476-709q-96 0-163.5 66.92Q245-575.17 245-479q0 96.33 67.5 163.17Q380-249 476-249q56 0 104.61-25.81Q629.22-300.63 662-346q15.62-22.16 41.81-30.58Q730-385 754.74-375q26.26 10 37.76 32.5Q804-320 792-298q-48 84-132.19 134.5T476.28-113Z"/>
+                            <svg class="w-[25px] pointer-events-none" viewBox="-14 -1000 1000 1000">
+                                <path class="fill-white w-0" d="M476.28-113Q324-113 216.5-220 109-327 109-479t107.5-260Q324-847 476-847q78.29 0 148.15 31.5Q694-784 745-726v-68q0-22 14.8-37.5t37.7-15.5q22.9 0 38.2 15.5Q851-816 851-794v229q0 27.6-20.2 47.8Q810.6-497 783-497H552q-21.57 0-36.79-15.58Q500-528.16 500-550.28q0-21.69 15.5-36.71Q531-602 553-602h117q-33-50-83.9-78.5Q535.2-709 476-709q-96 0-163.5 66.92Q245-575.17 245-479q0 96.33 67.5 163.17Q380-249 476-249q56 0 104.61-25.81Q629.22-300.63 662-346q15.62-22.16 41.81-30.58Q730-385 754.74-375q26.26 10 37.76 32.5Q804-320 792-298q-48 84-132.19 134.5T476.28-113Z"/>
                             </svg>
                         </div>
                     </div>
@@ -32,7 +32,7 @@ export async function run() {
                             </div>
                         </div>
                         <div class="flex justify-center items-center">
-                            <input theme_setting="sync-appearance" type="checkbox" class="hidden">
+                            <input option="sync-appearance" type="checkbox" class="hidden">
                             <label class="flex items-center cursor-pointer">
                                 <div class="w-[3.7rem] h-[33px] ${hlp.gettheme("theme-toggle")} rounded-full p-1">
                                     <div class="bg-white w-[25px] h-[25px] rounded-full shadow-md transform translate-x-0"></div>
@@ -79,6 +79,746 @@ export async function run() {
                     </div>
                 </div>
             </div>
-        `);
+        `).click(async function (e) {
+            switch ($(e.target).attr("id")) {
+                /**
+                 * Navbar
+                 */
+                case "go-back": {
+                    await site.runtime("settings");
+                    break;
+                }
+
+                /**
+                 * Navigation
+                 */
+                case "calendar": {
+                    await site.runtime("calendar");
+                    break;
+                }
+                case "grades": {
+                    await site.runtime("grades");
+                    break;
+                }
+                case "overview": {
+                    site.runtime("overview");
+                    break;
+                }
+                case "settings": {
+                    await site.runtime("settings");
+                    break;
+                }
+            }
+        });
+
+        let theme = hlp.get("theme");
+        if (hlp.theme.exists && hlp.theme.sync) {
+            $("#sync-appearance input").prop("checked", hlp.theme.sync);
+            $("#sync-appearance").find("label div div").removeClass("translate-x-0").addClass("translate-x-full").parent().removeClass(`${hlp.gettheme("theme-toggle")}`).addClass(`${hlp.gettheme("bg", "700")}`);
+        }
+
+        // Manage when a user clicks on an option.
+        await $("#root div[id]:has(input[option])").click(async function () {
+            // Determine if the actual value of the input is checked or not.
+            if ($(this).find("input").prop("checked")) {
+                $(this).find("input").prop("checked", "");
+            } else {
+                $(this).find("input").prop("checked", "true");
+            }
+
+            // Visually show if it is checked or not.
+            if ($(this).find("input").prop("checked")) {
+                $(this).find("label div div").removeClass("translate-x-0").addClass("translate-x-full duration-300 ease-in-out").parent().removeClass(`${hlp.gettheme("theme-toggle")}`).addClass(`${hlp.gettheme("bg", "700")}`);
+            } else {
+                $(this).find("label div div").removeClass("translate-x-full").addClass("translate-x-0 duration-300 ease-in-out").parent().removeClass(`${hlp.gettheme("bg", "700")}`).addClass(`${hlp.gettheme("theme-toggle")}`);
+            }
+
+            // Set the current option of the value, allowing seemless setting changes.
+            if ($(this).find("input").prop("checked")) {
+                theme.sync = true;
+                theme.theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light";
+
+                if (theme.theme == "light") {
+                    $("body").removeClass("bg-white").removeClass("bg-black");
+                    $("body").removeClass("text-white").removeClass("text-black");
+                    $("body").addClass("bg-white");
+                    $("body").addClass("text-black");
+                } else {
+                    $("body").removeClass("bg-white").removeClass("bg-black");
+                    $("body").removeClass("text-white").removeClass("text-black");
+                    $("body").addClass("bg-black");
+                    $("body").addClass("text-white");
+                }
+
+                site.runtime("theme-color");
+            } else {
+                $(this).find("label div div").removeClass("translate-x-full").addClass("translate-x-0 duration-300 ease-in-out").parent().removeClass(`${hlp.gettheme("bg", "700")}`).addClass(`${hlp.gettheme("theme-toggle")}`);
+                theme.sync = false;
+            }
+            
+            hlp.set("theme", theme);
+            content(theme);
+        })
+
+        async function content(theme) {
+            let html = "";
+            if (theme.sync) {
+                html = `
+                    <div class="relative overflow-hidden flex flex-col container mx-auto rounded-xl cursor-pointer">
+                        <div id="theme-blue" class="flex flex-col">
+                            <div class="bg-blue-700 w-full py-2 px-3 pointer-events-none">
+                                <span class="font-bold text-white">Classic Blue</span>
+                            </div>
+                            <div class="flex pointer-events-none flex-row gap-5 px-3 py-3" style="background-image: -webkit-linear-gradient(-30deg, rgb(228, 228, 231) 50%, rgb(15, 15, 15) 50%);">
+                                <div class="flex flex-1 gap-1 flex-col justify-between">
+                                    <div class="bg-zinc-700 p-1 w-[80%] rounded-full"></div>
+                                    <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
+                                </div>
+                                <div class="flex items-center invisible">
+                                    <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
+                                        <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
+                                            check
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative overflow-hidden flex flex-col container mx-auto rounded-xl cursor-pointer">
+                        <div id="theme-green" class="flex flex-col">
+                            <div class="bg-green-500 w-full py-2 px-3 pointer-events-none">
+                                <span class="font-bold text-white">Spring Green</span>
+                            </div>
+                            <div class="flex flex-row pointer-events-none gap-5 px-3 py-3" style="background-image: -webkit-linear-gradient(-30deg, rgb(228, 228, 231) 50%, rgb(15, 15, 15) 50%);">
+                                <div class="flex flex-1 gap-1 flex-col justify-between">
+                                    <div class="bg-zinc-700 p-1 w-[80%] rounded-full"></div>
+                                    <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
+                                </div>
+                                <div class="flex items-center invisible">
+                                    <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
+                                        <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
+                                            check
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative overflow-hidden flex flex-col container mx-auto rounded-xl cursor-pointer">
+                        <div id="theme-orange" class="flex flex-col">
+                            <div class="bg-orange-400 w-full py-2 px-3 pointer-events-none">
+                                <span class="font-bold text-white">Tangarine</span>
+                            </div>
+                            <div class="flex flex-row pointer-events-none gap-5 px-3 py-3" style="background-image: -webkit-linear-gradient(-30deg, rgb(228, 228, 231) 50%, rgb(15, 15, 15) 50%);">
+                                <div class="flex flex-1 gap-1 flex-col justify-between">
+                                    <div class="bg-zinc-700 p-1 w-[80%] rounded-full"></div>
+                                    <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
+                                </div>
+                                <div class="flex items-center invisible">
+                                    <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
+                                        <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
+                                            check
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative overflow-hidden flex flex-col container mx-auto rounded-xl cursor-pointer">
+                        <div id="theme-brown" class="flex flex-col">
+                            <div class="bg-orange-900 w-full py-2 px-3 pointer-events-none">
+                                <span class="font-bold text-white">Rust</span>
+                            </div>
+                            <div class="flex flex-row pointer-events-none gap-5 px-3 py-3" style="background-image: -webkit-linear-gradient(-30deg, rgb(228, 228, 231) 50%, rgb(15, 15, 15) 50%);">
+                                <div class="flex flex-1 gap-1 flex-col justify-between">
+                                    <div class="bg-zinc-700 p-1 w-[80%] rounded-full"></div>
+                                    <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
+                                </div>
+                                <div class="flex items-center invisible">
+                                    <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
+                                        <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
+                                            check
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative overflow-hidden flex flex-col container mx-auto rounded-xl cursor-pointer">
+                        <div id="theme-violet" class="flex flex-col">
+                            <div class="bg-violet-600 w-full py-2 px-3 pointer-events-none">
+                                <span class="font-bold text-white">Eletric Purple</span>
+                            </div>
+                            <div class="flex flex-row pointer-events-none gap-5 px-3 py-3" style="background-image: -webkit-linear-gradient(-30deg, rgb(228, 228, 231) 50%, rgb(15, 15, 15) 50%);">
+                                <div class="flex flex-1 gap-1 flex-col justify-between">
+                                    <div class="bg-zinc-700 p-1 w-[80%] rounded-full"></div>
+                                    <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
+                                </div>
+                                <div class="flex items-center invisible">
+                                    <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
+                                        <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
+                                            check
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative overflow-hidden flex flex-col container mx-auto rounded-xl cursor-pointer">
+                        <div id="theme-rose" class="flex flex-col">
+                            <div class="bg-rose-700 w-full py-2 px-3 pointer-events-none">
+                                <span class="font-bold text-white">Cardinal Red</span>
+                            </div>
+                            <div class="flex flex-row pointer-events-none gap-5 px-3 py-3" style="background-image: -webkit-linear-gradient(-30deg, rgb(228, 228, 231) 50%, rgb(15, 15, 15) 50%);">
+                                <div class="flex flex-1 gap-1 flex-col justify-between">
+                                    <div class="bg-zinc-700 p-1 w-[80%] rounded-full"></div>
+                                    <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
+                                </div>
+                                <div class="flex items-center invisible">
+                                    <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
+                                        <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
+                                            check
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative overflow-hidden flex flex-col container mx-auto rounded-xl cursor-pointer">
+                        <div id="theme-indigo" class="flex flex-col">
+                            <div class="bg-indigo-700 w-full py-2 px-3 pointer-events-none">
+                                <span class="font-bold text-white">Indigo</span>
+                            </div>
+                            <div class="flex flex-row pointer-events-none gap-5 px-3 py-3" style="background-image: -webkit-linear-gradient(-30deg, rgb(228, 228, 231) 50%, rgb(15, 15, 15) 50%);">
+                                <div class="flex flex-1 gap-1 flex-col justify-between">
+                                    <div class="bg-zinc-700 p-1 w-[80%] rounded-full"></div>
+                                    <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
+                                </div>
+                                <div class="flex items-center invisible">
+                                    <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
+                                        <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
+                                            check
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative overflow-hidden flex flex-col container mx-auto rounded-xl cursor-pointer">
+                        <div id="theme-fuchsia" class="flex flex-col">
+                            <div class="bg-fuchsia-600 w-full py-2 px-3 pointer-events-none">
+                                <span class="font-bold text-white">Magenta</span>
+                            </div>
+                            <div class="flex flex-row gap-5 pointer-events-none px-3 py-3" style="background-image: -webkit-linear-gradient(-30deg, rgb(228, 228, 231) 50%, rgb(15, 15, 15) 50%);">
+                                <div class="flex flex-1 gap-1 flex-col justify-between">
+                                    <div class="bg-zinc-700 p-1 w-[80%] rounded-full"></div>
+                                    <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
+                                </div>
+                                <div class="flex items-center invisible">
+                                    <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
+                                        <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
+                                            check
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative overflow-hidden flex flex-col container mx-auto rounded-xl cursor-pointer">
+                        <div id="theme-pink" class="flex flex-col">
+                            <div class="bg-pink-600 w-full py-2 px-3 pointer-events-none">
+                                <span class="font-bold text-white">Hot Pink</span>
+                            </div>
+                            <div class="flex flex-row gap-5 pointer-events-none px-3 py-3" style="background-image: -webkit-linear-gradient(-30deg, rgb(228, 228, 231) 50%, rgb(15, 15, 15) 50%);">
+                                <div class="flex flex-1 gap-1 flex-col justify-between">
+                                    <div class="bg-zinc-700 p-1 w-[80%] rounded-full"></div>
+                                    <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
+                                </div>
+                                <div class="flex items-center invisible">
+                                    <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
+                                        <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
+                                            check
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative overflow-hidden flex flex-col container mx-auto rounded-xl cursor-pointer">
+                        <div id="theme-teal" class="flex flex-col">
+                            <div class="bg-teal-400 w-full py-2 px-3 pointer-events-none">
+                                <span class="font-bold text-white">Turquoise</span>
+                            </div>
+                            <div class="flex flex-row gap-5 pointer-events-none px-3 py-3" style="background-image: -webkit-linear-gradient(-30deg, rgb(228, 228, 231) 50%, rgb(15, 15, 15) 50%);">
+                                <div class="flex flex-1 gap-1 flex-col justify-between">
+                                    <div class="bg-zinc-700 p-1 w-[80%] rounded-full"></div>
+                                    <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
+                                </div>
+                                <div class="flex items-center invisible">
+                                    <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
+                                        <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
+                                            check
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                html = `
+                    <div class="flex flex-row gap-5">
+                        <div class="relative overflow-hidden container mx-auto cursor-pointer">
+                            <div id="theme-blue-light" class="flex flex-col flex-1">
+                                <div class="bg-blue-700 w-full py-2 px-3 rounded-t-xl pointer-events-none">
+                                    <span class="font-bold text-white">Classic Blue Light</span>
+                                </div>
+                                <div class="flex flex-row gap-5 px-3 py-3 pointer-events-none rounded-b-xl" style="background: rgb(228, 228, 231);">
+                                    <div class="flex flex-1 gap-1 flex-col justify-between">
+                                        <div class="bg-zinc-700 p-1 w-[80%] rounded-full"></div>
+                                        <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
+                                    </div>
+                                    <div class="flex items-center invisible">
+                                        <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
+                                            <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
+                                                check
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative overflow-hidden container mx-auto cursor-pointer">
+                            <div id="theme-blue-dark" class="flex flex-col flex-1">
+                                <div class="bg-blue-700 w-full py-2 px-3 rounded-t-xl pointer-events-none">
+                                    <span class="font-bold text-white">Classic Blue Dark</span>
+                                </div>
+                                <div class="flex flex-row gap-5 px-3 py-3 pointer-events-none rounded-b-xl" style="background: rgb(15, 15, 15);">
+                                    <div class="flex flex-1 gap-1 flex-col justify-between">
+                                        <div class="bg-zinc-700 p-1 w-[80%] rounded-full"></div>
+                                        <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
+                                    </div>
+                                    <div class="flex items-center invisible">
+                                        <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
+                                            <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
+                                                check
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-row gap-5">
+                        <div class="relative overflow-hidden container mx-auto cursor-pointer">
+                            <div id="theme-green-light" class="flex flex-col flex-1">
+                                <div class="bg-green-500 w-full py-2 px-3 rounded-t-xl pointer-events-none">
+                                    <span class="font-bold text-white">Spring Green Light</span>
+                                </div>
+                                <div class="flex flex-row gap-5 px-3 py-3 rounded-b-xl pointer-events-none" style="background: rgb(228, 228, 231);">
+                                    <div class="flex flex-1 gap-1 flex-col justify-between">
+                                        <div class="bg-zinc-700 p-1 w-[80%] rounded-full"></div>
+                                        <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
+                                    </div>
+                                    <div class="flex items-center invisible">
+                                        <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
+                                            <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
+                                                check
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative overflow-hidden container mx-auto cursor-pointer">
+                            <div id="theme-green-dark" class="flex flex-col flex-1">
+                                <div class="bg-green-500 w-full py-2 px-3 rounded-t-xl pointer-events-none">
+                                    <span class="font-bold text-white">Spring Green Dark</span>
+                                </div>
+                                <div class="flex flex-row gap-5 px-3 py-3 rounded-b-xl pointer-events-none" style="background: rgb(15, 15, 15);">
+                                    <div class="flex flex-1 gap-1 flex-col justify-between">
+                                        <div class="bg-zinc-700 p-1 w-[80%] rounded-full"></div>
+                                        <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
+                                    </div>
+                                    <div class="flex items-center invisible">
+                                        <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
+                                            <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
+                                                check
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-row gap-5">
+                        <div class="relative overflow-hidden container mx-auto cursor-pointer">
+                            <div id="theme-orange-light" class="flex flex-col flex-1">
+                                <div class="bg-orange-400 w-full py-2 px-3 rounded-t-xl pointer-events-none">
+                                    <span class="font-bold text-white">Tangarine Light</span>
+                                </div>
+                                <div class="flex flex-row gap-5 px-3 py-3 rounded-b-xl pointer-events-none" style="background: rgb(228, 228, 231);">
+                                    <div class="flex flex-1 gap-1 flex-col justify-between">
+                                        <div class="bg-zinc-700 p-1 w-[80%] rounded-full"></div>
+                                        <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
+                                    </div>
+                                    <div class="flex items-center invisible">
+                                        <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
+                                            <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
+                                                check
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative overflow-hidden container mx-auto cursor-pointer">
+                            <div id="theme-orange-dark" class="flex flex-col flex-1">
+                                <div class="bg-orange-400 w-full py-2 px-3 rounded-t-xl pointer-events-none">
+                                    <span class="font-bold text-white">Tangarine Dark</span>
+                                </div>
+                                <div class="flex flex-row gap-5 px-3 py-3 rounded-b-xl pointer-events-none" style="background: rgb(15, 15, 15);">
+                                    <div class="flex flex-1 gap-1 flex-col justify-between">
+                                        <div class="bg-zinc-700 p-1 w-[80%] rounded-full"></div>
+                                        <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
+                                    </div>
+                                    <div class="flex items-center invisible">
+                                        <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
+                                            <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
+                                                check
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-row gap-5">
+                        <div class="relative overflow-hidden container mx-auto cursor-pointer">
+                            <div id="theme-brown-light" class="flex flex-col flex-1">
+                                <div class="bg-orange-900 w-full py-2 px-3 rounded-t-xl pointer-events-none">
+                                    <span class="font-bold text-white">Rust Light</span>
+                                </div>
+                                <div class="flex flex-row gap-5 px-3 py-3 rounded-b-xl pointer-events-none" style="background: rgb(228, 228, 231);">
+                                    <div class="flex flex-1 gap-1 flex-col justify-between">
+                                        <div class="bg-zinc-700 p-1 w-[80%] rounded-full"></div>
+                                        <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
+                                    </div>
+                                    <div class="flex items-center invisible">
+                                        <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
+                                            <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
+                                                check
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative overflow-hidden container mx-auto cursor-pointer">
+                            <div id="theme-brown-dark" class="flex flex-col flex-1">
+                                <div class="bg-orange-900 w-full py-2 px-3 rounded-t-xl pointer-events-none">
+                                    <span class="font-bold text-white">Rust Dark</span>
+                                </div>
+                                <div class="flex flex-row gap-5 px-3 py-3 rounded-b-xl pointer-events-none" style="background: rgb(15, 15, 15);">
+                                    <div class="flex flex-1 gap-1 flex-col justify-between">
+                                        <div class="bg-zinc-700 p-1 w-[80%] rounded-full"></div>
+                                        <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
+                                    </div>
+                                    <div class="flex items-center invisible">
+                                        <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
+                                            <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
+                                                check
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-row gap-5">
+                        <div class="relative overflow-hidden container mx-auto cursor-pointer">
+                            <div id="theme-violet-light" class="flex flex-col flex-1">
+                                <div class="bg-violet-600 w-full py-2 px-3 rounded-t-xl pointer-events-none">
+                                    <span class="font-bold text-white">Eletric Purple Light</span>
+                                </div>
+                                <div class="flex flex-row gap-5 px-3 py-3 rounded-b-xl pointer-events-none" style="background: rgb(228, 228, 231);">
+                                    <div class="flex flex-1 gap-1 flex-col justify-between">
+                                        <div class="bg-zinc-700 p-1 w-[80%] rounded-full"></div>
+                                        <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
+                                    </div>
+                                    <div class="flex items-center invisible">
+                                        <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
+                                            <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
+                                                check
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative overflow-hidden container mx-auto cursor-pointer">
+                            <div id="theme-violet-dark" class="flex flex-col flex-1">
+                                <div class="bg-violet-600 w-full py-2 px-3 rounded-t-xl pointer-events-none">
+                                    <span class="font-bold text-white">Eletric Purple Dark</span>
+                                </div>
+                                <div class="flex flex-row gap-5 px-3 py-3 rounded-b-xl pointer-events-none" style="background: rgb(15, 15, 15);">
+                                    <div class="flex flex-1 gap-1 flex-col justify-between">
+                                        <div class="bg-zinc-700 p-1 w-[80%] rounded-full"></div>
+                                        <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
+                                    </div>
+                                    <div class="flex items-center invisible">
+                                        <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
+                                            <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
+                                                check
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-row gap-5">
+                        <div class="relative overflow-hidden container mx-auto cursor-pointer">
+                            <div id="theme-rose-light" class="flex flex-col flex-1">
+                                <div class="bg-rose-700 w-full py-2 px-3 rounded-t-xl pointer-events-none">
+                                    <span class="font-bold text-white">Cardinal Red Light</span>
+                                </div>
+                                <div class="flex flex-row gap-5 px-3 py-3 rounded-b-xl pointer-events-none" style="background: rgb(228, 228, 231);">
+                                    <div class="flex flex-1 gap-1 flex-col justify-between">
+                                        <div class="bg-zinc-700 p-1 w-[80%] rounded-full"></div>
+                                        <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
+                                    </div>
+                                    <div class="flex items-center invisible">
+                                        <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
+                                            <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
+                                                check
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative overflow-hidden container mx-auto cursor-pointer">
+                            <div id="theme-rose-dark" class="flex flex-col flex-1">
+                                <div class="bg-rose-700 w-full py-2 px-3 rounded-t-xl pointer-events-none">
+                                    <span class="font-bold text-white">Cardinal Red Dark</span>
+                                </div>
+                                <div class="flex flex-row gap-5 px-3 py-3 rounded-b-xl pointer-events-none" style="background: rgb(15, 15, 15);">
+                                    <div class="flex flex-1 gap-1 flex-col justify-between">
+                                        <div class="bg-zinc-700 p-1 w-[80%] rounded-full"></div>
+                                        <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
+                                    </div>
+                                    <div class="flex items-center invisible">
+                                        <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
+                                            <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
+                                                check
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-row gap-5">
+                        <div class="relative overflow-hidden container mx-auto cursor-pointer">
+                            <div id="theme-indigo-light" class="flex flex-col flex-1">
+                                <div class="bg-indigo-700 w-full py-2 px-3 rounded-t-xl pointer-events-none">
+                                    <span class="font-bold text-white">Indigo Light</span>
+                                </div>
+                                <div class="flex flex-row gap-5 px-3 py-3 rounded-b-xl pointer-events-none" style="background: rgb(228, 228, 231);">
+                                    <div class="flex flex-1 gap-1 flex-col justify-between">
+                                        <div class="bg-zinc-700 p-1 w-[80%] rounded-full"></div>
+                                        <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
+                                    </div>
+                                    <div class="flex items-center invisible">
+                                        <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
+                                            <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
+                                                check
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative overflow-hidden container mx-auto cursor-pointer">
+                            <div id="theme-indigo-dark" class="flex flex-col flex-1">
+                                <div class="bg-indigo-700 w-full py-2 px-3 rounded-t-xl pointer-events-none">
+                                    <span class="font-bold text-white">Indigo Dark</span>
+                                </div>
+                                <div class="flex flex-row gap-5 px-3 py-3 rounded-b-xl pointer-events-none" style="background: rgb(15, 15, 15);">
+                                    <div class="flex flex-1 gap-1 flex-col justify-between">
+                                        <div class="bg-zinc-700 p-1 w-[80%] rounded-full"></div>
+                                        <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
+                                    </div>
+                                    <div class="flex items-center invisible">
+                                        <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
+                                            <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
+                                                check
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-row gap-5">
+                        <div class="relative overflow-hidden container mx-auto cursor-pointer">
+                            <div id="theme-fuchsia-light" class="flex flex-col flex-1">
+                                <div class="bg-fuchsia-600 w-full py-2 px-3 rounded-t-xl pointer-events-none">
+                                    <span class="font-bold text-white">Magenta Light</span>
+                                </div>
+                                <div class="flex flex-row gap-5 px-3 py-3 rounded-b-xl pointer-events-none" style="background: rgb(228, 228, 231);">
+                                    <div class="flex flex-1 gap-1 flex-col justify-between">
+                                        <div class="bg-zinc-700 p-1 w-[80%] rounded-full"></div>
+                                        <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
+                                    </div>
+                                    <div class="flex items-center invisible">
+                                        <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
+                                            <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
+                                                check
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative overflow-hidden container mx-auto cursor-pointer">
+                            <div id="theme-fuchsia-dark" class="flex flex-col flex-1">
+                                <div class="bg-fuchsia-600 w-full py-2 px-3 rounded-t-xl pointer-events-none">
+                                    <span class="font-bold text-white">Magenta Dark</span>
+                                </div>
+                                <div class="flex flex-row gap-5 px-3 py-3 rounded-b-xl pointer-events-none" style="background: rgb(15, 15, 15);">
+                                    <div class="flex flex-1 gap-1 flex-col justify-between">
+                                        <div class="bg-zinc-700 p-1 w-[80%] rounded-full"></div>
+                                        <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
+                                    </div>
+                                    <div class="flex items-center invisible">
+                                        <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
+                                            <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
+                                                check
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-row gap-5">
+                        <div class="relative overflow-hidden container mx-auto cursor-pointer">
+                            <div id="theme-pink-light" class="flex flex-col flex-1">
+                                <div class="bg-pink-600 w-full py-2 px-3 rounded-t-xl pointer-events-none">
+                                    <span class="font-bold text-white">Hot Pink Light</span>
+                                </div>
+                                <div class="flex flex-row gap-5 px-3 py-3 rounded-b-xl pointer-events-none" style="background: rgb(228, 228, 231);">
+                                    <div class="flex flex-1 gap-1 flex-col justify-between">
+                                        <div class="bg-zinc-700 p-1 w-[80%] rounded-full"></div>
+                                        <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
+                                    </div>
+                                    <div class="flex items-center invisible">
+                                        <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
+                                            <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
+                                                check
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative overflow-hidden container mx-auto cursor-pointer">
+                            <div id="theme-pink-dark" class="flex flex-col flex-1">
+                                <div class="bg-pink-600 w-full py-2 px-3 rounded-t-xl pointer-events-none">
+                                    <span class="font-bold text-white">Hot Pink Dark</span>
+                                </div>
+                                <div class="flex flex-row gap-5 px-3 py-3 rounded-b-xl pointer-events-none" style="background: rgb(15, 15, 15);">
+                                    <div class="flex flex-1 gap-1 flex-col justify-between">
+                                        <div class="bg-zinc-700 p-1 w-[80%] rounded-full"></div>
+                                        <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
+                                    </div>
+                                    <div class="flex items-center invisible">
+                                        <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
+                                            <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
+                                                check
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-row gap-5">
+                        <div class="relative overflow-hidden container mx-auto cursor-pointer">
+                            <div id="theme-teal-light" class="flex flex-col flex-1">
+                                <div class="bg-teal-400 w-full py-2 px-3 rounded-t-xl pointer-events-none">
+                                    <span class="font-bold text-white">Turquoise Light</span>
+                                </div>
+                                <div class="flex flex-row gap-5 px-3 py-3 rounded-b-xl pointer-events-none" style="background: rgb(228, 228, 231);">
+                                    <div class="flex flex-1 gap-1 flex-col justify-between">
+                                        <div class="bg-zinc-700 p-1 w-[80%] rounded-full"></div>
+                                        <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
+                                    </div>
+                                    <div class="flex items-center invisible">
+                                        <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
+                                            <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
+                                                check
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative overflow-hidden container mx-auto cursor-pointer">
+                            <div id="theme-teal-dark" class="flex flex-col flex-1">
+                                <div class="bg-teal-400 w-full py-2 px-3 rounded-t-xl pointer-events-none">
+                                    <span class="font-bold text-white">Turquoise Dark</span>
+                                </div>
+                                <div class="flex flex-row gap-5 px-3 py-3 rounded-b-xl pointer-events-none" style="background: rgb(15, 15, 15);">
+                                    <div class="flex flex-1 gap-1 flex-col justify-between">
+                                        <div class="bg-zinc-700 p-1 w-[80%] rounded-full"></div>
+                                        <div class="bg-zinc-700 p-1 w-[50%] rounded-full"></div>
+                                    </div>
+                                    <div class="flex items-center invisible">
+                                        <div flex-2 class="rounded-full px-3 py-1 ${hlp.gettheme("bg", "700")}">
+                                            <span class="text-sm w-1 flex justify-center items-center material-symbols-rounded text-white">
+                                                check
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            await $("#themes").off().empty().append(html).click(async function (e) {
+                if ($(e.target).attr("id").includes("theme-")) {
+                    theme.color = $(e.target).attr("id").split("-")[1];
+                    theme.theme = $(e.target).attr("id").split("-")[2];
+                    
+                    if (theme.theme == "light") {
+                        await $("body").removeClass("bg-white").removeClass("bg-black");
+                        await $("body").removeClass("text-white").removeClass("text-black");
+                        await $("body").addClass("bg-white");
+                        await $("body").addClass("text-black");
+                    } else {
+                        await $("body").removeClass("bg-white").removeClass("bg-black");
+                        await $("body").removeClass("text-white").removeClass("text-black");
+                        await $("body").addClass("bg-black");
+                        await $("body").addClass("text-white");
+                    }
+                    
+                    hlp.set("theme", theme);
+                    await site.runtime("theme-color");
+                }
+
+                await $(`#theme-${theme.color}-${theme.theme} .flex-row .invisible`).addClass("visible").removeClass("invisible")
+               await  $(`#theme-${theme.color} .flex-row .invisible`).addClass("visible").removeClass("invisible")
+            })
+
+            await $(`#theme-${theme.color}-${theme.theme} .flex-row .invisible`).addClass("visible").removeClass("invisible")
+            await $(`#theme-${theme.color} .flex-row .invisible`).addClass("visible").removeClass("invisible")
+        }
+
+        await content(theme);
     })
 }

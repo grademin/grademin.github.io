@@ -353,7 +353,7 @@ export function gettheme(type, value) {
         }
         case "theme-card": {
             if (theme.theme == "light") {
-                return "text-white shadow-xl";
+                return "bg-white shadow-xl";
             } else {
                 return "bg-zinc-800";
             }
@@ -665,6 +665,86 @@ export function gettheme(type, value) {
             switch (theme.color) {
                 case "brown": {
                     return `fill-orange-900`;
+                }
+                case "green": {
+                    if (value == 600)
+                        return `fill-${theme.color}-400`
+                    else if (value == 300)
+                        return `fill-${theme.color}-700`
+                    else if (value == 200)
+                        return `fill-${theme.color}-900`
+                    else
+                        return `fill-${theme.color}-500`;
+                }
+                case "orange": {
+                    if (value == 600)
+                        return `fill-${theme.color}-300`;
+                    else if (value == 300)
+                        return `fill-${theme.color}-700`
+                    else if (value == 200)
+                        return `fill-${theme.color}-900`
+                    else
+                        return `fill-${theme.color}-400`;
+                }
+                case "brown": {
+                    if (value == 600)
+                        return `fill-orange-700`;
+                    else if (value == 300)
+                        return `fill-orange-700`
+                    else if (value == 200)
+                        return `fill-orange-200`
+                    else
+                        return `fill-orange-900`;
+                }
+                case "violet": {
+                    if (value == 600)
+                        return `fill-${theme.color}-500`;
+                    else if (value == 300)
+                        return `fill-${theme.color}-900`
+                    else if (value == 200)
+                        return `fill-${theme.color}-900`
+                    else
+                        return `fill-${theme.color}-600`;
+                }
+                case "rose": {
+                    if (value == 600)
+                        return `fill-${theme.color}-600`;
+                    else if (value == 300)
+                        return `fill-${theme.color}-900`
+                    else if (value == 200)
+                        return `fill-${theme.color}-900`
+                    else
+                        return `fill-${theme.color}-700`;
+                }
+                case "fuchsia": {
+                    if (value == 600)
+                        return `fill-${theme.color}-500`;
+                    else if (value == 300)
+                        return `fill-${theme.color}-900`
+                    else if (value == 200)
+                        return `fill-${theme.color}-900`
+                    else
+                        return `fill-${theme.color}-600`;
+                }
+                case "pink": {
+                    if (value == 600)
+                        return `fill-${theme.color}-500`;
+                    else if (value == 300)
+                        return `fill-${theme.color}-900`
+                    else if (value == 200)
+                        return `fill-${theme.color}-900`
+                    else
+                        return `fill-${theme.color}-600`;
+                }
+                case "teal": {
+                    if (value == 600)
+                        return `fill-${theme.color}-300`;
+                    else if (value == 300)
+                        return `fill-${theme.color}-700`
+                    else if (value == 200)
+                        return `fill-${theme.color}-900`
+                    else
+                        return `fill-${theme.color}-400`;
                 }
                 default:
                     return `fill-${theme.color}-${value}`;
