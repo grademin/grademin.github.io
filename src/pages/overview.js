@@ -251,6 +251,119 @@ export async function run() {
             }
         });
         
-        // TODO: Add the rest from github.
+        /**
+         * Show notification chips that indicate something new has happened.
+         */
+        if (hlp.settings.exists && hlp.settings.chip_indicators) {
+            // Show a chip with a number representing the latest unviewed announcements.
+            await hlp.prevent_errors(async function () {
+                let communications = await $.ajax({
+                    url: hlp.api(`/cmd/getuserannouncementlist?_token=${hlp.session.token}&userid=${hlp.session.id}&daysactivepastend=14`),
+                    method: "GET",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                })
+
+                let unviewed = 0;
+                await $.each(communications.response.announcements.announcement, function (i, communication) {
+                    if (!communication.viewed) {
+                        unviewed++;
+                    }
+                })
+                
+                // Append the total unviewed to the item.
+                if (unviewed != 0) {
+                    await $("#announcements").append(`
+                        <div class="absolute ${hlp.gettheme("theme-shadow")} text-white inline-flex right-0 top-0 h-8 w-8 -m-2 rounded-full ${hlp.gettheme("bg", "700")} justify-center items-center">
+                            <span>${unviewed}</span>
+                        </div> 
+                    `);
+                }
+            }, false)
+
+            // Show a chip with a number representing the latest unviewed todos.
+            await hlp.prevent_errors(async function () {
+                let due = await $.ajax({
+                    url: hlp.api(`/cmd/getduesoonlist?_token=${hlp.session.token}&days=3&userId=${hlp.session.id}&utcoffset=300`),
+                    method: "GET",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                })
+
+                // If a course is hidden, obviosuly don't show that in the chip.
+                let hid = 0;
+                $.each(due.response.items.item, function (i, due) {
+                    hlp.prevent_errors(async function () {
+                        let courses = hlp.get("courses");
+                        if (courses.find(option => option.entityid.includes(due.entity.id)).$value)
+                            hid++
+                    }, false);
+                })
+
+                // Append the total unviewed to the item.
+                if (due.response.items.item.length != 0 && (due.response.items.item.length - hid) != 0) {
+                    await $("#todo-list").append(`
+                        <div class="absolute ${hlp.gettheme("theme-shadow")} text-white inline-flex right-0 top-0 h-8 w-8 -m-2 rounded-full ${hlp.gettheme("bg", "700")} justify-center items-center">
+                            <span>${due.response.items.item.length - hid}</span>
+                        </div> 
+                    `)
+                }
+            }, false)
+
+            // Show a chip with a number representing the latest unviewed activities.
+            await hlp.prevent_errors(async function () {
+                let codes = "200|201|301|400|401|500|501|601|803";
+                if (hlp.settings.exists && hlp.settings.include_self) {
+                    codes = "100|200|201|300|301|400|401|500|501|600|601|803";
+                }
+
+                let activities = await $.ajax({
+                    url: hlp.api(`/cmd/getuseractivitystream?_token=${hlp.session.token}&userid=${hlp.session.id}&types=${codes}`),
+                    method: "GET",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                })
+                        
+                let config = await $.ajax({
+                    url: hlp.api(`/cmd/getresource?_token=${hlp.session.token}&entityid=${hlp.session.id}&path=Assets/BuzzTheme.json`),
+                    method: "GET",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                })
+
+                if (hlp.get("activities") == "") {
+                    hlp.set("activities", {
+                        data: {
+                            items: [],
+                            $unviewed: 0
+                        }
+                    })
+                }
+
+                let items = hlp.get("activities");
+                let unviewed = 0;
+                await $.each(activities.response.activities.activity, (i, activity) => {
+                    if (new Date(activity.date) >= new Date(config.ActivityStreamLastRead)) {
+                        if (!items.data.items.find(name => name.item.includes(activity.data.item.title))) {
+                            unviewed++;
+                            items.data.$unviewed = unviewed;
+                            items.data.items.push({
+                                item: activity.data.item.title,
+                            });
+                            
+                            hlp.set("activities", items);
+                        }
+                    }
+                })
+
+                if (hlp.get("activities").data.$unviewed != 0) {
+                    await $("#activity-stream").append(`
+                        <div class="absolute ${hlp.gettheme("theme-shadow")} text-white inline-flex right-0 top-0 h-8 w-8 -m-2 rounded-full ${hlp.gettheme("bg", "700")} justify-center items-center">
+                            <span>${hlp.get("activities").data.$unviewed}</span>
+                        </div> 
+                    `)
+                }
+            }, false)
+        }
     });
 }

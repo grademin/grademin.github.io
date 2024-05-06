@@ -213,7 +213,7 @@ export async function run() {
             <div id="bottom" class="fixed bottom-0 left-0 right-0">
                 <div class="${hlp.gettheme("theme-card")}">
                     <div class="flex flex-row justify-between items-center">
-                        <a class="cursor-pointer flex justify-center items-center py-3 w-full">
+                        <a id="overview" class="cursor-pointer flex justify-center items-center py-3 w-full">
                             <span class="w-8 font-black pointer-events-none">
                                 <svg class="w-full h-full flex justify-center items-center" viewBox="-14 -1000 1000 1000">
                                     <path class="${hlp.gettheme("theme-fill")}" d="M117-212v-341q0-33 14-61.5t40-47.5l227-171q37-27 82-27t82 27l227 171q26 19 40 47.5t14 61.5v341q0 57-39.5 96.5T707-76h-67q-29 0-48.5-20T572-144v-196q0-28-20-48t-48-20h-48q-28 0-48 20t-20 48v196q0 28-19.5 48T320-76h-67q-57 0-96.5-39.5T117-212Z"/>
@@ -227,7 +227,7 @@ export async function run() {
                                 </svg>
                             </span>
                         </a>
-                        <a id="grades" class="cursor-pointer flex justify-center items-center py-3 w-full">
+                        <a class="cursor-pointer flex justify-center items-center py-3 w-full">
                             <span class="w-8 font-black pointer-events-none material-symbols-rounded">
                                 <svg class="w-full h-full flex justify-center items-center" viewBox="-14 -1000 1000 1000">
                                     <path class="${hlp.gettheme("theme-fill")}" d="M212-76q-57.4 0-96.7-39.3Q76-154.6 76-212v-536q0-57.4 39.3-96.7Q154.6-884 212-884h536q57.4 0 96.7 39.3Q884-805.4 884-748v536q0 57.4-39.3 96.7Q805.4-76 748-76H212Zm108.42-489q-18.42 0-31.92 13.2T275-520v201q0 18.6 13.28 31.8t32 13.2Q339-274 352-287.2t13-31.8v-201q0-18.6-13.08-31.8t-31.5-13.2Zm160-121q-18.42 0-31.92 13.2T435-641v322q0 18.6 13.28 31.8t32 13.2Q499-274 512-287.2t13-31.8v-322q0-18.6-13.08-31.8t-31.5-13.2Zm159.3 241Q621-445 608-431.5T595-400v81q0 18.6 13.08 31.8t31.5 13.2q18.42 0 31.92-13.2T685-319v-81q0-18-13.28-31.5t-32-13.5Z"/>
@@ -367,6 +367,22 @@ export async function run() {
                             }
                         })
                     })
+                    break;
+                }
+
+                /**
+                 * Nagivation
+                 */
+                case "calendar": {
+                    site.runtime("calendar");
+                    break;
+                }
+                case "grades": {
+                    await site.runtime("grades");
+                    break;
+                }
+                case "overview": {
+                    site.runtime("overview");
                     break;
                 }
             }
