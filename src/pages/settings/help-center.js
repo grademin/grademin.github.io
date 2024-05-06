@@ -74,7 +74,7 @@ export async function run() {
                             No, the whole reason for the calculator is to get the credits of your course, and if its an AP class. Once you have gotten the GPA setup, it will always check your grades and update the GPA scores accordingly.
                             <br>
                             <br>
-                            <i>Note: Hide Courses cannot affect this! You must get the GPA Results again if a course is hidden after already using it before. This may be fixed in the future, but currently it cannot do this.
+                            <i>Note: Hide Courses cannot affect this! You must get the GPA Results again if a course is hidden after already using it before. This may be fixed in the future, but currently it cannot do this.</i>
                         </p>
                         <br>
                         <h1 class="text-3xl font-black">What do these colors represent?</h1>
