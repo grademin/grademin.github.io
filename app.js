@@ -111,8 +111,8 @@
             hlp.set("pfp", "");
         }
 
-        if (hlp.get("courses") == undefined) {
-            hlp.set("courses", []);
+        if (hlp.get("hidden") == undefined) {
+            hlp.set("hidden", []);
         }
 
         if (hlp.get("activities") == undefined) {

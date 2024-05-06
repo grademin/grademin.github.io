@@ -2,7 +2,7 @@ export async function run() {
     const hlp = await import("../../helpers.js");
     const site = await import("../../site.js");
 
-    await hlp.load(async function () {//TODO:
+    await hlp.load(async function () {
         await $("#root").html(`
             <div id="top" class="${hlp.gettheme("bg", "700")} text-white">
                 <div class="fixed left-0 right-0 top-0 z-20 flex flex-row ${hlp.gettheme("bg", "700")}">
@@ -13,7 +13,7 @@ export async function run() {
                             </svg>
                         </div>
                         <span class="flex-grow font-bold text-center text-[22px]">Theme Color</span>
-                        <div class="invisible flex-2 cursor-pointer py-3 pl-4 pr-2 rounded-full">
+                        <div class="invisible -mr-2 flex-2 cursor-pointer py-3 pl-4 pr-2 rounded-full">
                             <svg class="w-[25px] pointer-events-none" viewBox="-14 -1000 1000 1000">
                                 <path class="fill-white w-0" d="M476.28-113Q324-113 216.5-220 109-327 109-479t107.5-260Q324-847 476-847q78.29 0 148.15 31.5Q694-784 745-726v-68q0-22 14.8-37.5t37.7-15.5q22.9 0 38.2 15.5Q851-816 851-794v229q0 27.6-20.2 47.8Q810.6-497 783-497H552q-21.57 0-36.79-15.58Q500-528.16 500-550.28q0-21.69 15.5-36.71Q531-602 553-602h117q-33-50-83.9-78.5Q535.2-709 476-709q-96 0-163.5 66.92Q245-575.17 245-479q0 96.33 67.5 163.17Q380-249 476-249q56 0 104.61-25.81Q629.22-300.63 662-346q15.62-22.16 41.81-30.58Q730-385 754.74-375q26.26 10 37.76 32.5Q804-320 792-298q-48 84-132.19 134.5T476.28-113Z"/>
                             </svg>
