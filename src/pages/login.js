@@ -47,7 +47,7 @@ export async function run() {
                         </div>
                     </div>
                     <div class="container mx-auto">
-                        <button id="submit" type="submit" class="w-full px-4 py-3 ${hlp.gettheme("bg", "700")} hover:${hlp.gettheme("bg", "500")} transition text-white font-bold rounded-xl">Log in</button>
+                        <button id="submit" type="submit" class="shadow-xl w-full px-4 py-3 ${hlp.gettheme("bg", "700")} hover:${hlp.gettheme("bg", "500")} transition text-white font-bold rounded-xl">Log in</button>
                     </div>        
                 </form>
             </div>
