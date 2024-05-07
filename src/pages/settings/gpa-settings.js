@@ -130,7 +130,7 @@ export async function run() {
                         courses: gpas
                     })
 
-                    //await site.runtime("grades");
+                    await site.runtime("grades");
                     break;
                 }
                 case "clear": {

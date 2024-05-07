@@ -34,80 +34,8 @@ export async function run() {
                 ${hlp.gpa.exists && hlp.gpa.courses.length != 0 ? `
                     <div id="gpa"></div>
                 ` : ""}
-                <div id="averages" class="flex flex-col gap-5">
-                
-                    <div class="flex flex-col gap-5 sm:flex-row">
-                        <div class="relative flex-1 flex flex-col justify-between container mx-auto ${hlp.gettheme("theme-card")} rounded-xl py-3 px-3">
-                            <div class="flex justify-center items-center h-full">
-                                <svg width="136" height="136" viewBox="0 0 136 136">
-                                    <circle class="${hlp.gettheme("theme-stroke")}" cx="68" cy="68" r="54" fill="none" stroke="inherit" stroke-width="16" />
-                                    <circle class="stroke-yellow-500" cx="68" cy="68" r="54" fill="none" stroke-width="16" stroke-dasharray="339.292" stroke-dashoffset="${339.292 * (1 - 0 / 100)}" transform="rotate(-90 68 68)" />
-                                </svg>
-                            </div>
-                            <div class="absolute inset-0 flex flex-col justify-center items-center">
-                                <span class="score-text font-bold text-3xl">0</span>
-                                <span class="score hidden">90</span>
-                                <span class="font-bold text-zinc-400 text-sm">Agency</span>
-                            </div>
-                        </div>
-                        <div class="relative flex-1 flex flex-col justify-between container mx-auto ${hlp.gettheme("theme-card")} rounded-xl py-3 px-3">
-                            <div class="flex justify-center items-center h-full">
-                                <svg width="136" height="136" viewBox="0 0 136 136">
-                                    <circle class="${hlp.gettheme("theme-stroke")}" cx="68" cy="68" r="54" fill="none" stroke="inherit" stroke-width="16" />
-                                    <circle class="stroke-violet-500" cx="68" cy="68" r="54" fill="none" stroke-width="16" stroke-dasharray="339.292" stroke-dashoffset="${339.292 * (1 - 0 / 100)}" transform="rotate(-90 68 68)" />
-                                </svg>
-                            </div>
-                            <div class="absolute inset-0 flex flex-col justify-center items-center">
-                                <span class="score-text font-bold text-3xl">0</span>
-                                <span class="score hidden">96</span>
-                                <span class="font-bold text-zinc-400 text-sm">Collab</span>
-                            </div>
-                        </div>
-                    </div>    
-                    <div class="flex flex-col gap-5 sm:flex-row">
-                        <div class="relative flex-1 flex flex-col justify-between container mx-auto ${hlp.gettheme("theme-card")} rounded-xl py-3 px-3">
-                            <div class="flex justify-center items-center h-full">
-                                <svg width="136" height="136" viewBox="0 0 136 136">
-                                    <circle class="${hlp.gettheme("theme-stroke")}" cx="68" cy="68" r="54" fill="none" stroke="inherit" stroke-width="16" />
-                                    <circle class="stroke-blue-500" cx="68" cy="68" r="54" fill="none" stroke-width="16" stroke-dasharray="339.292" stroke-dashoffset="${339.292 * (1 - 0 / 100)}" transform="rotate(-90 68 68)" />
-                                </svg>
-                            </div>
-                            <div class="absolute inset-0 flex flex-col justify-center items-center">
-                                <span class="score-text font-bold text-3xl">0</span>
-                                <span class="score hidden">95</span>
-                                <span class="font-bold text-zinc-400 text-sm">K & T</span>
-                            </div>
-                        </div>
-                        <div class="relative flex-1 flex flex-col justify-between container mx-auto ${hlp.gettheme("theme-card")} rounded-xl py-3 px-3">
-                            <div class="flex justify-center items-center h-full">
-                                <svg width="136" height="136" viewBox="0 0 136 136">
-                                    <circle class="${hlp.gettheme("theme-stroke")}" cx="68" cy="68" r="54" fill="none" stroke="inherit" stroke-width="16" />
-                                    <circle class="stroke-green-500" cx="68" cy="68" r="54" fill="none" stroke-width="16" stroke-dasharray="339.292" stroke-dashoffset="${339.292 * (1 - 0 / 100)}" transform="rotate(-90 68 68)" />
-                                </svg>
-                            </div>
-                            <div class="absolute inset-0 flex flex-col justify-center items-center">
-                                <span class="score-text font-bold text-3xl">0</span>
-                                <span class="score hidden">87</span>
-                                <span class="font-bold text-zinc-400 text-sm">Oral</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="relative flex-1 flex flex-col justify-between container mx-auto ${hlp.gettheme("theme-card")} rounded-xl py-3 px-3">
-                        <div class="flex justify-center items-center h-full">
-                            <svg width="136" height="136" viewBox="0 0 136 136">
-                                <circle class="${hlp.gettheme("theme-stroke")}" cx="68" cy="68" r="54" fill="none" stroke="inherit" stroke-width="16" />
-                                <circle class="stroke-cyan-500" cx="68" cy="68" r="54" fill="none" stroke-width="16" stroke-dasharray="339.292" stroke-dashoffset="${339.292 * (1 - 0 / 100)}" transform="rotate(-90 68 68)" />
-                            </svg>
-                        </div>
-                        <div class="absolute inset-0 flex flex-col justify-center items-center">
-                            <span class="score-text font-bold text-3xl">0</span>
-                                <span class="score hidden">72</span>
-                            <span class="font-bold text-zinc-400 text-sm">Written</span>
-                        </div>
-                    </div>
-
-                </div>
-                <div id="courses" class="flex flex-col gap-5"><div>
+                <div id="averages" class="flex flex-col gap-5"></div>
+                <div id="courses" class="flex flex-col gap-5"></div>
             </div>
             <!---->
             <!---->
@@ -179,6 +107,248 @@ export async function run() {
         });
 
         async function call() {
+            let settings = [];
+            let objectives = [];
+            let order = [];
+            let courses = [];
+
+            await hlp.prevent_errors(async function () {
+                settings = await $.ajax({
+                    url: hlp.api(`/dlap.ashx?cmd=getdomainsettings&domainid=//${hlp.session.userspace}&path=public/shadow/app/buzz/settings.xml`),
+                    method: "GET",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8"
+                });
+
+                if (settings.response.code != "OK") {
+                    settings = [];
+                    throw new Error("No courses were found!");
+                }
+            }, false)
+
+            let guids = "";
+            if (settings.length != 0) {
+                await $.each(settings.response.settings["scoring-objective-list"]["scoring-objective"], (i, objective) => {
+                    if (i < settings.response.settings["scoring-objective-list"]["scoring-objective"].length - 1)
+                        guids += `${objective.guid}|`
+                    else 
+                        guids += `${objective.guid}`;
+                });
+            }
+
+            let objective = [];
+            let a = undefined, c = undefined, k = undefined, o = undefined, w = undefined;
+            if (guids != "") {
+                hlp.prevent_errors(async function () {
+                    objectives = await $.ajax({
+                        url: hlp.api(`/cmd/getobjectivelist?_token=${hlp.session.token}&guid=${guids}`),
+                        method: "GET",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8"
+                    })
+
+                    if (objectives.response.code != "OK") {
+                        objectives = [];
+                        throw new Error("No courses were found!");
+                    }
+                }, false)
+            }
+
+            await hlp.prevent_errors(async function () {
+                order = await $.ajax({
+                    url: hlp.api(`/cmd/getresource?_token=${hlp.session.token}&entityid=${hlp.session.id}&path=Assets%2FBuzzCourseCardSettings.json`),
+                    method: "GET",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8"
+                });
+
+                if (order.response != undefined && order.response.code != "OK") {
+                    order = [];
+                    throw new Error("Order couldn't be found!");
+                }
+            }, false);
+
+            await hlp.prevent_errors(async function () {
+                courses = await $.ajax({
+                    url: hlp.api(`/cmd/listuserenrollments?_token=${hlp.session.token}&userid=${hlp.session.id}&privileges=1&select=data,course,course.data,course.teachers,metrics`),
+                    method: "GET",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8"
+                });
+
+                if (courses.response.code != "OK") {
+                    courses = [];
+                    throw new Error("No courses were found!");
+                }
+            }, false)
+
+
+
+            let overall = [];
+            if (courses.length != 0 || courses.response.code == "OK") {
+                $.each(courses.response.enrollments.enrollment, (i, course) => {
+                    if (hlp.hidden(course.course.id)) {
+                        return;
+                    }
+
+                    hlp.prevent_errors(async function () {
+                        objective = course.enrollmentmetrics.objectivescores.objectivescore;                    
+                    });
+
+                    a = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Agency")).guid));
+                    c = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Collaboration")).guid));
+                    k = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Knowledge & Thinking")).guid));
+                    o = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Oral Communication")).guid));
+                    w = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Written Communication")).guid));
+
+                    if (a != undefined) {
+                        overall.push({
+                            type: "Agency",
+                            score: hlp.decode_score(a)
+                        })
+                    } 
+                    
+                    if (c != undefined) {
+                        overall.push({
+                            type: "Collaboration",
+                            score: hlp.decode_score(c)
+                        })
+                    } 
+                    
+                    if (k != undefined) {
+                        overall.push({
+                            type: "Knowledge & Thinking",
+                            score: hlp.decode_score(k)
+                        })
+                    } 
+                    
+                    if (o != undefined) {
+                        overall.push({
+                            type: "Oral Communication",
+                            score: hlp.decode_score(o)
+                        })
+                    } 
+                    
+                    if (w != undefined) {
+                        overall.push({
+                            type: "Written Communication",
+                            score: hlp.decode_score(w)
+                        })
+                    }
+                })
+            }
+
+            let targets = {
+                "Agency": {sum: 0, count: 0},
+                "Collaboration": {sum: 0, count: 0},
+                "Knowledge & Thinking": {sum: 0, count: 0},
+                "Oral Communication": {sum: 0, count: 0},
+                "Written Communication": {sum: 0, count: 0}
+            };
+
+            await $.each(overall, (i, objective) => {
+                if (targets.hasOwnProperty(objective.type)) {
+                    targets[objective.type].sum += objective.score;
+                    targets[objective.type].count++;
+                }
+            });
+            
+            let final_overall = [];
+            await $.each(Object.keys(targets), async (i, target) => {
+                const average = targets[target].count > 0 ? Math.round(targets[target].sum / targets[target].count) : 0;
+
+                final_overall.push({
+                    type: target,
+                    score: average
+                })
+            });
+
+            if (final_overall.length != 0) {
+                $("#averages").append(`
+                    ${(final_overall.find(type => type.type == "Agency") != undefined || final_overall.find(type => type.type == "Collaboration" != undefined) ? `
+                    <div class="flex flex-col gap-5 sm:flex-row">
+                        ${final_overall.find(type => type.type == "Agency") != undefined ? `
+                        <div class="relative flex-1 flex flex-col justify-between container mx-auto ${hlp.gettheme("theme-card")} rounded-xl py-3 px-3">
+                            <div class="flex justify-center items-center h-full">
+                                <svg width="136" height="136" viewBox="0 0 136 136">
+                                    <circle class="${hlp.gettheme("theme-stroke")}" cx="68" cy="68" r="54" fill="none" stroke="inherit" stroke-width="16" />
+                                    <circle class="stroke-yellow-500" cx="68" cy="68" r="54" fill="none" stroke-width="16" stroke-dasharray="339.292" stroke-dashoffset="${339.292 * (1 - 0 / 100)}" transform="rotate(-90 68 68)" />
+                                </svg>
+                            </div>
+                            <div class="absolute inset-0 flex flex-col justify-center items-center">
+                                <span class="score-text font-bold text-3xl">0</span>
+                                <span class="score hidden">${final_overall.find(type => type.type == "Agency").score}</span>
+                                <span class="font-bold text-zinc-400 text-sm">Agency</span>
+                            </div>
+                        </div>
+                        ` : ""}
+                        ${final_overall.find(type => type.type == "Collaboration") != undefined ? `
+                        <div class="relative flex-1 flex flex-col justify-between container mx-auto ${hlp.gettheme("theme-card")} rounded-xl py-3 px-3">
+                            <div class="flex justify-center items-center h-full">
+                                <svg width="136" height="136" viewBox="0 0 136 136">
+                                    <circle class="${hlp.gettheme("theme-stroke")}" cx="68" cy="68" r="54" fill="none" stroke="inherit" stroke-width="16" />
+                                    <circle class="stroke-violet-500" cx="68" cy="68" r="54" fill="none" stroke-width="16" stroke-dasharray="339.292" stroke-dashoffset="${339.292 * (1 - 0 / 100)}" transform="rotate(-90 68 68)" />
+                                </svg>
+                                <div class="absolute inset-0 flex flex-col justify-center items-center">
+                                    <span class="score-text font-bold text-3xl">0</span>
+                                    <span class="score hidden">${final_overall.find(type => type.type == "Collaboration").score}</span>
+                                    <span class="font-bold text-zinc-400 text-sm">Collab</span>
+                                </div>
+                            </div>
+                        </div>
+                        ` : ""}
+                    </div>
+                    <div class="flex flex-col gap-5 sm:flex-row">
+                        ${final_overall.find(type => type.type == "Knowledge & Thinking") != undefined ? `
+                        <div class="relative flex-1 flex flex-col justify-between container mx-auto ${hlp.gettheme("theme-card")} rounded-xl py-3 px-3">
+                            <div class="flex justify-center items-center h-full">
+                                <svg width="136" height="136" viewBox="0 0 136 136">
+                                    <circle class="${hlp.gettheme("theme-stroke")}" cx="68" cy="68" r="54" fill="none" stroke="inherit" stroke-width="16" />
+                                    <circle class="stroke-blue-500" cx="68" cy="68" r="54" fill="none" stroke-width="16" stroke-dasharray="339.292" stroke-dashoffset="${339.292 * (1 - 0 / 100)}" transform="rotate(-90 68 68)" />
+                                </svg>
+                            </div>
+                            <div class="absolute inset-0 flex flex-col justify-center items-center">
+                                <span class="score-text font-bold text-3xl">0</span>
+                                <span class="score hidden">${final_overall.find(type => type.type == "Knowledge & Thinking").score}</span>
+                                <span class="font-bold text-zinc-400 text-sm">K&T</span>
+                            </div>
+                        </div>
+                        ` : ""}
+                        ${final_overall.find(type => type.type == "Oral Communication") != undefined ? `
+                        <div class="relative flex-1 flex flex-col justify-between container mx-auto ${hlp.gettheme("theme-card")} rounded-xl py-3 px-3">
+                            <div class="flex justify-center items-center h-full">
+                                <svg width="136" height="136" viewBox="0 0 136 136">
+                                    <circle class="${hlp.gettheme("theme-stroke")}" cx="68" cy="68" r="54" fill="none" stroke="inherit" stroke-width="16" />
+                                    <circle class="stroke-green-500" cx="68" cy="68" r="54" fill="none" stroke-width="16" stroke-dasharray="339.292" stroke-dashoffset="${339.292 * (1 - 0 / 100)}" transform="rotate(-90 68 68)" />
+                                </svg>
+                                <div class="absolute inset-0 flex flex-col justify-center items-center">
+                                    <span class="score-text font-bold text-3xl">0</span>
+                                    <span class="score hidden">${final_overall.find(type => type.type == "Oral Communication").score}</span>
+                                    <span class="font-bold text-zinc-400 text-sm">Oral</span>
+                                </div>
+                            </div>
+                        </div>
+                        ` : ""}
+                    </div>
+                    ${final_overall.find(type => type.type == "Written Communication") != undefined ? `
+                    <div class="relative flex-1 flex flex-col justify-between container mx-auto ${hlp.gettheme("theme-card")} rounded-xl py-3 px-3">
+                        <div class="flex justify-center items-center h-full">
+                            <svg width="136" height="136" viewBox="0 0 136 136">
+                                <circle class="${hlp.gettheme("theme-stroke")}" cx="68" cy="68" r="54" fill="none" stroke="inherit" stroke-width="16" />
+                                <circle class="stroke-cyan-500" cx="68" cy="68" r="54" fill="none" stroke-width="16" stroke-dasharray="339.292" stroke-dashoffset="${339.292 * (1 - 0 / 100)}" transform="rotate(-90 68 68)" />
+                            </svg>
+                            <div class="absolute inset-0 flex flex-col justify-center items-center">
+                                <span class="score-text font-bold text-3xl">0</span>
+                                <span class="score hidden">${final_overall.find(type => type.type == "Written Communication").score}</span>
+                                <span class="font-bold text-zinc-400 text-sm">Written</span>
+                            </div>
+                        </div>
+                    </div>
+                    ` : ""}
+                    ` : "")}
+                `)
+            }
+
             // Animate the guages
             let wait = 0;
             $.each($("#averages svg"), (i, guage) => {
@@ -194,10 +364,174 @@ export async function run() {
                         easing: 'linear',
                         step: function () {
                             $(guage).parent().parent().find(".score-text").text(Math.ceil(this.scoreCounter));
+                        },
+                        complete: function () {
+                            $(guage).parent().parent().find(".score-text").text(percentage); // Set the final value
                         }
                     });
                 }, wait * 80);
             });
+
+
+            let course_list = [];
+            if (courses.length != 0) {
+                $.each(courses.response.enrollments.enrollment, function (i, course) {
+                    course_list.push({
+                        order: order.length == 0 ? undefined : order[course.id].order,
+                        enrollmentid: course.enrollmentmetrics.enrollmentid,
+                        courseid: course.courseid,
+                        title: course.course.title.trim(),
+                        start: new Date(course.course.startdate).toLocaleDateString(undefined, {month: "long", year: "numeric", day: "numeric" }),
+                        end: new Date(course.course.enddate).toLocaleDateString(undefined, {month: "long", year: "numeric", day: "numeric"}),
+                        score: hlp.decode_score(course.enrollmentmetrics, course.enrollmentmetrics),
+                        metrics: course.enrollmentmetrics
+                    })
+                })
+            }
+            
+            if (order.length != 0) {
+                course_list = course_list.sort((first, last) => first.order - last.order);
+            }
+
+            if (course_list.length != 0) {
+                if (hlp.get("gpa") != undefined) {
+                    let is_not_ap = 0
+                    let is_an_ap = 0
+                    $.each(course_list, (i, course) => {
+                        hlp.prevent_errors(async function () {
+                            if (hlp.gpa.courses.find(name => name.enrollmentid == course.enrollmentid).grade != course.grade) {
+                                let grade = hlp.get("gpa")
+                                grade.courses.find(name => name.enrollmentid == course.enrollmentid).grade = course.score
+
+                                if (!grade.courses.find(name => name.enrollmentid == course.enrollmentid).is_ap)
+                                    is_not_ap++
+                                else
+                                    is_an_ap++
+                                
+                                hlp.set("gpa", grade)
+                            }
+                        }, false);
+
+                        hlp.set("gpa", {
+                            regular: is_an_ap != hlp.gpa.courses.length ? hlp.decode_gpa_score(hlp.gpa.courses)[0] : null,
+                            weighted: is_not_ap != hlp.gpa.courses.length ?  hlp.decode_gpa_score(hlp.gpa.courses)[1] : null,
+                            courses: hlp.gpa.courses
+                        })
+
+                        if (hlp.hidden(course.courseid)) {
+                            return;
+                        }
+
+                        // Get each specific course details for course overview
+                        let new_a = undefined, new_c = undefined, new_k = undefined, new_o = undefined, new_w = undefined;
+
+                        objective = [];
+                        hlp.prevent_errors(async function () {
+                            objective = course.metrics.objectivescores.objectivescore;                    
+                        }, false);
+
+                        new_a = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Agency")).guid));
+                        new_c = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Collaboration")).guid));
+                        new_k = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Knowledge & Thinking")).guid));
+                        new_o = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Oral Communication")).guid));
+                        new_w = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Written Communication")).guid));
+
+                        $("#courses").append(`
+                            <div class="flex flex-col gap-2">
+                                <div class="flex flex-col container mx-auto ${hlp.gettheme("theme-card")} rounded-xl px-3">
+                                    <div class="flex flex-row justify-between container mx-auto py-3">
+                                        <div class="flex flex-row justify-center items-center gap-4 pointer-events-none leading-none">
+                                            <div class="flex flex-col items-center">
+                                                <h1 class="text-[20px] w-[5ch] xl-sm:w-[17ch] x-sm:w-[28ch] sm:w-[30ch] md:w-[40ch] lg:w-full truncate font-bold">${course.title}</h1>
+                                            </div>
+                                        </div>
+                                        <div class="flex justify-center items-center">
+                                            <div class="rounded-lg px-3 py-1 text-white font-bold bg-${hlp.score_to_color(course.score)}-500">
+                                                ${isNaN(course.score) ? `<span class="${hlp.gettheme("theme-text")} w-max">N/A</span>` : `${course.score}`}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                ${objective.length != 0 && (new_a != undefined || new_c != undefined || new_k != undefined || new_o != undefined || new_w != undefined) ? `
+                                <div class="flex flex-row gap-2">
+                                    ${new_a != undefined ? ` 
+                                    <div class="rounded-lg px-3 py-1 text-white flex justify-center items-center font-bold bg-yellow-500">
+                                        ${hlp.decode_score(new_a)}
+                                    </div>
+                                    ` : ""}
+                                    ${new_c != undefined ? `
+                                    <div class="rounded-lg px-3 py-1 text-white flex justify-center items-center font-bold bg-violet-500">
+                                        ${hlp.decode_score(new_c)}
+                                    </div>
+                                    ` : ""}
+                                    ${new_k != undefined ? `
+                                    <div class="rounded-lg px-3 py-1 text-white flex justify-center items-center font-bold bg-blue-500">
+                                        ${hlp.decode_score(new_k)}
+                                    </div>
+                                    ` : ""}
+                                    ${new_o != undefined ? `
+                                    <div class="rounded-lg px-3 py-1 text-white flex justify-center items-center font-bold bg-green-500">
+                                        ${hlp.decode_score(new_o)}
+                                    </div>
+                                    ` : ""}
+                                    ${new_w != undefined ? `
+                                    <div class="rounded-lg px-3 py-1 text-white flex justify-center items-center font-bold bg-cyan-500">
+                                        ${hlp.decode_score(new_w)}
+                                    </div>
+                                    ` : ""}
+                                </div>
+                                ` : ""}
+                            </div>
+                        `)
+                    })
+
+                    $("#gpa").append(`
+                        <div class="flex flex-col container mx-auto ${hlp.gettheme("theme-card")} rounded-xl px-3">
+                            ${hlp.get("gpa").regular != null ? `
+                            <div class="flex flex-row justify-between container mx-auto py-3 ${hlp.get("gpa").weighted != null ? "border-b-[2px] border-zinc-700" : ""}">
+                                <div class="flex flex-row justify-center items-center gap-4 pointer-events-none leading-none">
+                                    <div class="flex flex-col items-center">
+                                        <h1 class="text-[20px] font-bold">GPA</h1>
+                                    </div>
+                                </div>
+                                <div class="flex justify-center items-center">
+                                    <div class="rounded-lg px-3 text-white font-bold py-1 bg-green-500">
+                                        ${hlp.get("gpa").regular}
+                                    </div>
+                                </div>
+                            </div>
+                            ` : ""}
+                            ${hlp.get("gpa").weighted != null ? `
+                            <div class="flex flex-row justify-between container mx-auto py-3">
+                                <div class="flex flex-row justify-center items-center gap-4 pointer-events-none leading-none">
+                                    <div class="flex flex-col items-center">
+                                        <h1 class="text-[20px] font-bold">GPA Weighted</h1>
+                                    </div>
+                                </div>
+                                <div class="flex justify-center items-center">
+                                    <div class="rounded-lg px-3 text-white font-bold py-1 bg-green-500">
+                                        ${hlp.get("gpa").weighted}
+                                    </div>
+                                </div>
+                            </div>
+                            ` : ""}
+                        </div>
+                    `)
+                }
+                                    
+            } else {
+                $("#root #courses").append(`
+                    <div id="error" class="flex flex-col container mx-auto ${hlp.gettheme("theme-card")} rounded-xl py-3 px-3">
+                        <div class="flex flex-row justify-between container mx-auto cursor-pointer">
+                            <div class="flex flex-row justify-center items-center pointer-events-none w-full">
+                                <div class="flex flex-col justify-center items-center">
+                                    <h1 class="text-[18px] font-bold">No courses were found.</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `)
+            }
         }
 
         await call();
