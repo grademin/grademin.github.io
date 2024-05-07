@@ -45,7 +45,8 @@ export async function run() {
                                 </svg>
                             </div>
                             <div class="absolute inset-0 flex flex-col justify-center items-center">
-                                <span class="score font-bold text-3xl">90</span>
+                                <span class="score-text font-bold text-3xl">0</span>
+                                <span class="score hidden">90</span>
                                 <span class="font-bold text-zinc-400 text-sm">Agency</span>
                             </div>
                         </div>
@@ -57,7 +58,8 @@ export async function run() {
                                 </svg>
                             </div>
                             <div class="absolute inset-0 flex flex-col justify-center items-center">
-                                <span class="score font-bold text-3xl">87</span>
+                                <span class="score-text font-bold text-3xl">0</span>
+                                <span class="score hidden">96</span>
                                 <span class="font-bold text-zinc-400 text-sm">Collab</span>
                             </div>
                         </div>
@@ -71,7 +73,8 @@ export async function run() {
                                 </svg>
                             </div>
                             <div class="absolute inset-0 flex flex-col justify-center items-center">
-                                <span class="score font-bold text-3xl">95</span>
+                                <span class="score-text font-bold text-3xl">0</span>
+                                <span class="score hidden">95</span>
                                 <span class="font-bold text-zinc-400 text-sm">K & T</span>
                             </div>
                         </div>
@@ -83,7 +86,8 @@ export async function run() {
                                 </svg>
                             </div>
                             <div class="absolute inset-0 flex flex-col justify-center items-center">
-                                <span class="score font-bold text-3xl">84</span>
+                                <span class="score-text font-bold text-3xl">0</span>
+                                <span class="score hidden">87</span>
                                 <span class="font-bold text-zinc-400 text-sm">Oral</span>
                             </div>
                         </div>
@@ -96,7 +100,8 @@ export async function run() {
                             </svg>
                         </div>
                         <div class="absolute inset-0 flex flex-col justify-center items-center">
-                            <span class="score font-bold text-3xl">72</span>
+                            <span class="score-text font-bold text-3xl">0</span>
+                                <span class="score hidden">72</span>
                             <span class="font-bold text-zinc-400 text-sm">Written</span>
                         </div>
                     </div>
@@ -183,6 +188,14 @@ export async function run() {
                     var percentage = $(guage).parent().parent().find(".score").text(); // Set the percentage value here
                     var offset = 339.292 * (1 - percentage / 100);
                     circle.css("stroke-dashoffset", 339.292).animate({"stroke-dashoffset": offset}, 1000);
+                    
+                    $({scoreCounter: 0}).animate({scoreCounter: percentage}, {
+                        duration: 1000,
+                        easing: 'linear',
+                        step: function () {
+                            $(guage).parent().parent().find(".score-text").text(Math.ceil(this.scoreCounter));
+                        }
+                    });
                 }, wait * 80);
             });
         }
