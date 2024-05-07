@@ -47,7 +47,7 @@ export async function run() {
                                 </svg>
                             </span>
                         </a>
-                        <a class="cursor-pointer flex justify-center items-center py-3 w-full">
+                        <a id="grades" class="cursor-pointer flex justify-center items-center py-3 w-full">
                             <span class="w-8 font-black pointer-events-none material-symbols-rounded">
                                 <svg class="w-full h-full flex justify-center items-center" viewBox="-14 -1000 1000 1000">
                                     <path class="${hlp.gettheme("theme-fill")}" d="M212-76q-57.4 0-96.7-39.3Q76-154.6 76-212v-536q0-57.4 39.3-96.7Q154.6-884 212-884h536q57.4 0 96.7 39.3Q884-805.4 884-748v536q0 57.4-39.3 96.7Q805.4-76 748-76H212Zm108.42-489q-18.42 0-31.92 13.2T275-520v201q0 18.6 13.28 31.8t32 13.2Q339-274 352-287.2t13-31.8v-201q0-18.6-13.08-31.8t-31.5-13.2Zm160-121q-18.42 0-31.92 13.2T435-641v322q0 18.6 13.28 31.8t32 13.2Q499-274 512-287.2t13-31.8v-322q0-18.6-13.08-31.8t-31.5-13.2Zm159.3 241Q621-445 608-431.5T595-400v81q0 18.6 13.08 31.8t31.5 13.2q18.42 0 31.92-13.2T685-319v-81q0-18-13.28-31.5t-32-13.5Z"/>
@@ -223,7 +223,7 @@ export async function run() {
                         <div class="flex flex-row justify-between container mx-auto cursor-pointer">
                             <div class="flex flex-row justify-center items-center pointer-events-none w-full">
                                 <div class="flex flex-col justify-center items-center">
-                                    <h1 class="text-[18px] font-bold">Hiding or showing a course requires applying GPA settings again</h1>
+                                    <h1 class="text-[18px] text-center font-bold">Hiding or showing a course requires applying GPA settings again</h1>
                                 </div>
                             </div>
                         </div>
@@ -234,9 +234,16 @@ export async function run() {
                     if (hlp.hidden(course.courseid)) {
                         return;
                     }
+                    
+                    // A hidden course is not shown, use course_list over gpa courses
+                    let use_default = false;
+                    hlp.prevent_errors(async function () {
+                        if (!hlp.stringify(hlp.get("gpa").courses).includes(course.id))
+                            use_default = true;
+                    }, false)
 
                     let html = ``;
-                    if (hlp.get("gpa") == undefined || hlp.get("gpa").courses.length == 0) {
+                    if (hlp.get("gpa") == undefined || hlp.get("gpa").courses.length == 0 || use_default) {
                         html = `
                             <div class="flex flex-col">
                                 <div class="flex flex-row container mx-auto ${hlp.gettheme("theme-card")} rounded-xl px-3">
@@ -344,6 +351,7 @@ export async function run() {
                         `;
                     }
 
+                    // Handle the dropdown menus
                     $("#gpa-settings").append(html).off().click(async function (e) {
                         switch ($(e.target).attr("id")) {
                             case "dropdown-overlay": {
@@ -382,6 +390,7 @@ export async function run() {
                     });
                 })
             } else {
+                // No courses exist
                 $("#gpa-settings").append(`
                     <div id="error" class="flex flex-col container mx-auto ${hlp.gettheme("theme-card")} rounded-xl py-3 px-3">
                         <div class="flex flex-row justify-between container mx-auto cursor-pointer">
@@ -393,10 +402,6 @@ export async function run() {
                         </div>
                     </div>
                 `);
-            }
-
-            function content(semester, ap, grade, courseid, eid) {
-                console.log(semester, ap, grade, courseid, eid);
             }
         }
 
