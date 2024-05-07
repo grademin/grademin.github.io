@@ -78,7 +78,7 @@ export async function run() {
                 </div>
                 <!---->
                 <div class="flex flex-col container mx-auto ${hlp.gettheme("theme-card")} rounded-xl px-3">
-                    <div id="gpa-config" class="flex flex-row justify-between container mx-auto cursor-pointer py-3">
+                    <div id="gpa-settings" class="flex flex-row justify-between container mx-auto cursor-pointer py-3">
                         <div class="flex flex-row justify-center items-center gap-4 pointer-events-none leading-none">
                             <div class="flex w-[45px] justify-center items-center ${hlp.gettheme("bg", "700")} px-[8px] py-[8px] rounded-2xl">
                                 <svg class="w-full h-full flex justify-center items-center" viewBox="-14 -1000 1000 1000">
@@ -86,7 +86,7 @@ export async function run() {
                                 </svg>
                             </div>
                             <div class="flex flex-col items-center">
-                                <h1 class="text-[20px] font-bold">GPA Config</h1>
+                                <h1 class="text-[20px] font-bold">GPA Settings</h1>
                             </div>
                         </div>
                         <div class="flex w-6 justify-center items-center pointer-events-none">
@@ -335,8 +335,8 @@ export async function run() {
                     site.runtime("hide-courses");
                     break;
                 }
-                case "gpa-config": {
-                    site.runtime("gpa-config");
+                case "gpa-settings": {
+                    site.runtime("gpa-settings");
                     break;
                 }
                 case "manage-account": {

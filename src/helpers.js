@@ -827,7 +827,7 @@ export function gpa_score_to_color(int) {
  * NOTE: This MUST HAVE json paths directly to `achieved` and `possible` or else it won't work!
  * @param {JSON} json
  */
-export async function decode_score(json) {
+export function decode_score(json) {
     if (json == undefined)
         return;
 
@@ -856,26 +856,27 @@ export function decode_gpa_score(courses) {
         } else if (course.grade >= 70) {
             gpa = 2.0;
         } else if (course.grade >= 60) {
-            gpa = 1.0
+            gpa = 1.0;
         }
 
-        if (course.is_ap) {
-            if (gpa === 4.0 || gpa === 3.0) {
-                gpa += 0.5;
-            }
+        total_regular += course.credit * gpa;
 
-            credit += course.credit;
-            total_weighted += course.credit * gpa;
-        } else {
-            credit += course.credit;
-            total_regular += course.credit * gpa;
+        if (course.is_ap && (gpa === 4.0 || gpa === 3.0)) {
+            gpa += 0.5;
         }
-    })
 
-    regular = total_regular / credit;
-    weighted = total_weighted / credit;
+        total_weighted += course.credit * gpa;
+        credit += course.credit;
+    });
 
-    return [regular, weighted];
+    // Calculate average GPAs
+    if (credit > 0) {
+        regular = total_regular / credit;
+        weighted = total_weighted / credit;
+    }
+
+    // Return results formatted to four decimal places
+    return [regular.toFixed(4), weighted.toFixed(4)];
 }
 
 /**

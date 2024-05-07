@@ -12,6 +12,10 @@ export async function runtime(page) {
         case "Gpa Calculator":
             document.title = "GPA Calculator";
             break;
+        case "Gpa Settings": {
+            document.title = "GPA Settings";
+            break;
+        }
         default:
             document.title = title;
     }
@@ -101,9 +105,9 @@ export async function runtime(page) {
                     await theme_color.run();
                     break;
                 }
-                case "gpa-config": {
-                    const gpa_config = await import("/src/pages/settings/gpa-config.js");
-                    await gpa_config.run();
+                case "gpa-settings": {
+                    const gpa_settings = await import("/src/pages/settings/gpa-settings.js");
+                    await gpa_settings.run();
                     break;
                 }
                 case "hide-courses": {
@@ -121,6 +125,12 @@ export async function runtime(page) {
                     await manage_account.run();
                     break;
                 }
+
+                /**
+                 * Page doesn't exist
+                 */
+                default:
+                    await runtime("overview");
             }
         }, true, async function (e) {
             hlp.remove("session");

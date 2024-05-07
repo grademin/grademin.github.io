@@ -115,6 +115,14 @@
             hlp.set("hidden", []);
         }
 
+        if (hlp.get("gpa") == undefined) {
+            hlp.set("gpa", {
+                regular: null,
+                weighted: null,
+                courses: []
+            });
+        }
+
         if (hlp.get("activities") == undefined) {
             hlp.set("activities", []);
         }
