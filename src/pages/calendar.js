@@ -127,6 +127,7 @@ export async function run() {
                 case "reload": {
                     $("#columns").empty();
                     $("#contents").empty();
+                    $("#date").html(new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' }));
                     hlp.load(async function () {
                         await call();
                     });
