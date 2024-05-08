@@ -201,10 +201,15 @@ export const page = {
             if (get("page").params.length != 0)
                 return get("page").params;
             else
-                return null;
+                return undefined;
         } catch (e) {
             return undefined;
         }
+    },
+    setparams(...value) {
+        let page = get("page");
+        page.params = value;
+        set("page", page);
     }
 }
 
@@ -778,7 +783,7 @@ export function gettheme(type, value) {
  * 
  * @param {string} text
  */
-export function format(text) {
+export function format(string) {
     if (string == "" || string == null || string == undefined)
         string = "";
 
@@ -797,7 +802,7 @@ export function format(text) {
     string = string.replace(/<span/g, `<span class="w-full" style="word-wrap: break-word; word-break: break-word; white-space: wrap;"`)
     string = string.replace(/<img/g, "<img class=\"rounded-xl py-2\"")
     string = string.replace(/href/g, "goto")
-    string = string.replace(/<a/g, `<a class="${theme("text", "700")} hover:${theme("text", "600")} cursor-pointer transition"`)
+    string = string.replace(/<a/g, `<a class="${gettheme("text", "700")} hover:${gettheme("text", "600")} cursor-pointer transition"`)
     return string.trim();
 }
 
