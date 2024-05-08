@@ -219,8 +219,8 @@ export async function run() {
                     })
                     
                     hlp.prevent_errors(async function () {
-                        if (due.grade != undefined) {
-                            cell_group.find(name => name.duedate.includes(due.duedate)).items.find(name => name.due_title.includes(due.title)).is_completed = true;
+                        if (due.grade != undefined || hlp.flags.grades(due.grade.status).length != 0) {
+                            cell_group.find(name => name.duedate.split("T")[0] === due.duedate.split("T")[0]).items.find(name => name.due_title.includes(due.title)).is_completed = true;
                         }
                     }, false)
                 });

@@ -85,6 +85,26 @@ export function stringify(key) {
 }
 
 /**
+ * Includes about every type of flags we need from the API.
+ */
+export const flags = {
+    grades(status) {
+        let statuses = {Excluded: 0x80, Released: 0x100, ExtraCredit: 0x200,
+            NeedsGrading: 0x400, PasswordVerified: 0x800, SkipMasteryRestriction: 0x1000, PostDueDateZero: 0x2000,
+            ScoredByTeacher: 0x4000, HasNotes: 0x8000, AutoUnscoredZero: 0x10000}
+
+        let flags = [];
+        for (const key in statuses) {
+            if (status & statuses[key]) {
+                flags.push(statuses[key]);
+            }
+        }
+
+        return flags;
+    }
+}
+
+/**
  * This shortens the need for `hlp.get("session")`.
  */
 export const session = {
