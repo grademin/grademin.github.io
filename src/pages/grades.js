@@ -372,7 +372,6 @@ export async function run() {
                 }, wait * 80);
             });
 
-
             let course_list = [];
             if (courses.length != 0) {
                 $.each(courses.response.enrollments.enrollment, function (i, course) {

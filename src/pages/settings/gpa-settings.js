@@ -212,11 +212,7 @@ export async function run() {
                     })
                 })
             }
-            
-            if (order.length != 0) {
-                course_list = course_list.sort((first, last) => first.order - last.order);
-            }
-
+        
             if (course_list.length != 0) {
                 $("#gpa-settings").append(`
                     <div id="info" class="flex flex-col container mx-auto ${hlp.gettheme("theme-card")} rounded-xl py-3 px-3">
@@ -229,6 +225,8 @@ export async function run() {
                         </div>
                     </div>
                 `);
+
+                course_list = course_list.sort((first, last) => first.order - last.order);
 
                 $.each(course_list, function (i, course) {
                     if (hlp.hidden(course.courseid)) {
