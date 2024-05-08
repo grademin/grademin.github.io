@@ -988,6 +988,45 @@ export async function animate_nav() {
 }
 
 /**
+ * Sets calendar data
+ * @param {int} year
+ * @param {int} month
+ */
+export async function calendar(year, month) {
+    let first_day = new Date(year, month, 1).getDay();
+    let days_current_month = new Date(year, month + 1, 0).getDate();
+    let days_previous_month = new Date(year, month, 0).getDate();
+
+    // last month
+    for (let i = 0; i < first_day; i++) {
+        let previous_month = days_previous_month - first_day + 1 + i;
+        await $('#columns').append(`
+            <div class="text-center py-1 flex justify-center items-center font-bold text-zinc-400">
+                <span class="w-10 h-10 flex items-center justify-center">${previous_month}</span>
+            </div>
+        `);
+    }
+
+    // current month
+    for (let day = 1; day <= days_current_month; day++) {
+        await $('#columns').append(`
+            <div id="${new Date(year, month, day).toLocaleDateString('sv-SE')}" class="text-center py-1 cursor-pointer flex justify-center items-center font-bold">
+                <span class="w-10 h-10 flex items-center justify-center">${day}</span>
+            </div>
+        `);
+    }
+
+    // future month
+    for (let i = 1; i <= 42 - first_day - days_current_month; i++) {
+        await $('#columns').append(`
+            <div class="text-center py-1 flex justify-center items-center font-bold text-zinc-400">
+                <span class="w-10 h-10 flex items-center justify-center">${i}</span>
+            </div>
+        `);
+    }
+}
+
+/**
  * Prevents errors from the occuring, preventing the page from breaking
  * @param {function} main
  * @param {boolean} showerror
