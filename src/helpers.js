@@ -235,6 +235,7 @@ export const pfp = {
  */
 export const activities = {
     get exists() {return get("activities") ? true : false},
+    get getactivities() {return get("activities") ? get("activities") : undefined},
     get viewedall() {
         if (get("activities") != undefined) {
             if (get("activities").data.$unviewed == 0)
@@ -251,6 +252,11 @@ export const activities = {
         } else {
             return undefined;
         }   
+    },
+    updateviews(int) {
+        let viewed = get("activities");
+        viewed.data.$unviewed = int;
+        set("activities", viewed); 
     }
 }
 

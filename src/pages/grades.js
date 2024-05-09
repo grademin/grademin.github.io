@@ -216,7 +216,7 @@ export async function run() {
                     contentType: "application/json; charset=utf-8"
                 });
 
-                if (order.response != undefined && order.response.code != "OK") {
+                if (order.response.code != "OK") {
                     order = [];
                     throw new Error("Order couldn't be found!");
                 }

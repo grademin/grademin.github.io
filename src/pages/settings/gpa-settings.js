@@ -177,7 +177,7 @@ export async function run() {
                     contentType: "application/json; charset=utf-8"
                 });
 
-                if (order.response != undefined && order.response.code != "OK") {
+                if (order.response.code != "OK") {
                     order = [];
                     throw new Error("Order couldn't be found!");
                 }
@@ -262,9 +262,11 @@ export async function run() {
                                     <div class="relative inline-block text-left">
                                         <button id="dropdown-button" type="button" class="flex flex-row gap-5 ${hlp.gettheme("theme-card")} justify-center items-center w-full rounded-xl shadow-lg px-3 py-1 font-bold ${hlp.gettheme("theme-text")}">
                                             <span id="value" class="pointer-events-none">Full</span>
-                                            <span class="text-1xl pointer-events-none material-symbols-rounded flex justify-center">
-                                                keyboard_arrow_down
-                                            </span>
+                                            <div class="flex w-6 justify-center items-center pointer-events-none">
+                                                <svg class="w-full h-full flex justify-center items-center" viewBox="-14 -1000 1000 1000">
+                                                    <path class="${hlp.gettheme("theme-fill")}" d="M480.44-333q-13.44 0-26.04-5.55-12.6-5.54-22.4-15.45L247-538q-19-19.8-19-47.4 0-27.6 19.5-47.6t47.5-20q28 0 47 20l138 138 138-138q20.04-20 48.02-20 27.98 0 47.48 20 19.5 20 19.5 47.6T713-538L529-354q-9.83 9.91-22.47 15.45-12.64 5.55-26.09 5.55Z"/>
+                                                </svg>
+                                            </div>
                                         </button>
                                         <div id="dropdown-menu" class="hidden z-[110]">
                                             <div id="dropdown-overlay" class="fixed z-[100] left-0 right-0 top-0 bottom-0"></div>
@@ -278,9 +280,11 @@ export async function run() {
                                     <div class="relative inline-block text-left">
                                         <button id="dropdown-button" type="button" class="flex flex-row gap-5 ${hlp.gettheme("theme-card")} justify-center items-center w-full rounded-xl shadow-lg px-3 py-1 font-bold ${hlp.gettheme("theme-text")}">
                                             <span id="value" class="pointer-events-none">Regular</span>
-                                            <span class="text-1xl pointer-events-none material-symbols-rounded flex justify-center">
-                                                keyboard_arrow_down
-                                            </span>
+                                            <div class="flex w-6 justify-center items-center pointer-events-none">
+                                                <svg class="w-full h-full flex justify-center items-center" viewBox="-14 -1000 1000 1000">
+                                                    <path class="${hlp.gettheme("theme-fill")}" d="M480.44-333q-13.44 0-26.04-5.55-12.6-5.54-22.4-15.45L247-538q-19-19.8-19-47.4 0-27.6 19.5-47.6t47.5-20q28 0 47 20l138 138 138-138q20.04-20 48.02-20 27.98 0 47.48 20 19.5 20 19.5 47.6T713-538L529-354q-9.83 9.91-22.47 15.45-12.64 5.55-26.09 5.55Z"/>
+                                                </svg>
+                                            </div>
                                         </button>
                                         <div id="dropdown-menu" class="hidden z-[110]">
                                             <div id="dropdown-overlay" class="fixed z-[100] left-0 right-0 top-0 bottom-0"></div>
@@ -315,9 +319,11 @@ export async function run() {
                                     <div class="relative inline-block text-left">
                                         <button id="dropdown-button" type="button" class="flex flex-row gap-5 ${hlp.gettheme("theme-card")} justify-center items-center w-full rounded-xl shadow-lg px-3 py-1 font-bold ${hlp.gettheme("theme-text")}">
                                             <span id="value" class="pointer-events-none">${hlp.get("gpa").courses.find(item => item.courseid == course.enrollmentid).credit == 1 ? "Full" : "Half"}</span>
-                                            <span class="text-1xl pointer-events-none material-symbols-rounded flex justify-center">
-                                                keyboard_arrow_down
-                                            </span>
+                                            <div class="flex w-6 justify-center items-center pointer-events-none">
+                                                <svg class="w-full h-full flex justify-center items-center" viewBox="-14 -1000 1000 1000">
+                                                    <path class="${hlp.gettheme("theme-fill")}" d="M480.44-333q-13.44 0-26.04-5.55-12.6-5.54-22.4-15.45L247-538q-19-19.8-19-47.4 0-27.6 19.5-47.6t47.5-20q28 0 47 20l138 138 138-138q20.04-20 48.02-20 27.98 0 47.48 20 19.5 20 19.5 47.6T713-538L529-354q-9.83 9.91-22.47 15.45-12.64 5.55-26.09 5.55Z"/>
+                                                </svg>
+                                            </div>
                                         </button>
                                         <div id="dropdown-menu" class="hidden z-[110]">
                                             <div id="dropdown-overlay" class="fixed z-[100] left-0 right-0 top-0 bottom-0"></div>
@@ -331,9 +337,11 @@ export async function run() {
                                     <div class="relative inline-block text-left">
                                         <button id="dropdown-button" type="button" class="flex flex-row gap-5 justify-center ${hlp.gettheme("theme-card")} items-center w-full rounded-xl shadow-lg px-3 py-1 font-bold ${hlp.gettheme("theme-text")}">
                                             <span id="value" class="pointer-events-none">${hlp.get("gpa").courses.find(item => item.courseid == course.enrollmentid).is_ap == true ? "AP" : "Regular"}</span>
-                                            <span class="text-1xl pointer-events-none material-symbols-rounded flex justify-center">
-                                                keyboard_arrow_down
-                                            </span>
+                                            <div class="flex w-6 justify-center items-center pointer-events-none">
+                                                <svg class="w-full h-full flex justify-center items-center" viewBox="-14 -1000 1000 1000">
+                                                    <path class="${hlp.gettheme("theme-fill")}" d="M480.44-333q-13.44 0-26.04-5.55-12.6-5.54-22.4-15.45L247-538q-19-19.8-19-47.4 0-27.6 19.5-47.6t47.5-20q28 0 47 20l138 138 138-138q20.04-20 48.02-20 27.98 0 47.48 20 19.5 20 19.5 47.6T713-538L529-354q-9.83 9.91-22.47 15.45-12.64 5.55-26.09 5.55Z"/>
+                                                </svg>
+                                            </div>
                                         </button>
                                         <div id="dropdown-menu" class="hidden z-[110]">
                                             <div id="dropdown-overlay" class="fixed z-[100] left-0 right-0 top-0 bottom-0"></div>

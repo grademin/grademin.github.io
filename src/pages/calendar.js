@@ -345,6 +345,18 @@ export async function run() {
                 `)
             }
 
+            // Quick fix to an issue where it won't show the contents of an empty day
+            if ($("#contents").text().trim() == "") {
+                $("#contents").html(`
+                    <div class="flex flex-col justify-between container mx-auto rounded-xl">
+                        <span class="font-bold text-2xl border-b-[2px] border-zinc-700 pb-3">${new Date().toLocaleDateString('en-US', { month: 'long', day: "numeric" })}</span>
+                        <div class="pt-3 flex flex-col gap-5">
+                            There is nothing for this day
+                        </div>
+                    </div>
+                `)
+            }
+
             $(`#columns #${new Date().toLocaleDateString('sv-SE')} > span`).addClass(`${hlp.gettheme("bg", "300")} text-white rounded-xl`);
             
             let current_date = new Date();

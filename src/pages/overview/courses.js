@@ -182,7 +182,7 @@ export async function run() {
                     contentType: "application/json; charset=utf-8"
                 });
 
-                if (order.response != undefined && order.response.code != "OK") {
+                if (order.response.code != "OK") {
                     order = [];
                     throw new Error("Order couldn't be found!");
                 }
@@ -277,6 +277,20 @@ export async function run() {
                         }, wait * 15);
                     }
                 });
+
+                if ($("#courses div").length == 0) {
+                    $("#courses").append(`
+                        <div id="error" class="flex flex-col container mx-auto ${hlp.gettheme("theme-card")} rounded-xl py-3 px-3">
+                            <div class="flex flex-row justify-between container mx-auto cursor-pointer">
+                                <div class="flex flex-row justify-center items-center pointer-events-none w-full">
+                                    <div class="flex flex-col justify-center items-center">
+                                        <h1 class="text-[18px] font-bold">No courses were found.</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `)
+                }
             } else {
                 $("#courses").append(`
                     <div id="error" class="flex flex-col container mx-auto ${hlp.gettheme("theme-card")} rounded-xl py-3 px-3">
@@ -679,7 +693,7 @@ export async function run() {
                                 <div id="agenda-back" type="backward" class="flex flex-2 flex-col ${hlp.gettheme("bg", "700")} transition text-white font-semibold rounded-xl justify-center items-center cursor-pointer rounded-xl w-min py-3 px-3">
                                     <div class="flex w-6 justify-center items-center pointer-events-none">
                                         <svg class="w-full -rotate-180 h-full flex justify-center items-center" viewBox="-14 -1000 1000 1000">
-                                            <path class="${hlp.gettheme("theme-fill")}" d="M542-480 265-758q-23-22-23-54t22-55q23-22 55.5-22t54.5 22l292 291q20 20 29.5 44.5T705-480q0 26-9.5 50.5T666-384L374-93q-22 22-54 21.5T265-94q-22-22-22-54.5t22-54.5l277-277Z"/>
+                                            <path class="fill-white" d="M542-480 265-758q-23-22-23-54t22-55q23-22 55.5-22t54.5 22l292 291q20 20 29.5 44.5T705-480q0 26-9.5 50.5T666-384L374-93q-22 22-54 21.5T265-94q-22-22-22-54.5t22-54.5l277-277Z"/>
                                         </svg>
                                     </div>
                                 </div>
@@ -689,11 +703,11 @@ export async function run() {
                                 <div id="agenda-forward" type="forward" class="flex flex-2 flex-col ${hlp.gettheme("bg", "700")} transition text-white font-semibold rounded-xl justify-center items-center cursor-pointer rounded-xl w-min py-3 px-3">
                                     <div class="flex w-6 justify-center items-center pointer-events-none">
                                         <svg class="w-full h-full flex justify-center items-center" viewBox="-14 -1000 1000 1000">
-                                            <path class="${hlp.gettheme("theme-fill")}" d="M542-480 265-758q-23-22-23-54t22-55q23-22 55.5-22t54.5 22l292 291q20 20 29.5 44.5T705-480q0 26-9.5 50.5T666-384L374-93q-22 22-54 21.5T265-94q-22-22-22-54.5t22-54.5l277-277Z"/>
+                                            <path class="fill-white" d="M542-480 265-758q-23-22-23-54t22-55q23-22 55.5-22t54.5 22l292 291q20 20 29.5 44.5T705-480q0 26-9.5 50.5T666-384L374-93q-22 22-54 21.5T265-94q-22-22-22-54.5t22-54.5l277-277Z"/>
                                         </svg>
                                     </div>
                                 </div>
-                                <button id="today" type="today" class="flex flex-1 justify-center items-center px-4 py-3 ${hlp.gettheme("bg", "700")} transition text-white font-semibold rounded-xl transition text-white font-semibold rounded-xl focus:outline-none">Today</button>
+                                <button id="today" type="today" class="flex flex-1 justify-center items-center px-4 py-3 ${hlp.gettheme("bg", "700")} transition text-white font-bold rounded-xl">Today</button>
                             </div> 
                         </div>
                         <div id="agenda" class="flex flex-col justify-between container mx-auto ${hlp.gettheme("theme-card")} rounded-xl py-3 px-3">

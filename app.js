@@ -41,7 +41,12 @@
                     "full": "100% !important"
                 },
                 screen: {
-                    /*TODO:*/
+                   "2xl-sm": "475px",
+                   "1xl-sm": "425px",
+                   "xl-sm": "375px",
+                   "lg-sm": "325px",
+                   "md-sm": "275px",
+                   "sm-sm": "225px" 
                 },
                 // Keep original container sizes, since it will try to follow
                 // screen widths for some reason.
