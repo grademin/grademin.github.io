@@ -304,6 +304,10 @@ export async function load(main) {
     }
 
     try {
+        // Force page to be scrolled to top since
+        // this acts like an app.
+        $('html, body').scrollTop(0);
+
         await main();
 
         // Animate navigation.
@@ -349,7 +353,7 @@ export async function load(main) {
 
 /**
  * Manages what theme the user is currently using.
- * 
+ * https://api.agilixbuzz.com/Resz/~0.7cxBK1ZAcRkcbw6J.A.O88FNPmI1mWTh9h-VZ-y7wk_vyPtB-oqAPx_VhzuiRA/203997015/Assets/Copied/AGND/2024-05-08/640ab45d-ed59-4a8d-a68f-f24b8219597d.png
  * @param {string} type
  * @param {int} value
  */
@@ -793,13 +797,14 @@ export function format(string) {
     string = string.replace(/&amp;/g, '&')
 
     // Others
+    string = string.replace(/<table/g, `<table class="w-full"`)
     string = string.replace(/style\s*=\s*["'][^"']*["']/gi, "")
     string = string.replace(/<u>/g, "")
     string = string.replace(/<strong>/g, "")
     string = string.replace(/<\strong>/g, "")
     string = string.replace(/id="isPasted"/g, "");
     string = string.replace(/dir="ltr"/g, "");
-    string = string.replace(/<span/g, `<span class="w-full" style="word-wrap: break-word; word-break: break-word; white-space: wrap;"`)
+    string = string.replace(/<span/g, `<span class="w-full break-words whitespace-normal"`)
     string = string.replace(/<img/g, "<img class=\"rounded-xl py-2\"")
     string = string.replace(/href/g, "goto")
     string = string.replace(/<a/g, `<a class="${gettheme("text", "700")} hover:${gettheme("text", "600")} cursor-pointer transition"`)
