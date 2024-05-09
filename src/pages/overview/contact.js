@@ -100,90 +100,87 @@ export async function run() {
                 }
             }
         });
-    })
-
-    async function call() {
-        let courses = [];
-
-        await hlp.prevent_errors(async function () {
-            courses = await $.ajax({
-                url: hlp.api(`/cmd/listuserenrollments?_token=${hlp.session.token}&userid=${hlp.session.id}&privileges=1&select=data,course,course.data,course.teachers,metrics`),
-                method: "GET",
-                dataType: "json",
-                contentType: "application/json; charset=utf-8"
-            });
-
-            if (courses.response.code != "OK") {
-                courses = [];
-                throw new Error("No courses were found!");
-            }
-        }, false)
-
-        if (courses.length != 0) {
-            let emails = [];
-            $.each(courses.response.enrollments.enrollment, (i, course) => {
-                if (hlp.hidden(course.courseid)) {
-                    return;
+    
+        async function call() {
+            let courses = [];
+    
+            await hlp.prevent_errors(async function () {
+                courses = await $.ajax({
+                    url: hlp.api(`/cmd/listuserenrollments?_token=${hlp.session.token}&userid=${hlp.session.id}&privileges=1&select=data,course,course.data,course.teachers,metrics`),
+                    method: "GET",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8"
+                });
+    
+                if (courses.response.code != "OK") {
+                    courses = [];
+                    throw new Error("No courses were found!");
                 }
-
-                for (let email of course.course.teachers.teacher) {
-                    emails.push({
-                        course: course.course.title,
-                        email: email.email,
-                        firstname: email.firstname,
-                        lastname: email.lastname,
-                        fullname: `${email.firstname.charAt(0).toUpperCase() + email.firstname.slice(1)} ${email.lastname.charAt(0).toUpperCase() + email.lastname.slice(1)}`,
-                        userid: email.userid
+            }, false)
+    
+            if (courses.length != 0) {
+                let emails = [];
+                $.each(courses.response.enrollments.enrollment, (i, course) => {
+                    if (hlp.hidden(course.courseid)) {
+                        return;
+                    }
+    
+                    for (let email of course.course.teachers.teacher) {
+                        emails.push({
+                            course: course.course.title,
+                            email: email.email,
+                            firstname: email.firstname,
+                            lastname: email.lastname,
+                            fullname: `${email.firstname.charAt(0).toUpperCase() + email.firstname.slice(1)} ${email.lastname.charAt(0).toUpperCase() + email.lastname.slice(1)}`,
+                            userid: email.userid
+                        })
+                    }
+                })
+    
+                if (emails.length != 0) {
+                    $.each(emails, (i, email) => {
+                        if (!$(`div[email="${email.email}"]`).length) {
+                            $("#contacts").append(`
+                                <div email="${email.email}" goto="mailto:${email.email}" class="relative cursor-pointer flex flex-row justify-between container mx-auto ${hlp.gettheme("theme-card")} rounded-xl py-3 px-3">
+                                    <div class="flex flex-row justify-center items-center gap-5 pointer-events-none w-full">
+                                        <div class="flex flex-col w-full">
+                                            <h1 class="text-[18px] sm:text-[22px] w-[10ch] xl-sm:w-[23ch] x-sm:w-[30ch] sm:w-full truncate font-bold">${email.fullname}</h1>
+                                            <span class="font-bold text-[15px] text-zinc-400 border-b-[2px] border-zinc-700 pb-3">From ${email.course}</span>
+                                            <span class="font-bold text-[15px] text-zinc-400 pt-3">${email.email}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            `)
+                        }
                     })
-                }
-            })
-
-            if (emails.length != 0) {
-                $.each(emails, (i, email) => {
-                    if (!$(`div[email="${email.email}"]`).length) {
-                        $("#contacts").append(`
-                            <div email="${email.email}" goto="mailto:${email.email}" class="relative cursor-pointer flex flex-row justify-between container mx-auto ${hlp.gettheme("theme-card")} rounded-xl py-3 px-3">
-                                <div class="flex flex-row justify-center items-center gap-5 pointer-events-none w-full">
-                                    <div class="flex flex-col w-full">
-                                        <h1 class="text-[18px] sm:text-[22px] w-[10ch] xl-sm:w-[23ch] x-sm:w-[30ch] sm:w-full truncate font-bold">${email.fullname}</h1>
-                                        <span class="font-bold text-[15px] text-zinc-400 border-b-[2px] border-zinc-700 pb-3">From ${email.course}</span>
-                                        <span class="font-bold text-[15px] text-zinc-400 pt-3">${email.email}</span>
+                } else {
+                    $("#contacts").append(`
+                        <div id="error" class="flex flex-col container mx-auto ${hlp.gettheme("theme-card")} rounded-xl py-3 px-3">
+                            <div class="flex flex-row justify-between container mx-auto cursor-pointer">
+                                <div class="flex flex-row justify-center items-center pointer-events-none w-full">
+                                    <div class="flex flex-col justify-center items-center">
+                                        <h1 class="text-[18px] font-bold">No emails were found.</h1>
                                     </div>
                                 </div>
                             </div>
-                        `)
-                    }
-                })
+                        </div>
+                    `);
+                }
             } else {
                 $("#contacts").append(`
                     <div id="error" class="flex flex-col container mx-auto ${hlp.gettheme("theme-card")} rounded-xl py-3 px-3">
                         <div class="flex flex-row justify-between container mx-auto cursor-pointer">
                             <div class="flex flex-row justify-center items-center pointer-events-none w-full">
                                 <div class="flex flex-col justify-center items-center">
-                                    <h1 class="text-[18px] font-bold">No emails were found.</h1>
+                                    <h1 class="text-[18px] font-bold">No courses were found.</h1>
                                 </div>
                             </div>
                         </div>
                     </div>
                 `);
             }
-        } else {
-            $("#contacts").append(`
-                <div id="error" class="flex flex-col container mx-auto ${hlp.gettheme("theme-card")} rounded-xl py-3 px-3">
-                    <div class="flex flex-row justify-between container mx-auto cursor-pointer">
-                        <div class="flex flex-row justify-center items-center pointer-events-none w-full">
-                            <div class="flex flex-col justify-center items-center">
-                                <h1 class="text-[18px] font-bold">No courses were found.</h1>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `);
         }
-
-
-        
-    }
-
-    await call();
+    
+        await call();
+    })
 }

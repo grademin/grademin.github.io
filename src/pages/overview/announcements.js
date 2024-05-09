@@ -83,7 +83,10 @@ export async function run() {
                     $("#reload").removeClass("invisible");
                     $("#semi-back").attr("id", "go-back");
                     $("#opened").remove();
-                    $("#communications").show()
+                    $("#communications").empty().show()
+                    await hlp.load(async function () {
+                        await call();
+                    });
                     break;
                 }
 
@@ -91,18 +94,22 @@ export async function run() {
                  * Navigation
                  */
                 case "calendar": {
+                    hlp.page.setparams();
                     await site.runtime("calendar");
                     break;
                 }
                 case "grades": {
+                    hlp.page.setparams();
                     await site.runtime("grades");
                     break;
                 }
                 case "overview": {
+                    hlp.page.setparams();
                     site.runtime("overview");
                     break;
                 }
                 case "settings": {
+                    hlp.page.setparams();
                     await site.runtime("settings");
                     break;
                 }

@@ -144,12 +144,10 @@ export async function run() {
                     })
                 })
             }
-            
-            if (order.length != 0) {
-                course_list = course_list.sort((first, last) => first.order - last.order);
-            }
 
             if (course_list.length != 0) {
+                course_list = course_list.sort((first, last) => first.order - last.order);
+                
                 $.each(course_list, function (i, course) {
                     $("#hide-courses").append(`
                         <div id="hide-${course.courseid}" class="flex flex-col container mx-auto ${hlp.gettheme("theme-card")} rounded-xl">

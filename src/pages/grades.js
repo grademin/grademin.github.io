@@ -89,6 +89,60 @@ export async function run() {
                 }
 
                 /**
+                 * Color legend
+                 */
+                case "agency":
+                case "collaboration":
+                case "knowlege":
+                case "oral":
+                case "written": {
+                    $("body").addClass("overflow-hidden");
+                    $("#overlays").append(`
+                        <div id="overlay" class="fixed inset-0 z-50 bg-gray-900 bg-opacity-50 flex justify-center items-center animation-fadein">
+                            <div class="container mx-auto px-4 flex justify-center items-center pointer-events-none animation-popin">
+                                <div class="${hlp.gettheme("theme-card")} rounded-xl max-w-lg px-5 py-5 pointer-events-auto">
+                                    <div class="flex justify-center items-center mb-4">
+                                        <h2 class="text-2xl font-bold ${hlp.gettheme("theme-text")} text-center">Color Legend</h2>
+                                    </div>
+                                    <div class="flex flex-col gap-5">
+                                        <div class="flex flex-row gap-5">
+                                            <div class="rounded-lg flex-2 bg-yellow-500 p-4 float-left"></div>
+                                            <span class="flex flex-1 items-center font-bold">Agency</span>
+                                        </div>
+                                        <div class="flex flex-row gap-5">
+                                            <div class="rounded-lg flex-2 bg-violet-500 p-4 float-left"></div>
+                                            <span class="flex flex-1 items-center font-bold">Collaboration</span>
+                                        </div>
+                                        <div class="flex flex-row gap-5">
+                                            <div class="rounded-lg flex-2 bg-blue-500 p-4 float-left"></div>
+                                            <span class="flex flex-1 items-center font-bold">Knowlege & Thinking</span>
+                                        </div>
+                                        <div class="flex flex-row gap-5">
+                                            <div class="rounded-lg flex-2 bg-green-500 p-4 float-left"></div>
+                                            <span class="flex flex-1 items-center font-bold">Oral Communication</span>
+                                        </div>
+                                        <div class="flex flex-row gap-5">
+                                            <div class="rounded-lg flex-2 bg-cyan-500 p-4 float-left"></div>
+                                            <span class="flex flex-1 items-center font-bold">Written Communication</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `).on("click", function (event) {
+                        switch ($(event.target).attr("id")) {
+                            case "overlay": {
+                                $("#overlay").fadeOut(400, function () {
+                                    $("#overlays").empty();
+                                });
+                                $("body").removeClass("overflow-hidden");
+                            }
+                        }
+                    })
+                    break;
+                }
+
+                /**
                  * Navigation
                  */
                 case "calendar": {
@@ -181,8 +235,6 @@ export async function run() {
                     throw new Error("No courses were found!");
                 }
             }, false)
-
-
 
             let overall = [];
             if (courses.length != 0 || courses.response.code == "OK") {
@@ -355,7 +407,7 @@ export async function run() {
                 wait++; wait++;
                 setTimeout(function () {
                     var circle = $(guage).find("[class^='stroke-'][class$='-500']");
-                    var percentage = $(guage).parent().parent().find(".score").text(); // Set the percentage value here
+                    var percentage = $(guage).parent().parent().find(".score").text();
                     var offset = 339.292 * (1 - percentage / 100);
                     circle.css("stroke-dashoffset", 339.292).animate({"stroke-dashoffset": offset}, 1000);
                     
@@ -366,7 +418,7 @@ export async function run() {
                             $(guage).parent().parent().find(".score-text").text(Math.ceil(this.scoreCounter));
                         },
                         complete: function () {
-                            $(guage).parent().parent().find(".score-text").text(percentage); // Set the final value
+                            $(guage).parent().parent().find(".score-text").text(percentage);
                         }
                     });
                 }, wait * 80);
@@ -437,9 +489,9 @@ export async function run() {
 
                         $("#courses").append(`
                             <div class="flex flex-col gap-2">
-                                <div class="flex flex-col container mx-auto ${hlp.gettheme("theme-card")} rounded-xl px-3">
-                                    <div class="flex flex-row justify-between container mx-auto py-3">
-                                        <div class="flex flex-row justify-center items-center gap-4 pointer-events-none leading-none">
+                                <div class="flex flex-col container mx-auto ${hlp.gettheme("theme-card")} rounded-xl px-3 cursor-pointer" eid="${course.enrollmentid}" courseid="${course.courseid}">
+                                    <div class="flex flex-row justify-between container mx-auto py-3 pointer-events-none">
+                                        <div class="flex flex-row justify-center items-center gap-4 leading-none">
                                             <div class="flex flex-col items-center">
                                                 <h1 class="text-[20px] w-[5ch] xl-sm:w-[17ch] x-sm:w-[28ch] sm:w-[30ch] md:w-[40ch] lg:w-full truncate font-bold">${course.title}</h1>
                                             </div>
@@ -454,34 +506,39 @@ export async function run() {
                                 ${objective.length != 0 && (new_a != undefined || new_c != undefined || new_k != undefined || new_o != undefined || new_w != undefined) ? `
                                 <div class="flex flex-row gap-2">
                                     ${new_a != undefined ? ` 
-                                    <div class="rounded-lg px-3 py-1 text-white flex justify-center items-center font-bold bg-yellow-500">
+                                    <div id="agency" class="rounded-lg px-3 py-1 text-white flex justify-center items-center font-bold bg-yellow-500 cursor-pointer">
                                         ${hlp.decode_score(new_a)}
                                     </div>
                                     ` : ""}
                                     ${new_c != undefined ? `
-                                    <div class="rounded-lg px-3 py-1 text-white flex justify-center items-center font-bold bg-violet-500">
+                                    <div id="collaboration" class="rounded-lg px-3 py-1 text-white flex justify-center items-center font-bold bg-violet-500 cursor-pointer">
                                         ${hlp.decode_score(new_c)}
                                     </div>
                                     ` : ""}
                                     ${new_k != undefined ? `
-                                    <div class="rounded-lg px-3 py-1 text-white flex justify-center items-center font-bold bg-blue-500">
+                                    <div id="knowlege" class="rounded-lg px-3 py-1 text-white flex justify-center items-center font-bold bg-blue-500 cursor-pointer">
                                         ${hlp.decode_score(new_k)}
                                     </div>
                                     ` : ""}
                                     ${new_o != undefined ? `
-                                    <div class="rounded-lg px-3 py-1 text-white flex justify-center items-center font-bold bg-green-500">
+                                    <div id="oral" class="rounded-lg px-3 py-1 text-white flex justify-center items-center font-bold bg-green-500 cursor-pointer">
                                         ${hlp.decode_score(new_o)}
                                     </div>
                                     ` : ""}
                                     ${new_w != undefined ? `
-                                    <div class="rounded-lg px-3 py-1 text-white flex justify-center items-center font-bold bg-cyan-500">
+                                    <div id="written" class="rounded-lg px-3 py-1 text-white flex justify-center items-center font-bold bg-cyan-500 cursor-pointer">
                                         ${hlp.decode_score(new_w)}
                                     </div>
                                     ` : ""}
                                 </div>
                                 ` : ""}
                             </div>
-                        `)
+                        `).off().click(async function (e) {
+                            if ($(e.target).attr("eid") != undefined) {
+                                hlp.page.setparams({eid: $(e.target).attr("eid")}, {courseid: $(e.target).attr("courseid")})
+                                site.runtime("courses");
+                            }
+                        })
                     })
 
                     $("#gpa").append(`
