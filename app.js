@@ -36,11 +36,11 @@
     tailwind.config = {
         plugins: [],
         theme: {
-            extends: {
+            extend: {
                 width: {
                     "full": "100% !important"
                 },
-                screen: {
+                screens: {
                    "2xl-sm": "475px",
                    "1xl-sm": "425px",
                    "xl-sm": "375px",
@@ -56,7 +56,7 @@
                         md: '768px',
                         lg: '1024px',
                         xl: '1280px',
-                        '2xl': '1536px',
+                        '2xl': '1536px'
                     },
                 },
             }

@@ -318,7 +318,7 @@ export async function run() {
             if (final_overall.length != 0) {
                 $("#averages").append(`
                     ${(final_overall.find(type => type.type == "Agency") != undefined || final_overall.find(type => type.type == "Collaboration" != undefined) ? `
-                    <div class="flex flex-col gap-5 sm:flex-row">
+                    <div class="flex flex-col gap-5 xl-sm:flex-row">
                         ${final_overall.find(type => type.type == "Agency") != undefined ? `
                         <div class="relative flex-1 flex flex-col justify-between container mx-auto ${hlp.gettheme("theme-card")} rounded-xl py-3 px-3">
                             <div class="flex justify-center items-center h-full">
@@ -350,7 +350,7 @@ export async function run() {
                         </div>
                         ` : ""}
                     </div>
-                    <div class="flex flex-col gap-5 sm:flex-row">
+                    <div class="flex flex-col gap-5 xl-sm:flex-row">
                         ${final_overall.find(type => type.type == "Knowledge & Thinking") != undefined ? `
                         <div class="relative flex-1 flex flex-col justify-between container mx-auto ${hlp.gettheme("theme-card")} rounded-xl py-3 px-3">
                             <div class="flex justify-center items-center h-full">
@@ -491,9 +491,9 @@ export async function run() {
                             <div class="flex flex-col gap-2">
                                 <div class="flex flex-col container mx-auto ${hlp.gettheme("theme-card")} rounded-xl px-3 cursor-pointer" eid="${course.enrollmentid}" courseid="${course.courseid}">
                                     <div class="flex flex-row justify-between container mx-auto py-3 pointer-events-none">
-                                        <div class="flex flex-row justify-center items-center gap-4 leading-none">
+                                        <div class="flex flex-row justify-center items-center lg:gap-4 leading-none">
                                             <div class="flex flex-col items-center">
-                                                <h1 class="text-[20px] w-[5ch] xl-sm:w-[17ch] x-sm:w-[28ch] sm:w-[30ch] md:w-[40ch] lg:w-full truncate font-bold">${course.title}</h1>
+                                                <h1 class="text-[20px] w-[7ch] lg-sm:w-[17ch] xl-sm:w-[23ch] 1xl-sm:w-[27ch] md:w-[40ch] lg:w-full truncate font-bold">${course.title}</h1>
                                             </div>
                                         </div>
                                         <div class="flex justify-center items-center">
@@ -504,7 +504,7 @@ export async function run() {
                                     </div>
                                 </div>
                                 ${objective.length != 0 && (new_a != undefined || new_c != undefined || new_k != undefined || new_o != undefined || new_w != undefined) ? `
-                                <div class="flex flex-row gap-2">
+                                <div class="flex flex-col gap-2 md-sm:flex-row">
                                     ${new_a != undefined ? ` 
                                     <div id="agency" class="rounded-lg px-3 py-1 text-white flex justify-center items-center font-bold bg-yellow-500 cursor-pointer">
                                         ${hlp.decode_score(new_a)}

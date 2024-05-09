@@ -131,7 +131,7 @@ export async function run() {
                         <div class="relative flex flex-row justify-between container mx-auto ${hlp.gettheme("theme-card")} rounded-xl py-3 px-3">
                             <div class="flex flex-row justify-center items-center gap-5 pointer-events-none w-full">
                                 <div class="flex flex-col w-full">
-                                    <h1 class="text-[18px] sm:text-[22px] w-[10ch] xl-sm:w-[23ch] x-sm:w-[30ch] sm:w-full truncate font-bold">${due.title}</h1>
+                                    <h1 class="text-[18px] sm:text-[22px] w-[7ch] lg-sm:w-[17ch] xl-sm:w-[23ch] 1xl-sm:w-[27ch] md:w-[40ch] lg:w-full truncate font-bold">${due.title}</h1>
                                     <span class="font-bold text-[15px] text-zinc-400 border-b-[2px] border-zinc-700 pb-3">Assigned by ${due.entity.title}</span>
                                     <span class="font-bold text-[15px] text-zinc-400 pt-3">${(() => {
                                         let getdue = new Date(due.duedate);

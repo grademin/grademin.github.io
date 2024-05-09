@@ -307,7 +307,7 @@ export async function run() {
                                 <div class="relative flex flex-row justify-between container mx-auto ${hlp.gettheme("theme-card")} rounded-xl py-3 px-3">
                                     <div class="flex flex-row justify-center items-center gap-5 pointer-events-none w-full">
                                         <div class="flex flex-col w-full">
-                                            <h1 class="text-[18px] sm:text-[22px] w-[10ch] xl-sm:w-[23ch] x-sm:w-[30ch] sm:w-full truncate font-bold">${activity.data.item.title}</h1>
+                                            <h1 class="text-[18px] sm:text-[22px] w-[7ch] lg-sm:w-[17ch] xl-sm:w-[23ch] 1xl-sm:w-[27ch] md:w-[40ch] lg:w-full truncate font-bold">${activity.data.item.title}</h1>
                                             <span class="font-bold text-[15px] text-zinc-400">Submitted ${new Date(activity.date).toLocaleDateString(undefined, {weekday: "long", year: "numeric", month: "long", day: "numeric"})} by You</span>
                                         </div>
                                     </div>
@@ -342,7 +342,7 @@ export async function run() {
                                             <div class="relative flex flex-row justify-between container mx-auto ${hlp.gettheme("theme-card")} rounded-xl py-3 px-3">
                                                 <div class="flex flex-row justify-center items-center gap-5 w-full">
                                                     <div class="flex flex-col w-full">
-                                                        <h1 class="text-[18px] sm:text-[22px] w-[10ch] xl-sm:w-[23ch] x-sm:w-[30ch] sm:w-full truncate font-bold">${activity.data.item.title}</h1>
+                                                        <h1 class="text-[18px] sm:text-[22px] w-[7ch] lg-sm:w-[17ch] xl-sm:w-[23ch] 1xl-sm:w-[27ch] md:w-[40ch] lg:w-full truncate font-bold">${activity.data.item.title}</h1>
                                                         <span class="font-bold text-[15px] text-zinc-400">Grade posted ${(() => {
                                                             let getdue = new Date(activity.date);
                                                             let today = new Date();
@@ -449,7 +449,7 @@ export async function run() {
                                         <div class="relative flex flex-row justify-between container mx-auto ${hlp.gettheme("theme-card")} rounded-xl py-3 px-3">
                                             <div class="flex flex-row justify-center items-center gap-5 pointer-events-none w-full">
                                                 <div class="flex flex-col w-full">
-                                                    <h1 class="text-[18px] sm:text-[22px] w-[10ch] xl-sm:w-[23ch] x-sm:w-[30ch] sm:w-full truncate font-bold">${activity.data.item.title}</h1>
+                                                    <h1 class="text-[18px] sm:text-[22px] w-[7ch] lg-sm:w-[17ch] xl-sm:w-[23ch] 1xl-sm:w-[27ch] md:w-[40ch] lg:w-full truncate font-bold">${activity.data.item.title}</h1>
                                                     <span class="font-bold text-[15px] text-zinc-400">Grade posted ${(() => {
                                                         let getdue = new Date(activity.date);
                                                         let today = new Date();
@@ -485,7 +485,7 @@ export async function run() {
                                         <div class="relative flex flex-row justify-between container mx-auto ${hlp.gettheme("theme-card")} rounded-xl py-3 px-3">
                                             <div class="flex flex-row justify-center items-center gap-5 pointer-events-none w-full">
                                                 <div class="flex flex-col w-full">
-                                                    <h1 class="text-[18px] sm:text-[22px] w-[10ch] xl-sm:w-[23ch] x-sm:w-[30ch] sm:w-full truncate font-bold">${activity.data.item.title}</h1>
+                                                    <h1 class="text-[18px] sm:text-[22px] w-[7ch] lg-sm:w-[17ch] xl-sm:w-[23ch] 1xl-sm:w-[27ch] md:w-[40ch] lg:w-full truncate font-bold">${activity.data.item.title}</h1>
                                                     <span class="font-bold text-[15px] text-zinc-400">Grade posted ${(() => {
                                                         let getdue = new Date(activity.date);
                                                         let today = new Date();
@@ -580,7 +580,7 @@ export async function run() {
                                 <div class="relative flex flex-row justify-between container mx-auto ${hlp.theme("theme-card")} rounded-xl py-3 px-3">
                                     <div class="flex flex-row justify-center items-center gap-5 pointer-events-none w-full">
                                         <div class="flex flex-col w-full">
-                                            <h1 class="text-[18px] sm:text-[22px] w-[10ch] xl-sm:w-[23ch] x-sm:w-[30ch] sm:w-full truncate font-bold">${activity.data.item.title}</h1>
+                                            <h1 class="text-[18px] sm:text-[22px] w-[7ch] lg-sm:w-[17ch] xl-sm:w-[23ch] 1xl-sm:w-[27ch] md:w-[40ch] lg:w-full truncate font-bold">${activity.data.item.title}</h1>
                                             <span class="font-bold text-[15px] text-zinc-400">A retry has been allowed for this assignment</span>
                                         </div>
                                     </div>

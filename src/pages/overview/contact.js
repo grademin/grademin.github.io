@@ -144,9 +144,9 @@ export async function run() {
                                 <div email="${email.email}" goto="mailto:${email.email}" class="relative cursor-pointer flex flex-row justify-between container mx-auto ${hlp.gettheme("theme-card")} rounded-xl py-3 px-3">
                                     <div class="flex flex-row justify-center items-center gap-5 pointer-events-none w-full">
                                         <div class="flex flex-col w-full">
-                                            <h1 class="text-[18px] sm:text-[22px] w-[10ch] xl-sm:w-[23ch] x-sm:w-[30ch] sm:w-full truncate font-bold">${email.fullname}</h1>
+                                            <h1 class="text-[18px] sm:text-[22px] font-bold">${email.fullname}</h1>
                                             <span class="font-bold text-[15px] text-zinc-400 border-b-[2px] border-zinc-700 pb-3">From ${email.course}</span>
-                                            <span class="font-bold text-[15px] text-zinc-400 pt-3">${email.email}</span>
+                                            <span class="font-bold text-[15px] text-zinc-400 pt-3 break-words">${email.email}</span>
                                         </div>
                                     </div>
                                 </div>

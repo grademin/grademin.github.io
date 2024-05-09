@@ -240,8 +240,8 @@ export async function run() {
                                     <span class="score hidden">${isNaN(course.score) ? `NULL` : `${course.score}`}</span>
                                 </div>
                                 <div class="flex flex-col">
-                                    <h1 class="text-[22px] truncate font-bold">${course.title}</h1>
-                                    <span class="font-bold text-[13px] sm:text-[15px] truncate text-zinc-400">${course.start} - ${course.end}</span>
+                                    <h1 class="text-[22px] w-[2ch] md-sm:w-[5ch] lg-sm:w-[10ch] xl-sm:w-[15ch] 1xl-sm:w-[19ch] 2xl-sm:w-[22ch] md:w-[40ch] lg:w-full truncate font-bold">${course.title}</h1>
+                                    <span class="font-bold w-[2ch] md-sm:w-[5ch] lg-sm:w-[10ch] xl-sm:w-[15ch] 1xl-sm:w-[19ch] 2xl-sm:w-[22ch] md:w-[40ch] lg:w-full truncate text-zinc-400">${course.start} - ${course.end}</span>
                                 </div>
                             </div>
                             <div class="flex w-6 justify-center items-center pointer-events-none">
