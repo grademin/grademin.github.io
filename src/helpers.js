@@ -1,7 +1,7 @@
 /**
  * Gradpass version.
  */
-export const version = "1.7.4";
+export const version = "2.0.8";
 
 /**
  * Adds "https://api.agilixbuzz.com" to the front of the string.
