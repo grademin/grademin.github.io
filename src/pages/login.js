@@ -32,7 +32,8 @@ export async function run() {
                 <form action="" class="flex flex-col justify-between h-full">
                     <div>
                         ${saved[0]}
-                        <div class="flex mb-4 space-x-2 ${saved[1] ? "hidden" : ""}">
+                        ${!saved[1] ? `
+                        <div class="flex mb-4 space-x-2">
                             <div class="flex-1">
                                 <input style="background: transparent;" placeholder="District / Website" type="text" id="district" class="${hlp.gettheme("caret", "700")} placeholder:${hlp.gettheme("theme-text")} font-bold mt-1 block w-full px-5 py-4 border border-[2px] border-zinc-700 rounded-xl shadow-sm focus:outline-none sm:text-sm">
                             </div>
@@ -40,6 +41,7 @@ export async function run() {
                                 <input style="background: transparent;" placeholder="Username" type="text" id="username" class="${hlp.gettheme("caret", "700")} placeholder:${hlp.gettheme("theme-text")} font-bold mt-1 block w-full px-5 py-4 border border-[2px] border-zinc-700 rounded-xl shadow-sm focus:outline-none sm:text-sm">
                             </div>
                         </div>
+                        ` : ""}
                         <div class="mb-6">
                             <input style="background: transparent;" placeholder="Password" type="password" id="password" class="${hlp.gettheme("caret", "700")} placeholder:${hlp.gettheme("theme-text")} font-bold mt-1 block w-full px-5 py-4 border border-[2px] border-zinc-700 rounded-xl shadow-sm focus:outline-none sm:text-sm">
                         </div>
