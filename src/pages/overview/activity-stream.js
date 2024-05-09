@@ -366,31 +366,31 @@ export async function run() {
                                             </div>
                                             <div class="flex flex-row gap-2 flex-wrap container mx-auto">
                                                 ${a != undefined ? `
-                                                <div id="agency" class="relative w-min flex flex-1 sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.gettheme("theme-card")} rounded-xl py-2 px-3">
+                                                <div id="agency" class="relative w-min flex flex-1 2xl-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.gettheme("theme-card")} rounded-xl py-2 px-3">
                                                     <span class="font-bold pointer-events-none">${hlp.decode_score(a)}</span>
                                                     <div class="rounded-lg bg-yellow-500 p-3 pointer-events-none"></div>
                                                 </div>
                                                 ` : ""}
                                                 ${c != undefined ? `
-                                                <div id="collaboration" class="relative w-min flex flex-1 sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.gettheme("theme-card")} rounded-xl py-2 px-3">
+                                                <div id="collaboration" class="relative w-min flex flex-1 2xl-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.gettheme("theme-card")} rounded-xl py-2 px-3">
                                                     <span class="font-bold pointer-events-none">${hlp.decode_score(c)}</span>    
                                                     <div class="rounded-lg bg-violet-500 p-3 pointer-events-none"></div>
                                                 </div>
                                                 ` : ""}
                                                 ${k != undefined ? `
-                                                <div id="knowlege" class="relative w-min flex flex-1 sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.gettheme("theme-card")} rounded-xl py-2 px-3">
+                                                <div id="knowlege" class="relative w-min flex flex-1 2xl-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.gettheme("theme-card")} rounded-xl py-2 px-3">
                                                     <span class="font-bold pointer-events-none">${hlp.decode_score(k)}</span>    
                                                     <div class="rounded-lg bg-blue-500 p-3 pointer-events-none"></div> 
                                                 </div>
                                                 ` : ""}
                                                 ${o != undefined ? `
-                                                <div id="oral" class="relative w-min flex flex-1 sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.gettheme("theme-card")} rounded-xl py-2 px-3">
+                                                <div id="oral" class="relative w-min flex flex-1 2xl-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.gettheme("theme-card")} rounded-xl py-2 px-3">
                                                     <span class="font-bold pointer-events-none">${hlp.decode_score(o)}</span>
                                                     <div class="rounded-lg bg-green-500 p-3 pointer-events-none"></div>
                                                 </div>
                                                 ` : ""}
                                                 ${w != undefined ? `
-                                                <div id="written" class="relative w-min flex flex-1 sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.gettheme("theme-card")} rounded-xl py-2 px-3">
+                                                <div id="written" class="relative w-min flex flex-1 2xl-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.gettheme("theme-card")} rounded-xl py-2 px-3">
                                                     <span class="font-bold pointer-events-none">${hlp.decode_score(w)}</span>
                                                     <div class="rounded-lg bg-cyan-500 p-3 pointer-events-none"></div>
                                                 </div>

@@ -154,7 +154,7 @@ export async function run() {
                             <div class="flex flex-row justify-between container mx-auto cursor-pointer py-3 px-3">
                                 <div class="flex flex-row justify-center items-center pointer-events-none">
                                     <div class="flex flex-col">
-                                        <h1 class="text-[22px] w-[13ch] x-sm:w-[20ch] sm:w-[30ch] md:w-[40ch] lg:w-full truncate font-bold">${course.title}</h1>
+                                        <h1 class="text-[22px] w-[7ch] lg-sm:w-[17ch] xl-sm:w-[23ch] 1xl-sm:w-[27ch] md:w-[40ch] lg:w-full truncate font-bold">${course.title}</h1>
                                     </div>
                                 </div>
                                 <div class="flex justify-center items-center">

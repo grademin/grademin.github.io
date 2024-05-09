@@ -491,31 +491,31 @@ export async function run() {
                                                     </div>
                                                     <div class="flex flex-row gap-2 flex-wrap container mx-auto">
                                                         ${new_a != undefined ? `
-                                                        <div id="agency" class="relative w-min flex flex-1 sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.gettheme("theme-card")} rounded-xl py-2 px-3">
+                                                        <div id="agency" class="relative w-min flex flex-1 2xl-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.gettheme("theme-card")} rounded-xl py-2 px-3">
                                                             <span class="font-bold pointer-events-none">${hlp.decode_score(new_a)}</span>
                                                             <div class="rounded-lg bg-yellow-500 p-3 pointer-events-none"></div>
                                                         </div>
                                                         ` : ""}
                                                         ${new_c != undefined ? `
-                                                        <div id="collaboration" class="relative w-min flex flex-1 sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.gettheme("theme-card")} rounded-xl py-2 px-3">
+                                                        <div id="collaboration" class="relative w-min flex flex-1 2xl-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.gettheme("theme-card")} rounded-xl py-2 px-3">
                                                             <span class="font-bold pointer-events-none">${hlp.decode_score(new_c)}</span>    
                                                             <div class="rounded-lg bg-violet-500 p-3 pointer-events-none"></div>
                                                         </div>
                                                         ` : ""}
                                                         ${new_k != undefined ? `
-                                                        <div id="knowlege" class="relative w-min flex flex-1 sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.gettheme("theme-card")} rounded-xl py-2 px-3">
+                                                        <div id="knowlege" class="relative w-min flex flex-1 2xl-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.gettheme("theme-card")} rounded-xl py-2 px-3">
                                                             <span class="font-bold pointer-events-none">${hlp.decode_score(new_k)}</span>    
                                                             <div class="rounded-lg bg-blue-500 p-3 pointer-events-none"></div> 
                                                         </div>
                                                         ` : ""}
                                                         ${new_o != undefined ? `
-                                                        <div id="oral" class="relative w-min flex flex-1 sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.gettheme("theme-card")} rounded-xl py-2 px-3">
+                                                        <div id="oral" class="relative w-min flex flex-1 2xl-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.gettheme("theme-card")} rounded-xl py-2 px-3">
                                                             <span class="font-bold pointer-events-none">${hlp.decode_score(new_o)}</span>
                                                             <div class="rounded-lg bg-green-500 p-3 pointer-events-none"></div>
                                                         </div>
                                                         ` : ""}
                                                         ${new_w != undefined ? `
-                                                        <div id="written" class="relative w-min flex flex-1 sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.gettheme("theme-card")} rounded-xl py-2 px-3">
+                                                        <div id="written" class="relative w-min flex flex-1 2xl-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.gettheme("theme-card")} rounded-xl py-2 px-3">
                                                             <span class="font-bold pointer-events-none">${hlp.decode_score(new_w)}</span>
                                                             <div class="rounded-lg bg-cyan-500 p-3 pointer-events-none"></div>
                                                         </div>
@@ -598,7 +598,7 @@ export async function run() {
                 await $("#courses").parent().append(`
                     <div id="course" class="flex flex-col gap-5">
                         <div class="flex flex-col gap-5">
-                            <div class="flex ${a == undefined || c == undefined ? "flex-col" : "flex-row"} gap-5">
+                            <div class="flex ${a == undefined || c == undefined ? "flex-col" : "flex-col xl-sm:flex-row"} gap-5">
                                 <div class="relative flex-1 flex flex-col justify-between container mx-auto ${hlp.gettheme("theme-card")} rounded-xl py-3 px-3">
                                     <div class="flex justify-center items-center h-full">
                                         <svg width="136" height="136" viewBox="0 0 136 136">
@@ -689,26 +689,28 @@ export async function run() {
                             </div>
                         </div>
                         <div class="flex flex-col gap-5">
-                            <div class="flex flex-row gap-5">
-                                <div id="agenda-back" type="backward" class="flex flex-2 flex-col ${hlp.gettheme("bg", "700")} transition text-white font-semibold rounded-xl justify-center items-center cursor-pointer rounded-xl w-min py-3 px-3">
-                                    <div class="flex w-6 justify-center items-center pointer-events-none">
-                                        <svg class="w-full -rotate-180 h-full flex justify-center items-center" viewBox="-14 -1000 1000 1000">
-                                            <path class="fill-white" d="M542-480 265-758q-23-22-23-54t22-55q23-22 55.5-22t54.5 22l292 291q20 20 29.5 44.5T705-480q0 26-9.5 50.5T666-384L374-93q-22 22-54 21.5T265-94q-22-22-22-54.5t22-54.5l277-277Z"/>
-                                        </svg>
+                            <div class="flex flex-col xl-sm:flex-row gap-5">
+                                <div class="flex-1 flex flex-col md-sm:flex-row gap-5">
+                                    <div id="agenda-back" type="backward" class="flex flex-2 flex-col ${hlp.gettheme("bg", "700")} transition text-white font-semibold rounded-xl justify-center items-center cursor-pointer rounded-xl py-3 px-3">
+                                        <div class="flex w-6 justify-center items-center pointer-events-none">
+                                            <svg class="w-full -rotate-180 h-full flex justify-center items-center" viewBox="-14 -1000 1000 1000">
+                                                <path class="fill-white" d="M542-480 265-758q-23-22-23-54t22-55q23-22 55.5-22t54.5 22l292 291q20 20 29.5 44.5T705-480q0 26-9.5 50.5T666-384L374-93q-22 22-54 21.5T265-94q-22-22-22-54.5t22-54.5l277-277Z"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <div id="agenda-date" class="flex flex-col w-full ${hlp.gettheme("theme-card")} justify-center items-center rounded-xl py-3 px-3">
+                                        <span class="font-bold flex-1 flex justify-center">${new Date().toLocaleDateString('en-US')}</span>
+                                    </div>  
+                                    <div id="agenda-forward" type="forward" class="flex flex-2 flex-col ${hlp.gettheme("bg", "700")} transition text-white font-semibold rounded-xl justify-center items-center cursor-pointer rounded-xl py-3 px-3">
+                                        <div class="flex w-6 justify-center items-center pointer-events-none">
+                                            <svg class="w-full h-full flex justify-center items-center" viewBox="-14 -1000 1000 1000">
+                                                <path class="fill-white" d="M542-480 265-758q-23-22-23-54t22-55q23-22 55.5-22t54.5 22l292 291q20 20 29.5 44.5T705-480q0 26-9.5 50.5T666-384L374-93q-22 22-54 21.5T265-94q-22-22-22-54.5t22-54.5l277-277Z"/>
+                                            </svg>
+                                        </div>
                                     </div>
                                 </div>
-                                <div id="agenda-date" class="flex flex-col w-full ${hlp.gettheme("theme-card")} justify-center items-center rounded-xl py-3 px-3">
-                                    <span class="font-bold flex-1 flex justify-center">${new Date().toLocaleDateString('en-US')}</span>
-                                </div>  
-                                <div id="agenda-forward" type="forward" class="flex flex-2 flex-col ${hlp.gettheme("bg", "700")} transition text-white font-semibold rounded-xl justify-center items-center cursor-pointer rounded-xl w-min py-3 px-3">
-                                    <div class="flex w-6 justify-center items-center pointer-events-none">
-                                        <svg class="w-full h-full flex justify-center items-center" viewBox="-14 -1000 1000 1000">
-                                            <path class="fill-white" d="M542-480 265-758q-23-22-23-54t22-55q23-22 55.5-22t54.5 22l292 291q20 20 29.5 44.5T705-480q0 26-9.5 50.5T666-384L374-93q-22 22-54 21.5T265-94q-22-22-22-54.5t22-54.5l277-277Z"/>
-                                        </svg>
-                                    </div>
-                                </div>
-                                <button id="today" type="today" class="flex flex-1 justify-center items-center px-4 py-3 ${hlp.gettheme("bg", "700")} transition text-white font-bold rounded-xl">Today</button>
-                            </div> 
+                                <button id="today" type="today" class="flex flex-2 justify-center items-center px-4 py-3 ${hlp.gettheme("bg", "700")} transition text-white font-bold rounded-xl">Today</button>
+                            </div>
                         </div>
                         <div id="agenda" class="flex flex-col justify-between container mx-auto ${hlp.gettheme("theme-card")} rounded-xl py-3 px-3">
                             ${agenda.replace(/\[~]/g, hlp.api(`/Resz/${hlp.session.token}/${eid}/Assets`))}

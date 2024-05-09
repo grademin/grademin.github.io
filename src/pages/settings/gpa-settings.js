@@ -248,7 +248,7 @@ export async function run() {
                                     <div class="flex flex-row justify-between container mx-auto py-3">
                                         <div class="flex flex-row justify-center items-center gap-4 pointer-events-none leading-none">
                                             <div class="flex flex-col items-center">
-                                                <h1 class="text-[20px] w-[5ch] xl-sm:w-[17ch] x-sm:w-[28ch] sm:w-[30ch] md:w-[40ch] lg:w-full truncate font-bold">${course.title}</h1>
+                                                <h1 class="text-[20px] w-[7ch] lg-sm:w-[17ch] xl-sm:w-[23ch] 1xl-sm:w-[27ch] md:w-[40ch] lg:w-full truncate font-bold">${course.title}</h1>
                                             </div>
                                         </div>
                                         <div class="flex justify-center items-center">
@@ -305,7 +305,7 @@ export async function run() {
                                     <div class="flex flex-row justify-between container mx-auto py-3">
                                         <div class="flex flex-row justify-center items-center gap-4 pointer-events-none leading-none">
                                             <div class="flex flex-col items-center">
-                                                <h1 class="text-[20px] w-[5ch] xl-sm:w-[17ch] x-sm:w-[28ch] sm:w-[30ch] md:w-[40ch] lg:w-full truncate font-bold">${course.title}</h1>
+                                                <h1 class="text-[20px] w-[7ch] lg-sm:w-[17ch] xl-sm:w-[23ch] 1xl-sm:w-[27ch] md:w-[40ch] lg:w-full truncate font-bold">${course.title}</h1>
                                             </div>
                                         </div>
                                         <div class="flex justify-center items-center">
@@ -315,9 +315,9 @@ export async function run() {
                                         </div>
                                     </div>
                                 </div>
-                                <div class="flex flex-row gap-2 my-3">
+                                <div class="flex flex-col md-sm:flex-row gap-2 my-3">
                                     <div class="relative inline-block text-left">
-                                        <button id="dropdown-button" type="button" class="flex flex-row gap-5 ${hlp.gettheme("theme-card")} justify-center items-center w-full rounded-xl shadow-lg px-3 py-1 font-bold ${hlp.gettheme("theme-text")}">
+                                        <button id="dropdown-button" type="button" class="flex flex-row gap-5 ${hlp.gettheme("theme-card")} justify-between md-sm:justify-center md-sm:items-center w-full rounded-xl shadow-lg px-3 py-1 font-bold ${hlp.gettheme("theme-text")}">
                                             <span id="value" class="pointer-events-none">${hlp.get("gpa").courses.find(item => item.courseid == course.enrollmentid).credit == 1 ? "Full" : "Half"}</span>
                                             <div class="flex w-6 justify-center items-center pointer-events-none">
                                                 <svg class="w-full h-full flex justify-center items-center" viewBox="-14 -1000 1000 1000">
@@ -335,7 +335,7 @@ export async function run() {
                                         <input id="credits" courseid="${course.id}" eid="${course.enrollmentid}" grade="${isNaN(course.score) ? `0` : `${course.score}`}" semester="${hlp.get("gpa").courses.find(item => item.courseid == course.enrollmentid).credit == 1 ? "full" : "half"}" class="hidden credits">
                                     </div>
                                     <div class="relative inline-block text-left">
-                                        <button id="dropdown-button" type="button" class="flex flex-row gap-5 justify-center ${hlp.gettheme("theme-card")} items-center w-full rounded-xl shadow-lg px-3 py-1 font-bold ${hlp.gettheme("theme-text")}">
+                                        <button id="dropdown-button" type="button" class="flex flex-row gap-5 ${hlp.gettheme("theme-card")} justify-between md-sm:justify-center md-sm:items-center w-full rounded-xl shadow-lg px-3 py-1 font-bold ${hlp.gettheme("theme-text")}">
                                             <span id="value" class="pointer-events-none">${hlp.get("gpa").courses.find(item => item.courseid == course.enrollmentid).is_ap == true ? "AP" : "Regular"}</span>
                                             <div class="flex w-6 justify-center items-center pointer-events-none">
                                                 <svg class="w-full h-full flex justify-center items-center" viewBox="-14 -1000 1000 1000">
@@ -345,7 +345,7 @@ export async function run() {
                                         </button>
                                         <div id="dropdown-menu" class="hidden z-[110]">
                                             <div id="dropdown-overlay" class="fixed z-[100] left-0 right-0 top-0 bottom-0"></div>
-                                            <div class="z-[100] overflow-hidden origin-top-right absolute right-0 mt-2 w-40 rounded-xl shadow-xl ${hlp.gettheme("theme-card")}">
+                                            <div class="z-[100] overflow-hidden origin-top-right absolute left-0 md-sm:right-0 mt-2 w-40 rounded-xl shadow-xl ${hlp.gettheme("theme-card")}">
                                                 <a id="regular" class="${hlp.gettheme("theme-text")} block px-4 py-2 text-sm cursor-pointer" role="menuitem">Regular</a>
                                                 <a id="ap" class="${hlp.gettheme("theme-text")} block px-4 py-2 text-sm cursor-pointer" role="menuitem">AP</a>
                                             </div>
