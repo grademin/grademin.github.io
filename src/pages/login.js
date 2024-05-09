@@ -22,6 +22,7 @@ export async function run() {
         `;
     }
 
+    // TODO: fix login btn disappearing if you open keyboard
     $("#root").html(`
         <div class="relative h-[75svh] h-[75vh] flex justify-center">
             <div class="pt-20 rounded-lg container mx-auto px-4">
