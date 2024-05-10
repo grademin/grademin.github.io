@@ -359,7 +359,6 @@ export async function load(main) {
 
 /**
  * Manages what theme the user is currently using.
- * https://api.agilixbuzz.com/Resz/~0.7cxBK1ZAcRkcbw6J.A.O88FNPmI1mWTh9h-VZ-y7wk_vyPtB-oqAPx_VhzuiRA/203997015/Assets/Copied/AGND/2024-05-08/640ab45d-ed59-4a8d-a68f-f24b8219597d.png
  * @param {string} type
  * @param {int} value
  */
