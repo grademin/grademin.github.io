@@ -866,7 +866,8 @@ export function decode_score(json) {
     if (json == undefined)
         return;
 
-    return Math.round((json.achieved / json.possible) * 100)
+    // It never actually rounded up, just rounded the decimals out.
+    return Math.round(Math.round((json.achieved / json.possible) * 1000)/10)
 }
 
 /**
