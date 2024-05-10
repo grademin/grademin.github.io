@@ -483,7 +483,46 @@ export async function run() {
                                             new_w = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Written Communication")).guid));
                                         }
 
+                                        let exists = 0;
                                         if (new_a != undefined || new_c != undefined || new_k != undefined || new_o != undefined || new_w != undefined) {
+                                            if (new_a != undefined) {
+                                                exists++
+                                            } 
+                                            if (new_c != undefined) {
+                                                exists++
+                                            }
+                                            if (new_k != undefined) {
+                                                exists++
+                                            }
+                                            if (new_o != undefined) {
+                                                exists++
+                                            }
+                                            if (new_w != undefined) {
+                                                exists++
+                                            }
+
+                                            let flex_type = "";
+
+                                            switch (exists) {
+                                                case 5:
+                                                    flex_type = "3xl-sm:flex-none";
+                                                    break;
+                                                case 4:
+                                                    flex_type = "2xl-sm:flex-none";
+                                                    break;
+                                                case 3:
+                                                    flex_type = "xl-sm:flex-none";
+                                                    break;
+                                                case 2:
+                                                    flex_type = "lg-sm:flex-none";
+                                                    break;
+                                                default:
+                                                    flex_type = "md-sm:flex-none";
+                                                    break;
+                                            }
+
+                                            console.log(flex_type)
+
                                             html.push(`
                                                 <div class="flex flex-col gap-2">
                                                     <div class="relative flex flex-row justify-between container mx-auto ${hlp.gettheme("theme-card")} rounded-xl py-3 px-3">
@@ -495,31 +534,31 @@ export async function run() {
                                                     </div>
                                                     <div class="flex flex-row gap-2 flex-wrap container mx-auto">
                                                         ${new_a != undefined ? `
-                                                        <div id="agency" class="relative w-min flex flex-1 2xl-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.gettheme("theme-card")} rounded-xl py-2 px-3">
+                                                        <div id="agency" class="relative w-min flex flex-1 ${flex_type} flex-row gap-5 justify-between cursor-pointer ${hlp.gettheme("theme-card")} rounded-xl py-2 px-3">
                                                             <span class="font-bold pointer-events-none">${hlp.decode_score(new_a)}</span>
                                                             <div class="rounded-lg bg-yellow-500 p-3 pointer-events-none"></div>
                                                         </div>
                                                         ` : ""}
                                                         ${new_c != undefined ? `
-                                                        <div id="collaboration" class="relative w-min flex flex-1 2xl-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.gettheme("theme-card")} rounded-xl py-2 px-3">
+                                                        <div id="collaboration" class="relative w-min flex flex-1 ${flex_type} flex-row gap-5 justify-between cursor-pointer ${hlp.gettheme("theme-card")} rounded-xl py-2 px-3">
                                                             <span class="font-bold pointer-events-none">${hlp.decode_score(new_c)}</span>    
                                                             <div class="rounded-lg bg-violet-500 p-3 pointer-events-none"></div>
                                                         </div>
                                                         ` : ""}
                                                         ${new_k != undefined ? `
-                                                        <div id="knowlege" class="relative w-min flex flex-1 2xl-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.gettheme("theme-card")} rounded-xl py-2 px-3">
+                                                        <div id="knowlege" class="relative w-min flex flex-1 ${flex_type} flex-row gap-5 justify-between cursor-pointer ${hlp.gettheme("theme-card")} rounded-xl py-2 px-3">
                                                             <span class="font-bold pointer-events-none">${hlp.decode_score(new_k)}</span>    
                                                             <div class="rounded-lg bg-blue-500 p-3 pointer-events-none"></div> 
                                                         </div>
                                                         ` : ""}
                                                         ${new_o != undefined ? `
-                                                        <div id="oral" class="relative w-min flex flex-1 2xl-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.gettheme("theme-card")} rounded-xl py-2 px-3">
+                                                        <div id="oral" class="relative w-min flex flex-1 ${flex_type} flex-row gap-5 justify-between cursor-pointer ${hlp.gettheme("theme-card")} rounded-xl py-2 px-3">
                                                             <span class="font-bold pointer-events-none">${hlp.decode_score(new_o)}</span>
                                                             <div class="rounded-lg bg-green-500 p-3 pointer-events-none"></div>
                                                         </div>
                                                         ` : ""}
                                                         ${new_w != undefined ? `
-                                                        <div id="written" class="relative w-min flex flex-1 2xl-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.gettheme("theme-card")} rounded-xl py-2 px-3">
+                                                        <div id="written" class="relative w-min flex flex-1 ${flex_type} flex-row gap-5 justify-between cursor-pointer ${hlp.gettheme("theme-card")} rounded-xl py-2 px-3">
                                                             <span class="font-bold pointer-events-none">${hlp.decode_score(new_w)}</span>
                                                             <div class="rounded-lg bg-cyan-500 p-3 pointer-events-none"></div>
                                                         </div>
