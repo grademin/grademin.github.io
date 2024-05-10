@@ -336,7 +336,44 @@ export async function run() {
                                 o = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Oral Communication")).guid));
                                 w = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Written Communication")).guid));
                                 
+                                let exists = 0;
                                 if (a != undefined || c != undefined || k != undefined || o != undefined || w != undefined) {
+                                    if (a != undefined) {
+                                        exists++
+                                    } 
+                                    if (c != undefined) {
+                                        exists++
+                                    }
+                                    if (k != undefined) {
+                                        exists++
+                                    }
+                                    if (o != undefined) {
+                                        exists++
+                                    }
+                                    if (w != undefined) {
+                                        exists++
+                                    }
+
+                                    let flex_type = "";
+
+                                    switch (exists) {
+                                        case 5:
+                                            flex_type = "3xl-sm:flex-none";
+                                            break;
+                                        case 4:
+                                            flex_type = "2xl-sm:flex-none";
+                                            break;
+                                        case 3:
+                                            flex_type = "xl-sm:flex-none";
+                                            break;
+                                        case 2:
+                                            flex_type = "lg-sm:flex-none";
+                                            break;
+                                        default:
+                                            flex_type = "md-sm:flex-none";
+                                            break;
+                                    }
+
                                     $("#stream").append(`
                                         <div class="flex flex-col gap-2">
                                             <div class="relative flex flex-row justify-between container mx-auto ${hlp.gettheme("theme-card")} rounded-xl py-3 px-3">
@@ -366,31 +403,31 @@ export async function run() {
                                             </div>
                                             <div class="flex flex-row gap-2 flex-wrap container mx-auto">
                                                 ${a != undefined ? `
-                                                <div id="agency" class="relative w-min flex flex-1 2xl-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.gettheme("theme-card")} rounded-xl py-2 px-3">
+                                                <div id="agency" class="relative w-min flex flex-1 ${flex_type} flex-row gap-5 justify-between cursor-pointer ${hlp.gettheme("theme-card")} rounded-xl py-2 px-3">
                                                     <span class="font-bold pointer-events-none">${hlp.decode_score(a)}</span>
                                                     <div class="rounded-lg bg-yellow-500 p-3 pointer-events-none"></div>
                                                 </div>
                                                 ` : ""}
                                                 ${c != undefined ? `
-                                                <div id="collaboration" class="relative w-min flex flex-1 2xl-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.gettheme("theme-card")} rounded-xl py-2 px-3">
+                                                <div id="collaboration" class="relative w-min flex flex-1 ${flex_type} flex-row gap-5 justify-between cursor-pointer ${hlp.gettheme("theme-card")} rounded-xl py-2 px-3">
                                                     <span class="font-bold pointer-events-none">${hlp.decode_score(c)}</span>    
                                                     <div class="rounded-lg bg-violet-500 p-3 pointer-events-none"></div>
                                                 </div>
                                                 ` : ""}
                                                 ${k != undefined ? `
-                                                <div id="knowlege" class="relative w-min flex flex-1 2xl-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.gettheme("theme-card")} rounded-xl py-2 px-3">
+                                                <div id="knowlege" class="relative w-min flex flex-1 ${flex_type} flex-row gap-5 justify-between cursor-pointer ${hlp.gettheme("theme-card")} rounded-xl py-2 px-3">
                                                     <span class="font-bold pointer-events-none">${hlp.decode_score(k)}</span>    
                                                     <div class="rounded-lg bg-blue-500 p-3 pointer-events-none"></div> 
                                                 </div>
                                                 ` : ""}
                                                 ${o != undefined ? `
-                                                <div id="oral" class="relative w-min flex flex-1 2xl-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.gettheme("theme-card")} rounded-xl py-2 px-3">
+                                                <div id="oral" class="relative w-min flex flex-1 ${flex_type} flex-row gap-5 justify-between cursor-pointer ${hlp.gettheme("theme-card")} rounded-xl py-2 px-3">
                                                     <span class="font-bold pointer-events-none">${hlp.decode_score(o)}</span>
                                                     <div class="rounded-lg bg-green-500 p-3 pointer-events-none"></div>
                                                 </div>
                                                 ` : ""}
                                                 ${w != undefined ? `
-                                                <div id="written" class="relative w-min flex flex-1 2xl-sm:flex-none flex-row gap-5 justify-between cursor-pointer ${hlp.gettheme("theme-card")} rounded-xl py-2 px-3">
+                                                <div id="written" class="relative w-min flex flex-1 ${flex_type} flex-row gap-5 justify-between cursor-pointer ${hlp.gettheme("theme-card")} rounded-xl py-2 px-3">
                                                     <span class="font-bold pointer-events-none">${hlp.decode_score(w)}</span>
                                                     <div class="rounded-lg bg-cyan-500 p-3 pointer-events-none"></div>
                                                 </div>

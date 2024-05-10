@@ -521,8 +521,6 @@ export async function run() {
                                                     break;
                                             }
 
-                                            console.log(flex_type)
-
                                             html.push(`
                                                 <div class="flex flex-col gap-2">
                                                     <div class="relative flex flex-row justify-between container mx-auto ${hlp.gettheme("theme-card")} rounded-xl py-3 px-3">
