@@ -343,10 +343,12 @@ export async function run() {
                         dataType: "json",
                         contentType: "application/json; charset=utf-8"
                     });
-
-                    if (course.response.code != "OK") {
+                    
+                    if (course.response.code != "OK" || course.response == undefined) {
                         course = [];
-                        throw new Error("No announcement info was found!");
+                        hlp.page.setparams();
+                        hlp.runtime("courses");
+                        throw new Error(`The contents of ${eid} does not exist!`);
                     }
                 }, false)
 
@@ -473,11 +475,13 @@ export async function run() {
                                             objective = item.objectivescores.objectivescore;                    
                                         })
                                         
-                                        new_a = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Agency")).guid));
-                                        new_c = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Collaboration")).guid));
-                                        new_k = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Knowledge & Thinking")).guid));
-                                        new_o = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Oral Communication")).guid));
-                                        new_w = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Written Communication")).guid));
+                                        if (objectives.response != undefined) {
+                                            new_a = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Agency")).guid));
+                                            new_c = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Collaboration")).guid));
+                                            new_k = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Knowledge & Thinking")).guid));
+                                            new_o = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Oral Communication")).guid));
+                                            new_w = objective.find(score => score.guid.includes(objectives.response.objectives.objective.find(type => type.id.includes("Written Communication")).guid));
+                                        }
 
                                         if (new_a != undefined || new_c != undefined || new_k != undefined || new_o != undefined || new_w != undefined) {
                                             html.push(`

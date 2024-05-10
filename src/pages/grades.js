@@ -31,9 +31,6 @@ export async function run() {
             <!---->
             <!---->
             <div class="flex flex-col gap-5 pt-[1.1rem] mb-[1.8rem] container mx-auto py-10 px-4">
-                ${hlp.gpa.exists && hlp.gpa.courses.length != 0 ? `
-                    <div id="gpa"></div>
-                ` : ""}
                 <div id="averages" class="flex flex-col gap-5"></div>
                 <div id="courses" class="flex flex-col gap-5"></div>
             </div>
@@ -79,7 +76,7 @@ export async function run() {
                  * Topbar
                  */
                 case "reload": {
-                    $("#gpa").empty();
+                    $("#gpa").remove();
                     $("#averages").empty();
                     $("#courses").empty();
                     hlp.load(async function () {
@@ -237,7 +234,7 @@ export async function run() {
             }, false)
 
             let overall = [];
-            if (courses.length != 0 || courses.response.code == "OK") {
+            if (courses.length != 0 && courses.response.code == "OK" && objectives.response != undefined) {
                 $.each(courses.response.enrollments.enrollment, (i, course) => {
                     if (hlp.hidden(course.course.id)) {
                         return;
@@ -444,7 +441,7 @@ export async function run() {
                 course_list = course_list.sort((first, last) => first.order - last.order);
             }
 
-            if (course_list.length != 0) {
+            if (course_list.length != 0 && objectives.response != undefined) {
                 if (hlp.get("gpa") != undefined) {
                     let is_not_ap = 0
                     let is_an_ap = 0
@@ -541,36 +538,38 @@ export async function run() {
                         })
                     })
 
-                    $("#gpa").append(`
-                        <div class="flex flex-col container mx-auto ${hlp.gettheme("theme-card")} rounded-xl px-3">
-                            ${hlp.get("gpa").regular != null ? `
-                            <div class="flex flex-row justify-between container mx-auto py-3 ${hlp.get("gpa").weighted != null ? "border-b-[2px] border-zinc-700" : ""}">
-                                <div class="flex flex-row justify-center items-center gap-4 pointer-events-none leading-none">
-                                    <div class="flex flex-col items-center">
-                                        <h1 class="text-[20px] font-bold">GPA</h1>
+                    $("div div:has(#averages)").prepend(`
+                        <div id="gpa">
+                            <div class="flex flex-col container mx-auto ${hlp.gettheme("theme-card")} rounded-xl px-3">
+                                ${hlp.get("gpa").regular != null ? `
+                                <div class="flex flex-row justify-between container mx-auto py-3 ${hlp.get("gpa").weighted != null ? "border-b-[2px] border-zinc-700" : ""}">
+                                    <div class="flex flex-row justify-center items-center gap-4 pointer-events-none leading-none">
+                                        <div class="flex flex-col items-center">
+                                            <h1 class="text-[20px] font-bold">GPA</h1>
+                                        </div>
+                                    </div>
+                                    <div class="flex justify-center items-center">
+                                        <div class="rounded-lg px-3 text-white font-bold py-1 bg-green-500">
+                                            ${hlp.get("gpa").regular}
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="flex justify-center items-center">
-                                    <div class="rounded-lg px-3 text-white font-bold py-1 bg-green-500">
-                                        ${hlp.get("gpa").regular}
+                                ` : ""}
+                                ${hlp.get("gpa").weighted != null ? `
+                                <div class="flex flex-row justify-between container mx-auto py-3">
+                                    <div class="flex flex-row justify-center items-center gap-4 pointer-events-none leading-none">
+                                        <div class="flex flex-col items-center">
+                                            <h1 class="text-[20px] font-bold">GPA Weighted</h1>
+                                        </div>
+                                    </div>
+                                    <div class="flex justify-center items-center">
+                                        <div class="rounded-lg px-3 text-white font-bold py-1 bg-green-500">
+                                            ${hlp.get("gpa").weighted}
+                                        </div>
                                     </div>
                                 </div>
+                                ` : ""}
                             </div>
-                            ` : ""}
-                            ${hlp.get("gpa").weighted != null ? `
-                            <div class="flex flex-row justify-between container mx-auto py-3">
-                                <div class="flex flex-row justify-center items-center gap-4 pointer-events-none leading-none">
-                                    <div class="flex flex-col items-center">
-                                        <h1 class="text-[20px] font-bold">GPA Weighted</h1>
-                                    </div>
-                                </div>
-                                <div class="flex justify-center items-center">
-                                    <div class="rounded-lg px-3 text-white font-bold py-1 bg-green-500">
-                                        ${hlp.get("gpa").weighted}
-                                    </div>
-                                </div>
-                            </div>
-                            ` : ""}
                         </div>
                     `)
                 }

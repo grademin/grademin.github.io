@@ -25,8 +25,6 @@ export async function run() {
             <!---->
             <div class="flex flex-col gap-5 pt-[2rem] mt-[46px] mb-[1.7rem] container mx-auto py-10 px-4">
                 <div id="gpa-settings" class="flex flex-col gap-5"></div>
-                <button id="apply" class="w-full px-4 py-3 ${hlp.gettheme("bg", "700")} transition text-white font-semibold rounded-xl hover:${hlp.gettheme("bg", "500")}">Set GPA Settings</button>
-                <button id="clear" class="w-full px-4 ${hlp.gettheme("theme-shadow")} py-3 bg-red-600 text-white transition font-semibold rounded-xl hover:bg-red-500">Clear GPA Settings</button>
             </div>    
             <!---->
             <!---->
@@ -395,6 +393,13 @@ export async function run() {
                         }
                     });
                 })
+
+                if ($("#gpa-settings div").length != 0) {
+                    $("#gpa-settings").append(`
+                        <button id="apply" class="w-full px-4 py-3 ${hlp.gettheme("bg", "700")} transition text-white font-semibold rounded-xl hover:${hlp.gettheme("bg", "500")}">Set GPA Settings</button>
+                        <button id="clear" class="w-full px-4 ${hlp.gettheme("theme-shadow")} py-3 bg-red-600 text-white transition font-semibold rounded-xl hover:bg-red-500">Clear GPA Settings</button>
+                    `)
+                }
             } else {
                 // No courses exist
                 $("#gpa-settings").append(`

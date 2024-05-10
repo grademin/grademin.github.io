@@ -118,10 +118,9 @@ export async function run() {
                 }
             }, false)
     
-            if (duesoon.length != 0) {
+            if (duesoon.length != 0 && duesoon.response.items.item != undefined) {
                 // Sort by closest date
                 duesoon.response.items.item.sort((a, b) => new Date(b.duedate) - new Date(a.duedate));
-                console.log(duesoon.response.items)
                 $.each(duesoon.response.items.item, (i, due) => {
                     if (hlp.hidden(due.entity.id)) {
                         return;

@@ -172,7 +172,7 @@ export async function run() {
                         <div class="flex flex-row justify-between container mx-auto cursor-pointer">
                             <div class="flex flex-row justify-center items-center pointer-events-none w-full">
                                 <div class="flex flex-col justify-center items-center">
-                                    <h1 class="text-[18px] font-bold">No courses were found.</h1>
+                                    <h1 class="text-[18px] font-bold">No emails were found.</h1>
                                 </div>
                             </div>
                         </div>

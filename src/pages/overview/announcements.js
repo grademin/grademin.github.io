@@ -214,7 +214,7 @@ export async function run() {
                         contentType: "application/json; charset=utf-8"
                     });
 
-                    if (comminfo.response.code != "OK") {
+                    if (comminfo.response.code != "OK" || comminfo.response == undefined) {
                         comminfo = [];
                         throw new Error("No announcement info was found!");
                     }
@@ -228,7 +228,7 @@ export async function run() {
                         contentType: "application/json; charset=utf-8"
                     });
 
-                    if (commdetails.response.code != "OK") {
+                    if (commdetails.response.code != "OK" | commdetails.response == undefined) {
                         commdetails = [];
                         throw new Error("No announcement details were found!");
                     }
@@ -247,9 +247,31 @@ export async function run() {
                             </div>
                         </div>
                     `).find("#communications").hide();
+
+                    // User viewed the announcement, ensure it is not viewed anymore.
+                    await $.ajax({
+                        url: hlp.api(`/cmd/updateannouncementviewed?_token=${hlp.session.token}`),
+                        method: "POST",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify({
+                            requests: {
+                                announcement: [{
+                                    entityid: comminfo.response.announcement.entityid,
+                                    path: comminfo.response.announcement.path,
+                                    viewed: true
+                                }]
+                            }
+                        }),
+                        success: async () => {
+                            hlp.prevent_errors(async function () {
+                                await $(`#communication #unviewed-${comminfo.response.announcement.path.replace(".zip", "")}`).remove();
+                            }, false)
+                        }
+                    })
                 } else {
                     await hlp.prevent_errors(async function () {
-                        throw new Error(`Details to that announcement were not found."`);
+                        throw new Error(`Details to that announcement were not found.`);
                     }, true, async function () {
                         hlp.page.setparams();
                         $("#reload").removeClass("invisible");
@@ -258,28 +280,6 @@ export async function run() {
                         $("#communications").show()
                     })
                 }
-
-                // User viewed the announcement, ensure it is not viewed anymore.
-                await $.ajax({
-                    url: hlp.api(`/cmd/updateannouncementviewed?_token=${hlp.session.token}`),
-                    method: "POST",
-                    dataType: "json",
-                    contentType: "application/json; charset=utf-8",
-                    data: JSON.stringify({
-                        requests: {
-                            announcement: [{
-                                entityid: comminfo.response.announcement.entityid,
-                                path: comminfo.response.announcement.path,
-                                viewed: true
-                            }]
-                        }
-                    }),
-                    success: async () => {
-                        hlp.prevent_errors(async function () {
-                            await $(`#communication #unviewed-${comminfo.response.announcement.path.replace(".zip", "")}`).remove();
-                        }, false)
-                    }
-                })
             }
         }
     
