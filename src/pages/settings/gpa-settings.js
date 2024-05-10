@@ -231,7 +231,7 @@ export async function run() {
                 course_list = course_list.sort((first, last) => first.order - last.order);
 
                 $.each(course_list, function (i, course) {
-                    if (hlp.hidden(course.courseid)) {
+                    if (hlp.hidden(course.courseid) || isNaN(course.score)) {
                         return;
                     }
                     
