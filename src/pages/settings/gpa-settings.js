@@ -108,6 +108,10 @@ export async function run() {
                     let is_not_ap = 0
                     let is_an_ap = 0
                     $.each(credits, (i, credit) => {
+                        if (credit.grade < 1) {
+                            return;
+                        }
+
                         if (!aps.find(name => name.courseid == credit.courseid).is_ap)
                             is_not_ap++
                         else
