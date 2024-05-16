@@ -577,13 +577,15 @@ export async function run() {
                                                     <div class="flex flex-row gap-2 flex-wrap container mx-auto">
                                                         ${(() => {
                                                             let objectives = "";
-                                                            for (let objective of item.objectivescores.objectivescore) {
-                                                                objectives += `
-                                                                    <div class="relative shadow-lg w-fiit flex flex-row gap-5 bg-${hlp.score_to_color(hlp.decode_score(objective))}-500 text-white justify-between rounded-xl py-2 px-3">
-                                                                        <span class="font-bold">${hlp.decode_score(objective)}</span>
-                                                                    </div>
-                                                                `;
-                                                            }
+                                                            hlp.prevent_errors(async function () {
+                                                                for (let objective of item.objectivescores.objectivescore) {
+                                                                    objectives += `
+                                                                        <div class="relative shadow-lg w-fiit flex flex-row gap-5 bg-${hlp.score_to_color(hlp.decode_score(objective))}-500 text-white justify-between rounded-xl py-2 px-3">
+                                                                            <span class="font-bold">${hlp.decode_score(objective)}</span>
+                                                                        </div>
+                                                                    `;
+                                                                }
+                                                            }, false);
 
                                                             return objectives;
                                                         })()}
